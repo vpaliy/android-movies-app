@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">PopularMoviesApp</string>
+    <string name="dataError">Data cannot be fetched</string>
+    <string name="refreshAction">Try again</string>
+    <string name="noDataMessage">No data has been detected</string>
+</resources>
