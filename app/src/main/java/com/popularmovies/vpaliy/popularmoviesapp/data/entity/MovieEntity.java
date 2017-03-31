@@ -1,5 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.data.entity;
 
+import java.util.Date;
+
 /**
  * This is a fake entity
  */
@@ -10,7 +12,8 @@ public class MovieEntity {
     private String originalTitle;
     private String plot;
     private String userRatings;
-    private String releaseDate;
+    private Date releaseDate;
+    private int averageVote;
 
 
     public int getID() {
@@ -29,12 +32,20 @@ public class MovieEntity {
         return posterPath;
     }
 
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
     public String getUserRatings() {
         return userRatings;
+    }
+
+    public int getAverageVote(){
+        return averageVote;
+    }
+
+    public void setAverageVote(int averageVote) {
+        this.averageVote = averageVote;
     }
 
     public void setID(int ID) {
@@ -53,7 +64,7 @@ public class MovieEntity {
         this.posterPath = posterPath;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 

@@ -2,6 +2,9 @@ package com.popularmovies.vpaliy.popularmoviesapp.presentation.di.component;
 
 import android.content.Context;
 
+import com.popularmovies.vpaliy.popularmoviesapp.domain.IRepository;
+import com.popularmovies.vpaliy.popularmoviesapp.domain.ISortConfiguration;
+import com.popularmovies.vpaliy.popularmoviesapp.domain.model.Movie;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.di.module.ApplicationModule;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.di.module.DataModule;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.activity.BaseActivity;
@@ -18,4 +21,6 @@ public interface ApplicationComponent {
 
     Context context();
     Bus eventBus();
+    IRepository<Movie> repository();
+    ISortConfiguration sortConfiguration();
 }

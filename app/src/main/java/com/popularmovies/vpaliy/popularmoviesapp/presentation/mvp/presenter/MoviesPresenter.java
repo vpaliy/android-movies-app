@@ -7,6 +7,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.contract.Movie
 import java.util.List;
 import rx.subscriptions.CompositeSubscription;
 import android.util.Log;
+import static com.popularmovies.vpaliy.popularmoviesapp.domain.ISortConfiguration.SortType;
 
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.di.scope.ViewScope;
@@ -47,15 +48,26 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     @Override
+    public void sort(@NonNull SortType sortType) {
+        iRepository.sort(sortType);
+        startLoading();
+    }
+
+    @Override
     public void requestDataRefresh() {
         startLoading();
     }
 
     private void startLoading(){
         view.setLoadingIndicator(true);
+        subscriptions.add(iRepository.getList()
+                .subscribe(this::processData,
+                           this::handleErrorMessage,
+                           this::completeLoading));
     }
 
     private void processData(@NonNull List<Movie> movieList){
+        Log.d(TAG,Integer.toString(movieList.size()));
         if(!movieList.isEmpty()){
             view.showMovies(movieList);
         }else{

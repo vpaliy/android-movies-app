@@ -1,13 +1,18 @@
 package com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.activity;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.App;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.fragment.MoviesFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.utils.Permission;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.utils.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.utils.wrapper.TransitionWrapper;
 import com.squareup.otto.Subscribe;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 
 import static com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.utils.Constants.MOVIES_TAG;
 
@@ -27,6 +32,7 @@ public class MoviesActivity extends BaseActivity {
                 .commit();
     }
 
+
     @Override
     void inject() {
         App.appInstance().appComponent().inject(this);
@@ -37,6 +43,7 @@ public class MoviesActivity extends BaseActivity {
         eventBus.register(this);
     }
 
+
     @Override
     void unregister() {
         eventBus.unregister(this);
@@ -44,6 +51,16 @@ public class MoviesActivity extends BaseActivity {
 
     @Subscribe
     public void showDetails(@NonNull ExposeDetailsEvent event){
+        Intent intent=new Intent(this,DetailsActivity.class);
+        TransitionWrapper wrapper=event.getWrapper();
+        intent.putExtras(wrapper.getData());
+        if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
+            ActivityOptionsCompat options=ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(this,wrapper.getImage(),wrapper.getImage().getTransitionName());
+            this.startActivity(intent,options.toBundle());
+        }else{
+            this.startActivity(intent);
+        }
 
     }
 

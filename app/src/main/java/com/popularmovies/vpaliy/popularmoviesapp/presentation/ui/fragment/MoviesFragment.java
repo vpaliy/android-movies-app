@@ -1,11 +1,13 @@
 package com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.fragment;
 
-
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.domain.model.Movie;
+import com.popularmovies.vpaliy.popularmoviesapp.presentation.App;
+import com.popularmovies.vpaliy.popularmoviesapp.presentation.di.component.DaggerViewComponent;
+import com.popularmovies.vpaliy.popularmoviesapp.presentation.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.contract.MoviesContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.adapter.MoviesAdapter;
@@ -17,19 +19,27 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import javax.inject.Inject;
 import butterknife.BindView;
 import com.squareup.otto.Subscribe;
 
+import static com.popularmovies.vpaliy.popularmoviesapp.domain.ISortConfiguration.SortType.LATEST;
+import static com.popularmovies.vpaliy.popularmoviesapp.domain.ISortConfiguration.SortType.POPULAR;
+
 public class MoviesFragment extends Fragment
         implements MoviesContract.View{
+
+    private static final String TAG= MoviesFragment.class.getSimpleName();
 
     private Presenter presenter;
     private MoviesAdapter adapter;
@@ -43,19 +53,26 @@ public class MoviesFragment extends Fragment
     @BindView(R.id.recycleView)
     protected RecyclerView recyclerView;
 
+    @BindView(R.id.actionBar)
+    protected Toolbar actionBar;
+
     private Unbinder unbinder;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         setRetainInstance(true);
         initializeDependencies();
 
     }
 
     private void initializeDependencies(){
-
+        DaggerViewComponent.builder()
+                .applicationComponent(App.appInstance().appComponent())
+                .presenterModule(new PresenterModule())
+                .build().inject(this);
     }
 
     @Nullable
@@ -70,6 +87,30 @@ public class MoviesFragment extends Fragment
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
             swipeRefresher.setOnRefreshListener(presenter::requestDataRefresh);
+            actionBar.inflateMenu(R.menu.menu_movies);
+
+            //initialize sort options
+            actionBar.setOnMenuItemClickListener(item -> {
+                if(item.getGroupId()==R.id.sortingChoice) {
+                    switch (item.getItemId()) {
+                        case R.id.byPopularity:
+                            presenter.sort(POPULAR);
+                            break;
+                        case R.id.byLatest:
+                            presenter.sort(LATEST);
+                            break;
+                    }
+                    return true;
+                }else {
+                    switch (item.getItemId()) {
+                        case R.id.sortAction:
+                            //expand the choices
+                            return true;
+                    }
+                }
+                return false;
+            });
+
         }
     }
 
@@ -114,7 +155,8 @@ public class MoviesFragment extends Fragment
     @Override
     public void showMovies(@NonNull List<Movie> movies) {
         adapter=new MoviesAdapter(getContext(),movies,eventBus);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), R.integer.spinCount,GridLayoutManager.VERTICAL,false));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),getResources()
+                .getInteger(R.integer.moviesSpanCount),GridLayoutManager.VERTICAL,false));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), GridLayoutManager.VERTICAL));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -145,6 +187,8 @@ public class MoviesFragment extends Fragment
 
     @Subscribe
     public void catchMovieClick(@NonNull ClickedMovieEvent event){
+        Log.d(TAG,"Click has been caught");
+        //actionBar.setVisibility(View.INVISIBLE);
         eventBus.post(new ExposeDetailsEvent(event.getTransitionWrapper()));
     }
 }

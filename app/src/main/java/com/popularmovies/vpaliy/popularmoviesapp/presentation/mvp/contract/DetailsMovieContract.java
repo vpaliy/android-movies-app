@@ -15,5 +15,7 @@ public interface DetailsMovieContract {
 
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
+        void start(int ID);
+        void stop();
     }
 }

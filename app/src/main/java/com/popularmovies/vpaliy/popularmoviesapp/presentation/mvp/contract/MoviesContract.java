@@ -2,11 +2,13 @@ package com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.contract;
 
 import android.support.annotation.NonNull;
 
+import com.popularmovies.vpaliy.popularmoviesapp.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.domain.model.Movie;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.BaseView;
 
 import java.util.List;
+import static com.popularmovies.vpaliy.popularmoviesapp.domain.ISortConfiguration.SortType;
 
 public interface MoviesContract {
 
@@ -21,6 +23,7 @@ public interface MoviesContract {
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
         void requestDataRefresh();
+        void sort(@NonNull SortType sortType);
         void start();
         void stop();
 

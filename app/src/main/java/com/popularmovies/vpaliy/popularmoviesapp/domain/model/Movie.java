@@ -1,6 +1,8 @@
 package com.popularmovies.vpaliy.popularmoviesapp.domain.model;
 
-//de3cafdd4958ef2352dfcd262ef1aef3
+import java.util.Comparator;
+import java.util.Date;
+
 public class Movie {
 
     private int ID;
@@ -8,7 +10,9 @@ public class Movie {
     private String originalTitle;
     private String plot;
     private String userRatings;
-    private String releaseDate;
+    private Date releaseDate;
+    private int averageVote;
+
 
 
     public int getID() {
@@ -27,12 +31,20 @@ public class Movie {
         return posterPath;
     }
 
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
     public String getUserRatings() {
         return userRatings;
+    }
+
+    public int getAverageVote() {
+        return averageVote;
+    }
+
+    public void setAverageVote(int averageVote) {
+        this.averageVote = averageVote;
     }
 
     public void setID(int ID) {
@@ -51,7 +63,7 @@ public class Movie {
         this.posterPath = posterPath;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
