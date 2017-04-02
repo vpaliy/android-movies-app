@@ -2,7 +2,10 @@ package com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.SharedElementCallback;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,7 @@ import android.annotation.TargetApi;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
 public class MovieDetailsFragment extends Fragment
     implements DetailsMovieContract.View{
@@ -36,7 +40,7 @@ public class MovieDetailsFragment extends Fragment
     private Unbinder unbinder;
 
     @BindView(R.id.movieImage)
-    protected SquareImage movieImage;
+    protected ImageView movieImage;
 
     private int ID;
 
@@ -85,6 +89,14 @@ public class MovieDetailsFragment extends Fragment
         return root;
     }
 
+    @Override
+    public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(root, savedInstanceState);
+        if(root!=null){
+
+        }
+    }
+
     @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
@@ -102,8 +114,8 @@ public class MovieDetailsFragment extends Fragment
     public void showDetails(@NonNull Movie movie) {
         Glide.with(this)
                 .fromResource()
-                .load(R.mipmap.ic_launcher)
-                .centerCrop()
+                .load(R.drawable.poster)
+                .fitCenter()
                 .into(new ImageViewTarget<GlideDrawable>(movieImage) {
                     @Override
                     protected void setResource(GlideDrawable resource) {

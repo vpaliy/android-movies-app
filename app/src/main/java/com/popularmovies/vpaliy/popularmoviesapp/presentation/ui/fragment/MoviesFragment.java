@@ -157,7 +157,6 @@ public class MoviesFragment extends Fragment
         adapter=new MoviesAdapter(getContext(),movies,eventBus);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),getResources()
                 .getInteger(R.integer.moviesSpanCount),GridLayoutManager.VERTICAL,false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), GridLayoutManager.VERTICAL));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 

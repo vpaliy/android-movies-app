@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -47,7 +48,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                 implements View.OnClickListener{
 
         @BindView(R.id.movieImage)
-        SquareImage image;
+        ImageView image;
 
         @BindView(R.id.movieTitle)
         TextView title;
@@ -72,7 +73,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         void bindData(){
             Glide.with(inflater.getContext())
                     .fromResource()
-                    .load(R.mipmap.ic_launcher)
+                    .load(R.drawable.poster)
                     .centerCrop()
                     .into(image);
             title.setText(String.format(Locale.US,"%d",data.get(getAdapterPosition()).getAverageVote()));

@@ -8,6 +8,8 @@ public class Movie {
     private int ID;
     private String posterPath;
     private String originalTitle;
+    private String creator;
+    private String genre;
     private String plot;
     private String userRatings;
     private Date releaseDate;
