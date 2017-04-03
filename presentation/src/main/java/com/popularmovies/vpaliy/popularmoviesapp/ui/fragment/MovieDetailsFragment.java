@@ -33,6 +33,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+//TODO add palette
+//TODO add info
+//TODO add trailers
+//TODO shared element transition for lower versions
+
 public class MovieDetailsFragment extends Fragment
     implements DetailsMovieContract.View{
 

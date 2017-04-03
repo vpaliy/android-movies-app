@@ -44,6 +44,8 @@ dependencies {
     compile libs.supportAppCompat
 
     /* Additional Libraries */
+    compile libs.textDrawable
+    compile libs.circleImage
     compile libs.ottoEventBus
     compile libs.butterKnife
     compile libs.Dagger2

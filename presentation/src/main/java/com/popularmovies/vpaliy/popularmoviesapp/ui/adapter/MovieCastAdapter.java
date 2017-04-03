@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.bumptech.glide.Glide;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.CastViewHolder> {
@@ -34,7 +36,7 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
             implements View.OnClickListener{
 
         @BindView(R.id.actorImage)
-        ImageView actorImage;
+        CircleImageView actorImage;
 
         @BindView(R.id.actionName)
         TextView actorName;
@@ -45,6 +47,7 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
         }
 
         void onBindData(){
+
             Glide.with(inflater.getContext())
                     .fromResource()
                     .load(R.drawable.poster)

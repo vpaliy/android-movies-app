@@ -14,9 +14,15 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class MovieInfoFragment extends Fragment
         implements MovieInfoContract.View{
 
+
+    private Presenter presenter;
+    private Unbinder unbinder;
 
     private int movieId;
 
@@ -41,12 +47,15 @@ public class MovieInfoFragment extends Fragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_movie_info,container,false);
+        View root=inflater.inflate(R.layout.fragment_movie_info,container,false);
+        unbinder= ButterKnife.bind(this,root);
+        return root;
     }
 
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
-
+        this.presenter=presenter;
+        this.presenter.attachView(this);
     }
 
     @Override
