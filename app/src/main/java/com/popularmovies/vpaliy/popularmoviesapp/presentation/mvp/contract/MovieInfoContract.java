@@ -1,22 +1,24 @@
 package com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.contract;
 
+
 import android.support.annotation.NonNull;
 
-import com.popularmovies.vpaliy.popularmoviesapp.domain.model.Movie;
+import com.popularmovies.vpaliy.popularmoviesapp.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.BaseView;
 
-public interface DetailsMovieContract {
+public interface MovieInfoContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseView<Presenter>{
         void attachPresenter(@NonNull Presenter presenter);
-        void showDetails(@NonNull Movie movie);
-
+        void showInfo(@NonNull MovieInfo movieInfo);
+        void showTrailer();
     }
 
-    interface Presenter extends BasePresenter<View> {
+    interface Presenter extends BasePresenter<View>{
         void attachView(@NonNull View view);
-        void start(int ID);
+        void start(int movieID);
         void stop();
+
     }
 }

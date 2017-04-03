@@ -16,7 +16,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.utils.events.Ex
 import com.squareup.otto.Bus;
 import java.util.List;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;

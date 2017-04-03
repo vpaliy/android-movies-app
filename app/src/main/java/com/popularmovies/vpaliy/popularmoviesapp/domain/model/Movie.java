@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.domain.model;
 
-import java.util.Comparator;
 import java.util.Date;
 
 public class Movie {
@@ -8,8 +7,8 @@ public class Movie {
     private int ID;
     private String posterPath;
     private String originalTitle;
-    private String creator;
-    private String genre;
+    private String director;
+    private String[] genres;
     private String plot;
     private String userRatings;
     private Date releaseDate;

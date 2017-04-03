@@ -2,10 +2,9 @@ package com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.SharedElementCallback;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +19,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.presentation.di.component.Dagge
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.contract.DetailsMovieContract;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.mvp.contract.DetailsMovieContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.utils.Permission;
-import com.popularmovies.vpaliy.popularmoviesapp.presentation.ui.view.SquareImage;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -39,8 +39,16 @@ public class MovieDetailsFragment extends Fragment
     private Presenter presenter;
     private Unbinder unbinder;
 
+    private MovieDetailsAdapter adapter;
+
     @BindView(R.id.movieImage)
     protected ImageView movieImage;
+
+    @BindView(R.id.movieDetailsPager)
+    protected ViewPager pager;
+
+    @BindView(R.id.tabLayout)
+    protected TabLayout tabLayout;
 
     private int ID;
 
@@ -93,6 +101,9 @@ public class MovieDetailsFragment extends Fragment
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
         if(root!=null){
+            adapter=new MovieDetailsAdapter(getFragmentManager(),ID);
+            pager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(pager);
 
         }
     }
@@ -144,4 +155,5 @@ public class MovieDetailsFragment extends Fragment
         outState.putInt(Constants.EXTRA_ID,ID);
         super.onSaveInstanceState(outState);
     }
+
 }
