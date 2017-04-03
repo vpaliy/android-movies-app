@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Presenter;
@@ -67,10 +68,10 @@ public class MoviesFragment extends Fragment
     }
 
     private void initializeDependencies(){
-        /*    DaggerViewComponent.builder()
+            DaggerViewComponent.builder()
                 .applicationComponent(App.appInstance().appComponent())
                 .presenterModule(new PresenterModule())
-                .build().inject(this);  */
+                .build().inject(this);
     }
 
     @Nullable

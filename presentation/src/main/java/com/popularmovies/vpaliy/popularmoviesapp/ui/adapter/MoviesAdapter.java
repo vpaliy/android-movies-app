@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
@@ -19,10 +18,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ClickedMovieEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import com.squareup.otto.Bus;
-
 import java.util.List;
-import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -75,7 +71,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                     .load(R.drawable.poster)
                     .centerCrop()
                     .into(image);
-            title.setText(String.format(Locale.US,"%d",data.get(getAdapterPosition()).getReleaseYear()));
+            title.setText(data.get(getAdapterPosition()).getMovieTitle());
             //install the rest of the data
         }
     }

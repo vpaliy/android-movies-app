@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.data.repository;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.MovieEntity;
@@ -21,6 +22,7 @@ import rx.Observable;
 @Singleton
 public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
 
+    private static final String TAG=MovieRepository.class.getSimpleName();
 
     private final DataSource<MovieEntity, MovieDetailEntity> dataSource;
     private final Mapper<MovieCover, MovieEntity> entityMapper;
@@ -33,6 +35,7 @@ public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
                       @NonNull Mapper<MovieCover, MovieEntity> entityMapper,
                       @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper,
                       @NonNull ISortConfiguration sortConfiguration) {
+        Log.d(TAG,"Created");
         this.dataSource = dataSource;
         this.entityMapper = entityMapper;
         this.detailsMapper = detailsMapper;
@@ -41,6 +44,7 @@ public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
 
     @Override
     public Observable<List<MovieCover>> getCovers() {
+        Log.d(TAG,"getCovers()");
         return dataSource.getCovers()
                 .map(entityMapper::map);
     }

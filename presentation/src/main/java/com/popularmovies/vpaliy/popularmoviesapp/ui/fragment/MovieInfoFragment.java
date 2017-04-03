@@ -58,4 +58,9 @@ public class MovieInfoFragment extends Fragment
     public void showTrailer() {
 
     }
+
+    @Override
+    public String toString() {
+        return getContext().getString(R.string.intoTitle);
+    }
 }

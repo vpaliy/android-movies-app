@@ -1,10 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
-
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -21,6 +17,7 @@ import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.Presenter;
@@ -28,8 +25,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 
+import android.annotation.TargetApi;
 import javax.inject.Inject;
-
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -72,10 +71,10 @@ public class MovieDetailsFragment extends Fragment
 
 
     private void initializeDependencies(){
-       /* DaggerViewComponent.builder()
+        DaggerViewComponent.builder()
                 .applicationComponent(App.appInstance().appComponent())
                 .presenterModule(new PresenterModule())
-                .build().inject(this);  */
+                .build().inject(this);
     }
 
     @Override
@@ -102,7 +101,7 @@ public class MovieDetailsFragment extends Fragment
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
         if(root!=null){
-            adapter=new MovieDetailsAdapter(getFragmentManager(),ID);
+            adapter=new MovieDetailsAdapter(getContext(),getFragmentManager(),ID);
             pager.setAdapter(adapter);
             tabLayout.setupWithViewPager(pager);
 

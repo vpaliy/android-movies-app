@@ -24,6 +24,8 @@ import java.util.List;
 
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -50,11 +52,14 @@ public class DataModule {
 
             @Override
             public List<MovieCover> map(List<MovieEntity> from) {
-                List<MovieCover> coverList=new ArrayList<>(from.size());
-                for(int index=0;index<coverList.size();index++){
-                    coverList.add(map(from.get(index)));
+                if(from!=null) {
+                    List<MovieCover> coverList = new ArrayList<>(from.size());
+                    for (int index = 0; index < from.size(); index++) {
+                        coverList.add(map(from.get(index)));
+                    }
+                    return coverList;
                 }
-                return coverList;
+                return null;
             }
         };
     }
@@ -75,11 +80,14 @@ public class DataModule {
 
             @Override
             public List<ActorCover> map(List<ActorEntity> from) {
-                List<ActorCover> coverList=new ArrayList<>(from.size());
-                for(int index=0;index<coverList.size();index++){
-                    coverList.add(map(from.get(index)));
+                if(from!=null) {
+                    List<ActorCover> coverList = new ArrayList<>(from.size());
+                    for (int index = 0; index < from.size(); index++) {
+                        coverList.add(map(from.get(index)));
+                    }
+                    return coverList;
                 }
-                return coverList;
+                return null;
             }
         };
     }
@@ -90,15 +98,13 @@ public class DataModule {
         return new Mapper<MovieDetails, MovieDetailEntity>() {
             @Override
             public MovieDetails map(MovieDetailEntity detailsEntity) {
+                Log.d("Mapper","map()");
                 MovieDetails details=new MovieDetails(detailsEntity.getMovieId());
                 details.setMovieId(detailsEntity.getMovieId());
                 //copy actors
-                List<ActorEntity> cast=detailsEntity.getCast();
-                if(cast!=null) {
-                    details.setCast(provideActorCoverMapper().map(detailsEntity.getCast()));
-                }
+                details.setCast(provideActorCoverMapper().map(detailsEntity.getCast()));
                 //copy cover
-                details.setMovieCover(provideMovieCoverMapper().map(detailsEntity.getMovieCover()));
+             //   details.setMovieCover(provideMovieCoverMapper().map(detailsEntity.getMovieCover()));
                 //Copy reviews
                 List<ReviewEntity> reviews=detailsEntity.getReviews();
                 if(reviews!=null) {
@@ -130,11 +136,14 @@ public class DataModule {
 
             @Override
             public List<MovieDetails> map(List<MovieDetailEntity> from) {
-                List<MovieDetails> coverList=new ArrayList<>(from.size());
-                for(int index=0;index<coverList.size();index++){
-                    coverList.add(map(from.get(index)));
+                if(from!=null) {
+                    List<MovieDetails> coverList = new ArrayList<>(from.size());
+                    for (int index = 0; index < from.size(); index++) {
+                        coverList.add(map(from.get(index)));
+                    }
+                    return coverList;
                 }
-                return coverList;
+                return null;
             }
         };
     }

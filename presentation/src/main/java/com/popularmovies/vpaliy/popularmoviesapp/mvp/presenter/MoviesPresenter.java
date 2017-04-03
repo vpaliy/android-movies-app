@@ -64,10 +64,10 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     private void startLoading(){
         view.setLoadingIndicator(true);
-     /*   subscriptions.add(iRepository.getList()
+        subscriptions.add(iRepository.getCovers()
                 .subscribe(this::processData,
                            this::handleErrorMessage,
-                           this::completeLoading)); */
+                           this::completeLoading));
     }
 
    private void processData(@NonNull List<MovieCover> movieList){

@@ -1,16 +1,17 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
-
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
-
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 
+import android.support.annotation.NonNull;
+
+import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.View;
 
@@ -31,11 +32,23 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     @Override
     public void start(int ID) {
-      /*  subscriptions.add(repository.findById(ID)
-            .subscribe(this::processData,
-                       this::handleErrorMessage,()->{}));   */
+        retrieveCover(ID);
+        retrieveDetails(ID);
     }
 
+    private void retrieveCover(int ID){
+        subscriptions.add(repository.getCover(ID)
+                .subscribe(this::processData,
+                        this::handleErrorMessage,
+                        ()->{}));
+    }
+
+    private void retrieveDetails(int ID){
+        subscriptions.add(repository.getDetails(ID)
+                    .subscribe(this::processData,
+                               this::handleErrorMessage,
+                               ()->{}));
+    }
     @Override
     public void stop() {
         if(subscriptions.hasSubscriptions()){
@@ -49,13 +62,18 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void processData(@NonNull MovieCover movie){
+        view.showCover(movie);
+    }
 
+    private void processData(@NonNull MovieDetails details){
+        view.showDetails(details);
     }
 
     private void handleErrorMessage(Throwable throwable){
-        Log.e(TAG,throwable.getMessage());
+        throwable.printStackTrace();
 
     }
+
 
 
 }

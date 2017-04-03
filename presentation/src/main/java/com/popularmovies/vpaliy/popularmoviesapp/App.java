@@ -5,6 +5,9 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.ApplicationComponent;
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent;
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
 
 /**
  * Application
@@ -22,10 +25,10 @@ public class App extends Application {
     }
 
     private void initializeComponent(){
-       /* applicationComponent=DaggerApplicationComponent.builder()
+       applicationComponent= DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .dataModule(new DataModule())
-                .build();   */
+                .build();
     }
 
     @NonNull

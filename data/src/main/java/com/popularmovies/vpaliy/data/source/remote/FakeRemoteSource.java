@@ -2,13 +2,15 @@ package com.popularmovies.vpaliy.data.source.remote;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
-import com.popularmovies.vpaliy.data.R;
+import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.MovieEntity;
 import com.popularmovies.vpaliy.data.entity.MovieInfoEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.model.ActorCover;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +28,8 @@ import rx.Observable;
 @Singleton
 public class FakeRemoteSource extends DataSource<MovieEntity,MovieDetailEntity> {
 
+    private static final String TAG=FakeRemoteSource.class.getSimpleName();
+
     private ISortConfiguration sortConfiguration;
     private Context context;
 
@@ -34,14 +38,16 @@ public class FakeRemoteSource extends DataSource<MovieEntity,MovieDetailEntity> 
 
     @Inject
     public FakeRemoteSource(@NonNull Context context, @NonNull ISortConfiguration sortConfiguration){
+        Log.d(TAG,"Created");
         this.sortConfiguration=sortConfiguration;
         this.context=context;
     }
 
     @Override
     public Observable<List<MovieEntity>> getCovers() {
+        Log.d(TAG,"getCovers()");
         list=new ArrayList<>(50);
-        for(int index=0;index<list.size();index++) {
+        for(int index=0;index<50;index++) {
             MovieEntity entity = new MovieEntity();
             entity.setGenres(Arrays.asList("Action", "Drama", "Comedy"));
             entity.setMovieId(index);
@@ -62,9 +68,24 @@ public class FakeRemoteSource extends DataSource<MovieEntity,MovieDetailEntity> 
         infoEntity.setDirector("Vasyl Paliy");
         infoEntity.setRevenue("$10000000");
        // infoEntity.setDescription(context.getString(R.string.content));
+        entity.setCast(getFakeActors(ID));
+
         entity.setMovieInfo(infoEntity);
         entity.setMovieId(ID);
+
         return Observable.just(entity);
+    }
+
+    private List<ActorEntity> getFakeActors(int movieID){
+        List<ActorEntity> list=new ArrayList<>(50);
+        for(int index=0;index<50;index++) {
+            ActorEntity entity = new ActorEntity(index, movieID);
+            entity.setFirstName("Johnny");
+            entity.setLastName("Depp");
+            entity.setRole("Jack Sparrow");
+            list.add(entity);
+        }
+        return list;
     }
 
     @Override

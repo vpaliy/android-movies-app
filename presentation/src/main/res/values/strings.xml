@@ -54,4 +54,7 @@
     <string name="movieDirector">Director</string>
     <string name="movieGenres">Genres</string>
 
+    <string name="intoTitle">Info</string>
+    <string name="castTitle">Cast</string>
+
 </resources>
