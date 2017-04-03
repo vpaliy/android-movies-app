@@ -1,6 +1,6 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 ext {
+
     /* Android Configuration */
     configuration =
             [
@@ -68,6 +68,7 @@ ext {
             espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
             testingSupportLib:  "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
     ]
+
 }
 
 

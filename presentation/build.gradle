@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+def config=rootProject.ext.configuration;
+def libs=rootProject.ext.dependencies;
+def testLibs=rootProject.ext.testDependencies;
+
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+
+    defaultConfig {
+        applicationId config.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+        versionCode config.versionCode
+        versionName config.versionName
+        testInstrumentationRunner config.testInstrumentationRunner
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+dependencies {
+
+    compile project(":data")
+    compile project(":domain")
+
+    /* Android Libraries */
+    compile libs.recyclerView
+    compile libs.supportDesign
+    compile libs.supportAppCompat
+
+    /* Additional Libraries */
+    compile libs.ottoEventBus
+    compile libs.butterKnife
+    compile libs.Dagger2
+    compile libs.circleIndicator
+    compile libs.glide
+    compile libs.RxJava
+    compile libs.RxAndroid
+    annotationProcessor libs.Dagger2Compiler
+    annotationProcessor libs.butterKnifeCompiler
+    provided libs.javaxAnnotation
+
+    /* Testing Libraries */
+    testCompile testLibs.mockito
+    testCompile testLibs.espresso
+    testCompile testLibs.jUnit
+}
