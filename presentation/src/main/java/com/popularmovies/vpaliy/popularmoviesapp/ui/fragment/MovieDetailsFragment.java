@@ -1,17 +1,17 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -25,27 +25,31 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapte
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import java.util.List;
+
+import at.blogc.android.views.ExpandableTextView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import me.relex.circleindicator.CircleIndicator;
+import android.support.v7.graphics.Palette.Swatch;
 
 import android.annotation.TargetApi;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import java.util.List;
+import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import me.relex.circleindicator.CircleIndicator;
 
 //TODO add palette
 //TODO add info
 //TODO add trailers
 //TODO shared element transition for lower versions
+//TODO add tablet support
 
 
 public class MovieDetailsFragment extends Fragment
-    implements DetailsMovieContract.View{
+        implements DetailsMovieContract.View{
 
     private Presenter presenter;
     private Unbinder unbinder;
@@ -152,14 +156,18 @@ public class MovieDetailsFragment extends Fragment
 
     @Override
     public void showCover(@NonNull MovieCover movieCover) {
+        showCoverDetails(movieCover);
         Glide.with(this)
                 .fromResource()
+                .asBitmap()
                 .load(R.drawable.poster)
                 .fitCenter()
-                .into(new ImageViewTarget<GlideDrawable>(movieImage) {
+                .into(new ImageViewTarget<Bitmap>(movieImage) {
                     @Override
-                    protected void setResource(GlideDrawable resource) {
-                        movieImage.setImageDrawable(resource);
+                    protected void setResource(Bitmap resource) {
+                        movieImage.setImageBitmap(resource);
+                        new Palette.Builder(resource)
+                                .generate(MovieDetailsFragment.this::applyPalette);
                         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
                             startTransition();
                         }
@@ -167,6 +175,66 @@ public class MovieDetailsFragment extends Fragment
                 });
     }
 
+    private void showCoverDetails(@NonNull MovieCover movieCover){
+        if(getView()!=null) {
+            TextView year = ButterKnife.findById(getView(),R.id.year);
+            TextView duration=ButterKnife.findById(getView(),R.id.duration);
+            TextView title=ButterKnife.findById(getView(),R.id.title);
+            TextView genres=ButterKnife.findById(getView(),R.id.genres);
+
+            String bullet="\u25CF";
+            String titleText=movieCover.getMovieTitle();
+            String yearText=bullet+" "+Integer.toString(movieCover.getReleaseYear());
+            String durationText=bullet+" "+movieCover.getDuration();
+
+            title.setText(titleText);
+            year.setText(yearText);
+            duration.setText(durationText);
+
+            List<String> genreList=movieCover.getGenres();
+            if(genreList!=null){
+                String result="";
+                for(int index=0;index<genreList.size();index++){
+                    result+=genreList.get(index);
+                    if(index!=genreList.size()-1){
+                        result+=", ";
+                    }
+                }
+                genres.setText(result);
+            }
+        }
+    }
+
+    private void applyPalette(Palette palette){
+        if (palette != null) {
+            Swatch darkVibrantSwatch    = palette.getDarkVibrantSwatch();
+            Swatch darkMutedSwatch      = palette.getDarkMutedSwatch();
+            Swatch lightVibrantSwatch   = palette.getLightVibrantSwatch();
+            Swatch lightMutedSwatch     = palette.getLightMutedSwatch();
+            Swatch vibrantSwatch        = palette.getVibrantSwatch();
+
+            setBackgroundSwatch(darkMutedSwatch);
+
+        }
+    }
+
+    private void setBackgroundSwatch(Swatch swatch){
+        if(getView()!=null) {
+            View view = ButterKnife.findById(getView(),R.id.detailsContainer);
+            view.setBackgroundColor(swatch.getRgb());
+
+            TextView year = ButterKnife.findById(getView(),R.id.year);
+            TextView duration=ButterKnife.findById(getView(),R.id.duration);
+            TextView title=ButterKnife.findById(getView(),R.id.title);
+            TextView genres=ButterKnife.findById(getView(),R.id.genres);
+
+            year.setTextColor(swatch.getTitleTextColor());
+            duration.setTextColor(swatch.getTitleTextColor());
+            title.setTextColor(swatch.getTitleTextColor());
+            genres.setTextColor(swatch.getTitleTextColor());
+
+        }
+    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startTransition(){

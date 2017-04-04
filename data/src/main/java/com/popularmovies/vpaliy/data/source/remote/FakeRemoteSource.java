@@ -1,21 +1,17 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.MovieEntity;
 import com.popularmovies.vpaliy.data.entity.MovieInfoEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
-import com.popularmovies.vpaliy.domain.model.ActorCover;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -53,6 +49,7 @@ public class FakeRemoteSource extends DataSource<MovieEntity,MovieDetailEntity> 
             entity.setMovieId(index);
             entity.setMovieTitle("Title");
             entity.setReleaseYear(2016);
+            entity.setDuration("2 hrs 16 min");
             list.add(entity);
         }
         return Observable.just(list);

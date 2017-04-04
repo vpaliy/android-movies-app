@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import at.blogc.android.views.ExpandableTextView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -80,11 +81,25 @@ public class MovieInfoFragment extends Fragment
         return root;
     }
 
+    @Override
+    public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
+        if(root!=null){
+            ExpandableTextView movieDescription=ButterKnife.findById(root,R.id.movieDescription);
+            movieDescription.setOnClickListener(v->movieDescription.toggle());
+        }
+    }
+
     @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
         this.presenter=presenter;
         this.presenter.attachView(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -94,6 +109,6 @@ public class MovieInfoFragment extends Fragment
 
     @Override
     public void showSimilarMovies(@NonNull List<MovieCover> similarMovies) {
-        
+
     }
 }

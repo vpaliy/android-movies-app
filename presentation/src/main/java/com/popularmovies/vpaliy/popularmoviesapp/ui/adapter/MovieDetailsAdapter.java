@@ -17,7 +17,6 @@ public class MovieDetailsAdapter extends FragmentStatePagerAdapter {
     private static final int CAST=1;
 
     private Context context;
-
     private int movieId;
 
 

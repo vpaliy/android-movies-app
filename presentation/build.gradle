@@ -38,6 +38,8 @@ dependencies {
     compile project(":data")
     compile project(":domain")
 
+    compile libs.cardView
+    compile 'at.blogc:expandabletextview:1.0.3'
     compile libs.recyclerView
     compile libs.supportDesign
     compile libs.supportAppCompat
