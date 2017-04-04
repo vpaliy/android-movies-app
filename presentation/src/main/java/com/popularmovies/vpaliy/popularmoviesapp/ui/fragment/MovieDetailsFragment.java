@@ -21,6 +21,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponen
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
@@ -29,14 +30,19 @@ import android.annotation.TargetApi;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.relex.circleindicator.CircleIndicator;
 
 //TODO add palette
 //TODO add info
 //TODO add trailers
 //TODO shared element transition for lower versions
+
 
 public class MovieDetailsFragment extends Fragment
     implements DetailsMovieContract.View{
@@ -50,10 +56,16 @@ public class MovieDetailsFragment extends Fragment
     protected ImageView movieImage;
 
     @BindView(R.id.movieDetailsPager)
-    protected ViewPager pager;
+    protected ViewPager detailsPager;
 
     @BindView(R.id.tabLayout)
     protected TabLayout tabLayout;
+
+    @BindView(R.id.backdropPager)
+    protected ViewPager backdropPager;
+
+    @BindView(R.id.indicator)
+    protected CircleIndicator indicator;
 
     private int ID;
 
@@ -107,8 +119,8 @@ public class MovieDetailsFragment extends Fragment
         super.onViewCreated(root, savedInstanceState);
         if(root!=null){
             adapter=new MovieDetailsAdapter(getContext(),getFragmentManager(),ID);
-            pager.setAdapter(adapter);
-            tabLayout.setupWithViewPager(pager);
+            detailsPager.setAdapter(adapter);
+            tabLayout.setupWithViewPager(detailsPager);
 
         }
     }
@@ -132,6 +144,13 @@ public class MovieDetailsFragment extends Fragment
     }
 
     @Override
+    public void showBackdrops(@NonNull List<String> backdrops) {
+        MovieBackdropsAdapter adapter=new MovieBackdropsAdapter(getContext(),backdrops);
+        backdropPager.setAdapter(adapter);
+        indicator.setViewPager(backdropPager);
+    }
+
+    @Override
     public void showCover(@NonNull MovieCover movieCover) {
         Glide.with(this)
                 .fromResource()
@@ -147,6 +166,7 @@ public class MovieDetailsFragment extends Fragment
                     }
                 });
     }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startTransition(){

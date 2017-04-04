@@ -1,5 +1,4 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
-import android.util.Log;
 
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -7,13 +6,12 @@ import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
-
 import android.support.annotation.NonNull;
-
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.View;
+
+import java.util.Arrays;
+import java.util.List;
 
 @ViewScope
 public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
@@ -63,6 +61,10 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     private void processData(@NonNull MovieCover movie){
         view.showCover(movie);
+        if(movie.getBackdrops()!=null){
+          //  view.showBackdrops(movie.getBackdrops());
+        }
+        view.showBackdrops(Arrays.asList("one","two","three","four","five"));
     }
 
     private void processData(@NonNull MovieDetails details){

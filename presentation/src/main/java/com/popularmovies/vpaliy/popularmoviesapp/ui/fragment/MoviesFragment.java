@@ -185,7 +185,6 @@ public class MoviesFragment extends Fragment
 
     @Subscribe
     public void catchMovieClick(@NonNull ClickedMovieEvent event){
-        Log.d(TAG,"Click has been caught");
         //actionBar.setVisibility(View.INVISIBLE);
         eventBus.post(new ExposeDetailsEvent(event.getTransitionWrapper()));
     }

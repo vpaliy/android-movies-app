@@ -1,15 +1,13 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
-
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.View;
-
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 import rx.subscriptions.CompositeSubscription;
@@ -38,17 +36,21 @@ public class MovieInfoPresenter
                             ()->{}));
     }
 
-    private void handleError(@NonNull Throwable throwable){
-        Log.e(TAG,throwable.getMessage());
-
-
-    }
 
     private void processData(@NonNull MovieDetails details){
         if(details.getMovieInfo()!=null){
-            view.showInfo(details.getMovieInfo());
+            view.showGeneralInfo(details.getMovieInfo());
+        }
+        //
+        if(details.getSimilarMovies()!=null){
+            view.showSimilarMovies(details.getSimilarMovies());
         }
     }
+
+    private void handleError(@NonNull Throwable throwable){
+        Log.e(TAG,throwable.getMessage());
+    }
+
 
     @Override
     public void attachView(@NonNull View view) {

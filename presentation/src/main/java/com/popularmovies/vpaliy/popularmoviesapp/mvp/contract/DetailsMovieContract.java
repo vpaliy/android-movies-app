@@ -7,10 +7,13 @@ import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BaseView;
 
+import java.util.List;
+
 public interface DetailsMovieContract {
 
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
+        void showBackdrops(@NonNull List<String> backdrops);
         void showCover(@NonNull MovieCover movieCover);
         void showDetails(@NonNull MovieDetails movieDetails);
 

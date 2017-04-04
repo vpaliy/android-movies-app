@@ -8,11 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
+import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -42,6 +50,26 @@ public class MovieInfoFragment extends Fragment
             savedInstanceState=getArguments();
         }
         this.movieId=savedInstanceState.getInt(Constants.EXTRA_ID);
+        initializeDependencies();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.start(movieId);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.stop();
+    }
+
+    private void initializeDependencies(){
+        DaggerViewComponent.builder()
+                .applicationComponent(App.appInstance().appComponent())
+                .presenterModule(new PresenterModule())
+                .build().inject(this);
     }
 
     @Nullable
@@ -52,6 +80,7 @@ public class MovieInfoFragment extends Fragment
         return root;
     }
 
+    @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
         this.presenter=presenter;
@@ -59,17 +88,12 @@ public class MovieInfoFragment extends Fragment
     }
 
     @Override
-    public void showInfo(@NonNull MovieInfo movieInfo) {
+    public void showGeneralInfo(@NonNull MovieInfo movieInfo) {
 
     }
 
     @Override
-    public void showTrailer() {
-
-    }
-
-    @Override
-    public String toString() {
-        return getContext().getString(R.string.intoTitle);
+    public void showSimilarMovies(@NonNull List<MovieCover> similarMovies) {
+        
     }
 }

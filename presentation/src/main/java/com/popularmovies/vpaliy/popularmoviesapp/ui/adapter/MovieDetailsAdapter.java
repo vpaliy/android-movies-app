@@ -5,16 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
-
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieCastFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieInfoFragment;
-
-import java.util.LinkedList;
-import java.util.List;
-
 
 public class MovieDetailsAdapter extends FragmentStatePagerAdapter {
 

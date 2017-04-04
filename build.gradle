@@ -63,7 +63,8 @@ ext {
             ottoEventBus       : "com.squareup:otto:${ottoEventBusVersion}",
             circleIndicator    : "me.relex:circleindicator:${circleIndicatorVersion}",
             textDrawable       : "com.amulyakhare:com.amulyakhare.textdrawable:${textDrawableVersion}",
-            circleImage        : "de.hdodenhof:circleimageview:${circleImageVersion}"
+            circleImage        : "de.hdodenhof:circleimageview:${circleImageVersion}",
+            palette            : "com.android.support:palette-v7:${supportVersion}"
     ]
 
     testDependencies = [

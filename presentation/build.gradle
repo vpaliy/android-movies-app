@@ -38,12 +38,9 @@ dependencies {
     compile project(":data")
     compile project(":domain")
 
-    /* Android Libraries */
     compile libs.recyclerView
     compile libs.supportDesign
     compile libs.supportAppCompat
-
-    /* Additional Libraries */
     compile libs.textDrawable
     compile libs.circleImage
     compile libs.ottoEventBus
@@ -53,6 +50,8 @@ dependencies {
     compile libs.glide
     compile libs.RxJava
     compile libs.RxAndroid
+    compile libs.circleIndicator
+    compile libs.palette
     annotationProcessor libs.Dagger2Compiler
     annotationProcessor libs.butterKnifeCompiler
     provided libs.javaxAnnotation

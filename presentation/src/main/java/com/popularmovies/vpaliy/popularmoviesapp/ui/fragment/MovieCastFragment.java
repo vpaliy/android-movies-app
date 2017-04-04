@@ -2,13 +2,11 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +81,6 @@ public class MovieCastFragment extends Fragment
     @Override
     @Inject
     public void attachPresenter(@NonNull Presenter presenter) {
-        Log.d(TAG,"onAttachPresenter()");
         this.presenter=presenter;
         this.presenter.attachView(this);
     }
@@ -91,7 +88,6 @@ public class MovieCastFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG,"onStart()");
         presenter.start(movieId);
     }
 
@@ -116,8 +112,4 @@ public class MovieCastFragment extends Fragment
         castList.setAdapter(adapter);
     }
 
-    @Override
-    public String toString() {
-        return getContext().getString(R.string.castTitle);
-    }
 }
