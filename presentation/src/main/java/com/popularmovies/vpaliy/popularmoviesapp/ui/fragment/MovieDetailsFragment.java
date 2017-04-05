@@ -27,7 +27,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import java.util.List;
 
-import at.blogc.android.views.ExpandableTextView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.relex.circleindicator.CircleIndicator;
@@ -40,12 +39,6 @@ import android.support.annotation.Nullable;
 import android.widget.TextView;
 
 import butterknife.BindView;
-
-//TODO add palette
-//TODO add info
-//TODO add trailers
-//TODO shared element transition for lower versions
-//TODO add tablet support
 
 
 public class MovieDetailsFragment extends Fragment
@@ -214,8 +207,14 @@ public class MovieDetailsFragment extends Fragment
             Swatch vibrantSwatch        = palette.getVibrantSwatch();
 
             setBackgroundSwatch(darkMutedSwatch);
+            setTabBackground(lightMutedSwatch);
 
         }
+    }
+
+    private void setTabBackground(Swatch swatch){
+        tabLayout.setBackgroundColor(swatch.getRgb());
+
     }
 
     private void setBackgroundSwatch(Swatch swatch){

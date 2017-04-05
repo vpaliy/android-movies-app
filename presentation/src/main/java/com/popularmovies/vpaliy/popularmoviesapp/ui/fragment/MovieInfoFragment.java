@@ -2,13 +2,13 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -17,7 +17,9 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponen
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.RelatedMoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+import com.squareup.otto.Bus;
 import at.blogc.android.views.ExpandableTextView;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -40,6 +42,9 @@ public class MovieInfoFragment extends Fragment
     @BindView(R.id.infoContainer)
     protected ViewGroup infoContainer;
 
+    @Inject
+    protected Bus eventBus;
+
     @BindView(R.id.budget)
     protected TextView movieBudget;
 
@@ -54,6 +59,8 @@ public class MovieInfoFragment extends Fragment
 
     @BindView(R.id.movieDescription)
     protected ExpandableTextView movieDescription;
+
+    private View similarMoviesView;
 
 
     public static MovieInfoFragment newInstance(int movieId){
@@ -139,11 +146,34 @@ public class MovieInfoFragment extends Fragment
         movieReleaseDate.setText(releaseDateText);
 
 
+
     }
 
     @Override
     public void showSimilarMovies(@NonNull List<MovieCover> similarMovies) {
+        if(similarMoviesView==null){
+            final Context context=getContext();
+            final LayoutInflater inflater=LayoutInflater.from(context);
+            similarMoviesView=inflater.inflate(R.layout.movie_similar_card,infoContainer,false);
+             TextView cardTitle=ButterKnife.findById(similarMoviesView,R.id.cardTitle);
+             RecyclerView movieList=ButterKnife.findById(similarMoviesView,R.id.additionalList);
+            movieList.setAdapter(new RelatedMoviesAdapter(context,similarMovies,eventBus));
+            cardTitle.setText(context.getString(R.string.movieSimilarMovies));
+            movieList.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+            movieList.setNestedScrollingEnabled(false);
+            movieList.setHasFixedSize(true);
+            infoContainer.addView(similarMoviesView);
 
+            similarMoviesView=inflater.inflate(R.layout.movie_similar_card,infoContainer,false);
+            cardTitle=ButterKnife.findById(similarMoviesView,R.id.cardTitle);
+            movieList=ButterKnife.findById(similarMoviesView,R.id.additionalList);
+            movieList.setAdapter(new RelatedMoviesAdapter(context,similarMovies,eventBus));
+            cardTitle.setText(context.getString(R.string.movieSimilarMovies));
+            movieList.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+            movieList.setNestedScrollingEnabled(false);
+            movieList.setHasFixedSize(true);
+            infoContainer.addView(similarMoviesView);
+        }
 
     }
 

@@ -81,6 +81,7 @@ public class FakeRemoteSource extends DataSource<MovieEntity,MovieDetailEntity> 
         entity.setCast(getFakeActors(ID));
         entity.setMovieInfo(infoEntity);
         entity.setMovieId(ID);
+        entity.setSimilarMovies(list);
 
         return Observable.just(entity);
     }

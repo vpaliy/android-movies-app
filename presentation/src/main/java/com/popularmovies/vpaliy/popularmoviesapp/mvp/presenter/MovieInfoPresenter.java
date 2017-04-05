@@ -42,7 +42,9 @@ public class MovieInfoPresenter
             view.showGeneralInfo(details.getMovieInfo());
         }
         //
+        Log.d(TAG,Boolean.toString(details.getSimilarMovies()==null));
         if(details.getSimilarMovies()!=null){
+            Log.d(TAG,Integer.toString(details.getSimilarMovies().size()));
             view.showSimilarMovies(details.getSimilarMovies());
         }
     }

@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+
+<com.popularmovies.vpaliy.popularmoviesapp.ui.view.ScrollView
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
@@ -10,7 +11,9 @@
         android:layout_width="match_parent"
         android:divider="@drawable/divider"
         android:showDividers="middle"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent">
+
 
         <include
             layout="@layout/movie_info_card">
@@ -18,4 +21,4 @@
 
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</com.popularmovies.vpaliy.popularmoviesapp.ui.view.ScrollView>
