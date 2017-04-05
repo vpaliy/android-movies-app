@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:contentPadding="16dp"
+    app:cardCornerRadius="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -20,7 +21,6 @@
             android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="150dp">
-
         </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
