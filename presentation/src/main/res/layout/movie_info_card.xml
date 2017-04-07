@@ -14,6 +14,7 @@
 
             <TextView
                 android:id="@+id/dummy"
+                android:overScrollMode="always"
                 android:text="@string/content"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
@@ -22,6 +23,7 @@
 
             <at.blogc.android.views.ExpandableTextView
                 android:id="@+id/movieDescription"
+                android:overScrollMode="never"
                 android:text="@string/content"
                 android:layout_marginTop="16dp"
                 android:layout_below="@+id/dummy"
@@ -33,6 +35,7 @@
 
             <TextView
                 android:id="@+id/releaseDateLabel"
+                android:overScrollMode="never"
                 android:text="@string/movieReleaseDate"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
@@ -42,6 +45,7 @@
 
             <TextView
                 android:id="@+id/releaseDate"
+                android:overScrollMode="never"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/releaseDateLabel"

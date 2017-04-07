@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponen
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieInfoAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.RelatedMoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.squareup.otto.Bus;
@@ -34,6 +36,7 @@ import butterknife.OnClick;
 public class MovieInfoFragment extends Fragment
         implements MovieInfoContract.View{
 
+    private static final String TAG=MovieInfoFragment.class.getSimpleName();
 
     private Presenter presenter;
     private Unbinder unbinder;
@@ -45,7 +48,7 @@ public class MovieInfoFragment extends Fragment
     @Inject
     protected Bus eventBus;
 
-    @BindView(R.id.budget)
+ /*   @BindView(R.id.budget)
     protected TextView movieBudget;
 
     @BindView(R.id.directedBy)
@@ -58,7 +61,7 @@ public class MovieInfoFragment extends Fragment
     protected TextView movieReleaseDate;
 
     @BindView(R.id.movieDescription)
-    protected ExpandableTextView movieDescription;
+    protected ExpandableTextView movieDescription;  */
 
     private View similarMoviesView;
 
@@ -112,7 +115,7 @@ public class MovieInfoFragment extends Fragment
     @Override
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
-            movieDescription.setOnClickListener(v->movieDescription.toggle());
+            //movieDescription.setOnClickListener(v->movieDescription.toggle());
         }
     }
 
@@ -131,7 +134,15 @@ public class MovieInfoFragment extends Fragment
 
     @Override
     public void showGeneralInfo(@NonNull MovieInfo movieInfo) {
-        final Context context=getContext();
+        if(getView()!=null) {
+            RecyclerView recyclerView = ButterKnife.findById(getView(),R.id.infoRecycler);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setAdapter(new MovieInfoAdapter(getContext(),movieInfo));
+            recyclerView.setNestedScrollingEnabled(false);
+         }
+
+        /*final Context context=getContext();
         final String NA=context.getString(R.string.NA);
         final String budgetText=movieInfo.getBudget()!=null?movieInfo.getBudget():NA;
         final String directedByText=movieInfo.getDirector()!=null?movieInfo.getDirector():NA;
@@ -143,9 +154,7 @@ public class MovieInfoFragment extends Fragment
         movieBudget.setText(budgetText);
         movieDirectedBy.setText(directedByText);
         movieRevenue.setText(revenueText);
-        movieReleaseDate.setText(releaseDateText);
-
-
+        movieReleaseDate.setText(releaseDateText);*/
 
     }
 
@@ -154,14 +163,28 @@ public class MovieInfoFragment extends Fragment
         if(similarMoviesView==null){
             final Context context=getContext();
             final LayoutInflater inflater=LayoutInflater.from(context);
-            similarMoviesView=inflater.inflate(R.layout.movie_similar_card,infoContainer,false);
-             TextView cardTitle=ButterKnife.findById(similarMoviesView,R.id.cardTitle);
-             RecyclerView movieList=ButterKnife.findById(similarMoviesView,R.id.additionalList);
+        //    similarMoviesView=inflater.inflate(R.layout.movie_similar_card,infoContainer,false);
+
+            RecyclerView movieList=ButterKnife.findById(getView(),R.id.similarMovies);
+            RecyclerView trailers=ButterKnife.findById(getView(),R.id.trailers);
+            movieList.setAdapter(new RelatedMoviesAdapter(context,similarMovies,eventBus));
+            movieList.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+            movieList.setHasFixedSize(true);
+            movieList.setNestedScrollingEnabled(false);
+
+            trailers.setAdapter(new RelatedMoviesAdapter(context,similarMovies,eventBus));
+            trailers.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+            trailers.setHasFixedSize(true);
+            trailers.setNestedScrollingEnabled(false);
+
+
+           /* TextView cardTitle=ButterKnife.findById(similarMoviesView,R.id.cardTitle);
+            RecyclerView movieList=ButterKnife.findById(similarMoviesView,R.id.additionalList);
             movieList.setAdapter(new RelatedMoviesAdapter(context,similarMovies,eventBus));
             cardTitle.setText(context.getString(R.string.movieSimilarMovies));
             movieList.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-            movieList.setNestedScrollingEnabled(false);
             movieList.setHasFixedSize(true);
+            movieList.setNestedScrollingEnabled(false);
             infoContainer.addView(similarMoviesView);
 
             similarMoviesView=inflater.inflate(R.layout.movie_similar_card,infoContainer,false);
@@ -170,15 +193,15 @@ public class MovieInfoFragment extends Fragment
             movieList.setAdapter(new RelatedMoviesAdapter(context,similarMovies,eventBus));
             cardTitle.setText(context.getString(R.string.movieSimilarMovies));
             movieList.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-            movieList.setNestedScrollingEnabled(false);
             movieList.setHasFixedSize(true);
-            infoContainer.addView(similarMoviesView);
+            movieList.setNestedScrollingEnabled(false);
+            infoContainer.addView(similarMoviesView);   */
         }
 
     }
 
-    @OnClick(R.id.movieDescription)
+   /* @OnClick(R.id.movieDescription)
     public void expandText(){
         movieDescription.toggle();
-    }
+    }   */
 }

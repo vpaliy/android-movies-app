@@ -41,6 +41,7 @@ dependencies {
     compile libs.cardView
     compile 'at.blogc:expandabletextview:1.0.3'
     compile "me.henrytao:smooth-app-bar-layout:24.1.0.0"
+    compile 'com.github.todou:appbarspring:1.0.3'
     compile libs.recyclerView
     compile libs.supportDesign
     compile libs.supportAppCompat

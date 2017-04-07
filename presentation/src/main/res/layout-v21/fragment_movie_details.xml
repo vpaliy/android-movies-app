@@ -16,13 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                app:layout_collapseMode="pin">
+                app:layout_collapseMode="parallax">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/backdropPager"
@@ -106,6 +108,13 @@
                     android:layout_marginStart="7dp"
                     android:layout_toEndOf="@+id/year" />
             </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:gravity="top"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                app:layout_collapseMode="pin" />
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
