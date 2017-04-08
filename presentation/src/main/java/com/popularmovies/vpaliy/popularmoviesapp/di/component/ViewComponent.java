@@ -2,8 +2,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.component;
 
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieCastPresenter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieCastAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieCastFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieInfoFragment;
