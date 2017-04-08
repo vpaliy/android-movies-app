@@ -17,23 +17,22 @@ public interface MovieDatabaseAPI {
     @GET("movie/popular")
     Observable<MovieWrapper> getPopularMovies(@Query("api_key") String apiKey);
 
-    @GET("/movie/{id}")
-    Observable<Movie> getMovieDetails(@Query("api_key") String apiKey,
-                                      @Path("id") int movieId);
+    @GET("movie/{id}")
+    Observable<Movie> getMovieDetails(@Path("id") String id,
+                                      @Query("api_key") String apiKey);
 
-    @GET("/movie/{id}/images")
-    Observable<BackdropsWrapper> getBackdrops(@Query("api_key") String apiKey,
-                                               @Path("id") int movieId);
-    @GET("/movie/{id}/reviews")
-    Observable<ReviewWrapper> getReviews(@Query("api_key") String apiKey,
-                                         @Path("id") int movieId);
+    @GET("movie/{id}/images")
+    Observable<BackdropsWrapper> getBackdrops(@Path("id") String id,
+                                              @Query("api_key") String apiKey);
+    @GET("movie/{id}/reviews")
+    Observable<ReviewWrapper> getReviews(@Path("id") String id,
+                                         @Query("api_key") String apiKey);
 
-    @GET("/movie/{id}/similar")
-    Observable<MovieWrapper> getSimilarMovies(@Query("api_key") String apiKey,
-                                              @Path("id") int movieId);
+    @GET("movie/{id}/similar")
+    Observable<MovieWrapper> getSimilarMovies(@Path("id") String id, @Query("api_key") String apiKey);
 
-    @GET("/movie/{id}/credits")
-    Observable<CastWrapper> getMovieCast(@Query("api_key") String apiKey,
-                                    @Path("id") int movieId);
+    @GET("movie/{id}/credits")
+    Observable<CastWrapper> getMovieCast(@Path("id") String id,
+                                         @Query("api_key") String apiKey);
 
 }

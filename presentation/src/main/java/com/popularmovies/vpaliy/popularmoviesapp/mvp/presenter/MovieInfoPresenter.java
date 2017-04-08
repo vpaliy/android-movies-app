@@ -10,6 +10,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 @ViewScope
@@ -31,6 +33,8 @@ public class MovieInfoPresenter
     @Override
     public void start(int movieID) {
         subscriptions.add(iRepository.getDetails(movieID)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::processData,
                                this::handleError,
                             ()->{}));
