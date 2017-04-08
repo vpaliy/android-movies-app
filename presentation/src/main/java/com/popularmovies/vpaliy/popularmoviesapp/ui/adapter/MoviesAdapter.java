@@ -67,14 +67,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
 
         void bindData(){
+            MovieCover cover=data.get(getAdapterPosition());
             Glide.with(inflater.getContext())
-                    .fromResource()
-                    .load(R.drawable.poster)
+                    .load(cover.getPosterPath())
                     .centerCrop()
                     .into(image);
-            title.setText(data.get(getAdapterPosition()).getMovieTitle());
+            title.setText(cover.getMovieTitle());
             //install the rest of the data
         }
+    }
+
+    public void onResume(){
+        hasBeenClicked=false;
     }
 
     @Override
