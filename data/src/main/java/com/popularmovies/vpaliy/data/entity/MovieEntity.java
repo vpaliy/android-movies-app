@@ -1,5 +1,8 @@
 package com.popularmovies.vpaliy.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -7,12 +10,25 @@ import java.util.List;
  */
 public class MovieEntity {
 
+
+    private String baseImageUrl="http://image.tmdb.org/t/p/w500/";
+
+    @SerializedName("id")
     private int movieId;
-    private int releaseYear;
+
+    @SerializedName("release_date")
+    private String releaseDate;
+
+    @SerializedName("movie_title")
     private String movieTitle;
+
+    @SerializedName("poster_path")
     private String posterPath;
+
     private String duration;
+
     private List<String> genres;
+
     private List<String> backdrops;
 
     public int getMovieId() {
@@ -20,7 +36,7 @@ public class MovieEntity {
     }
 
     public int getReleaseYear() {
-        return releaseYear;
+        return Date.valueOf(releaseDate).getYear();
     }
 
     public List<String> getGenres() {
@@ -28,7 +44,7 @@ public class MovieEntity {
     }
 
     public String getPosterPath() {
-        return posterPath;
+        return baseImageUrl+posterPath;
     }
 
     public List<String> getBackdrops() {
@@ -68,7 +84,4 @@ public class MovieEntity {
         this.posterPath = posterPath;
     }
 
-    public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
-    }
 }

@@ -37,6 +37,11 @@ public final class ScrollBehavior extends AppBarLayout.Behavior {
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed) {
         isPositive = dy > 0;
+        if(isPositive && target instanceof ScrollView){
+            if(dy>40){
+                dy*=4;
+            }
+        }
         super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
     }
 }

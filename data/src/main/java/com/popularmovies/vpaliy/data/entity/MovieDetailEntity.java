@@ -1,16 +1,24 @@
 package com.popularmovies.vpaliy.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class MovieDetailEntity {
 
+    @SerializedName("id")
     private int movieId;
+
+    private Movie movie;
+
     private MovieInfoEntity movieInfo;
+
     private MovieEntity movieCover;
     private List<ReviewEntity> reviews;
     private List<TrailerEntity> trailers;
     private List<ActorEntity> cast;
-    private List<MovieEntity> similarMovies;
+    private List<Movie> similarMovies;
+    private List<BackdropImage> backdropImages;
 
     public int getMovieId() {
         return movieId;
@@ -36,8 +44,16 @@ public class MovieDetailEntity {
         return movieInfo;
     }
 
-    public List<MovieEntity> getSimilarMovies() {
+    public List<Movie> getSimilarMovies() {
         return similarMovies;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public List<BackdropImage> getBackdropImages() {
+        return backdropImages;
     }
 
     public void setMovieId(int movieId) {
@@ -64,7 +80,15 @@ public class MovieDetailEntity {
         this.trailers = trailers;
     }
 
-    public void setSimilarMovies(List<MovieEntity> similarMovies) {
+    public void setSimilarMovies(List<Movie> similarMovies) {
         this.similarMovies = similarMovies;
+    }
+
+    public void setBackdropImages(List<BackdropImage> backdropImages) {
+        this.backdropImages = backdropImages;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

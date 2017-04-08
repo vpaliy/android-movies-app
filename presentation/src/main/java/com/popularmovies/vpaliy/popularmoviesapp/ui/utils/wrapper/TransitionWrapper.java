@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ public class TransitionWrapper {
         this.image=image;
         this.data=data;
     }
+
 
     public Bundle getData() {
         return data;

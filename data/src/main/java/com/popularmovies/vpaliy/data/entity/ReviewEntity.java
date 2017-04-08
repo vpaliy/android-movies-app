@@ -1,33 +1,21 @@
 package com.popularmovies.vpaliy.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ReviewEntity {
 
+    @SerializedName("id")
     private int movieId;
+
+    @SerializedName("author")
     private String author;
+
+    @SerializedName("content")
     private String content;
+
+    @SerializedName("url")
     private String url;
 
-    public ReviewEntity(int movieId, String author, String content, String url){
-        this.movieId=movieId;
-        this.author=author;
-        this.content=content;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public int getMovieId() {
         return movieId;
