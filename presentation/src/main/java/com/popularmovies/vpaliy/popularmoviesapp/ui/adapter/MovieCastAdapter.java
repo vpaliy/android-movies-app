@@ -54,9 +54,7 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
                     .centerCrop()
                     .into(actorImage);
             ActorCover actor=castList.get(getAdapterPosition());
-            String firstName=actor.getFirstName();
-            String lastName=actor.getLastName();
-            String fullName=firstName+" "+lastName;
+            String fullName=actor.getName();
 
             actorName.setText(fullName);
         }

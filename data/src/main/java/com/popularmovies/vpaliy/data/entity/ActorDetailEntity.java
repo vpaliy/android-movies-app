@@ -9,7 +9,7 @@ public class ActorDetailEntity {
     private int actorId;
     private ActorEntity actor;
     private ActorInfoEntity actorInfo;
-    private List<MovieEntity> movies;
+    private List<Movie> movies;
 
     public ActorDetailEntity(int actorId){
         this.actorId=actorId;
@@ -27,7 +27,7 @@ public class ActorDetailEntity {
         return actorId;
     }
 
-    public List<MovieEntity> getMovies() {
+    public List<Movie> getMovies() {
         return movies;
     }
 
@@ -43,7 +43,7 @@ public class ActorDetailEntity {
         this.actorInfo = actorInfo;
     }
 
-    public void setMovies(List<MovieEntity> movies) {
+    public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
 }

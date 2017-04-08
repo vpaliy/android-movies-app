@@ -1,17 +1,26 @@
 package com.popularmovies.vpaliy.data.entity;
 
 
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class Movie {
 
+    private static final String baseImageUrl="http://image.tmdb.org/t/p/w780/";
+
     @SerializedName("id")
     private int movieId;
 
     @SerializedName("genres")
     private List<Genre> genres;
+
+    @SerializedName("backdrop_path")
+    private String backdrop_path;
+
+    private List<BackdropImage> backdropImages;
 
     @SerializedName("homepage")
     private String homepage;
@@ -26,7 +35,7 @@ public class Movie {
     private String overview;
 
     @SerializedName("popularity")
-    private int popularity;
+    private double popularity;
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -36,6 +45,9 @@ public class Movie {
 
     @SerializedName("revenue")
     private int revenue;
+
+    @SerializedName("budget")
+    private int budget;
 
     @SerializedName("runtime")
     private int runtime;
@@ -50,7 +62,7 @@ public class Movie {
     private boolean video;
 
     @SerializedName("vote_average")
-    private int voteAverage;
+    private double voteAverage;
 
     @SerializedName("vote_count")
     private int voteCount;
@@ -60,7 +72,7 @@ public class Movie {
         return movieId;
     }
 
-    public int getPopularity() {
+    public double getPopularity() {
         return popularity;
     }
 
@@ -81,6 +93,19 @@ public class Movie {
         return homepage;
     }
 
+    public List<BackdropImage> getBackdropImages() {
+        return backdropImages;
+    }
+
+    public void setBackdropImages(List<BackdropImage> backdropImages) {
+        this.backdropImages = backdropImages;
+
+    }
+
+    public String getBackdrop_path() {
+        return baseImageUrl+ backdrop_path;
+    }
+
     public String getOriginalLanguage() {
         return originalLanguage;
     }
@@ -89,7 +114,7 @@ public class Movie {
         return voteCount;
     }
 
-    public int getVoteAverage() {
+    public double getVoteAverage() {
         return voteAverage;
     }
 
@@ -102,7 +127,7 @@ public class Movie {
     }
 
     public String getPosterPath() {
-        return posterPath;
+        return baseImageUrl+posterPath;
     }
 
     public String getReleaseDate() {
@@ -116,5 +141,11 @@ public class Movie {
     public String getTitle() {
         return title;
     }
+
+    public int getBudget() {
+        return budget;
+    }
+
+
 
 }
