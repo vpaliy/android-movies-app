@@ -3,15 +3,13 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 import android.content.Context;
 import com.popularmovies.vpaliy.data.configuration.SortConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.BackdropImage;
+import com.popularmovies.vpaliy.data.entity.Genre;
+import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
-import com.popularmovies.vpaliy.data.entity.MovieEntity;
-import com.popularmovies.vpaliy.data.entity.MovieInfoEntity;
-import com.popularmovies.vpaliy.data.entity.ReviewEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.repository.MovieRepository;
-import com.popularmovies.vpaliy.data.repository.Repository;
 import com.popularmovies.vpaliy.data.source.DataSource;
-import com.popularmovies.vpaliy.data.source.remote.FakeRemoteSource;
 import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
@@ -19,8 +17,9 @@ import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
-import com.popularmovies.vpaliy.domain.model.Review;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -34,25 +33,36 @@ import dagger.Provides;
 public class DataModule {
 
 
+    private static final String TAG=DataModule.class.getSimpleName();
+
     @Singleton
     @Provides
-    Mapper<MovieCover,MovieEntity> provideMovieCoverMapper(){
-        return new Mapper<MovieCover, MovieEntity>() {
+    Mapper<MovieCover,Movie> provideMovieCoverMapper(){
+        return new Mapper<MovieCover, Movie>() {
             @Override
-            public MovieCover map(MovieEntity movieEntity) {
+            public MovieCover map(Movie movieEntity) {
                 MovieCover cover=new MovieCover();
                 cover.setMovieId(movieEntity.getMovieId());
                 cover.setPosterPath(movieEntity.getPosterPath());
-                cover.setGenres(movieEntity.getGenres());
-                cover.setMovieTitle(movieEntity.getMovieTitle());
-                cover.setBackdrops(movieEntity.getBackdrops());
-                cover.setReleaseYear(movieEntity.getReleaseYear());
-                cover.setDuration(movieEntity.getDuration());
+                cover.setGenres(Genre.convert(movieEntity.getGenres()));
+                cover.setMovieTitle(movieEntity.getTitle());
+                List<BackdropImage> backdropImages=movieEntity.getBackdropImages();
+                if(backdropImages==null){
+                    Log.e(TAG,"IS NULL");
+                    if(movieEntity.getBackdrop_path()!=null) {
+                        cover.setBackdrops(Collections.singletonList(movieEntity.getBackdrop_path()));
+                    }
+                }else {
+                    Log.e(TAG,Integer.toString(backdropImages.size()));
+                    cover.setBackdrops(BackdropImage.convert(backdropImages));
+                }
+                cover.setReleaseYear(Date.valueOf(movieEntity.getReleaseDate()).getYear());
+                cover.setDuration(Integer.toString(movieEntity.getRuntime()));
                 return cover;
             }
 
             @Override
-            public List<MovieCover> map(List<MovieEntity> from) {
+            public List<MovieCover> map(List<Movie> from) {
                 if(from!=null) {
                     List<MovieCover> coverList = new ArrayList<>(from.size());
                     for (int index = 0; index < from.size(); index++) {
@@ -74,8 +84,7 @@ public class DataModule {
                 ActorCover cover=new ActorCover(actorEntity.getActorId(),actorEntity.getMovieId());
                 cover.setActorAvatar(actorEntity.getActorAvatar());
                 cover.setRole(actorEntity.getRole());
-                cover.setFirstName(actorEntity.getFirstName());
-                cover.setLastName(actorEntity.getLastName());
+                cover.setName(actorEntity.getName());
                 return cover;
             }
 
@@ -99,39 +108,21 @@ public class DataModule {
         return new Mapper<MovieDetails, MovieDetailEntity>() {
             @Override
             public MovieDetails map(MovieDetailEntity detailsEntity) {
-                Log.d("Mapper","map()");
-                MovieDetails details=new MovieDetails(detailsEntity.getMovieId());
-                details.setMovieId(detailsEntity.getMovieId());
-                //copy actors
-                details.setCast(provideActorCoverMapper().map(detailsEntity.getCast()));
-                //copy cover
-             //   details.setMovieCover(provideMovieCoverMapper().map(detailsEntity.getMovieCover()));
-                //Copy reviews
-                List<ReviewEntity> reviews=detailsEntity.getReviews();
-                if(reviews!=null) {
-                    List<Review> list=new ArrayList<>(reviews.size());
-                    for(ReviewEntity reviewEntity:reviews){
-                        Review review=new Review(reviewEntity.getMovieId(),reviewEntity.getAuthor(),
-                                reviewEntity.getContent(),reviewEntity.getUrl());
-                        list.add(review);
-
-                    }
-                    details.setReviews(list);
-                }
-                //copy movie info
-                MovieInfoEntity infoEntity=detailsEntity.getMovieInfo();
-                MovieInfo info=new MovieInfo(infoEntity.getMovieId(),infoEntity.getDescription());
-                info.setAverageRate(infoEntity.getAverageRate());
-                info.setBudget(infoEntity.getBudget());
-                info.setReleaseDate(infoEntity.getReleaseDate());
-                info.setDirector(infoEntity.getDirector());
-                info.setRevenue(infoEntity.getRevenue());
-                details.setMovieInfo(info);
-
-                details.setSimilarMovies(provideMovieCoverMapper().map(detailsEntity.getSimilarMovies()));
-                //TODO copy trailers
-
-                return details;
+                MovieDetails movieDetails=new MovieDetails(detailsEntity.getMovieId());
+                movieDetails.setSimilarMovies(provideMovieCoverMapper().map(detailsEntity.getSimilarMovies()));
+                movieDetails.setCast(provideActorCoverMapper().map(detailsEntity.getCast()));
+                //
+                Movie movie=detailsEntity.getMovie();
+                MovieInfo movieInfo=new MovieInfo(movie.getMovieId(),movie.getOverview());
+                movieInfo.setReleaseDate(Date.valueOf(movie.getReleaseDate()));
+                movieInfo.setRevenue(Integer.toString(movie.getRevenue()));
+                movieInfo.setBudget(Integer.toString(movie.getBudget()));
+                movieInfo.setAverageRate(movie.getVoteAverage());
+                movieInfo.setDescription(movie.getOverview());
+                //TODO director
+                movieDetails.setMovieInfo(movieInfo);
+                movieDetails.setMovieCover(provideMovieCoverMapper().map(movie));
+                return movieDetails;
 
             }
 
@@ -152,8 +143,8 @@ public class DataModule {
     //fake remote source
     @Singleton
     @Provides
-    DataSource<MovieEntity,MovieDetailEntity> provideRemoteSource(@NonNull Context context,
-                                                                  @NonNull ISortConfiguration configuration){
+    DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull Context context,
+                                                            @NonNull ISortConfiguration configuration){
         return new RemoteSource(configuration);
     }
 

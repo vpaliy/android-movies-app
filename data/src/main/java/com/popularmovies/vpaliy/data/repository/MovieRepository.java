@@ -3,8 +3,8 @@ package com.popularmovies.vpaliy.data.repository;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
-import com.popularmovies.vpaliy.data.entity.MovieEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.domain.IRepository;
@@ -24,18 +24,17 @@ public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
 
     private static final String TAG=MovieRepository.class.getSimpleName();
 
-    private final DataSource<MovieEntity, MovieDetailEntity> dataSource;
-    private final Mapper<MovieCover, MovieEntity> entityMapper;
+    private final DataSource<Movie, MovieDetailEntity> dataSource;
+    private final Mapper<MovieCover, Movie> entityMapper;
     private final Mapper<MovieDetails, MovieDetailEntity> detailsMapper;
     private final ISortConfiguration sortConfiguration;
 
 
     @Inject
-    public MovieRepository(@NonNull DataSource<MovieEntity, MovieDetailEntity> dataSource,
-                      @NonNull Mapper<MovieCover, MovieEntity> entityMapper,
+    public MovieRepository(@NonNull DataSource<Movie, MovieDetailEntity> dataSource,
+                      @NonNull Mapper<MovieCover, Movie> entityMapper,
                       @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper,
                       @NonNull ISortConfiguration sortConfiguration) {
-        Log.d(TAG,"Created");
         this.dataSource = dataSource;
         this.entityMapper = entityMapper;
         this.detailsMapper = detailsMapper;

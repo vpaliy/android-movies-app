@@ -1,5 +1,7 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
+import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
@@ -15,6 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import rx.functions.Func4;
 import rx.schedulers.Schedulers;
 
 import javax.inject.Inject;
@@ -52,30 +55,39 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
     @Override
     public Observable<MovieDetailEntity> getDetails(int ID) {
-        MovieDetailEntity movieDetailEntity=new MovieDetailEntity();
 
-        movieDatabaseAPI.getMovieDetails(API_KEY,ID)
-                .subscribeOn(Schedulers.io())
-                .subscribe(movieDetailEntity::setMovie);
-        movieDatabaseAPI.getSimilarMovies(API_KEY,ID)
-                .subscribeOn(Schedulers.io())
-                .map(MovieWrapper::getCoverList)
-                .subscribe(movieDetailEntity::setSimilarMovies);
-        movieDatabaseAPI.getBackdrops(API_KEY,ID)
-                .subscribeOn(Schedulers.io())
-                .map(BackdropsWrapper::getBackdropImages)
-                .subscribe(movieDetailEntity::setBackdropImages);
-        movieDatabaseAPI.getMovieCast(API_KEY,ID)
-                .subscribeOn(Schedulers.io())
-                .map(CastWrapper::getCast)
-                .subscribe(movieDetailEntity::setCast);
+        Observable<List<Movie>> similarObservable=movieDatabaseAPI.getSimilarMovies(Integer.toString(ID),API_KEY)
+                .subscribeOn(Schedulers.newThread())
+                .map(MovieWrapper::getCoverList);
 
-        return Observable.just(movieDetailEntity);
+        Observable<Movie> movieObservable=movieDatabaseAPI
+                .getMovieDetails(Integer.toString(ID),API_KEY)
+                .subscribeOn(Schedulers.newThread());
+
+        Observable<List<BackdropImage>> backdropsObservable=movieDatabaseAPI.getBackdrops(Integer.toString(ID),API_KEY)
+                .subscribeOn(Schedulers.newThread())
+                .map(BackdropsWrapper::getBackdropImages);
+
+        Observable<List<ActorEntity>> actorsObservable=  movieDatabaseAPI.getMovieCast(Integer.toString(ID),API_KEY)
+                .subscribeOn(Schedulers.newThread())
+                .map(CastWrapper::getCast);
+
+       return Observable.zip(movieObservable, similarObservable, backdropsObservable, actorsObservable,
+               (Movie movie, List<Movie> movies, List<BackdropImage> backdropImages, List<ActorEntity> actorEntities)-> {
+                        MovieDetailEntity movieDetails=new MovieDetailEntity();
+                        movieDetails.setCast(actorEntities);
+                        movieDetails.setBackdropImages(backdropImages);
+                        movie.setBackdropImages(backdropImages);
+                        movieDetails.setMovie(movie);
+                        movieDetails.setSimilarMovies(movies);
+                        return movieDetails;
+                    });
 
     }
 
     @Override
     public Observable<Movie> getCover(int ID) {
-        return null;
+        return movieDatabaseAPI.getMovieDetails(Integer.toString(ID),API_KEY)
+                .subscribeOn(Schedulers.io());
     }
 }
