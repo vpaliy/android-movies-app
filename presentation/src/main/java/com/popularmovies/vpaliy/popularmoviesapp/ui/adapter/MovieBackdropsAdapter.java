@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import android.support.annotation.NonNull;
 
@@ -38,7 +40,7 @@ public class MovieBackdropsAdapter extends PagerAdapter{
 
     @Override
     public int getCount() {
-        return movieBackdrops.size();
+        return movieBackdrops.size()>=4?4:movieBackdrops.size();
     }
 
     @Override

@@ -1,19 +1,19 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.View;
 
+import java.util.ArrayList;
 import java.util.List;
-
+import android.support.annotation.NonNull;
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,7 +43,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     @Override
     public void start() {
-        startLoading();
+       startLoading();
     }
 
     @Override
@@ -55,8 +55,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     @Override
     public void sort(@NonNull ISortConfiguration.SortType sortType) {
-        iRepository.sort(sortType);
-        startLoading();
+       startLoading();
     }
 
     @Override
@@ -75,6 +74,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
    private void processData(@NonNull List<MovieCover> movieList){
+       view.showErrorMessage();
         Log.d(TAG,Integer.toString(movieList.size()));
         if(!movieList.isEmpty()){
             view.showMovies(movieList);

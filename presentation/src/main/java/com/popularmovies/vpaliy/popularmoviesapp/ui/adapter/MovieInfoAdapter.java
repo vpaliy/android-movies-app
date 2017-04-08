@@ -8,15 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.popularmovies.vpaliy.domain.model.MovieCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.squareup.otto.Bus;
-
-import java.util.List;
-
 import at.blogc.android.views.ExpandableTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +18,7 @@ public class MovieInfoAdapter extends RecyclerView.Adapter<MovieInfoAdapter.Info
 
     private LayoutInflater inflater;
     private MovieInfo movieInfo;
+
     public MovieInfoAdapter(@NonNull Context context,@NonNull MovieInfo movieInfo){
         this.inflater=LayoutInflater.from(context);
         this.movieInfo=movieInfo;

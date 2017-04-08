@@ -1,26 +1,23 @@
 package com.popularmovies.vpaliy.data.repository;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.DataSource;
-import com.popularmovies.vpaliy.domain.IRepository;
+import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
 
 @Singleton
-public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
+public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails> {
 
     private static final String TAG=MovieRepository.class.getSimpleName();
 
@@ -32,9 +29,9 @@ public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
 
     @Inject
     public MovieRepository(@NonNull DataSource<Movie, MovieDetailEntity> dataSource,
-                      @NonNull Mapper<MovieCover, Movie> entityMapper,
-                      @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper,
-                      @NonNull ISortConfiguration sortConfiguration) {
+                           @NonNull Mapper<MovieCover, Movie> entityMapper,
+                           @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper,
+                           @NonNull ISortConfiguration sortConfiguration) {
         this.dataSource = dataSource;
         this.entityMapper = entityMapper;
         this.detailsMapper = detailsMapper;
@@ -43,7 +40,6 @@ public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
 
     @Override
     public Observable<List<MovieCover>> getCovers() {
-        Log.d(TAG,"getCovers()");
         return dataSource.getCovers()
                 .map(entityMapper::map);
     }
@@ -60,6 +56,11 @@ public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
                 .map(entityMapper::map);
     }
 
+    @Override
+    public Observable<MovieCover> requestMoreCovers() {
+        return null;
+    }
+
     private Observable<List<MovieCover>> queryRemoteSource() {
        /* return dataSource.getList()
                 .map(mapper::map)
@@ -68,18 +69,7 @@ public class MovieRepository implements IRepository<MovieCover,MovieDetails> {
     }
 
     @Override
-    public void sort(@NonNull ISortConfiguration.SortType type) {
-        sortConfiguration.saveConfiguration(type);
-       /* switch (type){
-            case POPULAR:
-                Collections.sort(inMemoryCache,(o1, o2) -> o1.getAverageVote()<o2.getAverageVote()?1:
-                        (o1.getAverageVote()!=o2.getAverageVote()?-1:0));
-                break;
-            case LATEST:
-                Collections.sort(inMemoryCache,(o1, o2) -> o1.getReleaseDate().after(o2.getReleaseDate())?1:
-                        (o1.getReleaseDate().before(o2.getReleaseDate())?-1:0));
-                break;
-
-        }   */
+    public Observable<MovieCover> sortBy(@NonNull ISortConfiguration.SortType type) {
+        return null;
     }
 }

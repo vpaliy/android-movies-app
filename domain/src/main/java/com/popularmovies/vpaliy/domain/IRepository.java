@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.domain;
 
-import android.support.annotation.NonNull;
 
 import java.util.List;
 import rx.Observable;
@@ -18,7 +17,5 @@ public interface IRepository<T,D> {
     Observable<D> getDetails(int ID);
     Observable<T> getCover(int ID);
 
-
-    void sort(@NonNull ISortConfiguration.SortType type);
 
 }
