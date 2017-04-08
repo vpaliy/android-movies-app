@@ -83,6 +83,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
     }
 
+    public void appendData(@NonNull List<MovieCover> movies){
+        data.addAll(movies);
+        notifyDataSetChanged();
+    }
+
     public void onResume(){
         hasBeenClicked=false;
     }

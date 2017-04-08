@@ -10,6 +10,7 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
 import android.content.Context;
+import android.util.Log;
 
 @Singleton
 public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
@@ -39,6 +41,9 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
     private final ISortConfiguration sortConfiguration;
     private final Context context;
+
+    private int totalPages;
+    private int currentPage;
 
     private MovieDatabaseAPI movieDatabaseAPI;
 
@@ -71,8 +76,16 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
     @Override
     public Observable<List<Movie>> getCovers() {
-        return movieDatabaseAPI.getPopularMovies(2)
-                .map(MovieWrapper::getCoverList);
+        return movieDatabaseAPI.getPopularMovies(1)
+                .map(this::convertToMovie);
+    }
+
+    private List<Movie> convertToMovie(MovieWrapper wrapper){
+        this.currentPage=wrapper.getPage();
+        Log.d(TAG,"Current page:"+Integer.toString(currentPage));
+        this.totalPages=wrapper.getTotalPages();
+        Log.d(TAG,"Total pages:"+Integer.toString(totalPages));
+        return wrapper.getCoverList();
     }
 
     @Override
@@ -114,8 +127,13 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     }
 
     @Override
-    public Observable<Movie> requestMoreCovers() {
-        return null;
+    public Observable<List<Movie>> requestMoreCovers() {
+        if(totalPages!=currentPage) {
+            currentPage++;
+            return movieDatabaseAPI.getPopularMovies(currentPage)
+                    .map(this::convertToMovie);
+        }
+        return Observable.just(new ArrayList<>());
     }
 
     @Override

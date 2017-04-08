@@ -3,22 +3,23 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import android.util.Log;
 
+import com.popularmovies.vpaliy.data.entity.Movie;
+import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.View;
-
-import java.util.ArrayList;
 import java.util.List;
-import android.support.annotation.NonNull;
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
-import javax.inject.Inject;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+
+import android.support.annotation.NonNull;
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+import javax.inject.Inject;
 
 
 @ViewScope
@@ -27,11 +28,11 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private static final String TAG=MoviesPresenter.class.getSimpleName();
 
     private View view;
-    private final IRepository<MovieCover,MovieDetails> iRepository;
+    private final IMovieRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
 
     @Inject
-    public MoviesPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository){
+    public MoviesPresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> iRepository){
         this.iRepository=iRepository;
         this.subscriptions=new CompositeSubscription();
     }
@@ -74,7 +75,6 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
    private void processData(@NonNull List<MovieCover> movieList){
-       view.showErrorMessage();
         Log.d(TAG,Integer.toString(movieList.size()));
         if(!movieList.isEmpty()){
             view.showMovies(movieList);
@@ -82,6 +82,25 @@ public class MoviesPresenter implements MoviesContract.Presenter{
             view.showEmptyMessage();
         }
     }
+
+    @Override
+    public void requestMoreData() {
+        view.setLoadingIndicator(true);
+        subscriptions.add(iRepository.requestMoreCovers()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::appendData,
+                       this::handleErrorMessage,
+                       this::completeLoading));
+    }
+
+    private void appendData(@NonNull List<MovieCover> movieList){
+        Log.d(TAG,Integer.toString(movieList.size()));
+        if(!movieList.isEmpty()){
+            view.appendMovies(movieList);
+        }
+    }
+
 
     private void handleErrorMessage(Throwable throwable){
         throwable.printStackTrace();
