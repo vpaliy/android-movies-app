@@ -15,24 +15,24 @@ import rx.Observable;
 public interface MovieDatabaseAPI {
 
     @GET("movie/popular")
-    Observable<MovieWrapper> getPopularMovies(@Query("api_key") String apiKey);
+    Observable<MovieWrapper> getPopularMovies(@Query("page") int page);
 
     @GET("movie/{id}")
-    Observable<Movie> getMovieDetails(@Path("id") String id,
-                                      @Query("api_key") String apiKey);
+    Observable<Movie> getMovieDetails(@Path("id") String id);
 
     @GET("movie/{id}/images")
-    Observable<BackdropsWrapper> getBackdrops(@Path("id") String id,
-                                              @Query("api_key") String apiKey);
+    Observable<BackdropsWrapper> getBackdrops(@Path("id") String id);
+
     @GET("movie/{id}/reviews")
-    Observable<ReviewWrapper> getReviews(@Path("id") String id,
-                                         @Query("api_key") String apiKey);
+    Observable<ReviewWrapper> getReviews(@Path("id") String id);
 
     @GET("movie/{id}/similar")
-    Observable<MovieWrapper> getSimilarMovies(@Path("id") String id, @Query("api_key") String apiKey);
+    Observable<MovieWrapper> getSimilarMovies(@Path("id") String id);
 
     @GET("movie/{id}/credits")
-    Observable<CastWrapper> getMovieCast(@Path("id") String id,
-                                         @Query("api_key") String apiKey);
+    Observable<CastWrapper> getMovieCast(@Path("id") String id);
+
+    @GET("discover/movie")
+    Observable<MovieWrapper> discoverMovies(@Query("sort_by") String sortBy, @Query("page") Integer page);
 
 }

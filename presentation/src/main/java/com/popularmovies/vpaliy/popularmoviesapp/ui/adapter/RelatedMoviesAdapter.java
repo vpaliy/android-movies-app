@@ -17,6 +17,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import com.squareup.otto.Bus;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import butterknife.BindView;
 import android.support.annotation.NonNull;

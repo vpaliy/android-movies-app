@@ -145,7 +145,7 @@ public class DataModule {
     @Provides
     DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull Context context,
                                                             @NonNull ISortConfiguration configuration){
-        return new RemoteSource(configuration);
+        return new RemoteSource(configuration,context);
     }
 
     @Singleton

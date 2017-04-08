@@ -49,8 +49,7 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
         void onBindData(){
 
             Glide.with(inflater.getContext())
-                    .fromResource()
-                    .load(R.drawable.poster)
+                    .load(castList.get(getAdapterPosition()).getActorAvatar())
                     .centerCrop()
                     .into(actorImage);
             ActorCover actor=castList.get(getAdapterPosition());

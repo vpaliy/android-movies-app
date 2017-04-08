@@ -2,23 +2,21 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.bumptech.glide.Glide;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ClickedMovieEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import com.squareup.otto.Bus;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
@@ -42,7 +40,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
 
     public class MovieViewHolder extends RecyclerView.ViewHolder
-                implements View.OnClickListener{
+            implements View.OnClickListener{
 
         @BindView(R.id.movieImage)
         ImageView image;
@@ -68,10 +66,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         void bindData(){
             MovieCover cover=data.get(getAdapterPosition());
-            Glide.with(inflater.getContext())
+            Picasso.with(itemView.getContext())
+                    .load(cover.getPosterPath())
+                    .fit().centerCrop()
+                    .into(image);
+           /* Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .centerCrop()
-                    .into(image);
+                    .priority(Priority.HIGH)
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .placeholder(R.drawable.placeholder)
+                    .animate(R.anim.fade_in)
+                    .into(image);   */
             title.setText(cover.getMovieTitle());
             //install the rest of the data
         }

@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class ActorEntity {
 
+    private static final String baseImageUrl="http://image.tmdb.org/t/p/w780/";
+
     @SerializedName("cast_id")
     private int actorId;
 
@@ -25,7 +27,7 @@ public class ActorEntity {
     }
 
     public String getActorAvatar() {
-        return actorAvatar;
+        return baseImageUrl+actorAvatar;
     }
 
     public String getName() {

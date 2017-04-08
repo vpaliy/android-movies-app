@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class MoviesFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG,"onCreate()");
         setHasOptionsMenu(true);
         setRetainInstance(true);
         initializeDependencies();
@@ -75,13 +77,13 @@ public class MoviesFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root=inflater.inflate(R.layout.fragment_movies,container,false);
         unbinder=ButterKnife.bind(this,root);
+        presenter.start();
         return root;
     }
 
     @Override
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
-            presenter.start();
             swipeRefresher.setOnRefreshListener(presenter::requestDataRefresh);
             actionBar.inflateMenu(R.menu.menu_movies);
 
@@ -146,6 +148,7 @@ public class MoviesFragment extends Fragment
     @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
+        Log.d(TAG,"attachPresenter()");
         this.presenter=presenter;
         this.presenter.attachView(this);
     }
@@ -157,6 +160,7 @@ public class MoviesFragment extends Fragment
                 .getInteger(R.integer.moviesSpanCount),GridLayoutManager.VERTICAL,false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        Log.d(TAG,"showMovies");
 
     }
 
