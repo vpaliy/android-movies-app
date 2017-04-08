@@ -14,6 +14,7 @@ public interface MoviesContract {
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
         void showMovies(@NonNull List<MovieCover> movies);
+        void appendMovies(@NonNull List<MovieCover> movies);
         void setLoadingIndicator(boolean isLoading);
         void showErrorMessage();
         void showEmptyMessage();
@@ -22,6 +23,7 @@ public interface MoviesContract {
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
         void requestDataRefresh();
+        void requestMoreData();
         void sort(@NonNull ISortConfiguration.SortType sortType);
         void start();
         void stop();

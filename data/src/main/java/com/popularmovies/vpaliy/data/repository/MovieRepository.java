@@ -57,16 +57,11 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     }
 
     @Override
-    public Observable<MovieCover> requestMoreCovers() {
-        return null;
+    public Observable<List<MovieCover>> requestMoreCovers() {
+        return dataSource.requestMoreCovers()
+                .map(entityMapper::map);
     }
 
-    private Observable<List<MovieCover>> queryRemoteSource() {
-       /* return dataSource.getList()
-                .map(mapper::map)
-                .doOnNext(data->inMemoryCache=new ArrayList<>(data));   */
-        return null;
-    }
 
     @Override
     public Observable<MovieCover> sortBy(@NonNull ISortConfiguration.SortType type) {

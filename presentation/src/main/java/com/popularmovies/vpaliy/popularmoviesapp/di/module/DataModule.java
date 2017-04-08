@@ -11,6 +11,7 @@ import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
+import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
@@ -153,6 +154,13 @@ public class DataModule {
     IRepository<MovieCover,MovieDetails> provideRepository(MovieRepository repository){
         return repository;
     }
+
+    @Singleton
+    @Provides
+    IMovieRepository<MovieCover,MovieDetails> provideMovieRepository(MovieRepository repository){
+        return repository;
+    }
+
 
 
     @Singleton
