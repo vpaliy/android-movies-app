@@ -7,6 +7,9 @@ import java.util.List;
 
 public class MovieWrapper {
 
+    @SerializedName("page")
+    private int page;
+
     @SerializedName("results")
     private List<Movie> movies;
 

@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -26,6 +27,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapte
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -164,7 +169,6 @@ public class MovieDetailsFragment extends Fragment
                         movieImage.setImageBitmap(resource);
                         new Palette.Builder(resource)
                                 .generate(MovieDetailsFragment.this::applyPalette);
-                        //Log.d(TAG,imageTransitionName);
                         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
                             movieImage.setTransitionName(imageTransitionName);
                             startTransition();

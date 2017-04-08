@@ -10,7 +10,7 @@ public class Genre {
     @SerializedName("id")
     private int id;
 
-    @SerializedName("genre")
+    @SerializedName("name")
     private String name;
 
     public int getId() {
