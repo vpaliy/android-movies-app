@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.component;
 
 import android.content.Context;
 
+import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -24,6 +25,7 @@ public interface ApplicationComponent {
     Context context();
     Bus eventBus();
     Navigator navigator();
-    IRepository<MovieCover,MovieDetails> moviesRepository();
+    IRepository<MovieCover,MovieDetails> repository();
+    IMovieRepository<MovieCover,MovieDetails> movieRepository();
     ISortConfiguration sortConfiguration();
 }
