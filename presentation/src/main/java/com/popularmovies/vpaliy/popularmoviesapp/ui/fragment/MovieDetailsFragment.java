@@ -155,9 +155,8 @@ public class MovieDetailsFragment extends Fragment
     public void showCover(@NonNull MovieCover movieCover) {
         showCoverDetails(movieCover);
         Glide.with(this)
-                .fromResource()
+                .load(movieCover.getPosterPath())
                 .asBitmap()
-                .load(R.drawable.poster)
                 .centerCrop()
                 .into(new ImageViewTarget<Bitmap>(movieImage) {
                     @Override
@@ -186,7 +185,7 @@ public class MovieDetailsFragment extends Fragment
             String yearText=bullet+" "+Integer.toString(movieCover.getReleaseYear());
             String durationText=bullet+" "+movieCover.getDuration();
 
-            title.setText(titleText);
+            title.setText(titleText!=null?titleText:"");
             year.setText(yearText);
             duration.setText(durationText);
 

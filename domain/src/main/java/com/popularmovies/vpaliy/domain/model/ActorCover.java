@@ -4,8 +4,7 @@ public class ActorCover {
 
     private int actorId;
     private int movieId;
-    private String firstName;
-    private String lastName;
+    private String name;
     private String actorAvatar;
     private String role;
 
@@ -22,12 +21,8 @@ public class ActorCover {
         return actorAvatar;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
     public int getMovieId() {
@@ -46,12 +41,8 @@ public class ActorCover {
         this.actorId = actorId;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setMovieId(int movieId) {

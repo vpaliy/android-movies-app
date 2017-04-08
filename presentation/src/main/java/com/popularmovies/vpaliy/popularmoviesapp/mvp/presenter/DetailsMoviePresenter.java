@@ -7,11 +7,13 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContra
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.View;
 
-import java.util.Arrays;
-import java.util.List;
 
 @ViewScope
 public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
@@ -35,14 +37,13 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void retrieveCover(int ID){
-        subscriptions.add(repository.getCover(ID)
-                .subscribe(this::processData,
-                        this::handleErrorMessage,
-                        ()->{}));
+
     }
 
     private void retrieveDetails(int ID){
         subscriptions.add(repository.getDetails(ID)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::processData,
                                this::handleErrorMessage,
                                ()->{}));
@@ -61,14 +62,15 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     private void processData(@NonNull MovieCover movie){
         view.showCover(movie);
+        Log.d(TAG,Integer.toString(movie.getBackdrops().size()));
         if(movie.getBackdrops()!=null){
-          //  view.showBackdrops(movie.getBackdrops());
+            view.showBackdrops(movie.getBackdrops());
         }
-        view.showBackdrops(Arrays.asList("one","two","three","four","five"));
     }
 
     private void processData(@NonNull MovieDetails details){
         view.showDetails(details);
+        processData(details.getMovieCover());
     }
 
     private void handleErrorMessage(Throwable throwable){
