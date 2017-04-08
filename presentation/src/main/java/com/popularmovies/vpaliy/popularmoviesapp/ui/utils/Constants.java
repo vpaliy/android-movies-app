@@ -13,5 +13,6 @@ public final class Constants {
     public static final String MOVIE_DETAILS_TAG="movieDetailsTag";
 
     public static final String EXTRA_DATA="extra";
+    public static final String EXTRA_TRANSITION_NAME="transitionName";
     public static final String EXTRA_ID="id";
 }

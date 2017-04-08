@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +25,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ClickedMovieEve
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
 import java.util.List;
-
 import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -85,6 +81,7 @@ public class MoviesFragment extends Fragment
     @Override
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
+            presenter.start();
             swipeRefresher.setOnRefreshListener(presenter::requestDataRefresh);
             actionBar.inflateMenu(R.menu.menu_movies);
 
@@ -141,7 +138,9 @@ public class MoviesFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        presenter.start();
+        if(adapter!=null){
+            adapter.onResume();
+        }
     }
 
     @Inject

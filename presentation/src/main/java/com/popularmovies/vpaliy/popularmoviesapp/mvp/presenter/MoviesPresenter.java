@@ -16,6 +16,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 
@@ -65,6 +67,8 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private void startLoading(){
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.getCovers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::processData,
                            this::handleErrorMessage,
                            this::completeLoading));
@@ -80,7 +84,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     private void handleErrorMessage(Throwable throwable){
-        Log.e(TAG,throwable.getMessage());
+        throwable.printStackTrace();
         view.showErrorMessage();
     }
 

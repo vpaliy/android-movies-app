@@ -1,38 +1,32 @@
 <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ScrollView
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:id="@+id/infoContainer"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:divider="@drawable/divider"
-        android:showDividers="middle"
+        android:scrollbars="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/infoRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-        </android.support.v7.widget.RecyclerView>
+        <include
+            layout="@layout/movie_info_card">
+        </include>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/similarMovies"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <include
+            android:id="@+id/trailersCard"
+            android:visibility="gone"
+            layout="@layout/movie_similar_card">
+        </include>
 
-        </android.support.v7.widget.RecyclerView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/trailers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.v7.widget.RecyclerView>
+        <include
+            android:id="@+id/similarMoviesCard"
+            android:visibility="gone"
+            layout="@layout/movie_similar_card">
+        </include>
 
 
 

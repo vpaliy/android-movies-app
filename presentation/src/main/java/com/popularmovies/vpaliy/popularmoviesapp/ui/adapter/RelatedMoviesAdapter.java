@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +13,12 @@ import com.bumptech.glide.Glide;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ClickedMovieEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
 import java.util.List;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
@@ -29,7 +33,9 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
     private final LayoutInflater inflater;
     private boolean hasBeenClicked;
 
-    public RelatedMoviesAdapter(@NonNull Context context,@NonNull List<MovieCover> data, @NonNull Bus eventBus){
+    public RelatedMoviesAdapter(@NonNull Context context,
+                                @NonNull List<MovieCover> data,
+                                @NonNull Bus eventBus){
         this.eventBus=eventBus;
         this.data=data;
         this.inflater=LayoutInflater.from(context);
@@ -59,9 +65,14 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
         public void onClick(View v) {
             if(!hasBeenClicked) {
                 hasBeenClicked=true;
+                MovieCover victim=data.get(getAdapterPosition());
+                if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
+                    image.setTransitionName(image.getContext().getString(R.string.movieImage)
+                            +Integer.toString(victim.getMovieId()));
+                }
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constants.EXTRA_ID, data.get(getAdapterPosition()).getMovieId());
-                eventBus.post(new ClickedMovieEvent(TransitionWrapper.wrap(image, bundle)));
+                bundle.putInt(Constants.EXTRA_ID, victim.getMovieId());
+                eventBus.post(new ExposeDetailsEvent(TransitionWrapper.wrap(image, bundle)));
             }
         }
 
@@ -73,10 +84,11 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
                     .into(image);
             title.setText(data.get(getAdapterPosition()).getMovieTitle());
             String date= Integer.toString(data.get(getAdapterPosition()).getReleaseYear());
-            title.setText(date);
+            year.setText(date);
             //install the rest of the data
         }
     }
+
 
     @Override
     public int getItemCount() {
@@ -87,6 +99,10 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root=inflater.inflate(R.layout.adapter_related_movie,parent,false);
         return new MovieViewHolder(root);
+    }
+
+    public void onResume(){
+        hasBeenClicked=false;
     }
 
     @Override

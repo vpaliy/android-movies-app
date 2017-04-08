@@ -30,6 +30,11 @@ dependencies {
     compile libs.supportAppCompat
 
     compile libs.RxJava
+    compile libs.retrofit
+    compile libs.retrofitAdapter
+    compile libs.retrofitConverter
+    compile libs.okHttp
+    compile libs.gson
     compile libs.RxAndroid
     compile libs.Dagger2
     annotationProcessor libs.Dagger2Compiler
