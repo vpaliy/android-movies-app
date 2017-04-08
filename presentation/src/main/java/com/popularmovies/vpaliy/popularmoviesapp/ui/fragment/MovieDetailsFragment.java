@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.graphics.Palette;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.relex.circleindicator.CircleIndicator;
@@ -43,6 +43,8 @@ import butterknife.BindView;
 
 public class MovieDetailsFragment extends Fragment
         implements DetailsMovieContract.View{
+
+    private static final String TAG=MovieDetailsFragment.class.getSimpleName();
 
     private Presenter presenter;
     private Unbinder unbinder;
@@ -65,6 +67,7 @@ public class MovieDetailsFragment extends Fragment
     protected CircleIndicator indicator;
 
     private int ID;
+    private String imageTransitionName;
 
     public static MovieDetailsFragment newInstance(@NonNull Bundle extraData){
         MovieDetailsFragment fragment=new MovieDetailsFragment();
@@ -80,6 +83,7 @@ public class MovieDetailsFragment extends Fragment
             savedInstanceState=getArguments();
         }
         this.ID=savedInstanceState.getInt(Constants.EXTRA_ID);
+        this.imageTransitionName=savedInstanceState.getString(Constants.EXTRA_TRANSITION_NAME);
         initializeDependencies();
     }
 
@@ -154,14 +158,16 @@ public class MovieDetailsFragment extends Fragment
                 .fromResource()
                 .asBitmap()
                 .load(R.drawable.poster)
-                .fitCenter()
+                .centerCrop()
                 .into(new ImageViewTarget<Bitmap>(movieImage) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         movieImage.setImageBitmap(resource);
                         new Palette.Builder(resource)
                                 .generate(MovieDetailsFragment.this::applyPalette);
+                        //Log.d(TAG,imageTransitionName);
                         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
+                            movieImage.setTransitionName(imageTransitionName);
                             startTransition();
                         }
                     }

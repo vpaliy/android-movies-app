@@ -9,6 +9,7 @@ import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.BaseActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 import com.squareup.otto.Bus;
 
 import javax.inject.Singleton;
@@ -22,6 +23,7 @@ public interface ApplicationComponent {
 
     Context context();
     Bus eventBus();
+    Navigator navigator();
     IRepository<MovieCover,MovieDetails> moviesRepository();
     ISortConfiguration sortConfiguration();
 }

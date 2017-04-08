@@ -54,7 +54,6 @@ public class FakeRemoteSource extends DataSource<MovieEntity,MovieDetailEntity> 
             entity.setGenres(Arrays.asList("Action", "Drama", "Comedy"));
             entity.setMovieId(index);
             entity.setMovieTitle("Title");
-            entity.setReleaseYear(2016);
             entity.setDuration("2 hrs 16 min");
             list.add(entity);
         }

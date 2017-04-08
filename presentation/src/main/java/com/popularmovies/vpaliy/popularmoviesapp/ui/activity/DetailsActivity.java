@@ -1,8 +1,10 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
 
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -10,6 +12,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
+import com.squareup.otto.Subscribe;
 
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.EXTRA_DATA;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.MOVIE_DETAILS_TAG;
@@ -33,10 +37,10 @@ public class DetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_movie_details);
         if(savedInstanceState==null){
             extraData=getIntent().getExtras();
+            setUI();
         }else{
             extraData=savedInstanceState.getBundle(EXTRA_DATA);
         }
-        setUI();
     }
 
     private void setUI(){
@@ -45,7 +49,15 @@ public class DetailsActivity extends BaseActivity {
                 .commit();
     }
 
+    @Subscribe
+    public void showDetails(@NonNull ExposeDetailsEvent event){
+        navigator.showDetails(this,event);
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 
     @Override
     void inject() {

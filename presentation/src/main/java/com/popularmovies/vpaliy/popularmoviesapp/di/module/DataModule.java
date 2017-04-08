@@ -12,6 +12,7 @@ import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.repository.Repository;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.data.source.remote.FakeRemoteSource;
+import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
@@ -153,7 +154,7 @@ public class DataModule {
     @Provides
     DataSource<MovieEntity,MovieDetailEntity> provideRemoteSource(@NonNull Context context,
                                                                   @NonNull ISortConfiguration configuration){
-        return new FakeRemoteSource(context,configuration);
+        return new RemoteSource(configuration);
     }
 
     @Singleton
