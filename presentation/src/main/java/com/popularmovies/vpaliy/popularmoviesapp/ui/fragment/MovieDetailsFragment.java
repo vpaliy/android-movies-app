@@ -27,10 +27,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapte
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

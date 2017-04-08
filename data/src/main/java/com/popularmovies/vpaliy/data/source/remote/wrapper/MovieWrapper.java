@@ -13,7 +13,18 @@ public class MovieWrapper {
     @SerializedName("results")
     private List<Movie> movies;
 
+    @SerializedName("total_pages")
+    private int totalPages;
+
     public List<Movie> getCoverList() {
         return movies;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
     }
 }

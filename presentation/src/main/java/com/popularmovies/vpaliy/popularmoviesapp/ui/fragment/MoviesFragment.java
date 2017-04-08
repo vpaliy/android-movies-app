@@ -1,19 +1,17 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -25,12 +23,17 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ClickedMovieEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
 import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 import java.util.List;
-import javax.inject.Inject;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import javax.inject.Inject;
+import butterknife.BindView;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
 
 public class MoviesFragment extends Fragment
         implements MoviesContract.View{
@@ -86,6 +89,21 @@ public class MoviesFragment extends Fragment
         if(root!=null){
             swipeRefresher.setOnRefreshListener(presenter::requestDataRefresh);
             actionBar.inflateMenu(R.menu.menu_movies);
+
+            LinearLayoutManager layoutManager=new GridLayoutManager(getContext(),getResources()
+                    .getInteger(R.integer.moviesSpanCount),GridLayoutManager.VERTICAL,false);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    if (swipeRefresher.isRefreshing())
+                        return;
+
+                    if(layoutManager.findLastCompletelyVisibleItemPosition()==adapter.getItemCount()-1){
+                        presenter.requestMoreData();
+                    }
+                }
+            });
 
             //initialize sort options
           /*  actionBar.setOnMenuItemClickListener(item -> {
@@ -148,7 +166,6 @@ public class MoviesFragment extends Fragment
     @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
-        Log.d(TAG,"attachPresenter()");
         this.presenter=presenter;
         this.presenter.attachView(this);
     }
@@ -156,12 +173,14 @@ public class MoviesFragment extends Fragment
     @Override
     public void showMovies(@NonNull List<MovieCover> movies) {
         adapter=new MoviesAdapter(getContext(),movies,eventBus);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),getResources()
-                .getInteger(R.integer.moviesSpanCount),GridLayoutManager.VERTICAL,false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-        Log.d(TAG,"showMovies");
 
+    }
+
+    @Override
+    public void appendMovies(@NonNull List<MovieCover> movies) {
+        adapter.appendData(movies);
     }
 
     @Override
