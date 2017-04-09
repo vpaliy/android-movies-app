@@ -42,6 +42,7 @@ public class DataModule {
         return new Mapper<MovieCover, Movie>() {
             @Override
             public MovieCover map(Movie movieEntity) {
+                Log.d(TAG,"Mapping now:"+movieEntity.getTitle()+" ID:"+Integer.toString(movieEntity.getMovieId()));
                 MovieCover cover=new MovieCover();
                 cover.setMovieId(movieEntity.getMovieId());
                 cover.setPosterPath(movieEntity.getPosterPath());

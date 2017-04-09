@@ -4,16 +4,14 @@ import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
-import javax.inject.Inject;
-import android.support.annotation.NonNull;
 import android.util.Log;
-
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.View;
-
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+import javax.inject.Inject;
+import android.support.annotation.NonNull;
 
 @ViewScope
 public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
@@ -37,16 +35,21 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void retrieveCover(int ID){
-
+        subscriptions.add(repository.getCover(ID)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::processData,
+                        this::handleErrorMessage,
+                        ()->{}));
     }
 
     private void retrieveDetails(int ID){
         subscriptions.add(repository.getDetails(ID)
-                .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::processData,
-                               this::handleErrorMessage,
-                               ()->{}));
+                .subscribe(this::processData,
+                        this::handleErrorMessage,
+                        ()->{}));
     }
     @Override
     public void stop() {
@@ -70,7 +73,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     private void processData(@NonNull MovieDetails details){
         view.showDetails(details);
-        processData(details.getMovieCover());
     }
 
     private void handleErrorMessage(Throwable throwable){
