@@ -3,8 +3,6 @@ package com.popularmovies.vpaliy.data.configuration;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-
-import com.popularmovies.vpaliy.data.R;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 
 import javax.inject.Inject;
@@ -22,7 +20,6 @@ public class SortConfiguration implements ISortConfiguration {
     public SortConfiguration(@NonNull Context context){
       this.preferences=context.getSharedPreferences
                 ("Shared",Context.MODE_PRIVATE);
-
 
     }
 
