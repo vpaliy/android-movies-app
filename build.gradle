@@ -38,6 +38,7 @@ ext {
     retrofitConverterVersion="2.1.0"
     retrofitAdapterVersion="2.1.0"
     picassoVersion="2.5.2"
+    guavaVersion="14.0"
 
 
     /* Testing versions */
@@ -76,7 +77,8 @@ ext {
             retrofit           : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConverter  : "com.squareup.retrofit2:converter-gson:${retrofitConverterVersion}",
             retrofitAdapter    : "com.squareup.retrofit2:adapter-rxjava:${retrofitAdapterVersion}",
-            picasso            : "com.squareup.picasso:picasso:${picassoVersion}"
+            picasso            : "com.squareup.picasso:picasso:${picassoVersion}",
+            guava              : "com.google.guava:guava:${guavaVersion}"
 
     ]
 
@@ -94,6 +96,7 @@ ext {
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
         maven {
             url 'http://dl.bintray.com/amulyakhare/maven'
         }
@@ -115,3 +118,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

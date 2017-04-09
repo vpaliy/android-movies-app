@@ -54,7 +54,7 @@ public class MovieInfoPresenter
     }
 
     private void handleError(@NonNull Throwable throwable){
-        Log.e(TAG,throwable.getMessage());
+        throwable.printStackTrace();
     }
 
 
