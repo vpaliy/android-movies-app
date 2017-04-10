@@ -99,7 +99,12 @@ public class MoviesFragment extends Fragment
                     if (swipeRefresher.isRefreshing())
                         return;
 
-                    if(layoutManager.findLastCompletelyVisibleItemPosition()==adapter.getItemCount()-1){
+                    int totalItemCount = layoutManager.getItemCount();
+                    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+
+                    boolean endHasBeenReached = lastVisibleItemPosition + 5 >= totalItemCount;
+                    if (totalItemCount > 0 && endHasBeenReached) {
+                        swipeRefresher.setRefreshing(true);
                         presenter.requestMoreData();
                     }
                 }
@@ -146,13 +151,9 @@ public class MoviesFragment extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
         presenter.stop();
+        unbinder.unbind();
+        App.appInstance().watch(this);
     }
 
     @Override
@@ -172,9 +173,12 @@ public class MoviesFragment extends Fragment
 
     @Override
     public void showMovies(@NonNull List<MovieCover> movies) {
-        adapter=new MoviesAdapter(getContext(),movies,eventBus);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        if(adapter==null) {
+            adapter = new MoviesAdapter(getContext(), movies, eventBus);
+            recyclerView.setAdapter(adapter);
+        }else{
+            adapter.setData(movies);
+        }
 
     }
 

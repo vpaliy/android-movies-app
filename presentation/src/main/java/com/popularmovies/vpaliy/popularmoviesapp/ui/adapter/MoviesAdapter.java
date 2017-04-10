@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
@@ -27,9 +31,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     private static final String TAG=MoviesAdapter.class.getSimpleName();
 
     private final Bus eventBus;
-    private final List<MovieCover> data;
     private final LayoutInflater inflater;
     private boolean hasBeenClicked;
+    private  List<MovieCover> data;
 
     public MoviesAdapter(@NonNull Context context,@NonNull List<MovieCover> data, @NonNull Bus eventBus){
         this.eventBus=eventBus;
@@ -66,25 +70,31 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         void bindData(){
             MovieCover cover=data.get(getAdapterPosition());
-            Picasso.with(itemView.getContext())
+           /* Picasso.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .fit().centerCrop()
-                    .into(image);
-           /* Glide.with(itemView.getContext())
+                    .into(image);   */
+           Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .centerCrop()
                     .priority(Priority.HIGH)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.placeholder)
                     .animate(R.anim.fade_in)
-                    .into(image);   */
+                    .into(image);
             title.setText(cover.getMovieTitle());
             //install the rest of the data
         }
     }
 
     public void appendData(@NonNull List<MovieCover> movies){
+        int size=getItemCount();
         data.addAll(movies);
+        notifyItemRangeInserted(size,getItemCount());
+    }
+
+    public void setData(@NonNull List<MovieCover> movies){
+        this.data=movies;
         notifyDataSetChanged();
     }
 

@@ -31,6 +31,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
 
     private CacheStore<Integer,MovieCover> coversCache;
+    private CacheStore<Integer,MovieDetails> detailsCache;
 
     @Inject
     public MovieRepository(@NonNull DataSource<Movie, MovieDetailEntity> dataSource,

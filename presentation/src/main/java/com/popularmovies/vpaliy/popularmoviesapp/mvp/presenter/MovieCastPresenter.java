@@ -41,6 +41,7 @@ public class MovieCastPresenter
     @Override
     public void start(int movieId) {
         Log.d(TAG,"start()");
+        subscriptions.clear();
         subscriptions.add(iRepository.getDetails(movieId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -51,7 +52,8 @@ public class MovieCastPresenter
 
     @Override
     public void stop() {
-
+        view=null;
+        subscriptions.clear();
     }
 
     private void handleError(@NonNull Throwable throwable){

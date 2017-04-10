@@ -30,6 +30,7 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     @Override
     public void start(int ID) {
+        Log.d(TAG,"Start fetching the data");
         retrieveCover(ID);
         retrieveDetails(ID);
     }
@@ -44,6 +45,7 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void retrieveDetails(int ID){
+
         subscriptions.add(repository.getDetails(ID)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -53,10 +55,12 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
     @Override
     public void stop() {
+        view=null;
         if(subscriptions.hasSubscriptions()){
             subscriptions.clear();
         }
     }
+
 
     @Override
     public void attachView(@NonNull View view) {
@@ -65,13 +69,14 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     private void processData(@NonNull MovieCover movie){
         view.showCover(movie);
-        Log.d(TAG,Integer.toString(movie.getBackdrops().size()));
-        if(movie.getBackdrops()!=null){
-            view.showBackdrops(movie.getBackdrops());
-        }
+
     }
 
     private void processData(@NonNull MovieDetails details){
+        MovieCover cover=details.getMovieCover();
+        if(cover.getBackdrops()!=null){
+            view.showBackdrops(cover.getBackdrops());
+        }
         view.showDetails(details);
     }
 

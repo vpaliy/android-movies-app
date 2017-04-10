@@ -26,6 +26,7 @@ android {
 
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -42,6 +43,7 @@ dependencies {
     compile 'at.blogc:expandabletextview:1.0.3'
     compile "me.henrytao:smooth-app-bar-layout:24.1.0.0"
     compile 'com.github.todou:appbarspring:1.0.3'
+    compile libs.leakCanary
     compile libs.picasso
     compile libs.recyclerView
     compile libs.supportDesign
