@@ -1,0 +1,143 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/mainAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior=".ui.view.ScrollBehavior">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/main.collapsing"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="64dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/backdropPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                </android.support.v4.view.ViewPager>
+
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_gravity="bottom"
+                app:layout_collapseMode="pin"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <View
+                    android:id="@+id/detailsContainer"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp" />
+
+
+                <ImageView
+                    android:id="@+id/movieImage"
+                    android:layout_width="120dp"
+                    android:layout_height="184dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="16dp"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@string/movieImage"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:layout_toEndOf="@+id/movieImage"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold"
+                    android:paddingTop="5dp"
+                    android:paddingStart="16dp"
+                    android:text="@string/NA"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/title" />
+
+                <TextView
+                    android:id="@+id/year"
+                    android:text="@string/NA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/title"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@+id/movieImage"
+                    />
+
+                <TextView
+                    android:id="@+id/genres"
+                    android:text="@string/NA"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/year"
+                    android:layout_below="@+id/title"
+                    android:layout_marginTop="6dp" />
+
+                <TextView
+                    android:id="@+id/duration"
+                    android:text="@string/NA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/year"
+                    android:layout_marginStart="7dp"
+                    android:layout_toEndOf="@+id/year" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:gravity="top"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+                app:layout_collapseMode="pin" />
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:tabTextColor="@color/colorWhite"
+            android:background="@color/colorPrimaryDark"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabIndicatorColor="@color/colorWhite"
+            app:tabIndicatorHeight="6dp"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/movieDetailsPager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v4.view.ViewPager>
+
+
+</android.support.design.widget.CoordinatorLayout>

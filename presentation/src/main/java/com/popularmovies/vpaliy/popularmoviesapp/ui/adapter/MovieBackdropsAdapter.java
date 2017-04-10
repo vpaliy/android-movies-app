@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
 import java.util.List;
 import android.support.annotation.NonNull;
 
@@ -19,10 +21,9 @@ public class MovieBackdropsAdapter extends PagerAdapter{
     private static final int NUMBER_OF_BACKDROPS=7;
     private static final String TAG=MovieBackdropsAdapter.class.getSimpleName();
 
-    public MovieBackdropsAdapter(@NonNull Context context,
-                                 @NonNull List<String> movieBackdrops){
+    public MovieBackdropsAdapter(@NonNull Context context){
         this.inflater=LayoutInflater.from(context);
-        this.movieBackdrops=movieBackdrops;
+        this.movieBackdrops=new ArrayList<>();
     }
 
     @Override
@@ -45,6 +46,11 @@ public class MovieBackdropsAdapter extends PagerAdapter{
     public int getCount() {
         return movieBackdrops.size()>=NUMBER_OF_BACKDROPS
                 ?NUMBER_OF_BACKDROPS:movieBackdrops.size();
+    }
+
+    public void setData(@NonNull List<String> backdrops){
+        this.movieBackdrops=backdrops;
+        notifyDataSetChanged();
     }
 
     @Override

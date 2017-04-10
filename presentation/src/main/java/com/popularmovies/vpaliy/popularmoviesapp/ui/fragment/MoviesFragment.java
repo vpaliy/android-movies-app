@@ -31,8 +31,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.Toast;
-
 import com.squareup.otto.Subscribe;
 
 public class MoviesFragment extends Fragment
@@ -61,7 +59,6 @@ public class MoviesFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG,"onCreate()");
         setHasOptionsMenu(true);
         setRetainInstance(true);
         initializeDependencies();
@@ -80,6 +77,7 @@ public class MoviesFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root=inflater.inflate(R.layout.fragment_movies,container,false);
         unbinder=ButterKnife.bind(this,root);
+        presenter.attachView(this);
         presenter.start();
         return root;
     }
@@ -92,7 +90,9 @@ public class MoviesFragment extends Fragment
 
             LinearLayoutManager layoutManager=new GridLayoutManager(getContext(),getResources()
                     .getInteger(R.integer.moviesSpanCount),GridLayoutManager.VERTICAL,false);
+            adapter=new MoviesAdapter(getContext(),eventBus);
             recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter);
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -153,7 +153,6 @@ public class MoviesFragment extends Fragment
         super.onDestroy();
         presenter.stop();
         unbinder.unbind();
-        App.appInstance().watch(this);
     }
 
     @Override
@@ -168,18 +167,11 @@ public class MoviesFragment extends Fragment
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
         this.presenter=presenter;
-        this.presenter.attachView(this);
     }
 
     @Override
     public void showMovies(@NonNull List<MovieCover> movies) {
-        if(adapter==null) {
-            adapter = new MoviesAdapter(getContext(), movies, eventBus);
-            recyclerView.setAdapter(adapter);
-        }else{
-            adapter.setData(movies);
-        }
-
+        adapter.setData(movies);
     }
 
     @Override
@@ -211,7 +203,6 @@ public class MoviesFragment extends Fragment
 
     @Subscribe
     public void catchMovieClick(@NonNull ClickedMovieEvent event){
-        //actionBar.setVisibility(View.INVISIBLE);
         eventBus.post(new ExposeDetailsEvent(event.getTransitionWrapper()));
     }
 }

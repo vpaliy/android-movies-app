@@ -54,8 +54,6 @@ public class  MovieInfoFragment extends Fragment
     @BindView(R.id.budget)
     protected TextView movieBudget;
 
-    @BindView(R.id.directedBy)
-    protected TextView movieDirectedBy;
 
     @BindView(R.id.revenue)
     protected TextView movieRevenue;
@@ -66,8 +64,12 @@ public class  MovieInfoFragment extends Fragment
     @BindView(R.id.movieDescription)
     protected ExpandableTextView movieDescription;
 
+    @BindView(R.id.ratings)
+    protected TextView ratings;
+
     @BindView(R.id.similarMoviesCard)
     protected CardView similarMoviesCard;
+
 
   //  @BindView(R.id.trailersCard)
     protected CardView trailersCard;
@@ -152,19 +154,23 @@ public class  MovieInfoFragment extends Fragment
     public void showGeneralInfo(@NonNull MovieInfo movieInfo) {
         final Context context=getContext();
         final String NA=context.getString(R.string.NA);
-        final String budgetText=movieInfo.getBudget()!=null?movieInfo.getBudget():NA;
+        final String budgetText=movieInfo.getBudget()!=null?"$"+movieInfo.getBudget():NA;
         final String directedByText=movieInfo.getDirector()!=null?movieInfo.getDirector():NA;
-        final String revenueText=movieInfo.getRevenue()!=null?movieInfo.getRevenue():NA;
+        final String revenueText=movieInfo.getRevenue()!=null?"$"+movieInfo.getRevenue():NA;
         final String releaseDateText=movieInfo.getReleaseDate()!=null?movieInfo.getReleaseDate().toString():NA;
         final String descriptionText=movieInfo.getDescription()!=null?movieInfo.getDescription():NA;
+        final String ratingsText=Double.toString(movieInfo.getAverageRate());
 
         movieDescription.setText(descriptionText);
         movieBudget.setText(budgetText);
-        movieDirectedBy.setText(directedByText);
         movieRevenue.setText(revenueText);
         movieReleaseDate.setText(releaseDateText);
+        ratings.setText(ratingsText);
+
+
 
     }
+
 
     @Override
     public void showSimilarMovies(@NonNull List<MovieCover> similarMovies) {

@@ -17,6 +17,7 @@ android {
         versionCode config.versionCode
         versionName config.versionName
         testInstrumentationRunner config.testInstrumentationRunner
+        vectorDrawables.useSupportLibrary = true
     }
 
     compileOptions {
