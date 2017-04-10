@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.SquareImage
         android:id="@+id/movieImage"
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:transitionName="@string/movieImage"
         tools:ignore="ContentDescription"

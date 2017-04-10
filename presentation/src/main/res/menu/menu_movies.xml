@@ -15,7 +15,7 @@
                 </item>
                 <item
                     android:id="@+id/byLatest"
-                    android:title="@string/sortByLatest">
+                    android:title="@string/sortByTopRated">
                 </item>
             </group>
         </menu>

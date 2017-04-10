@@ -29,7 +29,6 @@ import android.content.Context;
 @Singleton
 public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
-    private static final String TAG=RemoteSource.class.getSimpleName();
     private static final String MOVIE_URL_BASE="http://api.themoviedb.org/3/";
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024;
@@ -75,6 +74,9 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     @Override
     public Observable<List<Movie>> getCovers() {
         switch (sortConfiguration.getConfiguration()){
+            case TOP_RATED:
+                return movieDatabaseAPI.getTopRatedMovies(1)
+                        .map(this::convertToMovie);
             default:
                 return movieDatabaseAPI.getPopularMovies(1)
                         .map(this::convertToMovie);
@@ -137,7 +139,8 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     }
 
     @Override
-    public Observable<Movie> sortBy(@NonNull ISortConfiguration.SortType type) {
-        return null;
+    public Observable<List<Movie>> sortBy(@NonNull ISortConfiguration.SortType type) {
+        this.sortConfiguration.saveConfiguration(type);
+        return getCovers();
     }
 }
