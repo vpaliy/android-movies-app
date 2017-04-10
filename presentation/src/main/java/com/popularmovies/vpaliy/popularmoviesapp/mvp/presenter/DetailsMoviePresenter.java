@@ -3,8 +3,8 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
-import android.util.Log;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -12,6 +12,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContra
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 @ViewScope
 public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
@@ -30,7 +31,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     @Override
     public void start(int ID) {
-        Log.d(TAG,"Start fetching the data");
         retrieveCover(ID);
         retrieveDetails(ID);
     }
@@ -45,7 +45,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void retrieveDetails(int ID){
-
         subscriptions.add(repository.getDetails(ID)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -59,6 +58,8 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
         if(subscriptions.hasSubscriptions()){
             subscriptions.clear();
         }
+        subscriptions.clear();
+        App.appInstance().watch(this);
     }
 
 
@@ -73,6 +74,7 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void processData(@NonNull MovieDetails details){
+        Log.d(TAG,"Got the data");
         MovieCover cover=details.getMovieCover();
         if(cover.getBackdrops()!=null){
             view.showBackdrops(cover.getBackdrops());

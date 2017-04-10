@@ -7,6 +7,7 @@ import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.View;
 import java.util.List;
@@ -52,6 +53,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
             subscriptions.unsubscribe();
             subscriptions.clear();
         }
+        App.appInstance().watch(this);
     }
 
     @Override
