@@ -50,6 +50,12 @@ public class MoviesActivity extends BaseActivity {
         eventBus.unregister(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        App.appInstance().watch(this);
+    }
+
     @Subscribe
     public void showDetails(@NonNull ExposeDetailsEvent event){
         navigator.showDetails(this,event);

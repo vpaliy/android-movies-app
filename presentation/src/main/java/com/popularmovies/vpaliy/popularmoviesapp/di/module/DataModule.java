@@ -110,6 +110,10 @@ public class DataModule {
         return new Mapper<MovieDetails, MovieDetailEntity>() {
             @Override
             public MovieDetails map(MovieDetailEntity detailsEntity) {
+                Log.d(TAG,"___________________________________________________________________");
+                Log.d(TAG,"Mapping movie with ID:"+Integer.toString(detailsEntity.getMovieId()));
+                Log.d(TAG,"Movie name is:"+detailsEntity.getMovie().getTitle());
+                Log.d(TAG,"___________________________________________________________________");
                 MovieDetails movieDetails=new MovieDetails(detailsEntity.getMovieId());
                 movieDetails.setSimilarMovies(provideMovieCoverMapper().map(detailsEntity.getSimilarMovies()));
                 movieDetails.setCast(provideActorCoverMapper().map(detailsEntity.getCast()));

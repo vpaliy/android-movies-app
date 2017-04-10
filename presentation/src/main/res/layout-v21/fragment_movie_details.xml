@@ -49,7 +49,6 @@
 
                 <View
                     android:id="@+id/detailsContainer"
-                    android:background="@color/colorAccent"
                     android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="150dp" />
@@ -62,7 +61,6 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="16dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/poster"
                     android:transitionName="@string/movieImage"
                     tools:ignore="ContentDescription"/>
 

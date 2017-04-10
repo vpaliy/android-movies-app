@@ -8,6 +8,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.component.ApplicationCompone
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 /**
  * Application
@@ -17,11 +19,20 @@ public class App extends Application {
     private ApplicationComponent applicationComponent;
     private static App INSTANCE;
 
+    private RefWatcher watcher;
+
     @Override
     public void onCreate() {
         super.onCreate();
         initializeComponent();
         INSTANCE=this;
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        watcher=LeakCanary.install(this);
     }
 
     private void initializeComponent(){
@@ -29,6 +40,10 @@ public class App extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .dataModule(new DataModule())
                 .build();
+    }
+
+    public void watch(Object object){
+        watcher.watch(object);
     }
 
     @NonNull

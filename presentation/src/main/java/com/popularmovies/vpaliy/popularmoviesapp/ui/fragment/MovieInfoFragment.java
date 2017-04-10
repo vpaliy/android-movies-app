@@ -69,7 +69,7 @@ public class  MovieInfoFragment extends Fragment
     @BindView(R.id.similarMoviesCard)
     protected CardView similarMoviesCard;
 
-    @BindView(R.id.trailersCard)
+  //  @BindView(R.id.trailersCard)
     protected CardView trailersCard;
 
     private List<RelatedMoviesAdapter> adapterList;
@@ -98,11 +98,7 @@ public class  MovieInfoFragment extends Fragment
         super.onStart();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        presenter.stop();
-    }
+
 
     @Override
     public void onResume() {
@@ -147,7 +143,9 @@ public class  MovieInfoFragment extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
+        presenter.stop();
         unbinder.unbind();
+        App.appInstance().watch(this);
     }
 
     @Override
