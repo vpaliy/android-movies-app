@@ -3,9 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import android.util.Log;
 
-import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
-import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -49,7 +47,9 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     @Override
     public void stop() {
+        view=null;
         if(subscriptions.hasSubscriptions()){
+            subscriptions.unsubscribe();
             subscriptions.clear();
         }
     }
@@ -61,10 +61,12 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     @Override
     public void requestDataRefresh() {
-        startLoading();
+        start();
+
     }
 
     private void startLoading(){
+        subscriptions.clear();
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.getCovers()
                 .subscribeOn(Schedulers.io())
@@ -85,6 +87,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     @Override
     public void requestMoreData() {
+        subscriptions.clear();
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.requestMoreCovers()
             .subscribeOn(Schedulers.io())

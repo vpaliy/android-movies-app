@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -27,6 +29,9 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapte
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -138,11 +143,12 @@ public class MovieDetailsFragment extends Fragment
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        App.appInstance().watch(this);
     }
 
     @Override
     public void showDetails(@NonNull MovieDetails movie) {
-
+        showCoverDetails(movie.getMovieCover());
     }
 
     @Override
@@ -154,7 +160,7 @@ public class MovieDetailsFragment extends Fragment
 
     @Override
     public void showCover(@NonNull MovieCover movieCover) {
-        showCoverDetails(movieCover);
+        Log.d(TAG,"Before loading the image");
         Glide.with(this)
                 .load(movieCover.getPosterPath())
                 .asBitmap()
@@ -162,6 +168,7 @@ public class MovieDetailsFragment extends Fragment
                 .into(new ImageViewTarget<Bitmap>(movieImage) {
                     @Override
                     protected void setResource(Bitmap resource) {
+                        Log.d(TAG,"Poster has been loaded");
                         movieImage.setImageBitmap(resource);
                         new Palette.Builder(resource)
                                 .generate(MovieDetailsFragment.this::applyPalette);
@@ -209,16 +216,21 @@ public class MovieDetailsFragment extends Fragment
             Swatch darkMutedSwatch      = palette.getDarkMutedSwatch();
             Swatch lightVibrantSwatch   = palette.getLightVibrantSwatch();
             Swatch lightMutedSwatch     = palette.getLightMutedSwatch();
-            Swatch vibrantSwatch        = palette.getVibrantSwatch();
 
-            setBackgroundSwatch(darkMutedSwatch);
-            setTabBackground(lightMutedSwatch);
+            Swatch tabBackground=lightMutedSwatch!=null?lightMutedSwatch
+                        :(lightVibrantSwatch!=null?lightVibrantSwatch:palette.getVibrantSwatch());
+            Swatch backgroundSwatch=darkMutedSwatch!=null?darkMutedSwatch:
+                    (darkVibrantSwatch!=null?darkVibrantSwatch:palette.getDominantSwatch());
+            setBackgroundSwatch(backgroundSwatch);
+            setTabBackground(tabBackground);
 
         }
     }
 
     private void setTabBackground(Swatch swatch){
-        tabLayout.setBackgroundColor(swatch.getRgb());
+        if(swatch!=null) {
+            tabLayout.setBackgroundColor(swatch.getRgb());
+        }
 
     }
 

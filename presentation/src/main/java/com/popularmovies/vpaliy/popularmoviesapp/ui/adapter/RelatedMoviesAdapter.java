@@ -78,6 +78,7 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
 
         void bindData(){
             MovieCover movieCover=data.get(getAdapterPosition());
+
             Glide.with(inflater.getContext())
                     .load(movieCover.getPosterPath())
                     .centerCrop()

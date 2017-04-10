@@ -51,7 +51,7 @@ ext {
     testingSupportLibVersion = '0.1'
 
     /* Other stuff */
-    leakCanaryVersion = '1.3.1'
+    leakCanaryVersion = '1.4'
 
     /** Main dependencies **/
     dependencies = [
@@ -78,7 +78,8 @@ ext {
             retrofitConverter  : "com.squareup.retrofit2:converter-gson:${retrofitConverterVersion}",
             retrofitAdapter    : "com.squareup.retrofit2:adapter-rxjava:${retrofitAdapterVersion}",
             picasso            : "com.squareup.picasso:picasso:${picassoVersion}",
-            guava              : "com.google.guava:guava:${guavaVersion}"
+            guava              : "com.google.guava:guava:${guavaVersion}",
+            leakCanary         :"com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
 
     ]
 

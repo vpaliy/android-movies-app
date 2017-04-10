@@ -1,15 +1,16 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieCastFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieInfoFragment;
+import android.support.annotation.NonNull;
 
-public class MovieDetailsAdapter extends FragmentStatePagerAdapter {
+public class MovieDetailsAdapter extends FragmentPagerAdapter {
 
     private static final String TAG= MovieDetailsAdapter.class.getSimpleName();
 
