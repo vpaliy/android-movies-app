@@ -21,6 +21,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrap
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
@@ -35,9 +36,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     private boolean hasBeenClicked;
     private  List<MovieCover> data;
 
-    public MoviesAdapter(@NonNull Context context,@NonNull List<MovieCover> data, @NonNull Bus eventBus){
+    public MoviesAdapter(@NonNull Context context, @NonNull Bus eventBus){
         this.eventBus=eventBus;
-        this.data=data;
+        this.data=new ArrayList<>();
         this.inflater=LayoutInflater.from(context);
 
     }
