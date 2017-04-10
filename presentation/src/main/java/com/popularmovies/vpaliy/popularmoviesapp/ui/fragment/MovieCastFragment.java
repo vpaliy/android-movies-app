@@ -80,6 +80,17 @@ public class MovieCastFragment extends Fragment
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if(view!=null){
+            adapter=new MovieCastAdapter(getContext());
+            castList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+            castList.setHasFixedSize(true);
+            castList.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
+            castList.setAdapter(adapter);
+        }
+    }
+
+    @Override
     @Inject
     public void attachPresenter(@NonNull Presenter presenter) {
         this.presenter=presenter;
@@ -103,11 +114,7 @@ public class MovieCastFragment extends Fragment
 
     @Override
     public void showCast(@NonNull List<ActorCover> cast) {
-        adapter=new MovieCastAdapter(getContext(),cast);
-        castList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        castList.setHasFixedSize(true);
-        castList.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
-        castList.setAdapter(adapter);
+        adapter.setData(cast);
     }
 
 }
