@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -22,6 +24,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Pre
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ClickedMovieEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MarginDecoration;
 import com.squareup.otto.Bus;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -33,6 +36,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.squareup.otto.Subscribe;
 
+import static com.popularmovies.vpaliy.domain.ISortConfiguration.SortType.TOP_RATED;
+import static com.popularmovies.vpaliy.domain.ISortConfiguration.SortType.POPULAR;
+
 public class MoviesFragment extends Fragment
         implements MoviesContract.View{
 
@@ -43,6 +49,9 @@ public class MoviesFragment extends Fragment
 
     @Inject
     protected Bus eventBus;
+
+    @Inject
+    protected ISortConfiguration iSortConfiguration;
 
     @BindView(R.id.refresher)
     protected SwipeRefreshLayout swipeRefresher;
@@ -87,18 +96,16 @@ public class MoviesFragment extends Fragment
         if(root!=null){
             swipeRefresher.setOnRefreshListener(presenter::requestDataRefresh);
             actionBar.inflateMenu(R.menu.menu_movies);
-
-            LinearLayoutManager layoutManager=new GridLayoutManager(getContext(),getResources()
-                    .getInteger(R.integer.moviesSpanCount),GridLayoutManager.VERTICAL,false);
             adapter=new MoviesAdapter(getContext(),eventBus);
-            recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
+            recyclerView.addItemDecoration(new MarginDecoration(getContext()));
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     if (swipeRefresher.isRefreshing())
                         return;
 
+                    LinearLayoutManager layoutManager=LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
                     int totalItemCount = layoutManager.getItemCount();
                     int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
 
@@ -110,15 +117,26 @@ public class MoviesFragment extends Fragment
                 }
             });
 
-            //initialize sort options
-          /*  actionBar.setOnMenuItemClickListener(item -> {
+            //initialize the sort options
+            switch (iSortConfiguration.getConfiguration()){
+                case POPULAR:
+                    actionBar.setTitle(R.string.sortByPopularity);
+                    break;
+                case TOP_RATED:
+                    actionBar.setTitle(R.string.sortByTopRated);
+                    break;
+            }
+
+           actionBar.setOnMenuItemClickListener(item -> {
                 if(item.getGroupId()==R.id.sortingChoice) {
                     switch (item.getItemId()) {
                         case R.id.byPopularity:
                             presenter.sort(POPULAR);
+                            actionBar.setTitle(R.string.sortByPopularity);
                             break;
                         case R.id.byLatest:
-                            presenter.sort(LATEST);
+                            presenter.sort(TOP_RATED);
+                            actionBar.setTitle(R.string.sortByTopRated);
                             break;
                     }
                     return true;
@@ -130,7 +148,7 @@ public class MoviesFragment extends Fragment
                     }
                 }
                 return false;
-            }); */
+            });
 
         }
     }

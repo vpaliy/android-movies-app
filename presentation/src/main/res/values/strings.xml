@@ -12,7 +12,7 @@
     <!-- Menu -->
     <string name="sortMenuAction">Sort By</string>
     <string name="sortByPopularity">By Popularity</string>
-    <string name="sortByLatest">By Latest</string>
+    <string name="sortByTopRated">By Top Rated</string>
 
     <string name="movieDescription">Plot</string>
     <string name="movieReleaseDate">Release Date:</string>

@@ -17,7 +17,7 @@ interface MovieDatabaseAPI {
     @GET("movie/popular")
     Observable<MovieWrapper> getPopularMovies(@Query("page") int page);
 
-    @GET("movie/topRated")
+    @GET("movie/top_rated")
     Observable<MovieWrapper> getTopRatedMovies(@Query("page") int page);
 
     @GET("movie/{id}")
