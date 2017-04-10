@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.View;
 import rx.android.schedulers.AndroidSchedulers;
@@ -37,7 +38,7 @@ public class MovieInfoPresenter
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::processData,
                                this::handleError,
-                            ()->{}));
+                                ()->{}));
     }
 
 
@@ -68,5 +69,6 @@ public class MovieInfoPresenter
         if(subscriptions.hasSubscriptions()){
             subscriptions.clear();
         }
+        App.appInstance().watch(this);
     }
 }

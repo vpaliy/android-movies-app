@@ -1,20 +1,18 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
-
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract.View;
-
-import javax.inject.Inject;
-
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
+import javax.inject.Inject;
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+import android.support.annotation.NonNull;
 
 @ViewScope
 public class MovieCastPresenter
@@ -54,6 +52,7 @@ public class MovieCastPresenter
     public void stop() {
         view=null;
         subscriptions.clear();
+        App.appInstance().watch(this);
     }
 
     private void handleError(@NonNull Throwable throwable){
@@ -62,6 +61,7 @@ public class MovieCastPresenter
 
     private void processData(@NonNull MovieDetails details){
         Log.d(TAG,"processData");
+        subscriptions.clear();
         if(details.getCast()!=null){
             if(!details.getCast().isEmpty()){
                 view.showCast(details.getCast());

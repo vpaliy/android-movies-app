@@ -1,15 +1,9 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.util.ArrayMap;
-import android.transition.Transition;
-import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.View;
-
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
@@ -18,12 +12,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEv
 import com.squareup.otto.Subscribe;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.ViewGroup;
-
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.EXTRA_DATA;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.MOVIE_DETAILS_TAG;
 
@@ -34,15 +22,17 @@ public class DetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
             postponeEnterTransition();
         }
 
-        if(Permission.checkForVersion(16)){
+        if(Permission.checkForVersion(Build.VERSION_CODES.JELLY_BEAN)){
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
+
         setContentView(R.layout.activity_movie_details);
         if(savedInstanceState==null){
             extraData=getIntent().getExtras();
@@ -54,7 +44,7 @@ public class DetailsActivity extends BaseActivity {
 
     private void setUI(){
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.movies, MovieDetailsFragment.newInstance(extraData),MOVIE_DETAILS_TAG)
+                .replace(R.id.movies, MovieDetailsFragment.newInstance(extraData),MOVIE_DETAILS_TAG)
                 .commit();
     }
 
@@ -67,7 +57,6 @@ public class DetailsActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        Log.d(DetailsActivity.class.getSimpleName(),"onDestroy()");
         super.onDestroy();
         App.appInstance().watch(this);
     }
