@@ -1,7 +1,5 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
-import com.google.common.cache.CacheBuilder;
-import com.popularmovies.vpaliy.data.cache.CacheStore;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Movie;
@@ -11,8 +9,6 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +25,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
 import android.content.Context;
-import android.util.Log;
 
 @Singleton
 public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
@@ -49,23 +44,12 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
     private MovieDatabaseAPI movieDatabaseAPI;
 
-    private final CacheStore<Integer,Movie> moviesCache;
-    private final CacheStore<Integer,MovieDetailEntity> detailsCache;
-
 
     @Inject
     public RemoteSource(@NonNull ISortConfiguration sortConfiguration,
                         @NonNull Context context){
         this.sortConfiguration=sortConfiguration;
         this.context=context;
-        this.moviesCache=new CacheStore<>(CacheBuilder.newBuilder()
-                .maximumSize(100)
-                .expireAfterAccess(20,TimeUnit.MINUTES)
-                .build());
-        this.detailsCache=new CacheStore<>(CacheBuilder.newBuilder()
-                .maximumSize(100)
-                .expireAfterAccess(20,TimeUnit.MINUTES)
-                .build());
         init();
 
     }
@@ -93,14 +77,10 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
         switch (sortConfiguration.getConfiguration()){
             default:
                 return movieDatabaseAPI.getPopularMovies(1)
-                        .map(this::convertToMovie)
-                        .doOnNext(this::convertToCache);
+                        .map(this::convertToMovie);
         }
     }
 
-    private void convertToCache(List<Movie> movies){
-
-    }
 
     private List<Movie> convertToMovie(MovieWrapper wrapper){
         this.currentPage=wrapper.getPage();
@@ -111,42 +91,39 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     @Override
     public Observable<MovieDetailEntity> getDetails(int ID) {
 
-            Observable<List<Movie>> similarObservable = movieDatabaseAPI.getSimilarMovies(Integer.toString(ID))
-                    .subscribeOn(Schedulers.newThread())
-                    .map(MovieWrapper::getCoverList);
+        Observable<List<Movie>> similarObservable = movieDatabaseAPI.getSimilarMovies(Integer.toString(ID))
+                .subscribeOn(Schedulers.newThread())
+                .map(MovieWrapper::getCoverList);
 
-            Observable<Movie> movieObservable = movieDatabaseAPI
-                    .getMovieDetails(Integer.toString(ID))
-                    .subscribeOn(Schedulers.newThread());
+        Observable<Movie> movieObservable = movieDatabaseAPI
+                .getMovieDetails(Integer.toString(ID))
+                .subscribeOn(Schedulers.newThread());
 
 
-            Observable<List<BackdropImage>> backdropsObservable = movieDatabaseAPI.getBackdrops(Integer.toString(ID))
-                    .subscribeOn(Schedulers.newThread())
-                    .map(BackdropsWrapper::getBackdropImages);
+        Observable<List<BackdropImage>> backdropsObservable = movieDatabaseAPI.getBackdrops(Integer.toString(ID))
+                .subscribeOn(Schedulers.newThread())
+                .map(BackdropsWrapper::getBackdropImages);
 
-            Observable<List<ActorEntity>> actorsObservable = movieDatabaseAPI.getMovieCast(Integer.toString(ID))
-                    .subscribeOn(Schedulers.newThread())
-                    .map(CastWrapper::getCast);
+        Observable<List<ActorEntity>> actorsObservable = movieDatabaseAPI.getMovieCast(Integer.toString(ID))
+                .subscribeOn(Schedulers.newThread())
+                .map(CastWrapper::getCast);
 
-            return Observable.zip(movieObservable, similarObservable, backdropsObservable, actorsObservable,
-                    (Movie movie, List<Movie> movies, List<BackdropImage> backdropImages, List<ActorEntity> actorEntities) -> {
-                        MovieDetailEntity movieDetails = new MovieDetailEntity();
-                        movieDetails.setCast(actorEntities);
-                        movieDetails.setBackdropImages(backdropImages);
-                        movie.setBackdropImages(backdropImages);
-                        movieDetails.setMovie(movie);
-                        movieDetails.setSimilarMovies(movies);
-                        return movieDetails;
-                    });//doOnNext(details->detailsCache.put(ID,details));
+        return Observable.zip(movieObservable, similarObservable, backdropsObservable, actorsObservable,
+                (Movie movie, List<Movie> movies, List<BackdropImage> backdropImages, List<ActorEntity> actorEntities) -> {
+                    MovieDetailEntity movieDetails = new MovieDetailEntity();
+                    movieDetails.setCast(actorEntities);
+                    movieDetails.setBackdropImages(backdropImages);
+                    movie.setBackdropImages(backdropImages);
+                    movieDetails.setMovie(movie);
+                    movieDetails.setSimilarMovies(movies);
+                    return movieDetails;
+                });
     }
 
     @Override
     public Observable<Movie> getCover(int ID) {
-        if(!moviesCache.isInCache(ID)){
-            return movieDatabaseAPI.getMovieDetails(Integer.toString(ID))
-                    .doOnNext(movie->moviesCache.put(ID,movie));
-        }
-        return moviesCache.getStream(ID);
+        return movieDatabaseAPI.getMovieDetails(Integer.toString(ID));
+
     }
 
     @Override

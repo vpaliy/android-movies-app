@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import rx.Observable;
 
@@ -29,9 +30,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     private final Mapper<MovieDetails, MovieDetailEntity> detailsMapper;
     private final ISortConfiguration sortConfiguration;
 
-
-    private CacheStore<Integer,MovieCover> coversCache;
-    private CacheStore<Integer,MovieDetails> detailsCache;
+    private final CacheStore<Integer,MovieCover> coversCache;
+    private final CacheStore<Integer,MovieDetails> detailsCache;
 
     @Inject
     public MovieRepository(@NonNull DataSource<Movie, MovieDetailEntity> dataSource,
@@ -46,35 +46,51 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                 .maximumSize(100)
                 .expireAfterAccess(20,TimeUnit.MINUTES)
                 .build());
+        this.detailsCache=new CacheStore<>(CacheBuilder.newBuilder()
+                .maximumSize(100)
+                .expireAfterAccess(20,TimeUnit.MINUTES)
+                .build());
 
     }
 
     @Override
     public Observable<List<MovieCover>> getCovers() {
         return dataSource.getCovers()
-                .map(entityMapper::map);
-                /*.doOnNext(movies->Observable.from(movies)
-                        .filter(cover->coversCache.isInCache(cover.getMovieId()))
-                        .doOnNext(movieCover -> coversCache.put(movieCover.getMovieId(),movieCover)));*/
+                .map(entityMapper::map)
+                .doOnNext(movies->Observable.from(movies)
+                        .filter(cover->!coversCache.isInCache(cover.getMovieId()))
+                        .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(),movieCover)));
 
     }
 
     @Override
     public Observable<MovieDetails> getDetails(int ID) {
-        return dataSource.getDetails(ID)
-                .map(detailsMapper::map);
+        if(!detailsCache.isInCache(ID)) {
+            return dataSource.getDetails(ID)
+                    .map(detailsMapper::map)
+                    .doOnNext(details -> detailsCache.put(ID,details));
+        }
+        return detailsCache.getStream(ID);
     }
 
     @Override
     public Observable<MovieCover> getCover(int ID) {
-        return dataSource.getCover(ID)
-                .map(entityMapper::map);
+        if(!coversCache.isInCache(ID)) {
+            return dataSource.getCover(ID)
+                    .map(entityMapper::map)
+                    .doOnNext(movie->coversCache.put(ID,movie));
+        }
+        return coversCache.getStream(ID);
     }
 
     @Override
     public Observable<List<MovieCover>> requestMoreCovers() {
         return dataSource.requestMoreCovers()
-                .map(entityMapper::map);
+                .map(entityMapper::map)
+                .doOnNext(movies->Observable.from(movies)
+                        .filter(cover->!coversCache.isInCache(cover.getMovieId()))
+                        .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(),movieCover)));
+
     }
 
 

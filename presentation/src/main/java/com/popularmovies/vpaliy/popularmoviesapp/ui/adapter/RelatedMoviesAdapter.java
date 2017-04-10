@@ -82,6 +82,7 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
             Glide.with(inflater.getContext())
                     .load(movieCover.getPosterPath())
                     .centerCrop()
+                    .skipMemoryCache(true)
                     .into(image);
             title.setText(data.get(getAdapterPosition()).getMovieTitle());
             String date= Integer.toString(data.get(getAdapterPosition()).getReleaseYear());

@@ -7,8 +7,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-
 import com.squareup.otto.Subscribe;
 
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.MOVIES_TAG;
