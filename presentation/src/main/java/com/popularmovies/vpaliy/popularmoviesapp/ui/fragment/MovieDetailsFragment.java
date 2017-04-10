@@ -108,8 +108,8 @@ public class MovieDetailsFragment extends Fragment
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         presenter.stop();
     }
 

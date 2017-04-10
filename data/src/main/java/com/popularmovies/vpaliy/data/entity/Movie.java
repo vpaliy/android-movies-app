@@ -35,7 +35,7 @@ public class Movie {
     private String overview;
 
     @SerializedName("popularity")
-    private double popularity;
+    private Number popularity;
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -44,10 +44,10 @@ public class Movie {
     private String releaseDate;
 
     @SerializedName("revenue")
-    private int revenue;
+    private long revenue;
 
     @SerializedName("budget")
-    private int budget;
+    private long budget;
 
     @SerializedName("runtime")
     private int runtime;
@@ -62,21 +62,21 @@ public class Movie {
     private boolean video;
 
     @SerializedName("vote_average")
-    private double voteAverage;
+    private Number voteAverage;
 
     @SerializedName("vote_count")
-    private int voteCount;
+    private long voteCount;
 
 
     public int getMovieId() {
         return movieId;
     }
 
-    public double getPopularity() {
-        return popularity;
+    public double getPopularity(){
+        return popularity!=null?popularity.doubleValue():0;
     }
 
-    public int getRevenue() {
+    public long getRevenue() {
         return revenue;
     }
 
@@ -110,12 +110,12 @@ public class Movie {
         return originalLanguage;
     }
 
-    public int getVoteCount() {
+    public long getVoteCount() {
         return voteCount;
     }
 
     public double getVoteAverage() {
-        return voteAverage;
+        return voteAverage!=null?voteAverage.doubleValue():0d;
     }
 
     public String getOriginalTitle() {
@@ -142,10 +142,7 @@ public class Movie {
         return title;
     }
 
-    public int getBudget() {
+    public long getBudget() {
         return budget;
     }
-
-
-
 }

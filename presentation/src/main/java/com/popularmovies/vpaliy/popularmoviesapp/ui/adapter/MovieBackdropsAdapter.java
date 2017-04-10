@@ -2,17 +2,12 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.ImageViewTarget;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 import android.support.annotation.NonNull;
 
@@ -21,6 +16,7 @@ public class MovieBackdropsAdapter extends PagerAdapter{
     private List<String> movieBackdrops;
     private LayoutInflater inflater;
 
+    private static final int NUMBER_OF_BACKDROPS=7;
     private static final String TAG=MovieBackdropsAdapter.class.getSimpleName();
 
     public MovieBackdropsAdapter(@NonNull Context context,
@@ -39,6 +35,7 @@ public class MovieBackdropsAdapter extends PagerAdapter{
                 .load(movieBackdrops.get(position))
                 .asBitmap()
                 .centerCrop()
+                .skipMemoryCache(true)
                 .into(image);
         container.addView(image);
         return image;
@@ -46,7 +43,8 @@ public class MovieBackdropsAdapter extends PagerAdapter{
 
     @Override
     public int getCount() {
-        return movieBackdrops.size()>=6?6:movieBackdrops.size();
+        return movieBackdrops.size()>=NUMBER_OF_BACKDROPS
+                ?NUMBER_OF_BACKDROPS:movieBackdrops.size();
     }
 
     @Override
