@@ -24,11 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <com.popularmovies.vpaliy.popularmoviesapp.ui.view.AutofitRecyclerView
             android:id="@+id/recycleView"
+            android:columnWidth="@dimen/item_width"
+            android:clipToPadding="false"
+            android:padding="@dimen/item_padding"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+        </com.popularmovies.vpaliy.popularmoviesapp.ui.view.AutofitRecyclerView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

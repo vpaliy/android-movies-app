@@ -26,7 +26,7 @@ public class SortConfiguration implements ISortConfiguration {
     @Override
     public void saveConfiguration(@NonNull SortType sortType) {
         switch (sortType){
-            case LATEST:
+            case TOP_RATED:
                 preferences.edit().putInt(KEY,BY_LATEST).apply();
                 break;
             case POPULAR:
@@ -41,7 +41,7 @@ public class SortConfiguration implements ISortConfiguration {
             case BY_POPULARITY:
                 return SortType.POPULAR;
             default:
-                return SortType.LATEST;
+                return SortType.TOP_RATED;
         }
     }
 }

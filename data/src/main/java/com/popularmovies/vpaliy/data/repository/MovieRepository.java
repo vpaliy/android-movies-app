@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import rx.Observable;
 
@@ -28,7 +27,6 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     private final DataSource<Movie, MovieDetailEntity> dataSource;
     private final Mapper<MovieCover, Movie> entityMapper;
     private final Mapper<MovieDetails, MovieDetailEntity> detailsMapper;
-    private final ISortConfiguration sortConfiguration;
 
     private final CacheStore<Integer,MovieCover> coversCache;
     private final CacheStore<Integer,MovieDetails> detailsCache;
@@ -36,12 +34,10 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     @Inject
     public MovieRepository(@NonNull DataSource<Movie, MovieDetailEntity> dataSource,
                            @NonNull Mapper<MovieCover, Movie> entityMapper,
-                           @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper,
-                           @NonNull ISortConfiguration sortConfiguration) {
+                           @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper) {
         this.dataSource = dataSource;
         this.entityMapper = entityMapper;
         this.detailsMapper = detailsMapper;
-        this.sortConfiguration = sortConfiguration;
         this.coversCache=new CacheStore<>(CacheBuilder.newBuilder()
                 .maximumSize(100)
                 .expireAfterAccess(20,TimeUnit.MINUTES)
@@ -95,7 +91,11 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
 
     @Override
-    public Observable<MovieCover> sortBy(@NonNull ISortConfiguration.SortType type) {
-        return null;
+    public Observable<List<MovieCover>> sortBy(@NonNull ISortConfiguration.SortType type) {
+        return dataSource.sortBy(type)
+                .map(entityMapper::map)
+                .doOnNext(movies->Observable.from(movies)
+                        .filter(cover->!coversCache.isInCache(cover.getMovieId()))
+                        .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(),movieCover)));
     }
 }

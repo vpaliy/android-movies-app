@@ -1,8 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
-
-import android.util.Log;
-
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -58,7 +55,14 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     @Override
     public void sort(@NonNull ISortConfiguration.SortType sortType) {
-       startLoading();
+       subscriptions.clear();
+        view.setLoadingIndicator(true);
+        subscriptions.add(iRepository.sortBy(sortType)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::processData,
+                        this::handleErrorMessage,
+                        this::completeLoading));
     }
 
     @Override
@@ -78,8 +82,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
                            this::completeLoading));
     }
 
-   private void processData(@NonNull List<MovieCover> movieList){
-        Log.d(TAG,Integer.toString(movieList.size()));
+   private void processData(@NonNull List<MovieCover> movieList){;
         if(!movieList.isEmpty()){
             view.showMovies(movieList);
         }else{
@@ -100,7 +103,6 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     private void appendData(@NonNull List<MovieCover> movieList){
-        Log.d(TAG,Integer.toString(movieList.size()));
         if(!movieList.isEmpty()){
             view.appendMovies(movieList);
         }
