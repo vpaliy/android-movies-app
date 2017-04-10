@@ -60,7 +60,11 @@ public class DataModule {
             }
 
             if(movieEntity.getRuntime()>0) {
-                String duration=Integer.toString(movieEntity.getRuntime() / 60)+" hrs ";
+                int hours=movieEntity.getRuntime()/60;
+                String duration="";
+                if(hours>0) {
+                    duration = Integer.toString(hours)+" hr"+(hours>1?"s ":" ");
+                }
                 int minRemainder=movieEntity.getRuntime() % 60;
                 if(minRemainder!=0){
                     duration+=Integer.toString(minRemainder)+" min";
@@ -131,7 +135,6 @@ public class DataModule {
                 MovieDetails movieDetails=new MovieDetails(detailsEntity.getMovieId());
                 movieDetails.setSimilarMovies(MOVIE_COVER_MAPPER.map(detailsEntity.getSimilarMovies()));
                 movieDetails.setCast(ACTOR_COVER_MAPPER.map(detailsEntity.getCast()));
-                //
                 Movie movie=detailsEntity.getMovie();
                 MovieInfo movieInfo=new MovieInfo(movie.getMovieId(),movie.getOverview());
                 movieInfo.setReleaseDate(Date.valueOf(movie.getReleaseDate()));
@@ -139,7 +142,6 @@ public class DataModule {
                 movieInfo.setBudget(Long.toString(movie.getBudget()));
                 movieInfo.setAverageRate(movie.getVoteAverage());
                 movieInfo.setDescription(movie.getOverview());
-                //TODO director
                 movieDetails.setMovieInfo(movieInfo);
                 movieDetails.setMovieCover(MOVIE_COVER_MAPPER.map(movie));
                 return movieDetails;

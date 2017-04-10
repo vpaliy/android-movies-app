@@ -29,21 +29,17 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapte
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.relex.circleindicator.CircleIndicator;
 import android.support.v7.graphics.Palette.Swatch;
+import android.widget.TextView;
 
 import android.annotation.TargetApi;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.TextView;
-
 import butterknife.BindView;
 
 
@@ -56,6 +52,7 @@ public class MovieDetailsFragment extends Fragment
     private Unbinder unbinder;
 
     private MovieDetailsAdapter adapter;
+    private MovieBackdropsAdapter backdropsAdapter;
 
     @BindView(R.id.movieImage)
     protected ImageView movieImage;
@@ -104,6 +101,7 @@ public class MovieDetailsFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
+        this.presenter.attachView(this);
         presenter.start(ID);
     }
 
@@ -126,8 +124,11 @@ public class MovieDetailsFragment extends Fragment
         super.onViewCreated(root, savedInstanceState);
         if(root!=null){
             adapter=new MovieDetailsAdapter(getContext(),getFragmentManager(),ID);
+            backdropsAdapter=new MovieBackdropsAdapter(getContext());
             detailsPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(detailsPager);
+            backdropPager.setAdapter(backdropsAdapter);
+            indicator.setViewPager(backdropPager);
 
         }
     }
@@ -136,7 +137,6 @@ public class MovieDetailsFragment extends Fragment
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
         this.presenter=presenter;
-        this.presenter.attachView(this);
     }
 
     @Override
@@ -153,14 +153,12 @@ public class MovieDetailsFragment extends Fragment
 
     @Override
     public void showBackdrops(@NonNull List<String> backdrops) {
-        MovieBackdropsAdapter adapter=new MovieBackdropsAdapter(getContext(),backdrops);
-        backdropPager.setAdapter(adapter);
+        backdropsAdapter.setData(backdrops);
         indicator.setViewPager(backdropPager);
     }
 
     @Override
     public void showCover(@NonNull MovieCover movieCover) {
-        Log.d(TAG,"Before loading the image");
         Glide.with(this)
                 .load(movieCover.getPosterPath())
                 .asBitmap()
@@ -168,7 +166,6 @@ public class MovieDetailsFragment extends Fragment
                 .into(new ImageViewTarget<Bitmap>(movieImage) {
                     @Override
                     protected void setResource(Bitmap resource) {
-                        Log.d(TAG,"Poster has been loaded");
                         movieImage.setImageBitmap(resource);
                         new Palette.Builder(resource)
                                 .generate(MovieDetailsFragment.this::applyPalette);

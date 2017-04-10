@@ -13,13 +13,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:id="@+id/ratings"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/star"
+                android:drawableStart="@drawable/star"
+                android:gravity="center_vertical"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
 
             <at.blogc.android.views.ExpandableTextView
                 android:id="@+id/movieDescription"
-                android:layout_marginTop="16dp"
                 app:animation_duration="1000"
                 android:maxLines="5"
+                android:layout_marginTop="16dp"
                 android:ellipsize="end"
+                android:layout_below="@+id/ratings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -41,30 +53,13 @@
                 android:layout_toRightOf="@+id/releaseDateLabel"
                 android:text="@string/NA" />
 
-            <TextView
-                android:id="@+id/directedByLabel"
-                android:text="@string/movieDirector"
-                android:layout_marginTop="16dp"
-                android:textStyle="bold"
-                android:layout_below="@+id/releaseDateLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/directedBy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/directedByLabel"
-                android:layout_toEndOf="@+id/directedByLabel"
-                android:layout_toRightOf="@+id/directedByLabel"
-                android:text="@string/NA"  />
 
             <TextView
                 android:id="@+id/budgetLabel"
                 android:text="@string/movieBudget"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
-                android:layout_below="@+id/directedByLabel"
+                android:layout_below="@+id/releaseDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

@@ -11,17 +11,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content">
 
+
         <include
             layout="@layout/movie_info_card">
         </include>
 
-
-        <include
-            android:id="@+id/trailersCard"
-            android:visibility="gone"
-            layout="@layout/movie_similar_card">
-        </include>
-
+        
         <include
             android:id="@+id/similarMoviesCard"
             android:visibility="gone"
