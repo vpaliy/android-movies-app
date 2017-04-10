@@ -93,15 +93,11 @@ public class MovieCastFragment extends Fragment
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        presenter.stop();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
+        presenter.stop();
         unbinder.unbind();
+        App.appInstance().watch(this);
     }
 
 

@@ -13,6 +13,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.bumptech.glide.Glide;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,7 +48,6 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
         }
 
         void onBindData(){
-
             Glide.with(inflater.getContext())
                     .load(castList.get(getAdapterPosition()).getActorAvatar())
                     .centerCrop()

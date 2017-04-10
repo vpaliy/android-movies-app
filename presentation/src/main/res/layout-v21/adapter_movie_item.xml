@@ -6,7 +6,6 @@
 
     <ImageView
         android:id="@+id/movieImage"
-        android:src="@drawable/poster"
         android:layout_width="240dp"
         android:layout_height="240dp"
         android:scaleType="centerCrop"

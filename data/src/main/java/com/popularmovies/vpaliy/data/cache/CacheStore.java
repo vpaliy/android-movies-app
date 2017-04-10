@@ -60,4 +60,8 @@ public class CacheStore<K, V> {
     public boolean isInCache(K key) {
         return cache.getIfPresent(key) != null;
     }
+
+    public long size(){
+        return cache.size();
+    }
 }
