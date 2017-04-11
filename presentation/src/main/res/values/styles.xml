@@ -18,9 +18,13 @@
     </style>
 
 
-    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="SplashTheme" parent="Theme.AppCompat.Light" >
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@drawable/logo</item>
+        <item name="android:windowBackground">@drawable/app_logo</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="colorPrimary">@color/colorWhite</item>
         <item name="colorPrimaryDark">@android:color/darker_gray</item>
         <item name="colorAccent">@color/colorAccent</item>

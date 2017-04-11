@@ -10,6 +10,7 @@ import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.source.DataSource;
+import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
 import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
@@ -165,9 +166,9 @@ public class DataModule {
     //fake remote source
     @Singleton
     @Provides
-    DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull Context context,
+    DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull MovieDatabaseAPI movieDatabaseAPI,
                                                             @NonNull ISortConfiguration configuration){
-        return new RemoteSource(configuration,context);
+        return new RemoteSource(configuration,movieDatabaseAPI);
     }
 
     @Singleton
