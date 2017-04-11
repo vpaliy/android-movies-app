@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
-interface MovieDatabaseAPI {
+public interface MovieDatabaseAPI {
 
     @GET("movie/popular")
     Observable<MovieWrapper> getPopularMovies(@Query("page") int page);

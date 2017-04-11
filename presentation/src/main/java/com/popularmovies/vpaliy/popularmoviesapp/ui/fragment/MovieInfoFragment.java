@@ -135,6 +135,12 @@ public class  MovieInfoFragment extends Fragment
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Constants.EXTRA_ID,movieId);
+    }
+
     @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
