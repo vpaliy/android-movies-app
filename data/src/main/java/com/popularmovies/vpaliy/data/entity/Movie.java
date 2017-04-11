@@ -127,7 +127,7 @@ public class Movie {
     }
 
     public String getPosterPath() {
-        return Constants.BASE_MOVIE_URL+ Constants.IMAGE_SIZE_W780+posterPath;
+        return Constants.BASE_MOVIE_URL+ Constants.IMAGE_SIZE_W185+posterPath;
     }
 
     public String getReleaseDate() {

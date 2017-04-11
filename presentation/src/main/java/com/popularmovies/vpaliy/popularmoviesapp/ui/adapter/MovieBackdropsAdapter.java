@@ -17,7 +17,7 @@ public class MovieBackdropsAdapter extends PagerAdapter{
 
     private List<String> movieBackdrops;
 
-    private static final int NUMBER_OF_BACKDROPS=7;
+    private static final int NUMBER_OF_BACKDROPS=5;
 
     public MovieBackdropsAdapter(){
         this.movieBackdrops=new ArrayList<>();
@@ -33,7 +33,6 @@ public class MovieBackdropsAdapter extends PagerAdapter{
                 .load(movieBackdrops.get(position))
                 .asBitmap()
                 .centerCrop()
-                .skipMemoryCache(true)
                 .into(image);
         container.addView(image);
         return image;

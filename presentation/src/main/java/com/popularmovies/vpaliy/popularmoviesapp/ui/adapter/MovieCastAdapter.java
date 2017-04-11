@@ -46,7 +46,6 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
             Glide.with(inflater.getContext())
                     .load(castList.get(getAdapterPosition()).getActorAvatar())
                     .centerCrop()
-                    .skipMemoryCache(true)
                     .into(actorImage);
             ActorCover actor=castList.get(getAdapterPosition());
             String fullName=actor.getName();
