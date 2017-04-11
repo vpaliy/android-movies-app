@@ -2,4 +2,5 @@
 <resources>
     <integer name="moviesSpanCount">2</integer>
     <integer name="transitionDuration">200</integer>
+    <integer name="splashDuration">300</integer>
 </resources>

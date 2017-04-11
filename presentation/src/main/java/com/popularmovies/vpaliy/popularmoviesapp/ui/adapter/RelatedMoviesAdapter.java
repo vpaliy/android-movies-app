@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 
 public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdapter.MovieViewHolder>{
 
-    private static final String TAG=MoviesAdapter.class.getSimpleName();
 
     private final Bus eventBus;
     private final List<MovieCover> data;
@@ -87,7 +86,6 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
             title.setText(data.get(getAdapterPosition()).getMovieTitle());
             String date= Integer.toString(data.get(getAdapterPosition()).getReleaseYear());
             year.setText(date);
-            //install the rest of the data
         }
     }
 

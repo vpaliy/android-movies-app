@@ -55,12 +55,6 @@ public class DetailsActivity extends BaseActivity {
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        App.appInstance().watch(this);
-    }
-
-    @Override
     void inject() {
         App.appInstance().appComponent().inject(this);
     }

@@ -16,13 +16,10 @@ import android.support.annotation.NonNull;
 public class MovieBackdropsAdapter extends PagerAdapter{
 
     private List<String> movieBackdrops;
-    private LayoutInflater inflater;
 
     private static final int NUMBER_OF_BACKDROPS=7;
-    private static final String TAG=MovieBackdropsAdapter.class.getSimpleName();
 
-    public MovieBackdropsAdapter(@NonNull Context context){
-        this.inflater=LayoutInflater.from(context);
+    public MovieBackdropsAdapter(){
         this.movieBackdrops=new ArrayList<>();
     }
 

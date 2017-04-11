@@ -12,12 +12,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContra
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 @ViewScope
 public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
-    private static final String TAG=DetailsMoviePresenter.class.getSimpleName();
 
     private View view;
     private final IRepository<MovieCover,MovieDetails> repository;
@@ -58,8 +56,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
         if(subscriptions.hasSubscriptions()){
             subscriptions.clear();
         }
-        subscriptions.clear();
-        App.appInstance().watch(this);
     }
 
 
@@ -74,7 +70,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void processData(@NonNull MovieDetails details){
-        Log.d(TAG,"Got the data");
         MovieCover cover=details.getMovieCover();
         if(cover.getBackdrops()!=null){
             view.showBackdrops(cover.getBackdrops());

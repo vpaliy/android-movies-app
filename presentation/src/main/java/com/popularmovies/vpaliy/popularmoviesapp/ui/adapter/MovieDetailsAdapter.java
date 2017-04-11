@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 
 public class MovieDetailsAdapter extends FragmentPagerAdapter {
 
-    private static final String TAG= MovieDetailsAdapter.class.getSimpleName();
 
     private static final int INFO=0;
     private static final int CAST=1;

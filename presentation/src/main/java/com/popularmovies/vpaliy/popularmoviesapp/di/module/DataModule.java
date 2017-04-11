@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
-import android.content.Context;
 import com.popularmovies.vpaliy.data.configuration.SortConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
@@ -34,12 +33,10 @@ import dagger.Provides;
 public class DataModule {
 
 
-    private static final String TAG=DataModule.class.getSimpleName();
 
     private static final Mapper<MovieCover,Movie> MOVIE_COVER_MAPPER=new Mapper<MovieCover, Movie>() {
         @Override
         public MovieCover map(Movie movieEntity) {
-            Log.d(TAG,"Mapping now:"+movieEntity.getTitle()+" ID:"+Integer.toString(movieEntity.getMovieId()));
             MovieCover cover=new MovieCover();
             cover.setMovieId(movieEntity.getMovieId());
             cover.setPosterPath(movieEntity.getPosterPath());
@@ -47,12 +44,10 @@ public class DataModule {
             cover.setMovieTitle(movieEntity.getTitle());
             List<BackdropImage> backdropImages=movieEntity.getBackdropImages();
             if(backdropImages==null){
-                Log.e(TAG,"IS NULL");
                 if(movieEntity.getBackdrop_path()!=null) {
                     cover.setBackdrops(Collections.singletonList(movieEntity.getBackdrop_path()));
                 }
             }else {
-                Log.e(TAG,Integer.toString(backdropImages.size()));
                 cover.setBackdrops(BackdropImage.convert(backdropImages));
             }
 
@@ -129,10 +124,6 @@ public class DataModule {
         return new Mapper<MovieDetails, MovieDetailEntity>() {
             @Override
             public MovieDetails map(MovieDetailEntity detailsEntity) {
-                Log.d(TAG,"___________________________________________________________________");
-                Log.d(TAG,"Mapping movie with ID:"+Integer.toString(detailsEntity.getMovieId()));
-                Log.d(TAG,"Movie name is:"+detailsEntity.getMovie().getTitle());
-                Log.d(TAG,"___________________________________________________________________");
                 MovieDetails movieDetails=new MovieDetails(detailsEntity.getMovieId());
                 movieDetails.setSimilarMovies(MOVIE_COVER_MAPPER.map(detailsEntity.getSimilarMovies()));
                 movieDetails.setCast(ACTOR_COVER_MAPPER.map(detailsEntity.getCast()));

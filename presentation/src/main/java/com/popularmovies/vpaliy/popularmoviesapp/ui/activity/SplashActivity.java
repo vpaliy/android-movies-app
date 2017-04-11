@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.popularmovies.vpaliy.popularmoviesapp.R;
+
 public class SplashActivity extends AppCompatActivity {
 
 
@@ -14,6 +16,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         new Handler().postDelayed(()->{
             Intent intent=new Intent(SplashActivity.this,MoviesActivity.class);
-            startActivity(intent);}, 500);
+            startActivity(intent);}, getResources().getInteger(R.integer.splashDuration));
     }
 }

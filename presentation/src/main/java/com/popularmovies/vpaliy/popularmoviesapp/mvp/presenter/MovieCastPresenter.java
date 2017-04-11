@@ -1,5 +1,4 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
-import android.util.Log;
 
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -18,7 +17,6 @@ import android.support.annotation.NonNull;
 public class MovieCastPresenter
         implements MovieCastContract.Presenter {
 
-    private static final String TAG=MovieCastPresenter.class.getSimpleName();
 
     private View view;
     private final IRepository<MovieCover,MovieDetails> iRepository;
@@ -26,7 +24,6 @@ public class MovieCastPresenter
 
     @Inject
     public MovieCastPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository){
-        Log.d(TAG,"Created");
         this.iRepository=iRepository;
         this.subscriptions=new CompositeSubscription();
     }
@@ -38,21 +35,19 @@ public class MovieCastPresenter
 
     @Override
     public void start(int movieId) {
-        Log.d(TAG,"start()");
         subscriptions.clear();
         subscriptions.add(iRepository.getDetails(movieId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::processData,
                           this::handleError,
-                        ()->{}));
+                          subscriptions::clear));
     }
 
     @Override
     public void stop() {
         view=null;
         subscriptions.clear();
-        App.appInstance().watch(this);
     }
 
     private void handleError(@NonNull Throwable throwable){
@@ -60,16 +55,10 @@ public class MovieCastPresenter
     }
 
     private void processData(@NonNull MovieDetails details){
-        Log.d(TAG,"processData");
-        subscriptions.clear();
         if(details.getCast()!=null){
-            if(!details.getCast().isEmpty()){
+            if(!details.getCast().isEmpty()) {
                 view.showCast(details.getCast());
-            }else{
-                Log.e(TAG,"EMPTY");
             }
-        }else{
-            Log.e(TAG,"Is NULL");
         }
     }
 

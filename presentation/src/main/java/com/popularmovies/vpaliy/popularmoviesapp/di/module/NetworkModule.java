@@ -3,9 +3,11 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
+import com.popularmovies.vpaliy.popularmoviesapp.BuildConfig;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +30,7 @@ public class NetworkModule {
 
     private static final String MOVIE_URL_BASE="http://api.themoviedb.org/3/";
     private static final String API_QUERY = "api_key";
-    private static final String API_KEY="EXAMPLE_KEY";
+    private static final String API_KEY= BuildConfig.MOVIE_DATABASE_API_KEY;
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024;
     private static final int CONNECT_TIMEOUT = 15;

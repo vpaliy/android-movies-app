@@ -46,7 +46,6 @@ import butterknife.BindView;
 public class MovieDetailsFragment extends Fragment
         implements DetailsMovieContract.View{
 
-    private static final String TAG=MovieDetailsFragment.class.getSimpleName();
 
     private Presenter presenter;
     private Unbinder unbinder;
@@ -124,7 +123,7 @@ public class MovieDetailsFragment extends Fragment
         super.onViewCreated(root, savedInstanceState);
         if(root!=null){
             adapter=new MovieDetailsAdapter(getContext(),getFragmentManager(),ID);
-            backdropsAdapter=new MovieBackdropsAdapter(getContext());
+            backdropsAdapter=new MovieBackdropsAdapter();
             detailsPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(detailsPager);
             backdropPager.setAdapter(backdropsAdapter);
@@ -143,7 +142,6 @@ public class MovieDetailsFragment extends Fragment
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-        App.appInstance().watch(this);
     }
 
     @Override

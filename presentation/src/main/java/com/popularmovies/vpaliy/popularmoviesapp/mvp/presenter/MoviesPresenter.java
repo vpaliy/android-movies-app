@@ -21,7 +21,6 @@ import javax.inject.Inject;
 @ViewScope
 public class MoviesPresenter implements MoviesContract.Presenter{
 
-    private static final String TAG=MoviesPresenter.class.getSimpleName();
 
     private View view;
     private final IMovieRepository<MovieCover,MovieDetails> iRepository;
@@ -47,15 +46,13 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     public void stop() {
         view=null;
         if(subscriptions.hasSubscriptions()){
-            subscriptions.unsubscribe();
             subscriptions.clear();
         }
-        App.appInstance().watch(this);
     }
 
     @Override
     public void sort(@NonNull ISortConfiguration.SortType sortType) {
-       subscriptions.clear();
+        subscriptions.clear();
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.sortBy(sortType)
                 .subscribeOn(Schedulers.io())

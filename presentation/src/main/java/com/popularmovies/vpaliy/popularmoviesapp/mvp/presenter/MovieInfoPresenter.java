@@ -19,7 +19,6 @@ import javax.inject.Inject;
 public class MovieInfoPresenter
         implements MovieInfoContract.Presenter {
 
-    private static final String TAG= MovieInfoPresenter.class.getSimpleName();
 
     private View view;
     private final IRepository<MovieCover,MovieDetails> iRepository;
@@ -69,6 +68,5 @@ public class MovieInfoPresenter
         if(subscriptions.hasSubscriptions()){
             subscriptions.clear();
         }
-        App.appInstance().watch(this);
     }
 }

@@ -18,7 +18,6 @@ public class Navigator {
     private static final String TAG=Navigator.class.getSimpleName();
 
     public void showDetails(@NonNull Activity activity, @NonNull ExposeDetailsEvent event){
-
         Intent intent=new Intent(activity,DetailsActivity.class);
         TransitionWrapper wrapper=event.getWrapper();
         intent.putExtras(wrapper.getData());

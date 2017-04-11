@@ -39,8 +39,7 @@ import static com.popularmovies.vpaliy.domain.ISortConfiguration.SortType.POPULA
 
 public class MoviesFragment extends Fragment
         implements MoviesContract.View{
-
-    private static final String TAG= MoviesFragment.class.getSimpleName();
+    
 
     private Presenter presenter;
     private MoviesAdapter adapter;

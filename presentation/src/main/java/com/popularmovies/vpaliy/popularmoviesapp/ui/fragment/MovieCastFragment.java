@@ -30,7 +30,6 @@ import butterknife.BindView;
 public class MovieCastFragment extends Fragment
         implements MovieCastContract.View{
 
-    private static final String TAG=MovieCastFragment.class.getSimpleName();
 
     private Unbinder unbinder;
     private MovieCastAdapter adapter;
@@ -104,7 +103,6 @@ public class MovieCastFragment extends Fragment
         super.onDestroy();
         presenter.stop();
         unbinder.unbind();
-        App.appInstance().watch(this);
     }
 
     @Override
