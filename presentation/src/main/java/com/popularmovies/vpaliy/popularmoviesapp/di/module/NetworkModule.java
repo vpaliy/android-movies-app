@@ -28,7 +28,7 @@ public class NetworkModule {
 
     private static final String MOVIE_URL_BASE="http://api.themoviedb.org/3/";
     private static final String API_QUERY = "api_key";
-    private static final String API_KEY=exampleKEY # replace with 'exampleKEY' instead;
+    private static final String API_KEY="examplekey";
 
     private static final long CACHE_SIZE = 10 * 1024 * 1024;
     private static final int CONNECT_TIMEOUT = 15;
