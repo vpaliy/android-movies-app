@@ -21,15 +21,11 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieCastAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract.Presenter;
-
-
 import java.util.List;
-
-import javax.inject.Inject;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import javax.inject.Inject;
+import butterknife.BindView;
 
 public class MovieCastFragment extends Fragment
         implements MovieCastContract.View{
@@ -111,6 +107,11 @@ public class MovieCastFragment extends Fragment
         App.appInstance().watch(this);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Constants.EXTRA_ID,movieId);
+    }
 
     @Override
     public void showCast(@NonNull List<ActorCover> cast) {

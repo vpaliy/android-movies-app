@@ -23,8 +23,6 @@
             layout="@layout/movie_similar_card">
         </include>
 
-
-
     </LinearLayout>
 
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.ScrollView>

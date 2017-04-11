@@ -8,13 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final String TAG=SplashActivity.class.getSimpleName();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         new Handler().postDelayed(()->{
             Intent intent=new Intent(SplashActivity.this,MoviesActivity.class);
-            startActivity(intent);}, 50);
+            startActivity(intent);}, 500);
     }
 }
