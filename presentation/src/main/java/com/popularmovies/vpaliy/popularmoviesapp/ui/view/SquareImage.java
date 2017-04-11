@@ -20,6 +20,7 @@ public class SquareImage extends AppCompatImageView {
     }
 
     @Override
+    @SuppressWarnings("all")
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(widthMeasureSpec, widthMeasureSpec);
     }
