@@ -11,64 +11,27 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Cache;
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.schedulers.Schedulers;
-import okhttp3.OkHttpClient.Builder;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
-import android.content.Context;
 
 @Singleton
 public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
-    private static final String MOVIE_URL_BASE="http://api.themoviedb.org/3/";
-
-    private static final long CACHE_SIZE = 10 * 1024 * 1024;
-    private static final int CONNECT_TIMEOUT = 15;
-    private static final int WRITE_TIMEOUT = 60;
-    private static final int READ_TIMEOUT = 60;
-
     private final ISortConfiguration sortConfiguration;
-    private final Context context;
+    private final MovieDatabaseAPI movieDatabaseAPI;
     private int totalPages;
     private int currentPage;
-
-    private MovieDatabaseAPI movieDatabaseAPI;
 
 
     @Inject
     public RemoteSource(@NonNull ISortConfiguration sortConfiguration,
-                        @NonNull Context context){
+                        @NonNull MovieDatabaseAPI movieDatabaseAPI){
         this.sortConfiguration=sortConfiguration;
-        this.context=context;
-        init();
+        this.movieDatabaseAPI=movieDatabaseAPI;
 
-    }
-
-    private void init(){
-        OkHttpClient client=new Builder()
-                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-                .cache(new Cache(context.getCacheDir(),CACHE_SIZE))
-                .addInterceptor(new AuthorizationInterceptor())
-                .build();
-
-        Retrofit retrofit=new Retrofit.Builder()
-                .baseUrl(MOVIE_URL_BASE)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(client)
-                .build();
-        movieDatabaseAPI=retrofit.create(MovieDatabaseAPI.class);
     }
 
     @Override
@@ -132,8 +95,15 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     public Observable<List<Movie>> requestMoreCovers() {
         if(totalPages!=currentPage) {
             currentPage++;
-            return movieDatabaseAPI.getPopularMovies(currentPage)
-                    .map(this::convertToMovie);
+            switch (sortConfiguration.getConfiguration()){
+                case POPULAR:
+                    return movieDatabaseAPI.getPopularMovies(currentPage)
+                            .map(this::convertToMovie);
+                case TOP_RATED:
+                    return movieDatabaseAPI.getTopRatedMovies(currentPage)
+                            .map(this::convertToMovie);
+
+            }
         }
         return Observable.just(new ArrayList<>());
     }
