@@ -156,7 +156,7 @@ public class DataModule {
         };
     }
 
-    //fake remote source
+
     @Singleton
     @Provides
     DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull MovieDatabaseAPI movieDatabaseAPI,
