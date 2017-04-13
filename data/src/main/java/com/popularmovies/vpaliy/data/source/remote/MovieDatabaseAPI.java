@@ -6,6 +6,7 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -28,6 +29,9 @@ public interface MovieDatabaseAPI {
 
     @GET("movie/{id}/reviews")
     Observable<ReviewWrapper> getReviews(@Path("id") String id);
+
+    @GET("movie/{id}/videos")
+    Observable<TrailerWrapper> getVideos(@Path("id") String id);
 
     @GET("movie/{id}/similar")
     Observable<MovieWrapper> getSimilarMovies(@Path("id") String id);

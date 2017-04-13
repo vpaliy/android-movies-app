@@ -50,6 +50,10 @@ public class MovieInfoPresenter
         if(details.getSimilarMovies()!=null){
             view.showSimilarMovies(details.getSimilarMovies());
         }
+
+        if(details.getTrailers()!=null){
+            view.showTrailers(details.getTrailers());
+        }
     }
 
     private void handleError(@NonNull Throwable throwable){

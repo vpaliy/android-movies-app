@@ -16,7 +16,13 @@
             layout="@layout/movie_info_card">
         </include>
 
-        
+        <include
+            android:id="@+id/moviesTrailersCard"
+            android:visibility="gone"
+            layout="@layout/movie_similar_card">
+        </include>
+
+
         <include
             android:id="@+id/similarMoviesCard"
             android:visibility="gone"

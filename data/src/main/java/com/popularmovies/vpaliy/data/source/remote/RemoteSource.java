@@ -4,10 +4,12 @@ import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
+import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,13 +75,18 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
                 .subscribeOn(Schedulers.newThread())
                 .map(CastWrapper::getCast);
 
-        return Observable.zip(movieObservable, similarObservable, backdropsObservable, actorsObservable,
-                (Movie movie, List<Movie> movies, List<BackdropImage> backdropImages, List<ActorEntity> actorEntities) -> {
+        Observable<List<TrailerEntity>> trailersObservable=movieDatabaseAPI.getVideos(Integer.toString(ID))
+                .subscribeOn(Schedulers.newThread())
+                .map(TrailerWrapper::getTrailers);
+
+        return Observable.zip(movieObservable, similarObservable, backdropsObservable, actorsObservable,trailersObservable,
+                (Movie movie, List<Movie> movies, List<BackdropImage> backdropImages, List<ActorEntity> actorEntities, List<TrailerEntity> trailers) -> {
                     MovieDetailEntity movieDetails = new MovieDetailEntity();
                     movieDetails.setCast(actorEntities);
                     movieDetails.setBackdropImages(backdropImages);
                     movie.setBackdropImages(backdropImages);
                     movieDetails.setMovie(movie);
+                    movieDetails.setTrailers(trailers);
                     movieDetails.setSimilarMovies(movies);
                     return movieDetails;
                 });

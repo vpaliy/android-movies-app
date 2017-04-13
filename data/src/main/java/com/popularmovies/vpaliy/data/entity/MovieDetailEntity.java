@@ -61,6 +61,7 @@ public class MovieDetailEntity {
         this.backdropImages = backdropImages;
     }
 
+
     public void setMovie(Movie movie) {
         this.movie = movie;
     }

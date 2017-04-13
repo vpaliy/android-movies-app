@@ -11,29 +11,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
+import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTrailersAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.RelatedMoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.squareup.otto.Bus;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import android.widget.TextView;
 import at.blogc.android.views.ExpandableTextView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import butterknife.OnClick;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.TextView;
-
 import butterknife.BindView;
 
 public class  MovieInfoFragment extends Fragment
@@ -53,7 +53,6 @@ public class  MovieInfoFragment extends Fragment
     @BindView(R.id.budget)
     protected TextView movieBudget;
 
-
     @BindView(R.id.revenue)
     protected TextView movieRevenue;
 
@@ -68,6 +67,9 @@ public class  MovieInfoFragment extends Fragment
 
     @BindView(R.id.similarMoviesCard)
     protected CardView similarMoviesCard;
+
+    @BindView(R.id.moviesTrailersCard)
+    protected CardView trailersCard;
 
 
     private List<RelatedMoviesAdapter> adapterList;
@@ -195,6 +197,24 @@ public class  MovieInfoFragment extends Fragment
 
     }
 
+    @Override
+    public void showTrailers(@NonNull List<Trailer> trailers) {
+        trailersCard.setVisibility(View.VISIBLE);
+
+        final Context context=getContext();
+        final TextView cardTitle=ButterKnife.findById(trailersCard,R.id.cardTitle);
+        final RecyclerView similarMoviesList=ButterKnife.findById(trailersCard,R.id.additionalList);
+
+        MovieTrailersAdapter adapter=new MovieTrailersAdapter(context);
+        adapter.setData(trailers);
+        cardTitle.setText(context.getString(R.string.movieTrailers));
+        similarMoviesList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
+        similarMoviesList.setAdapter(adapter);
+        similarMoviesList.setNestedScrollingEnabled(false);
+        similarMoviesList.getLayoutManager().setAutoMeasureEnabled(true);
+        similarMoviesList.setHasFixedSize(true);
+
+    }
 
     @OnClick(R.id.movieDescription)
     public void expandText(){

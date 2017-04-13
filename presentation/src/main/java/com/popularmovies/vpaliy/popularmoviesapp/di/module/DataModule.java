@@ -6,6 +6,7 @@ import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
+import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.source.DataSource;
@@ -136,6 +137,7 @@ public class DataModule {
                 movieInfo.setDescription(movie.getOverview());
                 movieDetails.setMovieInfo(movieInfo);
                 movieDetails.setMovieCover(MOVIE_COVER_MAPPER.map(movie));
+                movieDetails.setTrailers(TrailerEntity.convert(detailsEntity.getTrailers()));
                 return movieDetails;
 
             }
