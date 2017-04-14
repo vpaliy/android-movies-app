@@ -28,12 +28,6 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    Bus provideWithBus(){
-        return new Bus();
-    }
-
-    @Singleton
-    @Provides
     Navigator provideNavigator(){
         return new Navigator();
     }

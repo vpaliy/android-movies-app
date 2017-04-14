@@ -25,7 +25,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    def API_KEY='"INSERT_YOUR_KEY"'
+    def API_KEY='"INSERT_THE_KEY"'
 
 
     buildTypes {
@@ -38,6 +38,10 @@ android {
 
     buildTypes.each {
         it.buildConfigField "String", "MOVIE_DATABASE_API_KEY", API_KEY
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
     }
 }
 
