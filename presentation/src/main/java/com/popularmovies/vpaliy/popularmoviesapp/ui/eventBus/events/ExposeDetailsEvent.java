@@ -1,7 +1,6 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events;
+package com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events;
 
 import android.support.annotation.NonNull;
-
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 
 public class ExposeDetailsEvent {

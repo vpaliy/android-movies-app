@@ -20,9 +20,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTrailersAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.RelatedMoviesAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.squareup.otto.Bus;
-
 import java.util.LinkedList;
 import java.util.List;
 import android.widget.TextView;
@@ -48,7 +47,7 @@ public class  MovieInfoFragment extends Fragment
     protected ViewGroup infoContainer;
 
     @Inject
-    protected Bus eventBus;
+    protected RxBus eventBus;
 
     @BindView(R.id.budget)
     protected TextView movieBudget;

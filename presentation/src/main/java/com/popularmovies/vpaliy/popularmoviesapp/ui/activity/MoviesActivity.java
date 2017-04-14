@@ -3,11 +3,10 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 import android.os.Bundle;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.squareup.otto.Subscribe;
 
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.MOVIES_TAG;
 
@@ -33,24 +32,18 @@ public class MoviesActivity extends BaseActivity {
 
 
     @Override
-    void inject() {;
+    void inject() {
         App.appInstance().appComponent().inject(this);
     }
 
     @Override
-    void register() {
-        eventBus.register(this);
+    void handleEvent(@NonNull Object event) {
+        if(event instanceof  ExposeDetailsEvent){
+            showDetails(ExposeDetailsEvent.class.cast(event));
+        }
     }
 
-
-    @Override
-    void unregister() {
-        eventBus.unregister(this);
-    }
-
-
-    @Subscribe
-    public void showDetails(@NonNull ExposeDetailsEvent event){
+    private void showDetails(@NonNull ExposeDetailsEvent event){
         navigator.showDetails(this,event);
 
     }

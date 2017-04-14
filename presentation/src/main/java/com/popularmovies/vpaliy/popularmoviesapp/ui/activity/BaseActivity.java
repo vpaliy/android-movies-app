@@ -3,13 +3,14 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
-import com.squareup.otto.Bus;
-
 import javax.inject.Inject;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * A base class for activities
@@ -17,16 +18,17 @@ import javax.inject.Inject;
 public abstract class BaseActivity extends AppCompatActivity{
 
     @Inject
-    protected Bus eventBus;
-
-    @Inject
     protected Navigator navigator;
 
+    @Inject
+    protected RxBus eventBus;
+
+    protected CompositeDisposable disposables;
+
     /**
-     * Register/Unregister for events which come from fragments
+     * Handle the user events
      */
-    abstract void register();
-    abstract void unregister();
+    abstract void handleEvent(@NonNull Object event);
 
     /**
      * Initialize the dependencies
@@ -44,14 +46,23 @@ public abstract class BaseActivity extends AppCompatActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        register();
+        disposables.add(eventBus.asFlowable()
+                .subscribe(this::processEvent));
     }
+
+    private void processEvent(Object object){
+        if(object!=null){
+            handleEvent(object);
+        }
+    }
+
+
 
     @CallSuper
     @Override
     protected void onStop(){
         super.onStop();
-        unregister();
+        disposables.clear();
     }
 
 

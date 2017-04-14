@@ -12,6 +12,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.NetworkModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.BaseActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 import com.squareup.otto.Bus;
 
@@ -25,7 +26,7 @@ public interface ApplicationComponent {
     void inject(BaseActivity activity);
 
     Context context();
-    Bus eventBus();
+    RxBus rxEventBus();
     Navigator navigator();
     IRepository<MovieCover,MovieDetails> repository();
     IMovieRepository<MovieCover,MovieDetails> movieRepository();

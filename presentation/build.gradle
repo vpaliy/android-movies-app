@@ -65,6 +65,7 @@ dependencies {
     compile libs.RxAndroid
     compile libs.circleIndicator
     compile libs.palette
+    compile libs.rxRelay
     annotationProcessor libs.Dagger2Compiler
     annotationProcessor libs.butterKnifeCompiler
     provided libs.javaxAnnotation

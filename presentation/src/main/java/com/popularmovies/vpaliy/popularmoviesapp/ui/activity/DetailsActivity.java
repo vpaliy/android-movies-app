@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
-import com.squareup.otto.Subscribe;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.EXTRA_DATA;
@@ -48,8 +47,7 @@ public class DetailsActivity extends BaseActivity {
                 .commit();
     }
 
-    @Subscribe
-    public void showDetails(@NonNull ExposeDetailsEvent event){
+    private void showDetails(@NonNull ExposeDetailsEvent event){
         navigator.showDetails(this,event);
     }
 
@@ -60,13 +58,10 @@ public class DetailsActivity extends BaseActivity {
     }
 
     @Override
-    void register() {
-        eventBus.register(this);
-    }
-
-    @Override
-    void unregister() {
-        eventBus.unregister(this);
+    void handleEvent(@NonNull Object event) {
+        if(event instanceof ExposeDetailsEvent){
+            showDetails(ExposeDetailsEvent.class.cast(event));
+        }
     }
 
     @Override

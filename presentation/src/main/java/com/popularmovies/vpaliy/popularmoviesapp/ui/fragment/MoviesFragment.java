@@ -20,10 +20,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ClickedMovieEvent;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MarginDecoration;
-import com.squareup.otto.Bus;
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -32,7 +30,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.squareup.otto.Subscribe;
 
 import static com.popularmovies.vpaliy.domain.ISortConfiguration.SortType.TOP_RATED;
 import static com.popularmovies.vpaliy.domain.ISortConfiguration.SortType.POPULAR;
@@ -45,7 +42,7 @@ public class MoviesFragment extends Fragment
     private MoviesAdapter adapter;
 
     @Inject
-    protected Bus eventBus;
+    protected RxBus eventBus;
 
     @Inject
     protected ISortConfiguration iSortConfiguration;
@@ -151,19 +148,6 @@ public class MoviesFragment extends Fragment
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        eventBus.register(this);
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        eventBus.unregister(this);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         presenter.stop();
@@ -216,8 +200,4 @@ public class MoviesFragment extends Fragment
         swipeRefresher.setRefreshing(isLoading);
     }
 
-    @Subscribe
-    public void catchMovieClick(@NonNull ClickedMovieEvent event){
-        eventBus.post(new ExposeDetailsEvent(event.getTransitionWrapper()));
-    }
 }

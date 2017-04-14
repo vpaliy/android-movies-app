@@ -7,9 +7,9 @@ import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.DetailsActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import android.support.annotation.NonNull;
 
