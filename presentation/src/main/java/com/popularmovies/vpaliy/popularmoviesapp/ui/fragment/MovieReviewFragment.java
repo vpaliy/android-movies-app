@@ -1,9 +1,8 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +20,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import butterknife.BindView;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -38,7 +40,7 @@ public class MovieReviewFragment extends Fragment
     private MovieReviewAdapter adapter;
     private Unbinder unbinder;
 
-    @BindView(R.id.recycleView)
+    @BindView(R.id.reviewList)
     protected RecyclerView reviewList;
 
 
@@ -76,12 +78,13 @@ public class MovieReviewFragment extends Fragment
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
         if(root!=null){
-            //TODO
             presenter.start(movieId);
             adapter=new MovieReviewAdapter(getContext());
 
             reviewList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             reviewList.setAdapter(adapter);
+            reviewList.addItemDecoration(new DividerItemDecoration(getContext(),
+                    LinearLayoutManager.VERTICAL));
             reviewList.setHasFixedSize(true);
         }
     }
@@ -100,13 +103,14 @@ public class MovieReviewFragment extends Fragment
 
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         if(unbinder!=null){
             unbinder.unbind();
         }
     }
 
+    @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
         this.presenter=presenter;

@@ -14,6 +14,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.blogc.android.views.ExpandableTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -57,11 +58,12 @@ public class MovieReviewAdapter
         TextView reviewAuthor;
 
         @BindView(R.id.reviewContent)
-        TextView reviewContent;
+        ExpandableTextView reviewContent;
 
         public ReviewViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
+            reviewContent.setOnClickListener(view->reviewContent.toggle());
         }
 
         @Override
