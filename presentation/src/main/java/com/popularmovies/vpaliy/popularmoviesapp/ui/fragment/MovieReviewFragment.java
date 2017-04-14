@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.TintAwareDrawable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,17 +18,14 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieReviewAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-
 import java.util.List;
-
+import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import javax.inject.Inject;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.TextView;
-
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract.Presenter;
 
@@ -35,6 +33,8 @@ import static com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReview
 public class MovieReviewFragment extends Fragment
             implements MovieReviewContract.View{
 
+
+    private static final String TAG= MovieReviewFragment.class.getSimpleName();
 
     private int movieId;
     private Presenter presenter;

@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.TintAwareDrawable;
+import android.util.Log;
 
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.domain.IRepository;
@@ -23,6 +25,8 @@ import rx.subscriptions.CompositeSubscription;
 @ViewScope
 public class MovieReviewPresenter
         implements MovieReviewContract.Presenter{
+
+    private static final String TAG=MovieReviewPresenter.class.getSimpleName();
 
     private View view;
     private IRepository<MovieCover,MovieDetails> iRepository;
@@ -63,7 +67,7 @@ public class MovieReviewPresenter
     private void processData(@NonNull MovieDetails details){
         List<Review> reviews=details.getReviews();
         if(reviews!=null){
-            if(reviews.isEmpty()){
+            if(!reviews.isEmpty()){
                 view.showReviews(reviews);
                 return;
             }
