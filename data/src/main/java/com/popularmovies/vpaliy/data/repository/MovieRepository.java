@@ -24,6 +24,9 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     private static final String TAG=MovieRepository.class.getSimpleName();
 
+    private static final int COVERS_CACHE_SIZE=100;
+    private static final int DETAILS_CACHE_SIZE=100;
+
     private final DataSource<Movie, MovieDetailEntity> dataSource;
     private final Mapper<MovieCover, Movie> entityMapper;
     private final Mapper<MovieDetails, MovieDetailEntity> detailsMapper;
@@ -39,11 +42,11 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
         this.entityMapper = entityMapper;
         this.detailsMapper = detailsMapper;
         this.coversCache=new CacheStore<>(CacheBuilder.newBuilder()
-                .maximumSize(100)
+                .maximumSize(COVERS_CACHE_SIZE)
                 .expireAfterAccess(20,TimeUnit.MINUTES)
                 .build());
         this.detailsCache=new CacheStore<>(CacheBuilder.newBuilder()
-                .maximumSize(100)
+                .maximumSize(DETAILS_CACHE_SIZE)
                 .expireAfterAccess(20,TimeUnit.MINUTES)
                 .build());
 

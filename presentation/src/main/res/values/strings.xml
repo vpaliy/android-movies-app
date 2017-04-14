@@ -23,9 +23,11 @@
     <string name="movieSimilarMovies">Similar Movies</string>
     <string name="movieTrailers">Trailers</string>
     <string name="movieGenres">Genres</string>
+    <string name="reviewAuthor">Author</string>
 
     <string name="intoTitle">Info</string>
     <string name="castTitle">Cast</string>
+    <string name="reviewTitle">Review</string>
 
     <string name="NA">N/A</string>
 

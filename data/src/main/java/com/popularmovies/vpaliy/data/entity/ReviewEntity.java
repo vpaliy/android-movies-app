@@ -1,11 +1,15 @@
 package com.popularmovies.vpaliy.data.entity;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
+import com.popularmovies.vpaliy.domain.model.Review;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReviewEntity {
 
-    @SerializedName("id")
-    private int movieId;
 
     @SerializedName("author")
     private String author;
@@ -17,10 +21,6 @@ public class ReviewEntity {
     private String url;
 
 
-    public int getMovieId() {
-        return movieId;
-    }
-
     public String getAuthor() {
         return author;
     }
@@ -31,5 +31,18 @@ public class ReviewEntity {
 
     public String getUrl() {
         return url;
+    }
+
+    public static List<Review> convert(List<ReviewEntity> reviewEntities){
+        if(reviewEntities==null||reviewEntities.isEmpty()){
+            return null;
+        }
+        List<Review> reviewList=new ArrayList<>(reviewEntities.size());
+        for(ReviewEntity reviewEntity:reviewEntities){
+            Review review=new Review(0,reviewEntity.getAuthor(),reviewEntity.getContent(),reviewEntity.getUrl());
+            reviewList.add(review);
+        }
+
+        return reviewList;
     }
 }

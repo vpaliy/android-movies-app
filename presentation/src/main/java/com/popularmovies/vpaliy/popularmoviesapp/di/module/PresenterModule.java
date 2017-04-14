@@ -6,10 +6,12 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.DetailsMoviePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieCastPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieInfoPresenter;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieReviewPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MoviesPresenter;
 
 import dagger.Module;
@@ -39,6 +41,12 @@ public class PresenterModule {
     @ViewScope
     @Provides
     MovieCastContract.Presenter provideMovieCastPresenter(@NonNull MovieCastPresenter presenter){
+        return presenter;
+    }
+
+    @ViewScope
+    @Provides
+    MovieReviewContract.Presenter provideMovieReviewPresenter(@NonNull MovieReviewPresenter presenter){
         return presenter;
     }
 

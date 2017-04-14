@@ -5,6 +5,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieCastFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieInfoFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieReviewFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
 
 import dagger.Component;
@@ -16,4 +17,5 @@ public interface ViewComponent {
     void inject(MovieDetailsFragment fragment);
     void inject(MovieCastFragment fragment);
     void inject(MovieInfoFragment fragment);
+    void inject(MovieReviewFragment fragment);
 }
