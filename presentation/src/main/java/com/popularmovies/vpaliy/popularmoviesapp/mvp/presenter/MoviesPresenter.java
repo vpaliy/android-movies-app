@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
+import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -25,10 +26,13 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private View view;
     private final IMovieRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
+    private final SchedulerProvider schedulerProvider;
 
     @Inject
-    public MoviesPresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> iRepository){
+    public MoviesPresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> iRepository,
+                           @NonNull SchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
+        this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
     }
 
@@ -39,7 +43,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     @Override
     public void start() {
-       startLoading();
+        startLoading();
     }
 
     @Override
@@ -55,8 +59,8 @@ public class MoviesPresenter implements MoviesContract.Presenter{
         subscriptions.clear();
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.sortBy(sortType)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribe(this::processData,
                         this::handleErrorMessage,
                         this::completeLoading));
@@ -72,14 +76,14 @@ public class MoviesPresenter implements MoviesContract.Presenter{
         subscriptions.clear();
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.getCovers()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribe(this::processData,
-                           this::handleErrorMessage,
-                           this::completeLoading));
+                        this::handleErrorMessage,
+                        this::completeLoading));
     }
 
-   private void processData(@NonNull List<MovieCover> movieList){;
+    private void processData(@NonNull List<MovieCover> movieList){;
         if(!movieList.isEmpty()){
             view.showMovies(movieList);
         }else{
@@ -92,11 +96,11 @@ public class MoviesPresenter implements MoviesContract.Presenter{
         subscriptions.clear();
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.requestMoreCovers()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::appendData,
-                       this::handleErrorMessage,
-                       this::completeLoading));
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(this::appendData,
+                        this::handleErrorMessage,
+                        this::completeLoading));
     }
 
     private void appendData(@NonNull List<MovieCover> movieList){

@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
+import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -20,10 +21,13 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     private View view;
     private final IRepository<MovieCover,MovieDetails> repository;
     private final CompositeSubscription subscriptions;
+    private final SchedulerProvider schedulerProvider;
 
     @Inject
-    public DetailsMoviePresenter(@NonNull IRepository<MovieCover,MovieDetails> repository){
+    public DetailsMoviePresenter(@NonNull IRepository<MovieCover,MovieDetails> repository,
+                                 @NonNull SchedulerProvider schedulerProvider){
         this.repository=repository;
+        this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
     }
 
@@ -35,8 +39,8 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     private void retrieveCover(int ID){
         subscriptions.add(repository.getCover(ID)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribe(this::processData,
                         this::handleErrorMessage,
                         ()->{}));
@@ -44,8 +48,8 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     private void retrieveDetails(int ID){
         subscriptions.add(repository.getDetails(ID)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())    //was multi
+                .observeOn(schedulerProvider.ui())
                 .subscribe(this::processData,
                         this::handleErrorMessage,
                         ()->{}));

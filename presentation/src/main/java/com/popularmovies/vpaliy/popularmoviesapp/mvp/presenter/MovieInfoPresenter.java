@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
+import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -23,18 +24,21 @@ public class MovieInfoPresenter
     private View view;
     private final IRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
+    private final SchedulerProvider schedulerProvider;
 
     @Inject
-    public MovieInfoPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository){
+    public MovieInfoPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository,
+                              @NonNull SchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
+        this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
     }
 
     @Override
     public void start(int movieID) {
         subscriptions.add(iRepository.getDetails(movieID)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
                     .subscribe(this::processData,
                                this::handleError,
                                 ()->{}));

@@ -12,6 +12,7 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
+import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +27,19 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
     private final ISortConfiguration sortConfiguration;
     private final MovieDatabaseAPI movieDatabaseAPI;
+    private final SchedulerProvider schedulerProvider;
+
     private int totalPages;
     private int currentPage;
 
 
     @Inject
     public RemoteSource(@NonNull ISortConfiguration sortConfiguration,
-                        @NonNull MovieDatabaseAPI movieDatabaseAPI){
+                        @NonNull MovieDatabaseAPI movieDatabaseAPI,
+                        @NonNull SchedulerProvider schedulerProvider){
         this.sortConfiguration=sortConfiguration;
         this.movieDatabaseAPI=movieDatabaseAPI;
+        this.schedulerProvider=schedulerProvider;
 
     }
 
@@ -61,12 +66,12 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     public Observable<MovieDetailEntity> getDetails(int ID) {
 
         Observable<List<Movie>> similarObservable = movieDatabaseAPI.getSimilarMovies(Integer.toString(ID))
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(schedulerProvider.multi())
                 .map(MovieWrapper::getCoverList);
 
         Observable<Movie> movieObservable = movieDatabaseAPI
                 .getMovieDetails(Integer.toString(ID))
-                .subscribeOn(Schedulers.newThread());
+                .subscribeOn(schedulerProvider.multi());
 
 
         Observable<List<BackdropImage>> backdropsObservable = movieDatabaseAPI.getBackdrops(Integer.toString(ID))
@@ -74,15 +79,15 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
                 .map(BackdropsWrapper::getBackdropImages);
 
         Observable<List<ActorEntity>> actorsObservable = movieDatabaseAPI.getMovieCast(Integer.toString(ID))
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(schedulerProvider.multi())
                 .map(CastWrapper::getCast);
 
         Observable<List<TrailerEntity>> trailersObservable=movieDatabaseAPI.getVideos(Integer.toString(ID))
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(schedulerProvider.multi())
                 .map(TrailerWrapper::getTrailers);
 
         Observable<List<ReviewEntity>> reviewsObservable=movieDatabaseAPI.getReviews(Integer.toString(ID))
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(schedulerProvider.multi())
                 .map(ReviewWrapper::getReviewList);
 
         return Observable.zip(movieObservable, similarObservable, backdropsObservable, actorsObservable,trailersObservable,reviewsObservable,

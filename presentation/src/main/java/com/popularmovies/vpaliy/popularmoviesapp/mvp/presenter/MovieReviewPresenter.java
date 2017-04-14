@@ -6,6 +6,7 @@ import android.support.v4.graphics.drawable.TintAwareDrawable;
 import android.util.Log;
 
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
+import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -31,10 +32,13 @@ public class MovieReviewPresenter
     private View view;
     private IRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
+    private final SchedulerProvider schedulerProvider;
 
     @Inject
-    public MovieReviewPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository){
+    public MovieReviewPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository,
+                                @NonNull SchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
+        this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
     }
 
@@ -48,8 +52,8 @@ public class MovieReviewPresenter
     public void start(int movieID) {
         subscriptions.clear();
         subscriptions.add(iRepository.getDetails(movieID)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
                 .subscribe(this::processData,
                            this::handleError,
                            this::completeLoading));

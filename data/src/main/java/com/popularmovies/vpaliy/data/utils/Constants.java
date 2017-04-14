@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.data;
+package com.popularmovies.vpaliy.data.utils;
 public class Constants {
 
     public final static String BASE_MOVIE_URL = "http://image.tmdb.org/t/p/";

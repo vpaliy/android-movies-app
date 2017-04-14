@@ -13,6 +13,7 @@ import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
 import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
+import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
@@ -162,8 +163,9 @@ public class DataModule {
     @Singleton
     @Provides
     DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull MovieDatabaseAPI movieDatabaseAPI,
-                                                            @NonNull ISortConfiguration configuration){
-        return new RemoteSource(configuration,movieDatabaseAPI);
+                                                            @NonNull ISortConfiguration configuration,
+                                                            @NonNull SchedulerProvider schedulerProvider){
+        return new RemoteSource(configuration,movieDatabaseAPI,schedulerProvider);
     }
 
     @Singleton

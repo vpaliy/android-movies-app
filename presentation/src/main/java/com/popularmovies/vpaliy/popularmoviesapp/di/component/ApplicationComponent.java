@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.component;
 import android.content.Context;
 
 import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
+import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
@@ -32,4 +33,5 @@ public interface ApplicationComponent {
     IMovieRepository<MovieCover,MovieDetails> movieRepository();
     ISortConfiguration sortConfiguration();
     MovieDatabaseAPI provideMovieDataBaseAPI();
+    SchedulerProvider schedulerProvider();
 }

@@ -2,9 +2,8 @@ package com.popularmovies.vpaliy.data.entity;
 
 
 import com.google.gson.annotations.SerializedName;
-import com.popularmovies.vpaliy.data.Constants;
+import com.popularmovies.vpaliy.data.utils.Constants;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class Movie {
