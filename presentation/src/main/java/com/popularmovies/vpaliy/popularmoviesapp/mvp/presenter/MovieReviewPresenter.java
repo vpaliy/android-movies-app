@@ -62,11 +62,14 @@ public class MovieReviewPresenter
 
     private void processData(@NonNull MovieDetails details){
         List<Review> reviews=details.getReviews();
-        if(reviews!=null && !reviews.isEmpty()){
-            view.showReviews(reviews);
-        }else{
-            //TODO show that the movie does have reviews
+        if(reviews!=null){
+            if(reviews.isEmpty()){
+                view.showReviews(reviews);
+                return;
+            }
         }
+        view.showNoReviewMessage();
+
     }
 
     @Override

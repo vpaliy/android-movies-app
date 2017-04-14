@@ -18,6 +18,7 @@ public interface MovieInfoContract {
         void showTrailers(@NonNull List<Trailer> trailers);
         void showGeneralInfo(@NonNull MovieInfo movieInfo);
         void showSimilarMovies(@NonNull List<MovieCover> similarMovies);
+        void showNoInfoMessage();
     }
 
     interface Presenter extends BasePresenter<View> {

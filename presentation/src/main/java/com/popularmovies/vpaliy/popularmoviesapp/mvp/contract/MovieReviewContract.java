@@ -12,6 +12,7 @@ public interface MovieReviewContract {
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
         void showReviews(@NonNull List<Review> reviews);
+        void showNoReviewMessage();
     }
 
     interface Presenter extends BasePresenter<View> {

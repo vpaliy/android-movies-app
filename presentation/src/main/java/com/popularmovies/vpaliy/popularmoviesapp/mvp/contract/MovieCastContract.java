@@ -12,6 +12,7 @@ public interface MovieCastContract {
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
         void showCast(@NonNull List<ActorCover> cast);
+        void showNoCastMessage();
 
     }
 

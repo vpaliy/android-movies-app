@@ -58,8 +58,10 @@ public class MovieCastPresenter
         if(details.getCast()!=null){
             if(!details.getCast().isEmpty()) {
                 view.showCast(details.getCast());
+                return;
             }
         }
+        view.showNoCastMessage();
     }
 
 }

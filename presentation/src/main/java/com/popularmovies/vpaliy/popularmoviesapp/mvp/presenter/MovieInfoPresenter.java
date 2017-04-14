@@ -45,6 +45,8 @@ public class MovieInfoPresenter
         subscriptions.clear();
         if(details.getMovieInfo()!=null){
             view.showGeneralInfo(details.getMovieInfo());
+        }else{
+            view.showNoInfoMessage();
         }
 
         if(details.getSimilarMovies()!=null){

@@ -24,6 +24,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.TextView;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -42,6 +44,9 @@ public class MovieReviewFragment extends Fragment
 
     @BindView(R.id.reviewList)
     protected RecyclerView reviewList;
+
+    @BindView(R.id.emptyMessage)
+    protected TextView emptyMessage;
 
 
     public static MovieReviewFragment newInstance(int movieId) {
@@ -101,6 +106,12 @@ public class MovieReviewFragment extends Fragment
         adapter.setData(reviews);
     }
 
+
+    @Override
+    public void showNoReviewMessage() {
+        emptyMessage.setVisibility(View.VISIBLE);
+        reviewList.setVisibility(View.GONE);
+    }
 
     @Override
     public void onDestroy() {

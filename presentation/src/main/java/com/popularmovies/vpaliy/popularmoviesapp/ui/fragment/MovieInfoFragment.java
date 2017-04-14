@@ -153,6 +153,11 @@ public class  MovieInfoFragment extends Fragment
     }
 
     @Override
+    public void showNoInfoMessage() {
+        
+    }
+
+    @Override
     public void showGeneralInfo(@NonNull MovieInfo movieInfo) {
         final Context context=getContext();
         final String NA=context.getString(R.string.NA);

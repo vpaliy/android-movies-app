@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -39,6 +40,9 @@ public class MovieCastFragment extends Fragment
 
     @BindView(R.id.castList)
     protected RecyclerView castList;
+
+    @BindView(R.id.emptyMessage)
+    protected TextView emptyMessage;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,6 +87,12 @@ public class MovieCastFragment extends Fragment
             castList.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
             castList.setAdapter(adapter);
         }
+    }
+
+    @Override
+    public void showNoCastMessage() {
+        emptyMessage.setVisibility(View.VISIBLE);
+        castList.setVisibility(View.GONE);
     }
 
     @Override
