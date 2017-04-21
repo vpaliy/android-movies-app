@@ -181,12 +181,15 @@ public class MovieDetailsFragment extends Fragment
             TextView duration=ButterKnife.findById(getView(),R.id.duration);
             TextView title=ButterKnife.findById(getView(),R.id.title);
             TextView genres=ButterKnife.findById(getView(),R.id.genres);
+            TextView ratings=ButterKnife.findById(getView(),R.id.ratings);
 
             String bullet="\u25CF";
             String titleText=movieCover.getMovieTitle();
             String yearText=bullet+" "+Integer.toString(movieCover.getReleaseYear());
             String durationText=bullet+" "+movieCover.getDuration();
+            String ratingsText=Double.toString(movieCover.getAverageRate());
 
+            ratings.setText(ratingsText);
             title.setText(titleText!=null?titleText:"");
             year.setText(yearText);
             duration.setText(durationText);
@@ -238,6 +241,7 @@ public class MovieDetailsFragment extends Fragment
             TextView duration=ButterKnife.findById(getView(),R.id.duration);
             TextView title=ButterKnife.findById(getView(),R.id.title);
             TextView genres=ButterKnife.findById(getView(),R.id.genres);
+            TextView ratings=ButterKnife.findById(getView(),R.id.ratings);
 
             year.setTextColor(swatch.getTitleTextColor());
             duration.setTextColor(swatch.getTitleTextColor());

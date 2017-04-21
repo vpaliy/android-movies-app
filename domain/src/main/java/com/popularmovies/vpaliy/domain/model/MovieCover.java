@@ -6,6 +6,7 @@ public class MovieCover {
 
     private int movieId;
     private int releaseYear;
+    private double averageRate;
     private String movieTitle;
     private String posterPath;
     private String duration;
@@ -32,6 +33,14 @@ public class MovieCover {
         return backdrops;
     }
 
+
+    public double getAverageRate() {
+        return averageRate;
+    }
+
+    public void setAverageRate(double averageRate) {
+        this.averageRate = averageRate;
+    }
 
     public String getMovieTitle() {
         return movieTitle;

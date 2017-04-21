@@ -106,14 +106,33 @@
                     android:layout_alignTop="@+id/year"
                     android:layout_marginStart="7dp"
                     android:layout_toEndOf="@+id/year" />
+
+                <TextView
+                    android:id="@+id/ratings"
+                    android:layout_marginTop="8dp"
+                    android:textStyle="bold"
+                    android:drawableLeft="@drawable/star"
+                    android:drawableStart="@drawable/star"
+                    android:gravity="center_vertical"
+                    android:textSize="15sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/genres"
+                    android:layout_toRightOf="@+id/movieImage"
+                    android:layout_toEndOf="@+id/movieImage"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp" />
+
             </RelativeLayout>
 
-            <android.support.v7.widget.Toolbar
+          <!--  <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:gravity="top"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin" />        -->
+
+
 
 
         </android.support.design.widget.CollapsingToolbarLayout>

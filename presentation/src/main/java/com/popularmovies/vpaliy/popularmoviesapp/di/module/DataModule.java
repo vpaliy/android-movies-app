@@ -45,6 +45,7 @@ public class DataModule {
             cover.setPosterPath(movieEntity.getPosterPath());
             cover.setGenres(Genre.convert(movieEntity.getGenres()));
             cover.setMovieTitle(movieEntity.getTitle());
+            cover.setAverageRate(movieEntity.getVoteAverage());
             List<BackdropImage> backdropImages=movieEntity.getBackdropImages();
             if(backdropImages==null){
                 if(movieEntity.getBackdrop_path()!=null) {
