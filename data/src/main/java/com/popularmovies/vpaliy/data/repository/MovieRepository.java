@@ -6,6 +6,8 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.DataSource;
+import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
+import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -16,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
-
 import rx.Observable;
 
 @Singleton
@@ -27,7 +28,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     private static final int COVERS_CACHE_SIZE=100;
     private static final int DETAILS_CACHE_SIZE=100;
 
-    private final DataSource<Movie, MovieDetailEntity> dataSource;
+    private final DataSource<Movie, MovieDetailEntity> remoteDataSource;
+    private final DataSource<Movie,MovieDetailEntity> localDataSource;
     private final Mapper<MovieCover, Movie> entityMapper;
     private final Mapper<MovieDetails, MovieDetailEntity> detailsMapper;
 
@@ -35,10 +37,12 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     private final CacheStore<Integer,MovieDetails> detailsCache;
 
     @Inject
-    public MovieRepository(@NonNull DataSource<Movie, MovieDetailEntity> dataSource,
+    public MovieRepository(@NonNull @MovieRemote DataSource<Movie, MovieDetailEntity> remoteDataSource,
+                           @NonNull @MovieLocal DataSource<Movie,MovieDetailEntity> localDataSource,
                            @NonNull Mapper<MovieCover, Movie> entityMapper,
                            @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper) {
-        this.dataSource = dataSource;
+        this.remoteDataSource = remoteDataSource;
+        this.localDataSource=localDataSource;
         this.entityMapper = entityMapper;
         this.detailsMapper = detailsMapper;
         this.coversCache=new CacheStore<>(CacheBuilder.newBuilder()
@@ -54,7 +58,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     @Override
     public Observable<List<MovieCover>> getCovers() {
-        return dataSource.getCovers()
+        return remoteDataSource.getCovers()
                 .map(entityMapper::map)
                 .doOnNext(movies->Observable.from(movies)
                         .filter(cover->!coversCache.isInCache(cover.getMovieId()))
@@ -65,7 +69,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     @Override
     public Observable<MovieDetails> getDetails(int ID) {
         if(!detailsCache.isInCache(ID)) {
-            return dataSource.getDetails(ID)
+            return remoteDataSource.getDetails(ID)
                     .map(detailsMapper::map)
                     .doOnNext(details -> detailsCache.put(ID,details));
         }
@@ -75,7 +79,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     @Override
     public Observable<MovieCover> getCover(int ID) {
         if(!coversCache.isInCache(ID)) {
-            return dataSource.getCover(ID)
+            return remoteDataSource.getCover(ID)
                     .map(entityMapper::map)
                     .doOnNext(movie->coversCache.put(ID,movie));
         }
@@ -84,7 +88,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     @Override
     public Observable<List<MovieCover>> requestMoreCovers() {
-        return dataSource.requestMoreCovers()
+        return remoteDataSource.requestMoreCovers()
                 .map(entityMapper::map)
                 .doOnNext(movies->Observable.from(movies)
                         .filter(cover->!coversCache.isInCache(cover.getMovieId()))
@@ -95,7 +99,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     @Override
     public Observable<List<MovieCover>> sortBy(@NonNull ISortConfiguration.SortType type) {
-        return dataSource.sortBy(type)
+        return remoteDataSource.sortBy(type)
                 .map(entityMapper::map)
                 .doOnNext(movies->Observable.from(movies)
                         .filter(cover->!coversCache.isInCache(cover.getMovieId()))

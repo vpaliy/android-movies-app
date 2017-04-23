@@ -61,9 +61,6 @@ public class  MovieInfoFragment extends Fragment
     @BindView(R.id.movieDescription)
     protected ExpandableTextView movieDescription;
 
-    @BindView(R.id.ratings)
-    protected TextView ratings;
-
     @BindView(R.id.similarMoviesCard)
     protected CardView similarMoviesCard;
 
@@ -165,13 +162,11 @@ public class  MovieInfoFragment extends Fragment
         final String revenueText=movieInfo.getRevenue()!=null?"$"+movieInfo.getRevenue():NA;
         final String releaseDateText=movieInfo.getReleaseDate()!=null?movieInfo.getReleaseDate().toString():NA;
         final String descriptionText=movieInfo.getDescription()!=null?movieInfo.getDescription():NA;
-        final String ratingsText=Double.toString(movieInfo.getAverageRate());
 
         movieDescription.setText(descriptionText);
         movieBudget.setText(budgetText);
         movieRevenue.setText(revenueText);
         movieReleaseDate.setText(releaseDateText);
-        ratings.setText(ratingsText);
 
 
 

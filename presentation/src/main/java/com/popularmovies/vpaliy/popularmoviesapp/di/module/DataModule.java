@@ -11,6 +11,9 @@ import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.source.DataSource;
+import com.popularmovies.vpaliy.data.source.local.MovieLocalSource;
+import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
+import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
 import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
 import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
 import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
@@ -25,10 +28,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import android.util.Log;
-
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -46,6 +48,7 @@ public class DataModule {
             cover.setGenres(Genre.convert(movieEntity.getGenres()));
             cover.setMovieTitle(movieEntity.getTitle());
             cover.setAverageRate(movieEntity.getVoteAverage());
+            cover.setFavorite(movieEntity.isFavorite());
             List<BackdropImage> backdropImages=movieEntity.getBackdropImages();
             if(backdropImages==null){
                 if(movieEntity.getBackdrop_path()!=null) {
@@ -162,12 +165,20 @@ public class DataModule {
 
 
     @Singleton
+    @MovieRemote
     @Provides
-    DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull MovieDatabaseAPI movieDatabaseAPI,
-                                                            @NonNull ISortConfiguration configuration,
-                                                            @NonNull SchedulerProvider schedulerProvider){
-        return new RemoteSource(configuration,movieDatabaseAPI,schedulerProvider);
+    DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull RemoteSource remoteSource){
+        return remoteSource;
     }
+
+
+    @Singleton
+    @MovieLocal
+    @Provides
+    DataSource<Movie,MovieDetailEntity> provideLocalSource(@NonNull MovieLocalSource localSource){
+        return localSource;
+    }
+
 
     @Singleton
     @Provides

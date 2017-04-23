@@ -23,10 +23,10 @@ import javax.inject.Inject;
 public class MoviesPresenter implements MoviesContract.Presenter{
 
 
-    private View view;
     private final IMovieRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
     private final SchedulerProvider schedulerProvider;
+    private View view;
 
     @Inject
     public MoviesPresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> iRepository,

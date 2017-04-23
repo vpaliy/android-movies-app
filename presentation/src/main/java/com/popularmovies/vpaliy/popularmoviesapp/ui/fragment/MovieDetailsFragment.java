@@ -1,11 +1,14 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
@@ -30,6 +33,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import java.util.List;
+
+import butterknife.BindDrawable;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import me.relex.circleindicator.CircleIndicator;
@@ -68,6 +73,10 @@ public class MovieDetailsFragment extends Fragment
     @BindView(R.id.indicator)
     protected CircleIndicator indicator;
 
+    @BindDrawable(R.drawable.star)
+    protected Drawable starDrawable;
+
+    private boolean isFavorite;
     private int ID;
     private String imageTransitionName;
 
@@ -164,6 +173,7 @@ public class MovieDetailsFragment extends Fragment
                 .into(new ImageViewTarget<Bitmap>(movieImage) {
                     @Override
                     protected void setResource(Bitmap resource) {
+                        isFavorite=movieCover.isFavorite();
                         movieImage.setImageBitmap(resource);
                         new Palette.Builder(resource)
                                 .generate(MovieDetailsFragment.this::applyPalette);
@@ -182,6 +192,7 @@ public class MovieDetailsFragment extends Fragment
             TextView title=ButterKnife.findById(getView(),R.id.title);
             TextView genres=ButterKnife.findById(getView(),R.id.genres);
             TextView ratings=ButterKnife.findById(getView(),R.id.ratings);
+
 
             String bullet="\u25CF";
             String titleText=movieCover.getMovieTitle();
@@ -243,6 +254,11 @@ public class MovieDetailsFragment extends Fragment
             TextView genres=ButterKnife.findById(getView(),R.id.genres);
             TextView ratings=ButterKnife.findById(getView(),R.id.ratings);
 
+            if(!isFavorite) {
+                DrawableCompat.setTint(starDrawable, swatch.getBodyTextColor());
+            }
+            ratings.setCompoundDrawablesWithIntrinsicBounds(starDrawable,null,null,null);
+            ratings.setTextColor(swatch.getTitleTextColor());
             year.setTextColor(swatch.getTitleTextColor());
             duration.setTextColor(swatch.getTitleTextColor());
             title.setTextColor(swatch.getTitleTextColor());

@@ -7,6 +7,7 @@ public class MovieCover {
     private int movieId;
     private int releaseYear;
     private double averageRate;
+    private boolean isFavorite;
     private String movieTitle;
     private String posterPath;
     private String duration;
@@ -36,6 +37,14 @@ public class MovieCover {
 
     public double getAverageRate() {
         return averageRate;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
     }
 
     public void setAverageRate(double averageRate) {

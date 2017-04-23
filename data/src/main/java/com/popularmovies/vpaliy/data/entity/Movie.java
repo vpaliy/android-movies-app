@@ -66,6 +66,8 @@ public class Movie {
     @SerializedName("vote_count")
     private long voteCount;
 
+    private boolean isFavorite;
+
 
     public int getMovieId() {
         return movieId;
@@ -83,6 +85,13 @@ public class Movie {
         return runtime;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
 
     public List<Genre> getGenres() {
         return genres;

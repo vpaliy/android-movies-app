@@ -10,6 +10,7 @@ public interface ISortConfiguration {
 
     enum SortType{
         POPULAR,
-        TOP_RATED
+        TOP_RATED,
+        FAVORITE
     }
 }
