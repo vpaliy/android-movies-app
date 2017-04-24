@@ -12,11 +12,7 @@ import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.data.source.local.MovieLocalSource;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
-import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
 import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
-import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
@@ -28,9 +24,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
-
+import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
+import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
 import dagger.Module;
 import dagger.Provides;
 
@@ -88,6 +86,20 @@ public class DataModule {
             }
             return null;
         }
+
+        @Override
+        public Movie reverseMap(MovieCover movieCover) {
+            Movie result=new Movie();
+            result.setMovieId(movieCover.getMovieId());
+            result.setPosterPath(movieCover.getPosterPath());
+            result.setGenres(Genre.convertToGenres(movieCover.getGenres()));
+            result.setTitle(movieCover.getMovieTitle());
+            result.setVoteAverage(movieCover.getAverageRate());
+            result.setFavorite(movieCover.isFavorite());
+            result.setBackdropImages(BackdropImage.convertToBackdrops(movieCover.getBackdrops()));
+            result.setReleaseDate(Integer.toString(movieCover.getReleaseYear()));
+            return result;
+        }
     };
 
     private static final Mapper<ActorCover,ActorEntity> ACTOR_COVER_MAPPER= new Mapper<ActorCover, ActorEntity>() {
@@ -110,6 +122,17 @@ public class DataModule {
                 return coverList;
             }
             return null;
+        }
+
+
+        @Override
+        public ActorEntity reverseMap(ActorCover actorCover) {
+            ActorEntity entity=new ActorEntity();
+            entity.setActorId(actorCover.getActorId());
+            entity.setActorAvatar(actorCover.getActorAvatar());
+            entity.setRole(actorCover.getRole());
+            entity.setName(actorCover.getName());
+            return entity;
         }
     };
 
@@ -160,6 +183,13 @@ public class DataModule {
                 }
                 return null;
             }
+
+
+            @Override
+            public MovieDetailEntity reverseMap(MovieDetails details) {
+                //TODO  implement mapping of this class
+                return null;
+            }
         };
     }
 
@@ -170,7 +200,6 @@ public class DataModule {
     DataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull RemoteSource remoteSource){
         return remoteSource;
     }
-
 
     @Singleton
     @MovieLocal
@@ -191,8 +220,6 @@ public class DataModule {
     IMovieRepository<MovieCover,MovieDetails> provideMovieRepository(MovieRepository repository){
         return repository;
     }
-
-
 
     @Singleton
     @Provides

@@ -20,6 +20,13 @@ public class BackdropImage {
         return backdropPath;
     }
 
+    public BackdropImage(){}
+
+
+    public BackdropImage(String backdropPath){
+        this.backdropPath=backdropPath;
+    }
+
     public static List<String> convert(List<BackdropImage> images){
         List<String> paths=new LinkedList<>();
         for(BackdropImage image:images){
@@ -27,5 +34,16 @@ public class BackdropImage {
             Log.d(TAG,baseImageUrl+image.getBackdropPath());
         }
         return paths;
+    }
+
+    public static List<BackdropImage> convertToBackdrops(List<String> backdrops){
+        if(backdrops==null) return null;
+        List<BackdropImage> images=new LinkedList<>();
+        for(String image:backdrops){
+            String result=image.substring(baseImageUrl.length(),image.length());
+            Log.d(TAG,result);
+            images.add(new BackdropImage(result));
+        }
+        return images;
     }
 }

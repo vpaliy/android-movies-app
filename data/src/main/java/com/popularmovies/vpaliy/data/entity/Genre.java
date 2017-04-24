@@ -13,6 +13,12 @@ public class Genre {
     @SerializedName("name")
     private String name;
 
+    public Genre(){}
+
+    public Genre(String name){
+        this.name=name;
+    }
+
     public int getId() {
         return id;
     }
@@ -28,5 +34,14 @@ public class Genre {
             result.add(genre.getName());
         }
         return result;
+    }
+
+    public static List<Genre> convertToGenres(List<String> stringList){
+        if(stringList==null) return null;
+        List<Genre> genres=new LinkedList<>();
+        for(String string:stringList){
+            genres.add(new Genre(string));
+        }
+        return genres;
     }
 }

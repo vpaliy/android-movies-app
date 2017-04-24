@@ -41,6 +41,7 @@ public final class MoviesContract {
         public static final String COLUMN_POSTER_PATH = "posterPath";
         public static final String COLUMN_RELEASE_DATE = "releaseDate";
         public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_IS_FAVORITE="isFavorite";
         public static final String COLUMN_AVERAGE_VOTE = "voteAverage";
         public static final String COLUMN_VOTE_COUNT = "voteCount";
         public static final String COLUMN_BACKDROP_PATH = "backdropPath";
@@ -54,6 +55,7 @@ public final class MoviesContract {
                         COLUMN_POSTER_PATH + " TEXT, " +
                         COLUMN_POPULARITY + " REAL, " +
                         COLUMN_TITLE + " TEXT, " +
+                        COLUMN_IS_FAVORITE+" INTEGER, "+
                         COLUMN_AVERAGE_VOTE + " REAL, " +
                         COLUMN_VOTE_COUNT + " INTEGER," +
                         COLUMN_BACKDROP_PATH + " TEXT, " +
@@ -88,28 +90,6 @@ public final class MoviesContract {
 
     }
 
-
-    public static class FavoriteEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon()
-                .appendPath(PATH_FAVORITE).build();
-
-        public static final String CONTENT_DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
-                        CONTENT_AUTHORITY + "/" + PATH_MOVIE+"/"+PATH_FAVORITE;
-
-        public static final String TABLE_NAME="favorites";
-
-
-        public static final String SQL_CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        MovieEntry.MOVIE_ID + " INTEGER NOT NULL, " +
-                        " FOREIGN KEY (" + MovieEntry.MOVIE_ID + ") REFERENCES " +
-                        MovieEntry.TABLE_NAME + " (" + MovieEntry._ID + ") " + " );";
-        public static final String SQL_DROP_IF_EXISTS="DROP TABLE IF EXISTS "+TABLE_NAME;
-
-    }
 
 
     public static class MostRatedEntry implements BaseColumns {

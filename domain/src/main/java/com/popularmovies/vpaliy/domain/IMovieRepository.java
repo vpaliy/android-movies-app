@@ -9,4 +9,5 @@ import rx.Observable;
 public interface IMovieRepository<T,D> extends IRepository<T,D> {
     Observable<List<T>> requestMoreCovers();
     Observable<List<T>> sortBy(@NonNull ISortConfiguration.SortType type);
+    void update(T item);
 }

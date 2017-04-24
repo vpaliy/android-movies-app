@@ -98,6 +98,11 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
 
     @Override
+    public void update(MovieCover item) {
+        localDataSource.update(entityMapper.reverseMap(item));
+    }
+
+    @Override
     public Observable<List<MovieCover>> sortBy(@NonNull ISortConfiguration.SortType type) {
         return remoteDataSource.sortBy(type)
                 .map(entityMapper::map)

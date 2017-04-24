@@ -41,4 +41,20 @@ public class ActorEntity {
     public String getRole() {
         return role;
     }
+
+    public void setActorAvatar(String actorAvatar) {
+        this.actorAvatar = actorAvatar;
+    }
+
+    public void setActorId(int actorId) {
+        this.actorId = actorId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

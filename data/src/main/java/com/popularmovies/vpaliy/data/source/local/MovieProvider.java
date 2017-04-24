@@ -19,7 +19,6 @@ public class MovieProvider extends ContentProvider {
     private static final int MOVIES_WITH_ID=101;
     private static final int MOST_RATED=200;
     private static final int MOST_POPULAR=300;
-    private static final int FAVORITES=400;
 
     private static final String MOVIE_SELECTION_BY_ID=
             MoviesContract.MovieEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry._ID+"=?";
@@ -30,7 +29,6 @@ public class MovieProvider extends ContentProvider {
 
         uriMatcher.addURI(authority,MoviesContract.PATH_MOVIE,MOVIES);
         uriMatcher.addURI(authority,MoviesContract.PATH_MOVIE+"/#",MOVIES_WITH_ID);
-        uriMatcher.addURI(authority,MoviesContract.PATH_FAVORITE,FAVORITES);
         uriMatcher.addURI(authority,MoviesContract.PATH_MOST_POPULAR,MOST_POPULAR);
         uriMatcher.addURI(authority,MoviesContract.PATH_HIGHEST_RATED,MOST_RATED);
 
@@ -112,13 +110,6 @@ public class MovieProvider extends ContentProvider {
                         selectionArgs,
                         sortOrder);
                 break;
-            case FAVORITES:
-                cursor=fetchFromTable(MoviesContract.FavoriteEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        sortOrder);
-                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -186,12 +177,8 @@ public class MovieProvider extends ContentProvider {
                 rowsDeleted=sqlHelper.getWritableDatabase()
                         .delete(MoviesContract.MostRatedEntry.TABLE_NAME,selection,selectionArgs);
                 break;
-            case FAVORITES:
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.FavoriteEntry.TABLE_NAME,selection,selectionArgs);
-                break;
             default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
+                throw new UnsupportedOperationException("Unknown Uri: " + uri);
         }
         //
         if(rowsDeleted!=0){
@@ -212,7 +199,36 @@ public class MovieProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+        final int match=URI_MATCHER.match(uri);
+        Uri resultUri=null;
+        long id=0;
+        switch (match){
+            case MOVIES:
+                id=sqlHelper.getWritableDatabase()
+                        .insert(MoviesContract.MovieEntry.TABLE_NAME,null,values);
+                if(id>0){
+                    resultUri=ContentUris.withAppendedId(MoviesContract.MovieEntry.CONTENT_URI,id);
+                }
+                break;
+            case MOST_POPULAR:
+                id=sqlHelper.getWritableDatabase()
+                        .insert(MoviesContract.MostPopularEntry.TABLE_NAME,null,values);
+                if(id>0){
+                    resultUri= MoviesContract.MostPopularEntry.CONTENT_URI;
+                }
+                break;
+            case MOST_RATED:
+                id=sqlHelper.getWritableDatabase()
+                        .insert(MoviesContract.MostRatedEntry.TABLE_NAME,null,values);
+                if(id>0){
+                    resultUri= MoviesContract.MostRatedEntry.CONTENT_URI;
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown Uri: " + uri);
+
+        }
+        return resultUri;
     }
 
     @Nullable

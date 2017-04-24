@@ -11,4 +11,5 @@ import java.util.List;
 public interface Mapper<To, From> {
     To map(From from);
     List<To> map(List<From> from);
+    From reverseMap(To to);
 }

@@ -112,6 +112,12 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     }
 
     @Override
+    public void insert(Movie item) {/*Nothing */}
+
+    @Override
+    public void update(Movie item) {/* Nothing */}
+
+    @Override
     public Observable<List<Movie>> requestMoreCovers() {
         if(totalPages!=currentPage) {
             currentPage++;

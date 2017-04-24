@@ -35,6 +35,11 @@
                   android:theme="@style/DetailsTheme">
         </activity>
 
+        <provider
+            android:exported="false"
+            android:authorities="com.popularmovies.vpaliy"
+            android:name="com.popularmovies.vpaliy.data.source.local.MovieProvider"/>
+
     </application>
 
 </manifest>

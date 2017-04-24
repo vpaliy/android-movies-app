@@ -17,5 +17,4 @@ public interface IRepository<T,D> {
     Observable<D> getDetails(int ID);
     Observable<T> getCover(int ID);
 
-
 }
