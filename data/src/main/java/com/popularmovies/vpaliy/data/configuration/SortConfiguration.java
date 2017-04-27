@@ -13,6 +13,8 @@ public class SortConfiguration implements ISortConfiguration {
     private static final String KEY="SORT_TYPE";
     private static final int BY_POPULARITY=0;
     private static final int BY_LATEST=1;
+    private static final int BY_FAVORITE=2;
+
 
     private final SharedPreferences preferences;
 

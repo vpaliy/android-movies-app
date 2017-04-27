@@ -58,11 +58,14 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     @Override
     public Observable<List<MovieCover>> getCovers() {
-        return remoteDataSource.getCovers()
-                .map(entityMapper::map)
-                .doOnNext(movies->Observable.from(movies)
-                        .filter(cover->!coversCache.isInCache(cover.getMovieId()))
-                        .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(),movieCover)));
+        if(isNetworkConnection()) {
+            return remoteDataSource.getCovers()
+                    .map(entityMapper::map)
+                    .doOnNext(movies -> Observable.from(movies)
+                            .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
+                            .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
+        }
+        return null;
 
     }
 
@@ -79,20 +82,29 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     @Override
     public Observable<MovieCover> getCover(int ID) {
         if(!coversCache.isInCache(ID)) {
-            return remoteDataSource.getCover(ID)
+            if(isNetworkConnection()) {
+                return remoteDataSource.getCover(ID)
+                        .map(entityMapper::map)
+                        .doOnNext(movie -> coversCache.put(ID, movie));
+            }
+            return localDataSource.getCover(ID)
                     .map(entityMapper::map)
-                    .doOnNext(movie->coversCache.put(ID,movie));
+                    .doOnNext(movie -> coversCache.put(ID, movie));
         }
+        //
         return coversCache.getStream(ID);
     }
 
     @Override
     public Observable<List<MovieCover>> requestMoreCovers() {
-        return remoteDataSource.requestMoreCovers()
-                .map(entityMapper::map)
-                .doOnNext(movies->Observable.from(movies)
-                        .filter(cover->!coversCache.isInCache(cover.getMovieId()))
-                        .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(),movieCover)));
+        if(isNetworkConnection()) {
+            return remoteDataSource.requestMoreCovers()
+                    .map(entityMapper::map)
+                    .doOnNext(movies -> Observable.from(movies)
+                            .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
+                            .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
+        }
+        return null;
 
     }
 
@@ -104,10 +116,24 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     @Override
     public Observable<List<MovieCover>> sortBy(@NonNull ISortConfiguration.SortType type) {
-        return remoteDataSource.sortBy(type)
-                .map(entityMapper::map)
-                .doOnNext(movies->Observable.from(movies)
-                        .filter(cover->!coversCache.isInCache(cover.getMovieId()))
-                        .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(),movieCover)));
+        switch (type){
+            case FAVORITE:
+                return localDataSource.sortBy(type)
+                        .map(entityMapper::map)
+                        .doOnNext(movies->Observable.from(movies)
+                                .filter(cover->!coversCache.isInCache(cover.getMovieId()))
+                                .subscribe(movieCover->coversCache.put(movieCover.getMovieId(),movieCover)));
+            default:
+                return remoteDataSource.sortBy(type)
+                        .map(entityMapper::map)
+                        .doOnNext(movies -> Observable.from(movies)
+                                .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
+                                .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
+
+        }
+    }
+
+    private boolean isNetworkConnection(){
+        return true;
     }
 }
