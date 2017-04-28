@@ -36,6 +36,10 @@ public final class MoviesContract {
         public static final String TABLE_NAME="movies";
         public static final String COLUMN_ORIGINAL_TITLE="originalTitle";
         public static final String COLUMN_OVERVIEW="overview";
+        public static final String COLUMN_BUDGET="budget";
+        public static final String COLUMN_REVENUE="revenue";
+        public static final String COLUMN_RUNTIME="runtime";
+        public static final String COLUMN_HOME_PAGE="homePage";
         public static final String COLUMN_POPULARITY="popularity";
         public static final String COLUMN_MOVIE_BACKDROPS="backdrops";
         public static final String COLUMN_POSTER_PATH = "posterPath";
@@ -44,6 +48,7 @@ public final class MoviesContract {
         public static final String COLUMN_IS_FAVORITE="isFavorite";
         public static final String COLUMN_AVERAGE_VOTE = "voteAverage";
         public static final String COLUMN_VOTE_COUNT = "voteCount";
+        public static final String COLUMN_GENRES="genres";
         public static final String COLUMN_BACKDROP_PATH = "backdropPath";
 
         public static final String SQL_CREATE_TABLE =
@@ -54,6 +59,11 @@ public final class MoviesContract {
                         COLUMN_RELEASE_DATE + " TEXT, " +
                         COLUMN_POSTER_PATH + " TEXT, " +
                         COLUMN_POPULARITY + " REAL, " +
+                        COLUMN_BUDGET+" INTEGER, "+
+                        COLUMN_RUNTIME+" INTEGER, "+
+                        COLUMN_REVENUE+" INTEGER, "+
+                        COLUMN_GENRES+" TEXT, "+
+                        COLUMN_HOME_PAGE+" TEXT, "+
                         COLUMN_TITLE + " TEXT, " +
                         COLUMN_IS_FAVORITE+" INTEGER, "+
                         COLUMN_AVERAGE_VOTE + " REAL, " +
@@ -63,6 +73,19 @@ public final class MoviesContract {
                         " );";
 
         public static final String SQL_DROP_IF_EXISTS="DROP TABLE IF EXISTS "+TABLE_NAME;
+
+
+        public static final String[] COLUMNS= new String[]{
+                _ID,
+                COLUMN_ORIGINAL_TITLE,COLUMN_OVERVIEW,
+                COLUMN_RELEASE_DATE,COLUMN_POSTER_PATH,
+                COLUMN_POPULARITY,COLUMN_BUDGET,
+                COLUMN_RUNTIME,COLUMN_REVENUE,
+                COLUMN_GENRES,COLUMN_HOME_PAGE,
+                COLUMN_TITLE,COLUMN_IS_FAVORITE,
+                COLUMN_AVERAGE_VOTE,COLUMN_VOTE_COUNT,
+                COLUMN_BACKDROP_PATH,COLUMN_MOVIE_BACKDROPS
+        };
 
 
     }

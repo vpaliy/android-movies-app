@@ -20,9 +20,6 @@ public class MovieProvider extends ContentProvider {
     private static final int MOVIES_WITH_ID=101;
     private static final int MOST_RATED=200;
     private static final int MOST_POPULAR=300;
-    private static final int MOVIE_DETAILS=400;
-    private static final int MOVIE_DETAILS_WITH_ID=401;
-
 
     private static final String MOVIE_SELECTION_BY_ID=
             MoviesContract.MovieEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry._ID+"=?";
