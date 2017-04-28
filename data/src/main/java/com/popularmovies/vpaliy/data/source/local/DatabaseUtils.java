@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.data.source.local;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -70,5 +72,27 @@ public final class DatabaseUtils {
         movie.setBackdropPath(backdropPath);
 
         return movie;
+    }
+
+
+    private Cursor fetchFromTable(String tableName, String[] projection, String selection,
+                                  String[] selectionArgs, String sortOrder, SQLiteOpenHelper sqLiteOpenHelper) {
+
+        SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
+
+        sqLiteQueryBuilder.setTables(
+                tableName + " INNER JOIN " + MoviesContract.MovieEntry.TABLE_NAME +
+                        " ON " + tableName + "." + MoviesContract.MovieEntry.MOVIE_ID +
+                        " = " + MoviesContract.MovieEntry.TABLE_NAME + "." + MoviesContract.MovieEntry._ID
+        );
+
+        return sqLiteQueryBuilder.query(sqLiteOpenHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
     }
 }

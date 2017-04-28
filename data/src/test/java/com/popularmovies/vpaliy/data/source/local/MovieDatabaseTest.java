@@ -1,8 +1,10 @@
 package com.popularmovies.vpaliy.data.source.local;
 
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Build;
 import android.util.Log;
 
@@ -16,8 +18,20 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
+
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_RELEASE_DATE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_POSTER_PATH;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_BACKDROP_PATH;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_BACKDROPS;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_BUDGET;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_GENRES;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_HOMEPAGE;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_IS_FAVORITE;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_ORIGINAL_LANGUAGE;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_OVERVIEW;
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_TITLE;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class,
@@ -26,6 +40,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class MovieDatabaseTest {
 
     private MovieSQLHelper sqlHelper;
+
+    private static final String MOVIE_SELECTION_BY_ID=
+            MoviesContract.MovieEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry._ID+"=?";
 
     @Before
     public void setUp(){
@@ -146,6 +163,69 @@ public class MovieDatabaseTest {
             cursor.close();
             assertThat(cursor.isClosed(), is(true));
         }
+    }
+
+
+    @Test
+    public void testMovieUpdate(){
+        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
+        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
+        movie.setTitle(FAKE_TITLE+FAKE_TITLE);
+        movie.setReleaseDate(FAKE_RELEASE_DATE+FAKE_RELEASE_DATE);
+        movie.setOverview(FAKE_OVERVIEW+FAKE_OVERVIEW);
+        movie.setHomepage(FAKE_HOMEPAGE+FAKE_HOMEPAGE);
+        movie.setBackdropPath(FAKE_BACKDROP_PATH+FAKE_BACKDROP_PATH);
+        movie.setFavorite(!FAKE_IS_FAVORITE);
+
+        final int rowsUpdated=database.update(MoviesContract.MovieEntry.TABLE_NAME,DataSourceTestUtils.provideFakeValues(movie),null,null);
+        assertThat(rowsUpdated,is(1));
+        String[] selectionArgs = new String[]{Long.toString(movie.getMovieId())};
+        Cursor cursor=database.query(MoviesContract.MovieEntry.TABLE_NAME,
+                null,MOVIE_SELECTION_BY_ID,selectionArgs,null,null,null);
+        assertThat(cursor.moveToFirst(),is(true));
+        assertThatMovieIsEqualToCursor(cursor,movie,1,true);
+
+    }
+
+
+    @Test
+    public void testMovieDelete(){
+        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
+        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
+
+        String[] selectionArgs = new String[]{Long.toString(movie.getMovieId())};
+        final int rowsDeleted=database.delete(MoviesContract.MovieEntry.TABLE_NAME,MOVIE_SELECTION_BY_ID,selectionArgs);
+        assertThat(rowsDeleted,is(1));
+
+        Cursor cursor=database.query(MoviesContract.MovieEntry.TABLE_NAME,
+                null,MOVIE_SELECTION_BY_ID,selectionArgs,null,null,null);
+        assertThat(cursor.getCount(),is(0));
+        if(!cursor.isClosed()) cursor.close();
+
+    }
+
+
+    private Cursor fetchFromTable(String tableName, String[] projection, String selection,
+                                  String[] selectionArgs, String sortOrder) {
+
+        SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
+
+        sqLiteQueryBuilder.setTables(
+                tableName + " INNER JOIN " + MoviesContract.MovieEntry.TABLE_NAME +
+                        " ON " + tableName + "." + MoviesContract.MovieEntry.MOVIE_ID +
+                        " = " + MoviesContract.MovieEntry.TABLE_NAME + "." + MoviesContract.MovieEntry._ID
+        );
+
+        return sqLiteQueryBuilder.query(sqlHelper.getReadableDatabase(),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder
+        );
     }
 
     private void createDatabase(){
