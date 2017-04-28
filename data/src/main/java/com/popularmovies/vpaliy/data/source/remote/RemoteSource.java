@@ -115,6 +115,9 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     public void insert(Movie item) {/*Nothing */}
 
     @Override
+    public void insertDetails(MovieDetailEntity details) {/*Nothing */}
+
+    @Override
     public void update(Movie item) {/* Nothing */}
 
     @Override

@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
@@ -19,9 +20,13 @@ public class MovieProvider extends ContentProvider {
     private static final int MOVIES_WITH_ID=101;
     private static final int MOST_RATED=200;
     private static final int MOST_POPULAR=300;
+    private static final int MOVIE_DETAILS=400;
+    private static final int MOVIE_DETAILS_WITH_ID=401;
+
 
     private static final String MOVIE_SELECTION_BY_ID=
             MoviesContract.MovieEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry._ID+"=?";
+
 
     private static UriMatcher buildUriMatcher(){
         UriMatcher uriMatcher=new UriMatcher(UriMatcher.NO_MATCH);
@@ -205,7 +210,8 @@ public class MovieProvider extends ContentProvider {
         switch (match){
             case MOVIES:
                 id=sqlHelper.getWritableDatabase()
-                        .insert(MoviesContract.MovieEntry.TABLE_NAME,null,values);
+                        .insertWithOnConflict(MoviesContract.MovieEntry.TABLE_NAME,null,values,
+                                SQLiteDatabase.CONFLICT_REPLACE);
                 if(id>0){
                     resultUri=ContentUris.withAppendedId(MoviesContract.MovieEntry.CONTENT_URI,id);
                 }

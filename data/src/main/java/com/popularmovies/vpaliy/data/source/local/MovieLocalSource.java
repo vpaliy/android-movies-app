@@ -39,7 +39,7 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     /* No more movies */
     @Override
-    public Observable<List<Movie>> requestMoreCovers() { return null;}
+    public Observable<List<Movie>> requestMoreCovers() { return null; }
 
     @Override
     public Observable<MovieDetailEntity> getDetails(int ID) {
@@ -158,6 +158,11 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
     public Observable<List<Movie>> sortBy(@NonNull ISortConfiguration.SortType type) {
         sortConfiguration.saveConfiguration(type);
         return getCovers();
+    }
+
+    @Override
+    public void insertDetails(MovieDetailEntity details) {
+
     }
 
     @Override
