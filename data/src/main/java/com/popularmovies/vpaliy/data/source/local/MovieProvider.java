@@ -124,41 +124,6 @@ public class MovieProvider extends ContentProvider {
     }
 
 
-    private Cursor fetchMovieById(Uri uri, String[] projection, String sortOrder) {
-        long id = ContentUris.parseId(uri);
-        String[] selectionArgs = new String[]{Long.toString(id)};
-        return sqlHelper.getReadableDatabase().query(
-                MoviesContract.MovieEntry.TABLE_NAME,
-                projection,
-                MOVIE_SELECTION_BY_ID,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
-    }
-
-    private Cursor fetchFromTable(String tableName, String[] projection, String selection,
-                                               String[] selectionArgs, String sortOrder) {
-
-        SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
-
-        sqLiteQueryBuilder.setTables(
-                tableName + " INNER JOIN " + MoviesContract.MovieEntry.TABLE_NAME +
-                        " ON " + tableName + "." + MoviesContract.MovieEntry.MOVIE_ID +
-                        " = " + MoviesContract.MovieEntry.TABLE_NAME + "." + MoviesContract.MovieEntry._ID
-        );
-
-        return sqLiteQueryBuilder.query(sqlHelper.getReadableDatabase(),
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder
-        );
-    }
-
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         final int match=URI_MATCHER.match(uri);

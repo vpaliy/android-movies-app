@@ -68,14 +68,28 @@ public class MovieDatabaseTest {
         SQLiteDatabase database=sqlHelper.getWritableDatabase();
 
         final Movie movie=DataSourceTestUtils.provideFakeMovie();
+        final Movie secondMovie=DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,
                 DataSourceTestUtils.provideFakeValues(movie));
+        secondMovie.setMovieId(1234);
+        database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,
+                DataSourceTestUtils.provideFakeValues(secondMovie));
 
         //query all
         Cursor cursor=database.query(MoviesContract.MovieEntry.TABLE_NAME,
                 null,null,null,null,null,null);
         assertThat(cursor.moveToFirst(),is(true));
-        assertThatMovieIsEqualToCursor(cursor,movie,1,true);
+        assertThatMovieIsEqualToCursor(cursor,movie,2,false);
+        assertThat(cursor.moveToNext(),is(true));
+        assertThatMovieIsEqualToCursor(cursor,secondMovie,2,true);
+
+        //make a query by id
+        String[] selectionArgs={Integer.toString(secondMovie.getMovieId())};
+
+
+        cursor=database.query(MoviesContract.MovieEntry.TABLE_NAME,null,MOVIE_SELECTION_BY_ID,selectionArgs,null,null,null);
+        assertThat(cursor.moveToFirst(),is(true));
+        assertThatMovieIsEqualToCursor(cursor,secondMovie,1,true);
 
 
     }
@@ -294,6 +308,63 @@ public class MovieDatabaseTest {
 
     }
 
+    @Test
+    public void testMostPopularDelete(){
+        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
+        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
+        String[] selectionArgs = new String[]{Long.toString(movie.getMovieId())};
+
+        ContentValues values=new ContentValues();
+        values.put(MoviesContract.MostPopularEntry._ID,movie.getMovieId());
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,movie.getMovieId());
+        database.insert(MoviesContract.MostPopularEntry.TABLE_NAME,null,values);
+
+
+        Cursor cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,null,
+                MOST_POPULAR_SELECTION_BY_ID, selectionArgs,null,sqlHelper);
+        assertThat(cursor.getCount(),is(1));
+        if(!cursor.isClosed()) cursor.close();
+
+        final int rowsDeleted=database.delete(MoviesContract.MostPopularEntry.TABLE_NAME,MOST_POPULAR_SELECTION_BY_ID,selectionArgs);
+        assertThat(rowsDeleted,is(1));
+
+        cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,null,
+                MOST_POPULAR_SELECTION_BY_ID, selectionArgs,null,sqlHelper);
+        assertThat(cursor.getCount(),is(0));
+        if(!cursor.isClosed()) cursor.close();
+
+    }
+
+    @Test
+    public void testMostRatedDelete(){
+        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
+        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
+        String[] selectionArgs = new String[]{Long.toString(movie.getMovieId())};
+
+
+        ContentValues values=new ContentValues();
+        values.put(MoviesContract.MostRatedEntry._ID,movie.getMovieId());
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,movie.getMovieId());
+        database.insert(MoviesContract.MostRatedEntry.TABLE_NAME,null,values);
+
+        Cursor cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,null,
+                MOST_RATED_SELECTION_BY_ID, selectionArgs,null,sqlHelper);
+        assertThat(cursor.getCount(),is(1));
+        if(!cursor.isClosed()) cursor.close();
+
+        final int rowsDeleted=database.delete(MoviesContract.MostRatedEntry.TABLE_NAME,MOST_RATED_SELECTION_BY_ID,selectionArgs);
+        assertThat(rowsDeleted,is(1));
+
+        cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,null,
+                MOST_RATED_SELECTION_BY_ID, selectionArgs,null,sqlHelper);
+        assertThat(cursor.getCount(),is(0));
+        if(!cursor.isClosed()) cursor.close();
+
+    }
+
+
 
     @Test
     public void testMostPopularMoviesInsert(){
@@ -352,6 +423,4 @@ public class MovieDatabaseTest {
             db.execSQL(MoviesContract.MostRatedEntry.SQL_DROP_IF_EXISTS);
         }
     }
-
-
 }
