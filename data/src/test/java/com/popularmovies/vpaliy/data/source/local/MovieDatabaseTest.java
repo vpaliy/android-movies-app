@@ -19,6 +19,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_MOVIE_ID;
 import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_RELEASE_DATE;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -205,6 +206,81 @@ public class MovieDatabaseTest {
         if(!cursor.isClosed()) cursor.close();
 
     }
+
+
+    @Test
+    public void testMostPopularMoviesInsert(){
+        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,FAKE_MOVIE_ID);
+
+        database.insert(MoviesContract.MostPopularEntry.TABLE_NAME,null,values);
+
+        Cursor cursor=database.query(MoviesContract.MostPopularEntry.TABLE_NAME,
+                null,null,null,null,null,null);
+
+        assertThat(cursor.getCount(),is(1));
+        assertThat(cursor.moveToFirst(),is(true));
+        assertThat(cursor.getInt(cursor.getColumnIndex(MoviesContract.MovieEntry.MOVIE_ID)),is(FAKE_MOVIE_ID));
+
+        if(!cursor.isClosed()) cursor.close();
+    }
+
+    @Test
+    public void testTopRatedMoviesInsert(){
+        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,FAKE_MOVIE_ID);
+
+        database.insert(MoviesContract.MostRatedEntry.TABLE_NAME,null,values);
+
+        Cursor cursor=database.query(MoviesContract.MostRatedEntry.TABLE_NAME,
+                null,null,null,null,null,null);
+
+        assertThat(cursor.getCount(),is(1));
+        assertThat(cursor.moveToFirst(),is(true));
+        assertThat(cursor.getInt(cursor.getColumnIndex(MoviesContract.MovieEntry.MOVIE_ID)),is(FAKE_MOVIE_ID));
+
+        if(!cursor.isClosed()) cursor.close();
+    }
+
+
+    @Test
+    public void testTopRatedMoviesQuery(){
+        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
+        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
+
+
+        ContentValues values=new ContentValues();
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,movie.getMovieId());
+
+        database.insert(MoviesContract.MostRatedEntry.TABLE_NAME,null,values);
+
+        Cursor cursor=fetchFromTable(MoviesContract.MostRatedEntry.TABLE_NAME,null,null,null,null);
+
+        assertThat(cursor.moveToFirst(),is(true));
+        assertThatMovieIsEqualToCursor(cursor,movie,1,true);
+    }
+
+    @Test
+    public void testMostPopularMoviesQuery(){
+        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
+        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
+
+
+        ContentValues values=new ContentValues();
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,movie.getMovieId());
+
+        database.insert(MoviesContract.MostPopularEntry.TABLE_NAME,null,values);
+
+        Cursor cursor=fetchFromTable(MoviesContract.MostPopularEntry.TABLE_NAME,null,null,null,null);
+
+        assertThat(cursor.moveToFirst(),is(true));
+        assertThatMovieIsEqualToCursor(cursor,movie,1,true);
+    }
+
 
 
     private Cursor fetchFromTable(String tableName, String[] projection, String selection,
