@@ -84,7 +84,7 @@ public final class MoviesContract {
 
         public static final String SQL_CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        _ID + " INTEGER PRIMARY KEY, " +
                         MovieEntry.MOVIE_ID + " INTEGER NOT NULL, " +
                         " FOREIGN KEY (" + MovieEntry.MOVIE_ID + ") REFERENCES " +
                         MovieEntry.TABLE_NAME + " (" + MovieEntry._ID + ") " + " );";
@@ -108,7 +108,7 @@ public final class MoviesContract {
 
         public static final String SQL_CREATE_TABLE =
                 "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        _ID + " INTEGER PRIMARY KEY, " +
                         MovieEntry.MOVIE_ID + " INTEGER NOT NULL, " +
                         " FOREIGN KEY (" + MovieEntry.MOVIE_ID + ") REFERENCES " +
                         MovieEntry.TABLE_NAME + " (" + MovieEntry._ID + ") " + " );";

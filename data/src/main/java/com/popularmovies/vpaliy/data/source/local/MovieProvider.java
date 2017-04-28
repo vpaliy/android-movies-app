@@ -52,6 +52,45 @@ public class MovieProvider extends ContentProvider {
 
     }
 
+
+
+    @Nullable
+    @Override
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
+                        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        final int match=URI_MATCHER.match(uri);
+        Cursor cursor=null;
+        switch (match){
+            case MOVIES:
+                cursor=sqlHelper.getReadableDatabase()
+                        .query(MoviesContract.MovieEntry.TABLE_NAME,
+                                projection,
+                                selection,
+                                selectionArgs,
+                                null,
+                                null,
+                                sortOrder);
+                break;
+            case MOST_POPULAR:
+                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        sortOrder,sqlHelper);
+                break;
+            case MOST_RATED:
+                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        sortOrder,sqlHelper);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        return cursor;
+    }
+
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         final int match=URI_MATCHER.match(uri);
@@ -83,44 +122,6 @@ public class MovieProvider extends ContentProvider {
         }
         return rowsUpdated;
     }
-
-    @Nullable
-    @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
-                        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        final int match=URI_MATCHER.match(uri);
-        Cursor cursor=null;
-        switch (match){
-            case MOVIES:
-                cursor=sqlHelper.getReadableDatabase()
-                        .query(MoviesContract.MovieEntry.TABLE_NAME,
-                                projection,
-                                selection,
-                                selectionArgs,
-                                null,
-                                null,
-                                sortOrder);
-                break;
-            case MOST_POPULAR:
-                cursor=fetchFromTable(MoviesContract.MostPopularEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        sortOrder);
-                break;
-            case MOST_RATED:
-                cursor=fetchFromTable(MoviesContract.MostRatedEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        sortOrder);
-                break;
-            default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
-        }
-        return cursor;
-    }
-
 
 
     private Cursor fetchMovieById(Uri uri, String[] projection, String sortOrder) {

@@ -75,7 +75,7 @@ public final class DatabaseUtils {
     }
 
 
-    private Cursor fetchFromTable(String tableName, String[] projection, String selection,
+    public static Cursor fetchFromMovieTable(String tableName, String[] projection, String selection,
                                   String[] selectionArgs, String sortOrder, SQLiteOpenHelper sqLiteOpenHelper) {
 
         SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
