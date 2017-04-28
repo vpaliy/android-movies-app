@@ -88,6 +88,7 @@ ext {
 
     testDependencies = [
             jUnit :             "junit:junit:${jUnitVersion}",
+            robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
             mockito:            "org.mockito:mockito-core:${mockitoVersion}",
             espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
             testingSupportLib:  "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",

@@ -45,6 +45,7 @@ dependencies {
 
     /* Testing Libraries */
     testCompile testLibs.mockito
+    testCompile testLibs.robolectric
     testCompile testLibs.jUnit
 
 

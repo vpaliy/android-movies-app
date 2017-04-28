@@ -13,8 +13,6 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import android.database.Cursor;
@@ -75,7 +73,7 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
             if(cursor.moveToFirst()){
                 List<Movie> movies=new ArrayList<>(cursor.getCount());
                 while(cursor.moveToNext()){
-                    movies.add(convertToMovie(cursor));
+                    movies.add(DatabaseUtils.convertToMovie(cursor));
                 }
                 return movies;
             }
@@ -88,59 +86,27 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public void insert(Movie item) {
-        Gson gson=new Gson();
-        String jsonBackdrops=item.getBackdropImages()!=null?
-                gson.toJson(item.getBackdropImages()):null;
-        ContentValues values=new ContentValues();
-        values.put(MoviesContract.MovieEntry._ID,item.getMovieId());
-        values.put(MoviesContract.MovieEntry.COLUMN_TITLE,item.getTitle());
-        values.put(MoviesContract.MovieEntry.COLUMN_OVERVIEW,item.getOverview());
-        values.put(MoviesContract.MovieEntry.COLUMN_POPULARITY,item.getPopularity());
-        values.put(MoviesContract.MovieEntry.COLUMN_MOVIE_BACKDROPS,jsonBackdrops);
-        values.put(MoviesContract.MovieEntry.COLUMN_POSTER_PATH,item.getPosterPath());
-        values.put(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE,item.getReleaseDate());
-      //  values.put(MoviesContract.MovieEntry.COLUMN_IS_FAVORITE,item.get);
-        values.put(MoviesContract.MovieEntry.COLUMN_VOTE_COUNT,item.getVoteCount());
-        values.put(MoviesContract.MovieEntry.COLUMN_AVERAGE_VOTE,item.getVoteAverage());
-
+        final ContentValues values=DatabaseUtils.convertToValues(item);
         contentResolver.insert(MoviesContract.MovieEntry.CONTENT_URI,values);
 
-    }
-
-    private Movie convertToMovie(Cursor cursor){
-        Movie movie=new Movie();
-        final String title=cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_TITLE));
-        final String overview=cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_OVERVIEW));
-        final Number popularity=cursor.getDouble(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_POPULARITY));
-        final String backdrops=cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_MOVIE_BACKDROPS));
-        if(backdrops!=null) {
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<String>>() {
-            }.getType();
-            final List<String> backdropList = gson.fromJson(backdrops, type);
-            movie.setBackdropImages(BackdropImage.convertToBackdrops(backdropList));
+        ContentValues configValues=new ContentValues();
+        configValues.put(MoviesContract.MovieEntry.MOVIE_ID,item.getMovieId());
+        switch (sortConfiguration.getConfiguration()){
+            case POPULAR:
+                contentResolver.insert(MoviesContract.MostPopularEntry.CONTENT_URI,configValues);
+                break;
+            case TOP_RATED:
+                contentResolver.insert(MoviesContract.MostRatedEntry.CONTENT_URI,configValues);
+                break;
         }
-        final String posterPath=cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_POSTER_PATH));
-        final String releaseDate=cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE));
-        final boolean isFavorite=cursor.getInt(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_IS_FAVORITE))==1;
-        final long voteCount=cursor.getLong(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_VOTE_COUNT));
-        final String backdropPath=cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_BACKDROP_PATH));
 
-        movie.setTitle(title);
-        movie.setOverview(overview);
-        movie.setPopularity(popularity);
-        movie.setPosterPath(posterPath);
-        movie.setReleaseDate(releaseDate);
-        movie.setFavorite(isFavorite);
-        movie.setVoteCount(voteCount);
-        movie.setBackdropPath(backdropPath);
-        return movie;
     }
+
 
     private Movie toMovie(Cursor cursor){
         if(cursor!=null){
             if(cursor.moveToFirst()){
-                Movie movie=convertToMovie(cursor);
+                Movie movie=DatabaseUtils.convertToMovie(cursor);
                 if(!cursor.isClosed()) cursor.close();
                 return movie;
             }

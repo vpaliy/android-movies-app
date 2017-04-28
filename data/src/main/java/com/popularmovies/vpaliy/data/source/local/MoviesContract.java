@@ -14,7 +14,6 @@ public final class MoviesContract {
     public static final String PATH_MOVIE_DETAILS=PATH_MOVIE+"/"+"movieDetails";
     public static final String PATH_MOST_POPULAR=PATH_MOVIE+"/"+"mostPopular";
     public static final String PATH_HIGHEST_RATED=PATH_MOVIE+"/"+"highestRated";
-    public static final String PATH_FAVORITE=PATH_MOVIE+"/"+"favorite";
 
 
     private MoviesContract(){

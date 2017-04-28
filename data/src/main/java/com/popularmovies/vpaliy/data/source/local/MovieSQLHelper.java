@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 public class MovieSQLHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME="movies.db";
-    private static final int DATABASE_VERSION=0;
+    private static final int DATABASE_VERSION=1;
 
     public MovieSQLHelper(@NonNull Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);

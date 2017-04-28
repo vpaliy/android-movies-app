@@ -112,7 +112,6 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                     .map(entityMapper::map)
                     .doOnNext(movie -> coversCache.put(ID, movie));
         }
-        //
         return coversCache.getStream(ID);
     }
 

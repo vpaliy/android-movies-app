@@ -9,4 +9,24 @@ public class Constants {
 
     public static final String MOVIE_BACKDROPS="movieBackdrops";
 
+
+    private static String appendBaseMovieURL(String path){
+        if(path==null) return null;
+        return BASE_MOVIE_URL+path;
+    }
+
+    public static String appendPosterSize(String posterPath){
+        if(posterPath==null)return null;
+        return appendBaseMovieURL(IMAGE_SIZE_W185)+posterPath;
+    }
+
+    public static String appendBackdropSize(String backdropPath){
+        if(backdropPath==null)return null;
+        return appendBaseMovieURL(IMAGE_SIZE_W780)+backdropPath;
+    }
+
+
+
+
+
 }
