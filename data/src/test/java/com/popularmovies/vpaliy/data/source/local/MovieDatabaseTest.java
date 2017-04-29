@@ -8,10 +8,14 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.gson.reflect.TypeToken;
 import com.popularmovies.vpaliy.data.BuildConfig;
+import com.popularmovies.vpaliy.data.entity.BackdropImage;
+import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.source.DataSourceTestUtils;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +23,29 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.provider.BaseColumns._ID;
 import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_MOVIE_ID;
 import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_RELEASE_DATE;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_AVERAGE_VOTE;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_BACKDROP_PATH;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_BUDGET;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_GENRES;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_HOME_PAGE;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_IS_FAVORITE;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_MOVIE_BACKDROPS;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_OVERVIEW;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_POPULARITY;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_POSTER_PATH;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_RELEASE_DATE;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_REVENUE;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_RUNTIME;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_TITLE;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_VOTE_COUNT;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_POSTER_PATH;
@@ -32,8 +57,7 @@ import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_TITL
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class,
-        sdk = Build.VERSION_CODES.LOLLIPOP,
-        manifest = "/src/main/AndroidManifest.xml")
+        sdk = Build.VERSION_CODES.LOLLIPOP)
 public class MovieDatabaseTest {
 
     private MovieSQLHelper sqlHelper;
@@ -46,7 +70,6 @@ public class MovieDatabaseTest {
 
     private static final String MOST_POPULAR_SELECTION_BY_ID=
             MoviesContract.MostPopularEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
-
 
     @Before
     public void setUp(){
@@ -249,17 +272,39 @@ public class MovieDatabaseTest {
 
     private void assertThatMovieIsEqualToCursor(Cursor cursor, Movie movie, int count, boolean close){
         assertThat(cursor.getCount(), is(count));
-        assertThat(cursor.getInt(cursor.getColumnIndex(MoviesContract.MovieEntry._ID)), is(movie.getMovieId()));
-        assertThat(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_TITLE)), is(movie.getTitle()));
-        assertThat(cursor.getDouble(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_AVERAGE_VOTE)), is(movie.getVoteAverage()));
-        assertThat(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_BACKDROP_PATH)),is(movie.getBackdrop_path()));
-        assertThat(cursor.getInt(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_IS_FAVORITE))==1, is(movie.isFavorite()));
-        assertThat(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE)), is(movie.getOriginalTitle()));
-        assertThat(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_OVERVIEW)), is(movie.getOverview()));
-        assertThat(cursor.getDouble(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_POPULARITY)), is(movie.getPopularity()));
-        assertThat(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE)), is(movie.getReleaseDate()));
-        assertThat(cursor.getLong(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_VOTE_COUNT)), is(movie.getVoteCount()));
-        assertThat(cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_POSTER_PATH)), is(movie.getPosterPath()));
+        assertThat(cursor.getInt(cursor.getColumnIndex(_ID)), is(movie.getMovieId()));
+        assertThat(cursor.getString(cursor.getColumnIndex(COLUMN_ORIGINAL_TITLE)),is(movie.getOriginalTitle()));
+        assertThat(cursor.getString(cursor.getColumnIndex(COLUMN_OVERVIEW)), is(movie.getOverview()));
+        assertThat(cursor.getString(cursor.getColumnIndex(COLUMN_RELEASE_DATE)), is(movie.getReleaseDate()));
+        assertThat(cursor.getString(cursor.getColumnIndex(COLUMN_POSTER_PATH)), is(movie.getPosterPath()));
+        assertThat(cursor.getDouble(cursor.getColumnIndex(COLUMN_POPULARITY)), is(movie.getPopularity()));
+        assertThat(cursor.getLong(cursor.getColumnIndex(COLUMN_BUDGET)), is(movie.getBudget()));
+        assertThat(cursor.getInt(cursor.getColumnIndex(COLUMN_RUNTIME)), is(movie.getRuntime()));
+        assertThat(cursor.getLong(cursor.getColumnIndex(COLUMN_REVENUE)), is(movie.getRevenue()));
+        assertThat(cursor.getString(cursor.getColumnIndex(COLUMN_HOME_PAGE)), is(movie.getHomepage()));
+        assertThat(cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)), is(movie.getTitle()));
+        assertThat(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVORITE))==1, is(movie.isFavorite()));
+        assertThat(cursor.getDouble(cursor.getColumnIndex(COLUMN_AVERAGE_VOTE)), is(movie.getVoteAverage()));
+        assertThat(cursor.getLong(cursor.getColumnIndex(COLUMN_VOTE_COUNT)), is(movie.getVoteCount()));
+        assertThat(cursor.getString(cursor.getColumnIndex(COLUMN_BACKDROP_PATH)),is(movie.getBackdrop_path()));
+
+        String jsonString=cursor.getString(cursor.getColumnIndex(COLUMN_MOVIE_BACKDROPS));
+        Type type=new TypeToken<ArrayList<BackdropImage>>(){}.getType();
+
+        List<BackdropImage> backdrops=DatabaseUtils.convertFromJsonString(jsonString,type);
+
+        assertThat(backdrops.size(),is(movie.getBackdropImages().size()));
+        Assert.assertArrayEquals(BackdropImage.convert(backdrops).toArray(new String[backdrops.size()]),
+                BackdropImage.convert(movie.getBackdropImages()).toArray(new String[backdrops.size()]));
+
+        jsonString=cursor.getString(cursor.getColumnIndex((COLUMN_GENRES)));
+        type=new TypeToken<ArrayList<Genre>>(){}.getType();
+        List<Genre> genreList=DatabaseUtils.convertFromJsonString(jsonString,type);
+
+        assertThat(genreList.size(),is(movie.getGenres().size()));
+        Assert.assertArrayEquals(Genre.convert(genreList).toArray(new String[genreList.size()]),
+                Genre.convert(movie.getGenres()).toArray(new String[genreList.size()]));
+
         if(close) {
             assertThat(cursor.isClosed(), is(false));
             cursor.close();
