@@ -2,13 +2,11 @@ package com.popularmovies.vpaliy.data.entity;
 
 
 import com.google.gson.annotations.SerializedName;
-import com.popularmovies.vpaliy.data.utils.Constants;
 
 import java.util.List;
 
 public class Movie {
 
-    private static final String baseImageUrl="http://image.tmdb.org/t/p/w780/";
 
     @SerializedName("id")
     private int movieId;
@@ -111,7 +109,7 @@ public class Movie {
     }
 
     public String getBackdrop_path() {
-        return Constants.BASE_MOVIE_URL+Constants.IMAGE_SIZE_W780+ backdrop_path;
+        return backdrop_path;
     }
 
     public String getOriginalLanguage() {
@@ -135,7 +133,7 @@ public class Movie {
     }
 
     public String getPosterPath() {
-        return Constants.BASE_MOVIE_URL+ Constants.IMAGE_SIZE_W185+posterPath;
+        return posterPath;
     }
 
     public String getReleaseDate() {

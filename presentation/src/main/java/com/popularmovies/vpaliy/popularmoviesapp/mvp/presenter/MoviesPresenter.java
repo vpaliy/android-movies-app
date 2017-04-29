@@ -5,16 +5,17 @@ import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.View;
 import java.util.List;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import dagger.multibindings.IntoMap;
 import rx.subscriptions.CompositeSubscription;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 
@@ -22,6 +23,8 @@ import javax.inject.Inject;
 @ViewScope
 public class MoviesPresenter implements MoviesContract.Presenter{
 
+
+    private static final String TAG=MoviesPresenter.class.getSimpleName();
 
     private final IMovieRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
@@ -83,7 +86,8 @@ public class MoviesPresenter implements MoviesContract.Presenter{
                         this::completeLoading));
     }
 
-    private void processData(@NonNull List<MovieCover> movieList){;
+    private void processData(@NonNull List<MovieCover> movieList){
+        Log.d(TAG,Integer.toString(movieList.size()));
         if(!movieList.isEmpty()){
             view.showMovies(movieList);
         }else{
@@ -103,15 +107,21 @@ public class MoviesPresenter implements MoviesContract.Presenter{
                         this::completeLoading));
     }
 
-    private void appendData(@NonNull List<MovieCover> movieList){
-        if(!movieList.isEmpty()){
-            view.appendMovies(movieList);
+    private void appendData(@Nullable List<MovieCover> movieList){
+        if(movieList!=null) {
+            if (!movieList.isEmpty()) {
+                view.appendMovies(movieList);
+                Log.d(TAG,Integer.toString(movieList.size()));
+                return;
+            }
+            view.showNoMoreMoviesMessage();
         }
     }
 
 
     private void handleErrorMessage(Throwable throwable){
         throwable.printStackTrace();
+        view.setLoadingIndicator(false);
         view.showErrorMessage();
     }
 

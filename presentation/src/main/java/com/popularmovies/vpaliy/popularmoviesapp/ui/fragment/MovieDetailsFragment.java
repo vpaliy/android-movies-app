@@ -19,6 +19,8 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -170,6 +172,9 @@ public class MovieDetailsFragment extends Fragment
                 .load(movieCover.getPosterPath())
                 .asBitmap()
                 .centerCrop()
+                .priority(Priority.HIGH)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .placeholder(R.drawable.placeholder)
                 .into(new ImageViewTarget<Bitmap>(movieImage) {
                     @Override
                     protected void setResource(Bitmap resource) {

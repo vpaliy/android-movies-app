@@ -6,6 +6,7 @@ import android.os.Build;
 
 import com.google.gson.reflect.TypeToken;
 import com.popularmovies.vpaliy.data.BuildConfig;
+import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
@@ -52,6 +53,8 @@ import static org.mockito.Mockito.when;
         sdk = Build.VERSION_CODES.LOLLIPOP)
 public class DatabaseUtilsTest {
 
+    private static final ImageQualityConfiguration IMAGE_QUALITY_CONFIGURATION=new ImageQualityConfiguration();
+
     @Test
     public void testConvertToValues(){
         Movie movie= DataSourceTestUtils.provideFakeMovie();
@@ -80,8 +83,8 @@ public class DatabaseUtilsTest {
         List<BackdropImage> backdrops=DatabaseUtils.convertFromJsonString(jsonString,type);
 
         assertThat(backdrops.size(),is(movie.getBackdropImages().size()));
-        Assert.assertArrayEquals(BackdropImage.convert(backdrops).toArray(new String[backdrops.size()]),
-                BackdropImage.convert(movie.getBackdropImages()).toArray(new String[backdrops.size()]));
+        Assert.assertArrayEquals(BackdropImage.convert(backdrops,IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdrops.size()]),
+                BackdropImage.convert(movie.getBackdropImages(),IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdrops.size()]));
 
         jsonString=contentValues.getAsString(COLUMN_GENRES);
         type=new TypeToken<ArrayList<Genre>>(){}.getType();
@@ -104,8 +107,8 @@ public class DatabaseUtilsTest {
         List<BackdropImage> backdropList = DatabaseUtils.convertFromJsonString(jsonString,type);
 
         assertThat(backdropList.size(),is(movie.getBackdropImages().size()));
-        Assert.assertArrayEquals(BackdropImage.convert(backdropList).toArray(new String[backdropList.size()]),
-                BackdropImage.convert(movie.getBackdropImages()).toArray(new String[backdropList.size()]));
+        Assert.assertArrayEquals(BackdropImage.convert(backdropList,IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdropList.size()]),
+                BackdropImage.convert(movie.getBackdropImages(),IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdropList.size()]));
 
         jsonString=DatabaseUtils.convertToJsonString(movie.getGenres(),type);
         type=new TypeToken<ArrayList<Genre>>(){}.getType();

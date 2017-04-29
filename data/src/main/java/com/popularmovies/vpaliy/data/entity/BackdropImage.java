@@ -4,13 +4,13 @@ package com.popularmovies.vpaliy.data.entity;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
+import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class BackdropImage {
 
-    private static final String baseImageUrl="http://image.tmdb.org/t/p/w780/";
     private static final String TAG=BackdropImage.class.getSimpleName();
 
     @SerializedName("file_path")
@@ -27,20 +27,20 @@ public class BackdropImage {
         this.backdropPath=backdropPath;
     }
 
-    public static List<String> convert(List<BackdropImage> images){
+    public static List<String> convert(List<BackdropImage> images, ImageQualityConfiguration configuration){
         List<String> paths=new LinkedList<>();
         for(BackdropImage image:images){
-            paths.add(baseImageUrl+image.getBackdropPath());
-            Log.d(TAG,baseImageUrl+image.getBackdropPath());
+            paths.add(configuration.getBackdropImagePath(image.getBackdropPath()));
+            Log.d(TAG,configuration.getBackdropImagePath(image.getBackdropPath()));
         }
         return paths;
     }
 
-    public static List<BackdropImage> convertToBackdrops(List<String> backdrops){
+    public static List<BackdropImage> convertToBackdrops(List<String> backdrops, ImageQualityConfiguration configuration){
         if(backdrops==null) return null;
         List<BackdropImage> images=new LinkedList<>();
         for(String image:backdrops){
-            String result=image.substring(baseImageUrl.length(),image.length());
+            String result=configuration.extractPath(image);
             Log.d(TAG,result);
             images.add(new BackdropImage(result));
         }

@@ -25,7 +25,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    def API_KEY='"INSERT_API_KEY"'
+    def API_KEY='"de3cafdd4958ef2352dfcd262ef1aef3"'
 
 
     buildTypes {

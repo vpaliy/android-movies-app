@@ -29,10 +29,15 @@ public class MovieRepositoryTest {
 
     @Mock
     private Mapper<MovieCover, Movie> mockMovieMapper;
+
     @Mock
     private Mapper<MovieDetails, MovieDetailEntity> mockMovieDetailsMapper;
+
     @Mock
     private DataSource<Movie, MovieDetailEntity> mockRemoteDataSource;
+
+    @Mock
+    private DataSource<Movie,MovieDetailEntity> mockLocalDataSource;
 
     @InjectMocks
     private MovieRepository movieRepository;
@@ -50,6 +55,19 @@ public class MovieRepositoryTest {
         given(mockRemoteDataSource.sortBy(ISortConfiguration.SortType.POPULAR))
                 .willReturn(Observable.just(Collections.singletonList(Mockito.mock(Movie.class))));
         given(mockRemoteDataSource.sortBy(ISortConfiguration.SortType.TOP_RATED))
+                .willReturn(Observable.just(Collections.singletonList(Mockito.mock(Movie.class))));
+
+        given(mockLocalDataSource.getDetails(FAKE_MOVIE_ID))
+                .willReturn(Observable.just(Mockito.mock(MovieDetailEntity.class)));
+        given(mockLocalDataSource.getCover(FAKE_MOVIE_ID))
+                .willReturn(Observable.just(Mockito.mock(Movie.class)));
+        given(mockLocalDataSource.getCovers())
+                .willReturn(Observable.just(Collections.singletonList(Mockito.mock(Movie.class))));
+        given(mockLocalDataSource.requestMoreCovers())
+                .willReturn(Observable.just(Collections.singletonList(Mockito.mock(Movie.class))));
+        given(mockLocalDataSource.sortBy(ISortConfiguration.SortType.POPULAR))
+                .willReturn(Observable.just(Collections.singletonList(Mockito.mock(Movie.class))));
+        given(mockLocalDataSource.sortBy(ISortConfiguration.SortType.TOP_RATED))
                 .willReturn(Observable.just(Collections.singletonList(Mockito.mock(Movie.class))));
 
     }

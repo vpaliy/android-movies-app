@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
+import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.configuration.SortConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
@@ -36,13 +37,14 @@ import dagger.Provides;
 public class DataModule {
 
 
+    private static final ImageQualityConfiguration IMAGE_QUALITY_CONFIGURATION =new ImageQualityConfiguration();
 
     private static final Mapper<MovieCover,Movie> MOVIE_COVER_MAPPER=new Mapper<MovieCover, Movie>() {
         @Override
         public MovieCover map(Movie movieEntity) {
             MovieCover cover=new MovieCover();
             cover.setMovieId(movieEntity.getMovieId());
-            cover.setPosterPath(movieEntity.getPosterPath());
+            cover.setPosterPath(IMAGE_QUALITY_CONFIGURATION.getPosterImagePath(movieEntity.getPosterPath()));
             cover.setGenres(Genre.convert(movieEntity.getGenres()));
             cover.setMovieTitle(movieEntity.getTitle());
             cover.setAverageRate(movieEntity.getVoteAverage());
@@ -53,7 +55,7 @@ public class DataModule {
                     cover.setBackdrops(Collections.singletonList(movieEntity.getBackdrop_path()));
                 }
             }else {
-                cover.setBackdrops(BackdropImage.convert(backdropImages));
+                cover.setBackdrops(BackdropImage.convert(backdropImages, IMAGE_QUALITY_CONFIGURATION));
             }
 
             if (movieEntity.getReleaseDate() != null){
@@ -91,12 +93,12 @@ public class DataModule {
         public Movie reverseMap(MovieCover movieCover) {
             Movie result=new Movie();
             result.setMovieId(movieCover.getMovieId());
-            result.setPosterPath(movieCover.getPosterPath());
+            result.setPosterPath(IMAGE_QUALITY_CONFIGURATION.extractPath(movieCover.getPosterPath()));
             result.setGenres(Genre.convertToGenres(movieCover.getGenres()));
             result.setTitle(movieCover.getMovieTitle());
             result.setVoteAverage(movieCover.getAverageRate());
             result.setFavorite(movieCover.isFavorite());
-            result.setBackdropImages(BackdropImage.convertToBackdrops(movieCover.getBackdrops()));
+            result.setBackdropImages(BackdropImage.convertToBackdrops(movieCover.getBackdrops(), IMAGE_QUALITY_CONFIGURATION));
             result.setReleaseDate(Integer.toString(movieCover.getReleaseYear()));
             return result;
         }

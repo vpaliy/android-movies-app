@@ -37,7 +37,17 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public Observable<MovieDetailEntity> getDetails(int ID) {
-        return null;
+        Uri uri= ContentUris.withAppendedId(MoviesContract.MovieEntry.CONTENT_URI,ID);
+        return Observable.fromCallable(()->{
+           Movie movie=toMovie(contentResolver.query(uri,null,null,null,null));
+           if(movie!=null){
+               MovieDetailEntity detailEntity=new MovieDetailEntity();
+               detailEntity.setMovie(movie);
+               detailEntity.setBackdropImages(movie.getBackdropImages());
+               return detailEntity;
+           }
+           return null;
+        });
     }
 
     @Override
@@ -87,9 +97,11 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
         configValues.put(MoviesContract.MovieEntry.MOVIE_ID,item.getMovieId());
         switch (sortConfiguration.getConfiguration()){
             case POPULAR:
+                configValues.put(MoviesContract.MostPopularEntry._ID,item.getMovieId());
                 contentResolver.insert(MoviesContract.MostPopularEntry.CONTENT_URI,configValues);
                 break;
             case TOP_RATED:
+                configValues.put(MoviesContract.MostRatedEntry._ID,item.getMovieId());
                 contentResolver.insert(MoviesContract.MostRatedEntry.CONTENT_URI,configValues);
                 break;
         }

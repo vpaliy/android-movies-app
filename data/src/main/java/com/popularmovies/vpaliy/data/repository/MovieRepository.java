@@ -22,6 +22,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
 import rx.Observable;
 
 @Singleton
@@ -68,7 +70,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     public Observable<List<MovieCover>> getCovers() {
         if(isNetworkConnection()) {
             return remoteDataSource.getCovers()
-                    .doOnNext(this::saveMovies)
+                    .doOnNext(this::saveMoviesToDisk)
                     .map(entityMapper::map)
                     .doOnNext(movies -> Observable.from(movies)
                             .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
@@ -82,7 +84,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     }
 
-    private void saveMovies(List<Movie> movies){
+
+    private void saveMoviesToDisk(List<Movie> movies){
         if(movies!=null){
             if(!movies.isEmpty()){
                 for(Movie movie:movies) localDataSource.insert(movie);
@@ -93,9 +96,13 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     @Override
     public Observable<MovieDetails> getDetails(int ID) {
         if(!detailsCache.isInCache(ID)) {
-            return remoteDataSource.getDetails(ID)
-                    .map(detailsMapper::map)
-                    .doOnNext(details -> detailsCache.put(ID,details));
+            if(isNetworkConnection()) {
+                return remoteDataSource.getDetails(ID)
+                        .map(detailsMapper::map)
+                        .doOnNext(details -> detailsCache.put(ID, details));
+            }
+            return localDataSource.getDetails(ID)
+                    .map(detailsMapper::map);
         }
         return detailsCache.getStream(ID);
     }
@@ -119,13 +126,13 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     public Observable<List<MovieCover>> requestMoreCovers() {
         if(isNetworkConnection()) {
             return remoteDataSource.requestMoreCovers()
-                    .doOnNext(this::saveMovies)
+                    .doOnNext(this::saveMoviesToDisk)
                     .map(entityMapper::map)
                     .doOnNext(movies -> Observable.from(movies)
                             .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
                             .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
         }
-        return null;
+        return Observable.just(null);
 
     }
 
@@ -158,6 +165,6 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
         ConnectivityManager manager=ConnectivityManager.class
                 .cast(context.getSystemService(Context.CONNECTIVITY_SERVICE));
         NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
-        return activeNetwork.isConnectedOrConnecting();
+        return activeNetwork!=null && activeNetwork.isConnectedOrConnecting();
     }
 }

@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -175,10 +176,19 @@ public class MoviesFragment extends Fragment
     @Override
     public void appendMovies(@NonNull List<MovieCover> movies) {
         adapter.appendData(movies);
+        Log.d(MoviesFragment.class.getSimpleName(),Integer.toString(adapter.getItemCount()));
     }
 
     @Override
     public void showEmptyMessage() {
+        if(getView()!=null){
+            Snackbar.make(getView(),R.string.noDataMessage,Snackbar.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    @Override
+    public void showNoMoreMoviesMessage() {
         if(getView()!=null){
             Snackbar.make(getView(),R.string.noDataMessage,Snackbar.LENGTH_LONG)
                     .show();

@@ -1,7 +1,5 @@
 package com.popularmovies.vpaliy.data.entity;
 
-import android.support.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 
@@ -31,7 +29,8 @@ public class TrailerEntity {
         return trailerTitle;
     }
 
-    public static List<Trailer> convert(@NonNull List<TrailerEntity> list){
+    public static List<Trailer> convert(List<TrailerEntity> list){
+        if(list==null)return null;
         List<Trailer> result=new ArrayList<>(list.size());
         for(TrailerEntity entity:list){
             Trailer trailer=new Trailer(entity.getMovieId(),entity.getTrailerUrl(),entity.getTrailerTitle());

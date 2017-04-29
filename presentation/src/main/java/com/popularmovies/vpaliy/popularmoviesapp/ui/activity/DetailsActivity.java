@@ -1,6 +1,9 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +26,9 @@ public class DetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-            postponeEnterTransition();
+            if(isNetworkConnection()) {
+                postponeEnterTransition();
+            }
         }
 
         if(Permission.checkForVersion(Build.VERSION_CODES.JELLY_BEAN)){
@@ -51,6 +56,12 @@ public class DetailsActivity extends BaseActivity {
         navigator.showDetails(this,event);
     }
 
+    private boolean isNetworkConnection(){
+        ConnectivityManager manager=ConnectivityManager.class
+                .cast(getSystemService(Context.CONNECTIVITY_SERVICE));
+        NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
+        return activeNetwork!=null && activeNetwork.isConnectedOrConnecting();
+    }
 
     @Override
     void inject() {
