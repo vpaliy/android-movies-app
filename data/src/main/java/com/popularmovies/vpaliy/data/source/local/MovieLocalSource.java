@@ -43,10 +43,6 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
     @Override
     public Observable<List<Movie>> getCovers() {
         switch (sortConfiguration.getConfiguration()){
-            case POPULAR:
-                return Observable.fromCallable(()->
-                        toMovies(contentResolver.query(MoviesContract.
-                                MostPopularEntry.CONTENT_URI, null,null,null,null)));
             case TOP_RATED:
                 return Observable.fromCallable(()->
                         toMovies(contentResolver.query(MoviesContract.
@@ -57,10 +53,12 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
                 return Observable.fromCallable(()->
                         toMovies(contentResolver.query(MoviesContract.MovieEntry.CONTENT_URI,
                                 null,selection,selectionArgs,null)));
+            default:
+                return Observable.fromCallable(()->
+                        toMovies(contentResolver.query(MoviesContract.
+                                MostPopularEntry.CONTENT_URI, null,null,null,null)));
         }
-        return null;
     }
-
 
 
 
