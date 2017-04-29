@@ -11,9 +11,9 @@ public final class MoviesContract {
     public static final Uri BASE_CONTENT_URI=Uri.parse(PREFIX+CONTENT_AUTHORITY);
 
     public static final String PATH_MOVIE="movie";
-    public static final String PATH_MOVIE_DETAILS=PATH_MOVIE+"/"+"movieDetails";
-    public static final String PATH_MOST_POPULAR=PATH_MOVIE+"/"+"mostPopular";
-    public static final String PATH_HIGHEST_RATED=PATH_MOVIE+"/"+"highestRated";
+    public static final String PATH_MOVIE_DETAILS="movieDetails";
+    public static final String PATH_MOST_POPULAR="mostPopular";
+    public static final String PATH_HIGHEST_RATED="highestRated";
 
 
     private MoviesContract(){

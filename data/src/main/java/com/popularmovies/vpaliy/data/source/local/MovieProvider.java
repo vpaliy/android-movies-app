@@ -7,7 +7,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,10 +18,18 @@ public class MovieProvider extends ContentProvider {
     private static final int MOVIES=100;
     private static final int MOVIES_WITH_ID=101;
     private static final int MOST_RATED=200;
+    private static final int MOST_RATED_WITH_ID=201;
     private static final int MOST_POPULAR=300;
+    private static final int MOST_POPULAR_WITH_ID=301;
 
     private static final String MOVIE_SELECTION_BY_ID=
             MoviesContract.MovieEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry._ID+"=?";
+
+    private static final String MOST_RATED_SELECTION_BY_ID=
+            MoviesContract.MostRatedEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
+
+    private static final String MOST_POPULAR_SELECTION_BY_ID=
+            MoviesContract.MostPopularEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
 
 
     private static UriMatcher buildUriMatcher(){
@@ -33,6 +40,8 @@ public class MovieProvider extends ContentProvider {
         uriMatcher.addURI(authority,MoviesContract.PATH_MOVIE+"/#",MOVIES_WITH_ID);
         uriMatcher.addURI(authority,MoviesContract.PATH_MOST_POPULAR,MOST_POPULAR);
         uriMatcher.addURI(authority,MoviesContract.PATH_HIGHEST_RATED,MOST_RATED);
+        uriMatcher.addURI(authority,MoviesContract.PATH_MOST_POPULAR+"/#",MOST_POPULAR_WITH_ID);
+        uriMatcher.addURI(authority,MoviesContract.PATH_HIGHEST_RATED+"/#",MOST_RATED_WITH_ID);
 
         return uriMatcher;
     }
@@ -50,13 +59,13 @@ public class MovieProvider extends ContentProvider {
     }
 
 
-
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         final int match=URI_MATCHER.match(uri);
         Cursor cursor=null;
+        long movieId=0;
         switch (match){
             case MOVIES:
                 cursor=sqlHelper.getReadableDatabase()
@@ -68,6 +77,17 @@ public class MovieProvider extends ContentProvider {
                                 null,
                                 sortOrder);
                 break;
+            case MOVIES_WITH_ID:
+                movieId=ContentUris.parseId(uri);
+                cursor=sqlHelper.getReadableDatabase()
+                        .query(MoviesContract.MovieEntry.TABLE_NAME,
+                                projection,
+                                MOVIE_SELECTION_BY_ID,
+                                new String[]{Long.toString(movieId)},
+                                null,
+                                null,
+                                sortOrder);
+                break;
             case MOST_POPULAR:
                 cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,
                         projection,
@@ -75,11 +95,27 @@ public class MovieProvider extends ContentProvider {
                         selectionArgs,
                         sortOrder,sqlHelper);
                 break;
+            case MOST_POPULAR_WITH_ID:
+                movieId=ContentUris.parseId(uri);
+                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,
+                                projection,
+                                MOST_POPULAR_SELECTION_BY_ID,
+                                new String[]{Long.toString(movieId)},
+                                sortOrder,sqlHelper);
+                break;
             case MOST_RATED:
                 cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
+                        sortOrder,sqlHelper);
+                break;
+            case MOST_RATED_WITH_ID:
+                movieId=ContentUris.parseId(uri);
+                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,
+                        projection,
+                        MOST_RATED_SELECTION_BY_ID,
+                        new String[]{Long.toString(movieId)},
                         sortOrder,sqlHelper);
                 break;
             default:
@@ -125,13 +161,14 @@ public class MovieProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         final int match=URI_MATCHER.match(uri);
         int rowsDeleted=0;
+        long movieId=0;
         switch (match){
             case MOVIES:
                 rowsDeleted=sqlHelper.getWritableDatabase()
                         .delete(MoviesContract.MovieEntry.TABLE_NAME,selection,selectionArgs);
                 break;
             case MOVIES_WITH_ID:
-                long movieId= ContentUris.parseId(uri);
+                movieId= ContentUris.parseId(uri);
                 rowsDeleted=sqlHelper.getWritableDatabase()
                         .delete(MoviesContract.MovieEntry.TABLE_NAME,
                                 MOVIE_SELECTION_BY_ID,
@@ -141,14 +178,25 @@ public class MovieProvider extends ContentProvider {
                 rowsDeleted=sqlHelper.getWritableDatabase()
                         .delete(MoviesContract.MostPopularEntry.TABLE_NAME,selection,selectionArgs);
                 break;
+            case MOST_POPULAR_WITH_ID:
+                movieId=ContentUris.parseId(uri);
+                rowsDeleted=sqlHelper.getWritableDatabase()
+                        .delete(MoviesContract.MostPopularEntry.TABLE_NAME,
+                                MOST_POPULAR_SELECTION_BY_ID, new String[]{Long.toString(movieId)});
+                break;
             case MOST_RATED:
                 rowsDeleted=sqlHelper.getWritableDatabase()
                         .delete(MoviesContract.MostRatedEntry.TABLE_NAME,selection,selectionArgs);
                 break;
+            case MOST_RATED_WITH_ID:
+                movieId=ContentUris.parseId(uri);
+                rowsDeleted=sqlHelper.getWritableDatabase()
+                        .delete(MoviesContract.MostRatedEntry.TABLE_NAME,
+                                MOST_RATED_SELECTION_BY_ID,new String[]{Long.toString(movieId)});
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri: " + uri);
         }
-        //
         if(rowsDeleted!=0){
             if(getContext()!=null){
                 getContext().getContentResolver().notifyChange(uri,null);
@@ -181,14 +229,16 @@ public class MovieProvider extends ContentProvider {
                 break;
             case MOST_POPULAR:
                 id=sqlHelper.getWritableDatabase()
-                        .insert(MoviesContract.MostPopularEntry.TABLE_NAME,null,values);
+                        .insertWithOnConflict(MoviesContract.MostPopularEntry.TABLE_NAME,null,values,
+                                SQLiteDatabase.CONFLICT_REPLACE);
                 if(id>0){
                     resultUri= MoviesContract.MostPopularEntry.CONTENT_URI;
                 }
                 break;
             case MOST_RATED:
                 id=sqlHelper.getWritableDatabase()
-                        .insert(MoviesContract.MostRatedEntry.TABLE_NAME,null,values);
+                        .insertWithOnConflict(MoviesContract.MostRatedEntry.TABLE_NAME,null,values,
+                                SQLiteDatabase.CONFLICT_REPLACE);
                 if(id>0){
                     resultUri= MoviesContract.MostRatedEntry.CONTENT_URI;
                 }
@@ -203,6 +253,17 @@ public class MovieProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
+        final int match=URI_MATCHER.match(uri);
+        switch (match){
+            case MOVIES:
+                return MoviesContract.MovieEntry.CONTENT_DIR_TYPE;
+            case MOVIES_WITH_ID:
+                return MoviesContract.MovieEntry.CONTENT_ITEM_TYPE;
+            case MOST_POPULAR:
+                return MoviesContract.MostPopularEntry.CONTENT_DIR_TYPE;
+            case MOST_RATED:
+                return MoviesContract.MostRatedEntry.CONTENT_DIR_TYPE;
+        }
         return null;
     }
 

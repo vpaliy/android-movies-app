@@ -5,10 +5,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;

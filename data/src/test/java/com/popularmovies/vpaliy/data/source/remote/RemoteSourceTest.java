@@ -1,8 +1,6 @@
-package com.popularmovies.vpaliy.data.source;
+package com.popularmovies.vpaliy.data.source.remote;
 
 import com.popularmovies.vpaliy.data.entity.Movie;
-import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
-import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
