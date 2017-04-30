@@ -16,11 +16,14 @@ public interface DetailsMovieContract {
         void showBackdrops(@NonNull List<String> backdrops);
         void showCover(@NonNull MovieCover movieCover);
         void showDetails(@NonNull MovieDetails movieDetails);
+        void showMakeFavoriteMessage();
+
 
     }
 
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
+        void makeFavorite();
         void start(int ID);
         void stop();
     }

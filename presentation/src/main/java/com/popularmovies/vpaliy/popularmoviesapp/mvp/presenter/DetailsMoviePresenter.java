@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
+import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -22,20 +23,23 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     private static final String TAG=DetailsMoviePresenter.class.getSimpleName();
 
     private View view;
-    private final IRepository<MovieCover,MovieDetails> repository;
+    private final IMovieRepository<MovieCover,MovieDetails> repository;
     private final CompositeSubscription subscriptions;
     private final SchedulerProvider schedulerProvider;
+    private int movieId;
 
     @Inject
-    public DetailsMoviePresenter(@NonNull IRepository<MovieCover,MovieDetails> repository,
+    public DetailsMoviePresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> repository,
                                  @NonNull SchedulerProvider schedulerProvider){
         this.repository=repository;
         this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
+        this.movieId=-1;
     }
 
     @Override
     public void start(int ID) {
+        this.movieId=ID;
         retrieveCover(ID);
         retrieveDetails(ID);
     }
@@ -67,6 +71,15 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
         }
     }
 
+
+    @Override
+    public void makeFavorite() {
+        subscriptions.add(repository.getCover(movieId)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(repository::update));
+        view.showMakeFavoriteMessage();
+    }
 
     @Override
     public void attachView(@NonNull View view) {

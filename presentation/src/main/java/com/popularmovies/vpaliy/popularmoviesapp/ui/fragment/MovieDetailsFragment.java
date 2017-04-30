@@ -1,11 +1,13 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -38,6 +40,8 @@ import java.util.List;
 
 import butterknife.BindDrawable;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 import butterknife.Unbinder;
 import me.relex.circleindicator.CircleIndicator;
 import android.support.v7.graphics.Palette.Swatch;
@@ -53,6 +57,7 @@ import butterknife.BindView;
 public class MovieDetailsFragment extends Fragment
         implements DetailsMovieContract.View{
 
+    private static final String TAG=MovieDetailsFragment.class.getSimpleName();
 
     private Presenter presenter;
     private Unbinder unbinder;
@@ -77,6 +82,11 @@ public class MovieDetailsFragment extends Fragment
 
     @BindDrawable(R.drawable.star)
     protected Drawable starDrawable;
+
+    @BindView(R.id.favoriteButton)
+    protected FloatingActionButton favoriteButton;
+
+    private Swatch favoriteSwatch;
 
     private boolean isFavorite;
     private int ID;
@@ -168,6 +178,8 @@ public class MovieDetailsFragment extends Fragment
 
     @Override
     public void showCover(@NonNull MovieCover movieCover) {
+        favoriteButton.setScaleX(0);
+        favoriteButton.setScaleY(0);
         Glide.with(this)
                 .load(movieCover.getPosterPath())
                 .asBitmap()
@@ -188,6 +200,12 @@ public class MovieDetailsFragment extends Fragment
                         }
                     }
                 });
+    }
+
+
+    @Override
+    public void showMakeFavoriteMessage() {
+        //TODO show a message
     }
 
     private void showCoverDetails(@NonNull MovieCover movieCover){
@@ -250,6 +268,7 @@ public class MovieDetailsFragment extends Fragment
 
     private void setBackgroundSwatch(Swatch swatch){
         if(getView()!=null) {
+            this.favoriteSwatch=new Swatch(swatch.getBodyTextColor(),swatch.getPopulation());
             View view = ButterKnife.findById(getView(),R.id.detailsContainer);
             view.setBackgroundColor(swatch.getRgb());
 
@@ -259,15 +278,22 @@ public class MovieDetailsFragment extends Fragment
             TextView genres=ButterKnife.findById(getView(),R.id.genres);
             TextView ratings=ButterKnife.findById(getView(),R.id.ratings);
 
-            if(!isFavorite) {
-                DrawableCompat.setTint(starDrawable, swatch.getBodyTextColor());
-            }
+            changeFavoriteColor(swatch.getBodyTextColor());
+
+            favoriteButton.setBackgroundColor(swatch.getTitleTextColor());
+            favoriteButton.setImageDrawable(starDrawable);
+            favoriteButton.setVisibility(View.VISIBLE);
+            favoriteButton.animate()
+                    .scaleX(1).scaleY(1)
+                    .setDuration(300).start();
             ratings.setCompoundDrawablesWithIntrinsicBounds(starDrawable,null,null,null);
             ratings.setTextColor(swatch.getTitleTextColor());
             year.setTextColor(swatch.getTitleTextColor());
             duration.setTextColor(swatch.getTitleTextColor());
             title.setTextColor(swatch.getTitleTextColor());
             genres.setTextColor(swatch.getTitleTextColor());
+
+
 
         }
     }
@@ -282,6 +308,18 @@ public class MovieDetailsFragment extends Fragment
                 return true;
             }
         });
+    }
+
+    @OnClick(R.id.favoriteButton)
+    public void makeMovieFavorite(){
+        presenter.makeFavorite();
+        isFavorite=!isFavorite;
+        changeFavoriteColor(Color.BLUE);
+    }
+
+    private void changeFavoriteColor(int color){
+        Log.d(TAG,Boolean.toString(isFavorite));
+        DrawableCompat.setTint(starDrawable,isFavorite? Color.parseColor("#ffeb3b"):color);
     }
 
     @Override

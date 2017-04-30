@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -21,6 +22,8 @@ public class MovieProvider extends ContentProvider {
     private static final int MOST_RATED_WITH_ID=201;
     private static final int MOST_POPULAR=300;
     private static final int MOST_POPULAR_WITH_ID=301;
+    private static final int FAVORITE=400;
+    private static final int FAVORITE_WITH_ID=401;
 
     private static final String MOVIE_SELECTION_BY_ID=
             MoviesContract.MovieEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry._ID+"=?";
@@ -30,6 +33,9 @@ public class MovieProvider extends ContentProvider {
 
     private static final String MOST_POPULAR_SELECTION_BY_ID=
             MoviesContract.MostPopularEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
+
+    private static final String FAVORITE_SELECTION_BY_ID=
+            MoviesContract.FavoriteEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
 
 
     private static UriMatcher buildUriMatcher(){
@@ -42,6 +48,8 @@ public class MovieProvider extends ContentProvider {
         uriMatcher.addURI(authority,MoviesContract.PATH_HIGHEST_RATED,MOST_RATED);
         uriMatcher.addURI(authority,MoviesContract.PATH_MOST_POPULAR+"/#",MOST_POPULAR_WITH_ID);
         uriMatcher.addURI(authority,MoviesContract.PATH_HIGHEST_RATED+"/#",MOST_RATED_WITH_ID);
+        uriMatcher.addURI(authority,MoviesContract.PATH_FAVORITE,FAVORITE);
+        uriMatcher.addURI(authority,MoviesContract.PATH_FAVORITE+"/#",FAVORITE_WITH_ID);
 
         return uriMatcher;
     }
@@ -76,6 +84,21 @@ public class MovieProvider extends ContentProvider {
                                 null,
                                 null,
                                 sortOrder);
+                break;
+            case FAVORITE:
+                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.FavoriteEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        sortOrder,sqlHelper);
+                break;
+            case FAVORITE_WITH_ID:
+                movieId=ContentUris.parseId(uri);
+                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.FavoriteEntry.TABLE_NAME,
+                        projection,
+                        FAVORITE_SELECTION_BY_ID,
+                        new String[]{Long.toString(movieId)},
+                        sortOrder,sqlHelper);
                 break;
             case MOVIES_WITH_ID:
                 movieId=ContentUris.parseId(uri);
@@ -134,6 +157,12 @@ public class MovieProvider extends ContentProvider {
                         .update(MoviesContract.MovieEntry.TABLE_NAME,
                                 values,selection,selectionArgs);
                 break;
+            case MOVIES_WITH_ID:
+                long movieId= ContentUris.parseId(uri);
+                rowsUpdated=sqlHelper.getWritableDatabase()
+                        .update(MoviesContract.MovieEntry.TABLE_NAME,
+                                values,MOVIE_SELECTION_BY_ID,new String[]{Long.toString(movieId)});
+                break;
             case MOST_POPULAR:
                 rowsUpdated=sqlHelper.getWritableDatabase()
                         .update(MoviesContract.MostPopularEntry.TABLE_NAME,
@@ -143,6 +172,16 @@ public class MovieProvider extends ContentProvider {
                 rowsUpdated=sqlHelper.getWritableDatabase()
                         .update(MoviesContract.MostRatedEntry.TABLE_NAME,
                                 values,selection,selectionArgs);
+                break;
+            case FAVORITE:
+                rowsUpdated=sqlHelper.getWritableDatabase()
+                        .update(MoviesContract.FavoriteEntry.TABLE_NAME,values,selection,selectionArgs);
+                break;
+            case FAVORITE_WITH_ID:
+                movieId=ContentUris.parseId(uri);
+                rowsUpdated=sqlHelper.getWritableDatabase()
+                        .update(MoviesContract.FavoriteEntry.TABLE_NAME,values,
+                                FAVORITE_SELECTION_BY_ID, new String[]{Long.toString(movieId)});
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -173,6 +212,16 @@ public class MovieProvider extends ContentProvider {
                         .delete(MoviesContract.MovieEntry.TABLE_NAME,
                                 MOVIE_SELECTION_BY_ID,
                                 new String[] {Long.toString(movieId)});
+                break;
+            case FAVORITE:
+                rowsDeleted=sqlHelper.getWritableDatabase()
+                        .delete(MoviesContract.FavoriteEntry.TABLE_NAME,selection,selectionArgs);
+                break;
+            case FAVORITE_WITH_ID:
+                movieId=ContentUris.parseId(uri);
+                rowsDeleted=sqlHelper.getWritableDatabase()
+                        .delete(MoviesContract.FavoriteEntry.TABLE_NAME,
+                                FAVORITE_SELECTION_BY_ID, new String[]{Long.toString(movieId)});
                 break;
             case MOST_POPULAR:
                 rowsDeleted=sqlHelper.getWritableDatabase()
@@ -216,38 +265,39 @@ public class MovieProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
         final int match=URI_MATCHER.match(uri);
-        Uri resultUri=null;
+        Uri appendedUri=null;
         long id=0;
         switch (match){
             case MOVIES:
                 id=sqlHelper.getWritableDatabase()
                         .insertWithOnConflict(MoviesContract.MovieEntry.TABLE_NAME,null,values,
                                 SQLiteDatabase.CONFLICT_REPLACE);
-                if(id>0){
-                    resultUri=ContentUris.withAppendedId(MoviesContract.MovieEntry.CONTENT_URI,id);
-                }
+                    appendedUri=MoviesContract.MovieEntry.CONTENT_URI;
+                break;
+            case FAVORITE:
+                id=sqlHelper.getWritableDatabase()
+                        .insertWithOnConflict(MoviesContract.FavoriteEntry.TABLE_NAME,null,values,
+                                SQLiteDatabase.CONFLICT_REPLACE);
+                appendedUri=MoviesContract.FavoriteEntry.CONTENT_URI;
                 break;
             case MOST_POPULAR:
                 id=sqlHelper.getWritableDatabase()
                         .insertWithOnConflict(MoviesContract.MostPopularEntry.TABLE_NAME,null,values,
                                 SQLiteDatabase.CONFLICT_REPLACE);
-                if(id>0){
-                    resultUri= MoviesContract.MostPopularEntry.CONTENT_URI;
-                }
+                appendedUri=MoviesContract.MostPopularEntry.CONTENT_URI;
                 break;
             case MOST_RATED:
                 id=sqlHelper.getWritableDatabase()
                         .insertWithOnConflict(MoviesContract.MostRatedEntry.TABLE_NAME,null,values,
                                 SQLiteDatabase.CONFLICT_REPLACE);
-                if(id>0){
-                    resultUri= MoviesContract.MostRatedEntry.CONTENT_URI;
-                }
+                appendedUri=MoviesContract.MostRatedEntry.CONTENT_URI;
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri: " + uri);
 
         }
-        return resultUri;
+
+        return ContentUris.withAppendedId(appendedUri,id);
     }
 
     @Nullable
@@ -257,6 +307,8 @@ public class MovieProvider extends ContentProvider {
         switch (match){
             case MOVIES:
                 return MoviesContract.MovieEntry.CONTENT_DIR_TYPE;
+            case FAVORITE:
+                return MoviesContract.FavoriteEntry.CONTENT_DIR_TYPE;
             case MOVIES_WITH_ID:
                 return MoviesContract.MovieEntry.CONTENT_ITEM_TYPE;
             case MOST_POPULAR:

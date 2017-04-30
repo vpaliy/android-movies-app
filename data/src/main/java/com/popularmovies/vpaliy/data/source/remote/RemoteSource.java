@@ -49,9 +49,11 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
             case TOP_RATED:
                 return movieDatabaseAPI.getTopRatedMovies(1)
                         .map(this::convertToMovie);
-            default:
+            case POPULAR:
                 return movieDatabaseAPI.getPopularMovies(1)
                         .map(this::convertToMovie);
+            default:
+                return null;
         }
     }
 
@@ -109,6 +111,12 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     public Observable<Movie> getCover(int ID) {
         return movieDatabaseAPI.getMovieDetails(Integer.toString(ID));
 
+    }
+
+
+    @Override
+    public boolean isFavorite(int movieId) {
+        return false;
     }
 
     @Override

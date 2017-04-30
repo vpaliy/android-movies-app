@@ -69,16 +69,20 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     @Override
     public Observable<List<MovieCover>> getCovers() {
         if(isNetworkConnection()) {
-            return remoteDataSource.getCovers()
-                    .doOnNext(this::saveMoviesToDisk)
-                    .map(entityMapper::map)
-                    .doOnNext(movies -> Observable.from(movies)
-                            .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
-                            .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
+            Observable<List<Movie>> observable=remoteDataSource.getCovers();
+            if(observable!=null) {
+                    return observable.doOnNext(this::saveMoviesToDisk)
+                        .map(entityMapper::map)
+                        .doOnNext(movies -> Observable.from(movies)
+                                .map(this::isFavorite)
+                                .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
+                                .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
+            }
         }
         return localDataSource.getCovers()
                 .map(entityMapper::map)
                 .doOnNext(movies -> Observable.from(movies)
+                        .map(this::isFavorite)
                         .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
                         .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
 
@@ -93,17 +97,34 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
         }
     }
 
+
+    private MovieCover isFavorite(MovieCover movie){
+        movie.setFavorite(localDataSource.isFavorite(movie.getMovieId()));
+        return movie;
+    }
+
+    private MovieDetailEntity isFavorite(MovieDetailEntity detailEntity){
+        detailEntity.setFavorite(localDataSource.isFavorite(detailEntity.getMovieId()));
+        return detailEntity;
+    }
+
+
+    //TODO take care of this code
     @Override
     public Observable<MovieDetails> getDetails(int ID) {
         if(!detailsCache.isInCache(ID)) {
+            Log.d(TAG,"Details are NOT in cache");
             if(isNetworkConnection()) {
                 return remoteDataSource.getDetails(ID)
+                        .map(this::isFavorite)
                         .map(detailsMapper::map)
                         .doOnNext(details -> detailsCache.put(ID, details));
             }
             return localDataSource.getDetails(ID)
+                    .map(this::isFavorite)
                     .map(detailsMapper::map);
         }
+        Log.d(TAG,"Details are  in cache");
         return detailsCache.getStream(ID);
     }
 
@@ -113,14 +134,18 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
             if(isNetworkConnection()) {
                 return remoteDataSource.getCover(ID)
                         .map(entityMapper::map)
+                        .map(this::isFavorite)
                         .doOnNext(movie -> coversCache.put(ID, movie));
             }
             return localDataSource.getCover(ID)
                     .map(entityMapper::map)
+                    .map(this::isFavorite)
                     .doOnNext(movie -> coversCache.put(ID, movie));
         }
+        Log.d(TAG,"Is in cache:)");
         return coversCache.getStream(ID);
     }
+
 
     @Override
     public Observable<List<MovieCover>> requestMoreCovers() {
@@ -129,6 +154,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                     .doOnNext(this::saveMoviesToDisk)
                     .map(entityMapper::map)
                     .doOnNext(movies -> Observable.from(movies)
+                            .map(this::isFavorite)
                             .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
                             .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
         }
@@ -149,12 +175,17 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                 return localDataSource.sortBy(type)
                         .map(entityMapper::map)
                         .doOnNext(movies->Observable.from(movies)
+                                .map(movieCover -> {
+                                    movieCover.setFavorite(true);
+                                    return movieCover;
+                                })
                                 .filter(cover->!coversCache.isInCache(cover.getMovieId()))
                                 .subscribe(movieCover->coversCache.put(movieCover.getMovieId(),movieCover)));
             default:
                 return remoteDataSource.sortBy(type)
                         .map(entityMapper::map)
                         .doOnNext(movies -> Observable.from(movies)
+                                .map(this::isFavorite)
                                 .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
                                 .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
 

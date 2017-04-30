@@ -8,16 +8,22 @@ import android.content.Context;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
+import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
 import com.popularmovies.vpaliy.domain.ISortConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
+
 import javax.inject.Inject;
 import rx.Observable;
 
 public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
+
+
+    private static final String TAG= MovieLocal.class.getSimpleName();
 
     private final ContentResolver contentResolver;
     private final ISortConfiguration sortConfiguration;
@@ -58,11 +64,9 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
                         toMovies(contentResolver.query(MoviesContract.
                                 MostRatedEntry.CONTENT_URI, null,null,null,null)));
             case FAVORITE:
-                String selection= MoviesContract.MovieEntry.COLUMN_IS_FAVORITE+" LIKE ?";
-                String[] selectionArgs={Integer.toString(1)};
                 return Observable.fromCallable(()->
-                        toMovies(contentResolver.query(MoviesContract.MovieEntry.CONTENT_URI,
-                                null,selection,selectionArgs,null)));
+                        toMovies(contentResolver.query(MoviesContract.FavoriteEntry.CONTENT_URI,
+                                null,null,null,null)));
             default:
                 return Observable.fromCallable(()->
                         toMovies(contentResolver.query(MoviesContract.
@@ -91,8 +95,8 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
     @Override
     public void insert(Movie item) {
         final ContentValues values=DatabaseUtils.convertToValues(item);
-        contentResolver.insert(MoviesContract.MovieEntry.CONTENT_URI,values);
 
+        contentResolver.insert(MoviesContract.MovieEntry.CONTENT_URI,values);
         ContentValues configValues=new ContentValues();
         configValues.put(MoviesContract.MovieEntry.MOVIE_ID,item.getMovieId());
         switch (sortConfiguration.getConfiguration()){
@@ -103,6 +107,10 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
             case TOP_RATED:
                 configValues.put(MoviesContract.MostRatedEntry._ID,item.getMovieId());
                 contentResolver.insert(MoviesContract.MostRatedEntry.CONTENT_URI,configValues);
+                break;
+            case FAVORITE:
+                configValues.put(MoviesContract.FavoriteEntry._ID,item.getMovieId());
+                contentResolver.insert(MoviesContract.FavoriteEntry.CONTENT_URI,configValues);
                 break;
         }
 
@@ -133,15 +141,33 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
     }
 
     @Override
+    public boolean isFavorite(int movieId) {
+        Uri uri=ContentUris.withAppendedId(MoviesContract.FavoriteEntry.CONTENT_URI,movieId);
+        Cursor cursor=contentResolver.query(uri,null,null,null,null);
+        if(cursor==null||!cursor.moveToFirst()){
+            Log.d(TAG,"Cursor==null"+Boolean.toString(cursor==null));
+            Log.d(TAG,"Cursor.moveToFirst()"+Boolean.toString(cursor.moveToFirst()));
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
+    @Override
     public void insertDetails(MovieDetailEntity details) {
 
     }
 
     @Override
     public void update(Movie item) {
-        ContentValues values=new ContentValues();
-        values.put(MoviesContract.MovieEntry.COLUMN_IS_FAVORITE,item.isFavorite());
-        Uri uri= ContentUris.withAppendedId(MoviesContract.MovieEntry.CONTENT_URI,item.getMovieId());
-        contentResolver.update(uri,values,null,null);
+        if(item.isFavorite()){
+            Uri uri= ContentUris.withAppendedId(MoviesContract.FavoriteEntry.CONTENT_URI,item.getMovieId());
+            contentResolver.delete(uri,null,null);
+        }else{
+            ContentValues values=new ContentValues();
+            values.put(MoviesContract.MovieEntry.MOVIE_ID,item.getMovieId());
+            values.put(MoviesContract.FavoriteEntry._ID,item.getMovieId());
+            contentResolver.insert(MoviesContract.FavoriteEntry.CONTENT_URI,values);
+        }
     }
 }

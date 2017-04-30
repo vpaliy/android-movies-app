@@ -159,4 +159,15 @@
     </android.support.v4.view.ViewPager>
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favoriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/star"
+        app:layout_anchor="@id/movieDetailsPager"
+        app:layout_anchorGravity="bottom|right|end" />
+
 </android.support.design.widget.CoordinatorLayout>

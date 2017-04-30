@@ -27,7 +27,7 @@ public class CacheStore<K, V> {
         cache.invalidate(key);
     }
 
-    public void put(K key, V value) {
+    public synchronized void put(K key, V value) {
         cache.put(key, value);
         if (subjectMap.containsKey(key)) {
             subjectMap.get(key).onNext(value);
@@ -57,7 +57,7 @@ public class CacheStore<K, V> {
         }
     }
 
-    public boolean isInCache(K key) {
+    public synchronized boolean isInCache(K key) {
         return cache.getIfPresent(key) != null;
     }
 

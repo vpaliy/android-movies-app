@@ -189,7 +189,6 @@ public class DataModule {
 
             @Override
             public MovieDetailEntity reverseMap(MovieDetails details) {
-                //TODO  implement mapping of this class
                 return null;
             }
         };

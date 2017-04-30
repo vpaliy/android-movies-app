@@ -49,6 +49,10 @@ public class MovieDetailEntity {
         this.reviews = reviews;
     }
 
+    public void setFavorite(boolean isFavorite){
+        if(movie!=null) movie.setFavorite(isFavorite);
+    }
+
     public void setTrailers(List<TrailerEntity> trailers) {
         this.trailers = trailers;
     }
