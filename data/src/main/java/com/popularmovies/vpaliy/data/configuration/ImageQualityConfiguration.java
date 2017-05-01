@@ -32,7 +32,7 @@ public class ImageQualityConfiguration implements IImageQualityConfiguration {
     }
 
     private ImageQuality init(String key){
-        int quality=sharedPreferences.getInt(key,LOW_QUALITY);
+        int quality=sharedPreferences.getInt(key,-1);
         switch (quality){
             case MEDIUM_QUALITY:
                 return ImageQuality.MEDIUM;

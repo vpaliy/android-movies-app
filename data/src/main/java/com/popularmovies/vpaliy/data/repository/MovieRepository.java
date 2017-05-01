@@ -164,6 +164,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     @Override
     public void update(MovieCover item) {
+        //TODO put in cache
         localDataSource.update(entityMapper.reverseMap(item));
     }
 
