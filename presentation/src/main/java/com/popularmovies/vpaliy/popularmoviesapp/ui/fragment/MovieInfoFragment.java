@@ -3,7 +3,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,18 +17,14 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponen
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.InfoAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTrailersAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.RelatedMoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import java.util.LinkedList;
 import java.util.List;
-import android.widget.TextView;
-import at.blogc.android.views.ExpandableTextView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
-import butterknife.OnClick;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,26 +44,10 @@ public class  MovieInfoFragment extends Fragment
     @Inject
     protected RxBus eventBus;
 
-    @BindView(R.id.budget)
-    protected TextView movieBudget;
+    @BindView(R.id.infoList)
+    protected RecyclerView infoList;
 
-    @BindView(R.id.revenue)
-    protected TextView movieRevenue;
-
-    @BindView(R.id.releaseDate)
-    protected TextView movieReleaseDate;
-
-    @BindView(R.id.movieDescription)
-    protected ExpandableTextView movieDescription;
-
-    @BindView(R.id.similarMoviesCard)
-    protected CardView similarMoviesCard;
-
-    @BindView(R.id.moviesTrailersCard)
-    protected CardView trailersCard;
-
-
-    private List<RelatedMoviesAdapter> adapterList;
+    private InfoAdapter adapter;
 
     public static MovieInfoFragment newInstance(int movieId){
         MovieInfoFragment fragment=new MovieInfoFragment();
@@ -99,11 +78,6 @@ public class  MovieInfoFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        if(adapterList!=null){
-            for(RelatedMoviesAdapter adapter:adapterList){
-                adapter.onResume();
-            }
-        }
     }
 
     private void initializeDependencies(){
@@ -124,7 +98,10 @@ public class  MovieInfoFragment extends Fragment
     @Override
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
-            movieDescription.setOnClickListener(v->movieDescription.toggle());
+            adapter=new InfoAdapter(getContext());
+            infoList.setAdapter(adapter);
+            infoList.setNestedScrollingEnabled(true);
+            infoList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             presenter.start(movieId);
         }
     }
@@ -156,67 +133,22 @@ public class  MovieInfoFragment extends Fragment
 
     @Override
     public void showGeneralInfo(@NonNull MovieInfo movieInfo) {
-        final Context context=getContext();
-        final String NA=context.getString(R.string.NA);
-        final String budgetText=movieInfo.getBudget()!=null?"$"+movieInfo.getBudget():NA;
-        final String revenueText=movieInfo.getRevenue()!=null?"$"+movieInfo.getRevenue():NA;
-        final String releaseDateText=movieInfo.getReleaseDate()!=null?movieInfo.getReleaseDate().toString():NA;
-        final String descriptionText=movieInfo.getDescription()!=null?movieInfo.getDescription():NA;
-
-        movieDescription.setText(descriptionText);
-        movieBudget.setText(budgetText);
-        movieRevenue.setText(revenueText);
-        movieReleaseDate.setText(releaseDateText);
-
-
-
+        adapter.setMovieInfo(movieInfo);
     }
 
 
     @Override
     public void showSimilarMovies(@NonNull List<MovieCover> similarMovies) {
-        similarMoviesCard.setVisibility(View.VISIBLE);
-        final Context context=getContext();
-        final TextView cardTitle=ButterKnife.findById(similarMoviesCard,R.id.cardTitle);
-        final RecyclerView similarMoviesList=ButterKnife.findById(similarMoviesCard,R.id.additionalList);
-
-        RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(context,similarMovies,eventBus);
-        cardTitle.setText(context.getString(R.string.movieSimilarMovies));
-        similarMoviesList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
-        similarMoviesList.setAdapter(adapter);
-        similarMoviesList.setNestedScrollingEnabled(false);
-        similarMoviesList.getLayoutManager().setAutoMeasureEnabled(true);
-        similarMoviesList.setHasFixedSize(true);
-
-        if(adapterList==null){
-            adapterList=new LinkedList<>();
-        }
-        adapterList.add(adapter);
-
-
+        RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),similarMovies,eventBus);
+        this.adapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.movieSimilarMovies)));
     }
 
     @Override
     public void showTrailers(@NonNull List<Trailer> trailers) {
-        trailersCard.setVisibility(View.VISIBLE);
-
-        final Context context=getContext();
-        final TextView cardTitle=ButterKnife.findById(trailersCard,R.id.cardTitle);
-        final RecyclerView similarMoviesList=ButterKnife.findById(trailersCard,R.id.additionalList);
-
-        MovieTrailersAdapter adapter=new MovieTrailersAdapter(context);
+        MovieTrailersAdapter adapter=new MovieTrailersAdapter(getContext());
         adapter.setData(trailers);
-        cardTitle.setText(context.getString(R.string.movieTrailers));
-        similarMoviesList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
-        similarMoviesList.setAdapter(adapter);
-        similarMoviesList.setNestedScrollingEnabled(false);
-        similarMoviesList.getLayoutManager().setAutoMeasureEnabled(true);
-        similarMoviesList.setHasFixedSize(true);
+        this.adapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.movieTrailers)));
 
     }
 
-    @OnClick(R.id.movieDescription)
-    public void expandText(){
-        movieDescription.toggle();
-    }
 }

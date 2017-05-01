@@ -179,6 +179,7 @@ public class MoviesFragment extends Fragment
         Log.d(MoviesFragment.class.getSimpleName(),Integer.toString(adapter.getItemCount()));
     }
 
+    //TODO set time for the button
     @Override
     public void showEmptyMessage() {
         if(getView()!=null){

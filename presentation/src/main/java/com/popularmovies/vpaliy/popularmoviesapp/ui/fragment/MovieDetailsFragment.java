@@ -1,10 +1,8 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -86,7 +84,7 @@ public class MovieDetailsFragment extends Fragment
     @BindView(R.id.favoriteButton)
     protected FloatingActionButton favoriteButton;
 
-    private Swatch favoriteSwatch;
+    private int favoriteColor;
 
     private boolean isFavorite;
     private int ID;
@@ -248,7 +246,6 @@ public class MovieDetailsFragment extends Fragment
             Swatch darkMutedSwatch      = palette.getDarkMutedSwatch();
             Swatch lightVibrantSwatch   = palette.getLightVibrantSwatch();
             Swatch lightMutedSwatch     = palette.getLightMutedSwatch();
-
             Swatch tabBackground=lightMutedSwatch!=null?lightMutedSwatch
                         :(lightVibrantSwatch!=null?lightVibrantSwatch:palette.getVibrantSwatch());
             Swatch backgroundSwatch=darkMutedSwatch!=null?darkMutedSwatch:
@@ -268,7 +265,6 @@ public class MovieDetailsFragment extends Fragment
 
     private void setBackgroundSwatch(Swatch swatch){
         if(getView()!=null) {
-            this.favoriteSwatch=new Swatch(swatch.getBodyTextColor(),swatch.getPopulation());
             View view = ButterKnife.findById(getView(),R.id.detailsContainer);
             view.setBackgroundColor(swatch.getRgb());
 
@@ -278,9 +274,10 @@ public class MovieDetailsFragment extends Fragment
             TextView genres=ButterKnife.findById(getView(),R.id.genres);
             TextView ratings=ButterKnife.findById(getView(),R.id.ratings);
 
+            this.favoriteColor=swatch.getBodyTextColor();
             changeFavoriteColor(swatch.getBodyTextColor());
 
-            favoriteButton.setBackgroundColor(swatch.getTitleTextColor());
+            favoriteButton.setBackgroundTintList(ColorStateList.valueOf(swatch.getRgb()));
             favoriteButton.setImageDrawable(starDrawable);
             favoriteButton.setVisibility(View.VISIBLE);
             favoriteButton.animate()
@@ -314,7 +311,7 @@ public class MovieDetailsFragment extends Fragment
     public void makeMovieFavorite(){
         presenter.makeFavorite();
         isFavorite=!isFavorite;
-        changeFavoriteColor(Color.BLUE);
+        changeFavoriteColor(favoriteColor);
     }
 
     private void changeFavoriteColor(int color){

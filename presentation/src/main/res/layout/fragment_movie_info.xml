@@ -1,34 +1,16 @@
-<com.popularmovies.vpaliy.popularmoviesapp.ui.view.ScrollView
-    android:layout_height="match_parent"
+
+<LinearLayout
+    android:id="@+id/infoContainer"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:scrollbars="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/infoContainer"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="wrap_content">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/infoList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
+</LinearLayout>
 
-        <include
-            layout="@layout/movie_info_card">
-        </include>
-
-        <include
-            android:id="@+id/moviesTrailersCard"
-            android:visibility="gone"
-            layout="@layout/movie_similar_card">
-        </include>
-
-
-        <include
-            android:id="@+id/similarMoviesCard"
-            android:visibility="gone"
-            layout="@layout/movie_similar_card">
-        </include>
-
-    </LinearLayout>
-
-</com.popularmovies.vpaliy.popularmoviesapp.ui.view.ScrollView>

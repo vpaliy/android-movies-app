@@ -111,7 +111,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     //TODO take care of this code
     @Override
-    public Observable<MovieDetails> getDetails(int ID) {
+    public synchronized Observable<MovieDetails> getDetails(int ID) {
         if(!detailsCache.isInCache(ID)) {
             Log.d(TAG,"Details are NOT in cache");
             if(isNetworkConnection()) {
@@ -142,7 +142,6 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                     .map(this::isFavorite)
                     .doOnNext(movie -> coversCache.put(ID, movie));
         }
-        Log.d(TAG,"Is in cache:)");
         return coversCache.getStream(ID);
     }
 
