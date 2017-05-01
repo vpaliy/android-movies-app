@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.android.apps.common.testing.accessibility.framework.proto.FrameworkProtos;
 import com.google.gson.reflect.TypeToken;
 import com.popularmovies.vpaliy.data.BuildConfig;
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
@@ -72,11 +73,12 @@ public class MovieDatabaseTest {
     private static final String MOST_POPULAR_SELECTION_BY_ID=
             MoviesContract.MostPopularEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
 
-    private static final ImageQualityConfiguration IMAGE_QUALITY_CONFIGURATION=new ImageQualityConfiguration();
+    private  ImageQualityConfiguration qualityConfiguration;
 
     @Before
     public void setUp(){
         sqlHelper=new MovieSQLHelper(RuntimeEnvironment.application);
+        qualityConfiguration=new ImageQualityConfiguration(RuntimeEnvironment.application);
         clearDatabase();
         createDatabase();
 
@@ -297,8 +299,8 @@ public class MovieDatabaseTest {
         List<BackdropImage> backdrops=DatabaseUtils.convertFromJsonString(jsonString,type);
 
         assertThat(backdrops.size(),is(movie.getBackdropImages().size()));
-        Assert.assertArrayEquals(BackdropImage.convert(backdrops,IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdrops.size()]),
-                BackdropImage.convert(movie.getBackdropImages(),IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdrops.size()]));
+        Assert.assertArrayEquals(BackdropImage.convert(backdrops,qualityConfiguration).toArray(new String[backdrops.size()]),
+                BackdropImage.convert(movie.getBackdropImages(),qualityConfiguration).toArray(new String[backdrops.size()]));
 
         jsonString=cursor.getString(cursor.getColumnIndex((COLUMN_GENRES)));
         type=new TypeToken<ArrayList<Genre>>(){}.getType();

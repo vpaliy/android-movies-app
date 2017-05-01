@@ -4,7 +4,7 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
-import com.popularmovies.vpaliy.domain.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 
 import org.junit.Before;
 import org.junit.Test;

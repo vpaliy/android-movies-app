@@ -30,8 +30,8 @@ public class BackdropImage {
     public static List<String> convert(List<BackdropImage> images, ImageQualityConfiguration configuration){
         List<String> paths=new LinkedList<>();
         for(BackdropImage image:images){
-            paths.add(configuration.getBackdropImagePath(image.getBackdropPath()));
-            Log.d(TAG,configuration.getBackdropImagePath(image.getBackdropPath()));
+            paths.add(configuration.convertBackdrop(image.getBackdropPath()));
+            Log.d(TAG,configuration.convertBackdrop(image.getBackdropPath()));
         }
         return paths;
     }

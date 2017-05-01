@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.domain;
+package com.popularmovies.vpaliy.domain.configuration;
 
 import android.support.annotation.NonNull;
 

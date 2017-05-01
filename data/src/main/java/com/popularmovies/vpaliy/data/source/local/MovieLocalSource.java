@@ -9,7 +9,7 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
-import com.popularmovies.vpaliy.domain.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 import android.database.Cursor;

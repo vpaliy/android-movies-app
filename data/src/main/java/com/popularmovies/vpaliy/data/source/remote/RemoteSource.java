@@ -13,7 +13,8 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
 import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
-import com.popularmovies.vpaliy.domain.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+
 import java.util.ArrayList;
 import java.util.List;
 import rx.Observable;

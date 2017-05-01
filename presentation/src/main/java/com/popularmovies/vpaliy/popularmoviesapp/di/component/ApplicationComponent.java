@@ -6,7 +6,8 @@ import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
 import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
-import com.popularmovies.vpaliy.domain.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
@@ -32,6 +33,7 @@ public interface ApplicationComponent {
     IRepository<MovieCover,MovieDetails> repository();
     IMovieRepository<MovieCover,MovieDetails> movieRepository();
     ISortConfiguration sortConfiguration();
+    IImageQualityConfiguration imageQualityConfiguration();
     MovieDatabaseAPI provideMovieDataBaseAPI();
     SchedulerProvider schedulerProvider();
 }

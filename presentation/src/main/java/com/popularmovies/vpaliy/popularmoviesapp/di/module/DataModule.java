@@ -16,7 +16,8 @@ import com.popularmovies.vpaliy.data.source.local.MovieLocalSource;
 import com.popularmovies.vpaliy.data.source.remote.RemoteSource;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
-import com.popularmovies.vpaliy.domain.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
@@ -37,14 +39,15 @@ import dagger.Provides;
 public class DataModule {
 
 
-    private static final ImageQualityConfiguration IMAGE_QUALITY_CONFIGURATION =new ImageQualityConfiguration();
+
+    private static  ImageQualityConfiguration IMAGE_QUALITY_CONFIGURATION;
 
     private static final Mapper<MovieCover,Movie> MOVIE_COVER_MAPPER=new Mapper<MovieCover, Movie>() {
         @Override
         public MovieCover map(Movie movieEntity) {
             MovieCover cover=new MovieCover();
             cover.setMovieId(movieEntity.getMovieId());
-            cover.setPosterPath(IMAGE_QUALITY_CONFIGURATION.getPosterImagePath(movieEntity.getPosterPath()));
+            cover.setPosterPath(IMAGE_QUALITY_CONFIGURATION.convertCover(movieEntity.getPosterPath()));
             cover.setGenres(Genre.convert(movieEntity.getGenres()));
             cover.setMovieTitle(movieEntity.getTitle());
             cover.setAverageRate(movieEntity.getVoteAverage());
@@ -225,6 +228,12 @@ public class DataModule {
     @Singleton
     @Provides
     ISortConfiguration provideSortConfiguration(@NonNull SortConfiguration configuration){
+        return configuration;
+    }
+
+    @Singleton
+    @Provides
+    IImageQualityConfiguration provideImageQualityConfig(@NonNull ImageQualityConfiguration configuration){
         return configuration;
     }
 

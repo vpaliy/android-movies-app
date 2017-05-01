@@ -13,10 +13,13 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.source.DataSourceTestUtils;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Type;
@@ -53,7 +56,12 @@ import static org.mockito.Mockito.when;
         sdk = Build.VERSION_CODES.LOLLIPOP)
 public class DatabaseUtilsTest {
 
-    private static final ImageQualityConfiguration IMAGE_QUALITY_CONFIGURATION=new ImageQualityConfiguration();
+    private  ImageQualityConfiguration qualityConfiguration;
+
+    @Before
+    public void setUp(){
+        qualityConfiguration=new ImageQualityConfiguration(RuntimeEnvironment.application);
+    }
 
     @Test
     public void testConvertToValues(){
@@ -83,8 +91,8 @@ public class DatabaseUtilsTest {
         List<BackdropImage> backdrops=DatabaseUtils.convertFromJsonString(jsonString,type);
 
         assertThat(backdrops.size(),is(movie.getBackdropImages().size()));
-        Assert.assertArrayEquals(BackdropImage.convert(backdrops,IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdrops.size()]),
-                BackdropImage.convert(movie.getBackdropImages(),IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdrops.size()]));
+        Assert.assertArrayEquals(BackdropImage.convert(backdrops,qualityConfiguration).toArray(new String[backdrops.size()]),
+                BackdropImage.convert(movie.getBackdropImages(),qualityConfiguration).toArray(new String[backdrops.size()]));
 
         jsonString=contentValues.getAsString(COLUMN_GENRES);
         type=new TypeToken<ArrayList<Genre>>(){}.getType();
@@ -107,8 +115,8 @@ public class DatabaseUtilsTest {
         List<BackdropImage> backdropList = DatabaseUtils.convertFromJsonString(jsonString,type);
 
         assertThat(backdropList.size(),is(movie.getBackdropImages().size()));
-        Assert.assertArrayEquals(BackdropImage.convert(backdropList,IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdropList.size()]),
-                BackdropImage.convert(movie.getBackdropImages(),IMAGE_QUALITY_CONFIGURATION).toArray(new String[backdropList.size()]));
+        Assert.assertArrayEquals(BackdropImage.convert(backdropList,qualityConfiguration).toArray(new String[backdropList.size()]),
+                BackdropImage.convert(movie.getBackdropImages(),qualityConfiguration).toArray(new String[backdropList.size()]));
 
         jsonString=DatabaseUtils.convertToJsonString(movie.getGenres(),type);
         type=new TypeToken<ArrayList<Genre>>(){}.getType();

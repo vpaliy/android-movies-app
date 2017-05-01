@@ -11,7 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.popularmovies.vpaliy.domain.ISortConfiguration;
+
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -31,8 +32,6 @@ import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import static com.popularmovies.vpaliy.domain.ISortConfiguration.SortType.TOP_RATED;
-import static com.popularmovies.vpaliy.domain.ISortConfiguration.SortType.POPULAR;
 
 public class MoviesFragment extends Fragment
         implements MoviesContract.View{
@@ -125,11 +124,11 @@ public class MoviesFragment extends Fragment
                 if(item.getGroupId()==R.id.sortingChoice) {
                     switch (item.getItemId()) {
                         case R.id.byPopularity:
-                            presenter.sort(POPULAR);
+                            presenter.sort(ISortConfiguration.SortType.POPULAR);
                             actionBar.setTitle(R.string.sortByPopularity);
                             break;
                         case R.id.byLatest:
-                            presenter.sort(TOP_RATED);
+                            presenter.sort(ISortConfiguration.SortType.TOP_RATED);
                             actionBar.setTitle(R.string.sortByTopRated);
                             break;
                     }

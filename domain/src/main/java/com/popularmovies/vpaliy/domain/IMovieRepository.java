@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.domain;
 
 import android.support.annotation.NonNull;
 
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+
 import java.util.List;
 
 import rx.Observable;

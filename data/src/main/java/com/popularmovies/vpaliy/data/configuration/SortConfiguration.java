@@ -3,11 +3,12 @@ package com.popularmovies.vpaliy.data.configuration;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import com.popularmovies.vpaliy.domain.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-
+@Singleton
 public class SortConfiguration implements ISortConfiguration {
 
     private static final String KEY="SORT_TYPE";
