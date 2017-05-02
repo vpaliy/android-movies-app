@@ -27,11 +27,11 @@ public class CacheStore<K, V> {
         cache.invalidate(key);
     }
 
-    public synchronized void put(K key, V value) {
+    public void put(K key, V value) {
         cache.put(key, value);
-        if (subjectMap.containsKey(key)) {
-            subjectMap.get(key).onNext(value);
-        }
+       // if (subjectMap.containsKey(key)) {
+         //   subjectMap.get(key).onNext(value);
+        //}
     }
 
     public void putAll(Map<? extends K,? extends V> m) {
@@ -44,9 +44,9 @@ public class CacheStore<K, V> {
     }
 
     public Observable<V> getStream(K key) {
-        if (!subjectMap.containsKey(key)) {
+      //  if (!subjectMap.containsKey(key)) {
             subjectMap.put(key, PublishSubject.create());
-        }
+       // }
         V cachedValue = cache.getIfPresent(key);
         if (cachedValue != null) {
             final Subject<V, V> subject = BehaviorSubject.create(cachedValue);
@@ -57,7 +57,7 @@ public class CacheStore<K, V> {
         }
     }
 
-    public synchronized boolean isInCache(K key) {
+    public  boolean isInCache(K key) {
         return cache.getIfPresent(key) != null;
     }
 

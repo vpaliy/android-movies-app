@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
@@ -31,6 +31,8 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private final SchedulerProvider schedulerProvider;
     private View view;
 
+    private SortType sortType;
+
     @Inject
     public MoviesPresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> iRepository,
                            @NonNull SchedulerProvider schedulerProvider){
@@ -58,7 +60,8 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     @Override
-    public void sort(@NonNull ISortConfiguration.SortType sortType) {
+    public void sort(@NonNull SortType sortType) {
+        this.sortType=sortType;
         subscriptions.clear();
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.sortBy(sortType)
@@ -86,25 +89,28 @@ public class MoviesPresenter implements MoviesContract.Presenter{
                         this::completeLoading));
     }
 
-    private void processData(@NonNull List<MovieCover> movieList){
-        Log.d(TAG,Integer.toString(movieList.size()));
-        if(!movieList.isEmpty()){
-            view.showMovies(movieList);
-        }else{
-            view.showEmptyMessage();
+    private void processData(List<MovieCover> movieList){
+        if(movieList!=null) {
+            if (!movieList.isEmpty()) {
+                view.showMovies(movieList);
+                return;
+            }
         }
+        view.showEmptyMessage();
     }
 
     @Override
     public void requestMoreData() {
-        subscriptions.clear();
-        view.setLoadingIndicator(true);
-        subscriptions.add(iRepository.requestMoreCovers()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe(this::appendData,
-                        this::handleErrorMessage,
-                        this::completeLoading));
+        if(sortType==null||sortType!=SortType.FAVORITE) {
+            subscriptions.clear();
+            view.setLoadingIndicator(true);
+            subscriptions.add(iRepository.requestMoreCovers()
+                    .subscribeOn(schedulerProvider.io())
+                    .observeOn(schedulerProvider.ui())
+                    .subscribe(this::appendData,
+                            this::handleErrorMessage,
+                            this::completeLoading));
+        }
     }
 
     private void appendData(@Nullable List<MovieCover> movieList){
@@ -112,9 +118,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
             if (!movieList.isEmpty()) {
                 view.appendMovies(movieList);
                 Log.d(TAG,Integer.toString(movieList.size()));
-                return;
             }
-            view.showNoMoreMoviesMessage();
         }
     }
 

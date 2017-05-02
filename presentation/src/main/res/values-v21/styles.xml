@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
     <!-- Details Theme which supports shared element transitions. -->
     <style name="DetailsTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Set up the transition mode -->
@@ -28,7 +30,7 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
 
-
+        <item name="android:statusBarColor">#e0e0e0</item>
 
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

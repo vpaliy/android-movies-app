@@ -6,13 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -20,6 +19,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponen
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MoviesActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MarginDecoration;
@@ -31,11 +31,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
 
 public class MoviesFragment extends Fragment
-        implements MoviesContract.View{
-    
+        implements MoviesContract.View, MoviesActivity.IMoviesFragment{
 
     private Presenter presenter;
     private MoviesAdapter adapter;
@@ -52,10 +52,11 @@ public class MoviesFragment extends Fragment
     @BindView(R.id.recycleView)
     protected RecyclerView recyclerView;
 
-    @BindView(R.id.actionBar)
-    protected Toolbar actionBar;
+    @BindView(R.id.emptyBox)
+    protected ImageView emptyBox;
 
     private Unbinder unbinder;
+
 
 
     @Override
@@ -84,11 +85,11 @@ public class MoviesFragment extends Fragment
         return root;
     }
 
+
     @Override
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
             swipeRefresher.setOnRefreshListener(presenter::requestDataRefresh);
-            actionBar.inflateMenu(R.menu.menu_movies);
             adapter=new MoviesAdapter(getContext(),eventBus);
             recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new MarginDecoration(getContext()));
@@ -104,46 +105,17 @@ public class MoviesFragment extends Fragment
 
                     boolean endHasBeenReached = lastVisibleItemPosition + 5 >= totalItemCount;
                     if (totalItemCount > 0 && endHasBeenReached) {
-                        swipeRefresher.setRefreshing(true);
                         presenter.requestMoreData();
                     }
                 }
             });
 
-            //initialize the sort options
-            switch (iSortConfiguration.getConfiguration()){
-                case POPULAR:
-                    actionBar.setTitle(R.string.sortByPopularity);
-                    break;
-                case TOP_RATED:
-                    actionBar.setTitle(R.string.sortByTopRated);
-                    break;
-            }
-
-           actionBar.setOnMenuItemClickListener(item -> {
-                if(item.getGroupId()==R.id.sortingChoice) {
-                    switch (item.getItemId()) {
-                        case R.id.byPopularity:
-                            presenter.sort(ISortConfiguration.SortType.POPULAR);
-                            actionBar.setTitle(R.string.sortByPopularity);
-                            break;
-                        case R.id.byLatest:
-                            presenter.sort(ISortConfiguration.SortType.TOP_RATED);
-                            actionBar.setTitle(R.string.sortByTopRated);
-                            break;
-                    }
-                    return true;
-                }else {
-                    switch (item.getItemId()) {
-                        case R.id.sortAction:
-                            //expand the choices
-                            return true;
-                    }
-                }
-                return false;
-            });
-
         }
+    }
+
+    @Override
+    public void sort(SortType sortType){
+        presenter.sort(sortType);
     }
 
     @Override
@@ -169,6 +141,7 @@ public class MoviesFragment extends Fragment
 
     @Override
     public void showMovies(@NonNull List<MovieCover> movies) {
+        emptyBox.setVisibility(View.GONE);
         adapter.setData(movies);
     }
 
@@ -181,14 +154,8 @@ public class MoviesFragment extends Fragment
     //TODO set time for the button
     @Override
     public void showEmptyMessage() {
-        if(getView()!=null){
-            Snackbar.make(getView(),R.string.noDataMessage,Snackbar.LENGTH_LONG)
-                    .show();
-        }
-    }
-
-    @Override
-    public void showNoMoreMoviesMessage() {
+        adapter.clear();
+        emptyBox.setVisibility(View.VISIBLE);
         if(getView()!=null){
             Snackbar.make(getView(),R.string.noDataMessage,Snackbar.LENGTH_LONG)
                     .show();

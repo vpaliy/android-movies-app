@@ -91,6 +91,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         notifyItemRangeInserted(size,getItemCount());
     }
 
+    public void clear(){
+        data.clear();
+        notifyDataSetChanged();
+    }
+
     public void setData(@NonNull List<MovieCover> movies){
         this.data=movies;
         notifyDataSetChanged();

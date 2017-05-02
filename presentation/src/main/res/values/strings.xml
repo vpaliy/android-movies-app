@@ -2,17 +2,23 @@
     <string name="app_name">PopularMoviesApp</string>
     <string name="dataError">Data cannot be fetched</string>
     <string name="refreshAction">Try again</string>
-    <string name="noDataMessage">No data has been detected</string>
+    <string name="noDataMessage">No data has been found</string>
     <string name="movieImage">MovieImage</string>
     <string name="relatedMovieImage">RelatedMovieImage</string>
 
-    <!-- Shared preferences -->
-    <string name="appConfigurations">Configurations</string>
+    <string name="ByPopularity">Popular</string>
+    <string name="ByTopRated">Top Rated</string>
+    <string name="ByFavorite">Favorite</string>
+
 
     <!-- Menu -->
     <string name="sortMenuAction">Sort By</string>
     <string name="sortByPopularity">By Popularity</string>
     <string name="sortByTopRated">By Top Rated</string>
+    <string name="favoriteItem">Favorite</string>
+    <string name="moviesItem">Movies</string>
+    <string name="settingsItem">Settings</string>
+    <string name="helpItem">Help</string>
 
     <string name="movieDescription">Plot</string>
     <string name="movieReleaseDate">Release Date:</string>

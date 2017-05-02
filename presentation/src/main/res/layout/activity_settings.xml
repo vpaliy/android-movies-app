@@ -1,0 +1,6 @@
+<fragment
+    android:id="@+id/activity_settings"
+    android:name="com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.SettingsFragment"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

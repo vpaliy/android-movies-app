@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group
+        android:id="@+id/first"
+        android:checkableBehavior="single">
+
+        <item
+            android:title="@string/moviesItem"
+            android:icon="@drawable/movies"
+            android:id="@+id/movies">
+        </item>
+
+        <item
+            android:title="@string/favoriteItem"
+            android:icon="@drawable/star"
+            android:id="@+id/favorites">
+        </item>
+
+
+    </group>
+
+    <group
+        android:id="@+id/second"
+        android:checkableBehavior="single">
+
+
+        <item
+            android:title="@string/settingsItem"
+            android:icon="@drawable/settings"
+            android:id="@+id/settings">
+        </item>
+
+        <item
+            android:title="@string/helpItem"
+            android:icon="@android:drawable/ic_menu_help"
+            android:id="@+id/help"/>
+    </group>
+</menu>

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 public class MovieProvider extends ContentProvider {
 
@@ -218,7 +219,9 @@ public class MovieProvider extends ContentProvider {
                         .delete(MoviesContract.FavoriteEntry.TABLE_NAME,selection,selectionArgs);
                 break;
             case FAVORITE_WITH_ID:
+                Log.d(MovieProvider.class.getSimpleName(),"Delete favorite by its id!");
                 movieId=ContentUris.parseId(uri);
+                Log.d(MovieProvider.class.getSimpleName(),Long.toString(movieId));
                 rowsDeleted=sqlHelper.getWritableDatabase()
                         .delete(MoviesContract.FavoriteEntry.TABLE_NAME,
                                 FAVORITE_SELECTION_BY_ID, new String[]{Long.toString(movieId)});
@@ -275,9 +278,11 @@ public class MovieProvider extends ContentProvider {
                     appendedUri=MoviesContract.MovieEntry.CONTENT_URI;
                 break;
             case FAVORITE:
+                Log.d(MovieProvider.class.getSimpleName(),"Insert favorite by its id!");
                 id=sqlHelper.getWritableDatabase()
                         .insertWithOnConflict(MoviesContract.FavoriteEntry.TABLE_NAME,null,values,
                                 SQLiteDatabase.CONFLICT_REPLACE);
+                Log.d(MovieProvider.class.getSimpleName(),Long.toString(id));
                 appendedUri=MoviesContract.FavoriteEntry.CONTENT_URI;
                 break;
             case MOST_POPULAR:

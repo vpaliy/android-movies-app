@@ -131,6 +131,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     @Override
     public Observable<MovieCover> getCover(int ID) {
         if(!coversCache.isInCache(ID)) {
+            Log.d(TAG,"No in cache");
             if(isNetworkConnection()) {
                 return remoteDataSource.getCover(ID)
                         .map(entityMapper::map)
@@ -142,6 +143,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                     .map(this::isFavorite)
                     .doOnNext(movie -> coversCache.put(ID, movie));
         }
+        Log.d(TAG,"Is in cache");
         return coversCache.getStream(ID);
     }
 
@@ -164,8 +166,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
     @Override
     public void update(MovieCover item) {
-        //TODO put in cache
         localDataSource.update(entityMapper.reverseMap(item));
+        item.setFavorite(!item.isFavorite());
     }
 
     @Override

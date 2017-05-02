@@ -17,7 +17,6 @@ public interface MoviesContract {
         void appendMovies(@NonNull List<MovieCover> movies);
         void setLoadingIndicator(boolean isLoading);
         void showErrorMessage();
-        void showNoMoreMoviesMessage();
         void showEmptyMessage();
     }
 

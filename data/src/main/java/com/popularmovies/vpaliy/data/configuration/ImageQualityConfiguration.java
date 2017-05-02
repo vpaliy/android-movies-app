@@ -27,12 +27,12 @@ public class ImageQualityConfiguration implements IImageQualityConfiguration {
     @Inject
     public ImageQualityConfiguration(Context context){
         this.sharedPreferences=context.getSharedPreferences("imageQuality", Context.MODE_PRIVATE);
-        this.backdropQuality=init(BACKDROPS_KEY);
-        this.coverQuality=init(COVER_KEY);
+        this.backdropQuality=init(BACKDROPS_KEY,HIGH_QUALITY);
+        this.coverQuality=init(COVER_KEY,LOW_QUALITY);
     }
 
-    private ImageQuality init(String key){
-        int quality=sharedPreferences.getInt(key,-1);
+    private ImageQuality init(String key, int defValue){
+        int quality=sharedPreferences.getInt(key,defValue);
         switch (quality){
             case MEDIUM_QUALITY:
                 return ImageQuality.MEDIUM;

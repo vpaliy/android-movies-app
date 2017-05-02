@@ -81,7 +81,8 @@ ext {
             guava              : "com.google.guava:guava:${guavaVersion}",
             leakCanary         :"com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
             expandableTextView : "at.blogc:expandabletextview:1.0.3",
-            rxRelay            : "com.jakewharton.rxrelay2:rxrelay:${rxRelayVersion}"
+            rxRelay            : "com.jakewharton.rxrelay2:rxrelay:${rxRelayVersion}",
+            preferenceCompat   : "com.android.support:preference-v7:${supportVersion}"
 
 
     ]

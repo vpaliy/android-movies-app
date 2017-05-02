@@ -58,6 +58,7 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public Observable<List<Movie>> getCovers() {
+        Log.d(TAG,sortConfiguration.getConfiguration().toString());
         switch (sortConfiguration.getConfiguration()){
             case TOP_RATED:
                 return Observable.fromCallable(()->
@@ -78,18 +79,21 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     private List<Movie> toMovies(Cursor cursor){
         if(cursor!=null){
+
             if(cursor.moveToFirst()){
+                Log.d(TAG,Integer.toString(cursor.getCount()));
                 List<Movie> movies=new ArrayList<>(cursor.getCount());
-                while(cursor.moveToNext()){
+                do{
                     movies.add(DatabaseUtils.convertToMovie(cursor));
-                }
+                }while(cursor.moveToNext());
                 return movies;
             }
+
             if(!cursor.isClosed()){
                 cursor.close();
             }
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -145,8 +149,6 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
         Uri uri=ContentUris.withAppendedId(MoviesContract.FavoriteEntry.CONTENT_URI,movieId);
         Cursor cursor=contentResolver.query(uri,null,null,null,null);
         if(cursor==null||!cursor.moveToFirst()){
-            Log.d(TAG,"Cursor==null"+Boolean.toString(cursor==null));
-            Log.d(TAG,"Cursor.moveToFirst()"+Boolean.toString(cursor.moveToFirst()));
             return false;
         }
         cursor.close();
@@ -160,6 +162,7 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public void update(Movie item) {
+        Log.d(TAG,"Needs to be:"+(item.isFavorite()?"Deleted":"Inserted"));
         if(item.isFavorite()){
             Uri uri= ContentUris.withAppendedId(MoviesContract.FavoriteEntry.CONTENT_URI,item.getMovieId());
             contentResolver.delete(uri,null,null);
