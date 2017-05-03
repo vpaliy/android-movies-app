@@ -19,10 +19,13 @@
     <string name="moviesItem">Movies</string>
     <string name="settingsItem">Settings</string>
     <string name="helpItem">Help</string>
+    <string name="shareMenuAction">Share</string>
 
     <string name="settingsActivity">Settings</string>
 
 
+    <string name="checkOutMovie">Check out movie:</string>
+    <string name="chooseToWhomToSend">Send to</string>
     <string name="movieDescription">Plot</string>
     <string name="movieReleaseDate">Release Date:</string>
     <string name="movieDuration">Duration</string>

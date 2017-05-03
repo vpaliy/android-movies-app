@@ -45,7 +45,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void retrieveCover(int ID){
-        Log.d(TAG,"retrieveCover");
         subscriptions.add(repository.getCover(ID)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -55,9 +54,8 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void retrieveDetails(int ID){
-        Log.d(TAG,"retrieveDetails");
         subscriptions.add(repository.getDetails(ID)
-                .subscribeOn(schedulerProvider.io())    //was multi
+                .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::processData,
                         this::handleErrorMessage,
@@ -87,13 +85,21 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void processData(@NonNull MovieCover movie){
-        Log.d(TAG,"processCover");
         view.showCover(movie);
 
     }
 
+    @Override
+    public void shareWithMovie() {
+        subscriptions.add(repository.getDetails(movieId)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(view::shareWithMovie,
+                           this::handleErrorMessage,
+                           ()->{}));
+    }
+
     private void processData(@NonNull MovieDetails details){
-        Log.d(TAG,"processDetails");
         MovieCover cover=details.getMovieCover();
         if(cover.getBackdrops()!=null){
             view.showBackdrops(cover.getBackdrops());

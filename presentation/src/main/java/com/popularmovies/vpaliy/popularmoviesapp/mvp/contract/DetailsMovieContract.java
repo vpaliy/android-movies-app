@@ -17,6 +17,7 @@ public interface DetailsMovieContract {
         void showCover(@NonNull MovieCover movieCover);
         void showDetails(@NonNull MovieDetails movieDetails);
         void showMakeFavoriteMessage();
+        void shareWithMovie(MovieDetails details);
 
 
     }
@@ -24,6 +25,7 @@ public interface DetailsMovieContract {
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
         void makeFavorite();
+        void shareWithMovie();
         void start(int ID);
         void stop();
     }

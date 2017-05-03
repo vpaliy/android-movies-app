@@ -15,4 +15,6 @@ public final class Constants {
     public static final String EXTRA_DATA="extra";
     public static final String EXTRA_TRANSITION_NAME="transitionName";
     public static final String EXTRA_ID="id";
+
+    public static final String MOVIE_URL_BASE="http://api.themoviedb.org/movie/";
 }

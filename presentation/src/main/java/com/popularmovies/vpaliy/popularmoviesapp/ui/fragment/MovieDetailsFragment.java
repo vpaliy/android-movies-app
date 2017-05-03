@@ -1,4 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -6,6 +7,7 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -40,6 +42,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapte
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindDrawable;
@@ -171,17 +175,39 @@ public class MovieDetailsFragment extends Fragment
         }
     }
 
+    @Override
+    public void shareWithMovie(MovieDetails details) {
+        MovieCover cover=details.getMovieCover();
+        String message=getContext().getString(R.string.checkOutMovie);
+        message+=cover.getMovieTitle()+'\n';
+        message+=Constants.MOVIE_URL_BASE+Integer.toString(details.getMovieId())+'\n';
+        Intent intent=new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT,message);
+        intent.setType("text/plain");
+        startActivity(Intent.createChooser(intent,getString(R.string.chooseToWhomToSend)));
+    }
+
     private void initActionBar(){
         Drawable icon=MaterialDrawableBuilder.with(getContext())
                 .setIcon(MaterialDrawableBuilder.IconValue.ARROW_LEFT)
                 .setColor(Color.WHITE).build();
         actionBar.setNavigationIcon(icon);
+        actionBar.inflateMenu(R.menu.details_menu);
+        actionBar.setTitleTextColor(Color.WHITE);
         actionBar.setNavigationOnClickListener(view->{
             if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
                 getActivity().finishAfterTransition();
             }else{
                 getActivity().finish();
             }
+        });
+        actionBar.setOnMenuItemClickListener(menuItem->{
+            switch (menuItem.getItemId()){
+                case R.id.shareAction:
+                    presenter.shareWithMovie();
+                    return true;
+            }
+            return false;
         });
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
         ViewGroup.MarginLayoutParams params= ViewGroup.MarginLayoutParams.class.cast(actionBar.getLayoutParams());
@@ -363,6 +389,7 @@ public class MovieDetailsFragment extends Fragment
 
     }
 
+    //TODO convert colors to XML
     private void changeFavoriteColor(int color){
         starDrawable=MaterialDrawableBuilder.with(getContext())
                 .setIcon(MaterialDrawableBuilder.IconValue.STAR)

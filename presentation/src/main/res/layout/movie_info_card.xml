@@ -20,9 +20,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <TextView
+            <net.steamcrafted.materialiconlib.MaterialIconView
                 android:id="@+id/releaseDateLabel"
-                android:text="@string/movieReleaseDate"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                app:materialIcon="calendar_range"
                 android:layout_marginTop="16dp"
                 android:textStyle="bold"
                 android:layout_below="@+id/movieDescription"
