@@ -1,0 +1,22 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:title="@string/pref_poster_quality_title"
+        android:key="@string/pref_poster_quality_key"
+        android:defaultValue="@string/pref_poster_quality_default"
+        android:entryValues="@array/ImageQuality"
+        android:summary="@string/pref_poster_quality_summary"
+        android:entries="@array/ImageQuality">
+    </ListPreference>
+
+    <ListPreference
+        android:summary="@string/pref_backdrop_quality_summary"
+        android:title="@string/pref_backdrop_quality_title"
+        android:key="@string/pref_backdrop_quality_key"
+        android:defaultValue="@string/pref_backdrop_quality_default"
+        android:entryValues="@array/ImageQuality"
+        android:entries="@array/ImageQuality">
+    </ListPreference>
+
+</PreferenceScreen>

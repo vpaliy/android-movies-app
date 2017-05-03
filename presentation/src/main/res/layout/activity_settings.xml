@@ -1,6 +1,21 @@
-<fragment
-    android:id="@+id/activity_settings"
-    android:name="com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.SettingsFragment"
+<RelativeLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"/>
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/actionBar"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:layout_below="@+id/actionBar"
+        android:name="com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.SettingsFragment"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"/>
+
+</RelativeLayout>

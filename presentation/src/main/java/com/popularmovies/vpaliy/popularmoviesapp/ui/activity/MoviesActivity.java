@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
@@ -8,6 +9,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
+
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,7 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.MOVIES_TAG;
 
-public class MoviesActivity extends BaseActivity {
+public class MoviesActivity extends BaseActivity
+    implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final String TAG=MoviesActivity.class.getSimpleName();
 
@@ -48,10 +52,12 @@ public class MoviesActivity extends BaseActivity {
         ButterKnife.bind(this);
         setDrawer();
         setActionBar();
-
-        if(moviesFragment==null) {
+        if(savedInstanceState==null) {
             setUI();
         }
+
+        PreferenceManager.getDefaultSharedPreferences(this)
+                .registerOnSharedPreferenceChangeListener(this);
 
     }
 
@@ -112,6 +118,10 @@ public class MoviesActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        moviesFragment.onConfigChanged();
+    }
 
     private void setUI(){
         MoviesFragment fragment=new MoviesFragment();
@@ -123,6 +133,13 @@ public class MoviesActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager
+                .getDefaultSharedPreferences(this)
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_movies,menu);
@@ -141,6 +158,9 @@ public class MoviesActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         if(item.getGroupId()==R.id.sortingChoice) {
             switch (item.getItemId()) {
                 case R.id.byPopularity:
@@ -182,6 +202,7 @@ public class MoviesActivity extends BaseActivity {
 
     public interface IMoviesFragment {
         void sort(ISortConfiguration.SortType sortType);
+        void onConfigChanged();
     }
 
 }

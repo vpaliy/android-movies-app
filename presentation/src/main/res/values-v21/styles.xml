@@ -31,6 +31,7 @@
         <item name="android:windowContentTransitions">true</item>
 
         <item name="android:statusBarColor">#e0e0e0</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
 
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>

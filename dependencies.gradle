@@ -82,7 +82,8 @@ ext {
             leakCanary         :"com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
             expandableTextView : "at.blogc:expandabletextview:1.0.3",
             rxRelay            : "com.jakewharton.rxrelay2:rxrelay:${rxRelayVersion}",
-            preferenceCompat   : "com.android.support:preference-v7:${supportVersion}"
+            preferenceCompat7   : "com.android.support:preference-v7:${supportVersion}",
+            preferenceCompat14   : "com.android.support:preference-v14:${supportVersion}"
 
 
     ]

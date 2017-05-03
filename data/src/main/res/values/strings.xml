@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="content">
-        A diverse team of scientists, soldiers and adventurers unites to explore a mythical,
-        uncharted island in the Pacific, as dangerous as it is beautiful. Cut off from everything they know,
-        the team ventures into the domain of the mighty Kong, igniting the ultimate battle between man and nature.
-        As their mission of discovery becomes one of survival, they must fight to escape a primal Eden in which humanity does not belong.
-        A diverse team of scientists, soldiers and adventurers unites to explore a mythical,
-        uncharted island in the Pacific, as dangerous as it is beautiful. Cut off from everything they know,
-        the team ventures into the domain of the mighty Kong, igniting the ultimate battle between man and nature.
-        As their mission of discovery becomes one of survival, they must fight to escape a primal Eden in which humanity does not belong.
-        A diverse team of scientists, soldiers and adventurers unites to explore a mythical,
-        uncharted island in the Pacific, as dangerous as it is beautiful. Cut off from everything they know,
-        the team ventures into the domain of the mighty Kong, igniting the ultimate battle between man and nature.
-        As their mission of discovery becomes one of survival, they must fight to escape a primal Eden in which humanity does not belong.
-        A diverse team of scientists, soldiers and adventurers unites to explore a mythical,
-        uncharted island in the Pacific, as dangerous as it is beautiful. Cut off from everything they know,
-        the team ventures into the domain of the mighty Kong, igniting the ultimate battle between man and nature.
-        As their mission of discovery becomes one of survival, they must fight to escape a primal Eden in which humanity does not belong.
-
-    </string>
+    <!-- Settings -->
+    <string name="pref_poster_quality_default">Low</string>
+    <string name="pref_backdrop_quality_default">High</string>
+    <string name="pref_poster_quality_title">Poster Image Quality</string>
+    <string name="pref_backdrop_quality_title">Backdrop Image Quality</string>
+    <string name="pref_backdrop_quality_key">BackdropQualityKey</string>
+    <string name="pref_poster_quality_key">PosterQualityKey</string>
+    <string name="pref_poster_quality_summary"> "%s" </string>
+    <string name="pref_backdrop_quality_summary"> "%s" </string>
 
 
 </resources>

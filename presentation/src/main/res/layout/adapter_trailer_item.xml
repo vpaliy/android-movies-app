@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+
     <ImageView
         android:id="@+id/trailerImage"
         android:layout_width="200dp"
@@ -12,6 +13,20 @@
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription"
         />
+
+    <net.steamcrafted.materialiconlib.MaterialIconView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:materialIcon="youtube_play"
+        app:materialIconColor="#f21"
+        app:materialIconSize="48dp"
+        android:scaleType="center"
+        android:id="@+id/icon"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="31dp" />
+
 
     <TextView
         android:id="@+id/trailerTitle"

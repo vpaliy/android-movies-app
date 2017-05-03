@@ -81,7 +81,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                     .animate(R.anim.fade_in)
                     .into(image);
             title.setText(cover.getMovieTitle());
-            //install the rest of the data
         }
     }
 

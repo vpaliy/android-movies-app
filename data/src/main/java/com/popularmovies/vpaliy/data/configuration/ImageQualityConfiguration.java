@@ -2,7 +2,9 @@ package com.popularmovies.vpaliy.data.configuration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.popularmovies.vpaliy.data.R;
 import com.popularmovies.vpaliy.data.utils.Constants;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 
@@ -10,14 +12,15 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ImageQualityConfiguration implements IImageQualityConfiguration {
+public class ImageQualityConfiguration implements IImageQualityConfiguration,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String BACKDROPS_KEY="backdropKey";
-    private static final String COVER_KEY="coverKey";
+    private final String BACKDROP_QUALITY_KEY;
+    private final String COVER_QUALITY_KEY;
 
-    private static final int LOW_QUALITY=0;
-    private static final int MEDIUM_QUALITY=1;
-    private static final int HIGH_QUALITY=2;
+    private final String LOW_QUALITY;
+    private final String MEDIUM_QUALITY;
+    private final String HIGH_QUALITY;
 
     private ImageQuality backdropQuality;
     private ImageQuality coverQuality;
@@ -26,20 +29,35 @@ public class ImageQualityConfiguration implements IImageQualityConfiguration {
 
     @Inject
     public ImageQualityConfiguration(Context context){
-        this.sharedPreferences=context.getSharedPreferences("imageQuality", Context.MODE_PRIVATE);
-        this.backdropQuality=init(BACKDROPS_KEY,HIGH_QUALITY);
-        this.coverQuality=init(COVER_KEY,LOW_QUALITY);
+        this.sharedPreferences= PreferenceManager.getDefaultSharedPreferences(context);
+        final String[] qualityArray=context.getResources().getStringArray(R.array.ImageQuality);
+        this.BACKDROP_QUALITY_KEY=context.getString(R.string.pref_backdrop_quality_key);
+        this.COVER_QUALITY_KEY=context.getString(R.string.pref_poster_quality_key);
+        this.LOW_QUALITY=qualityArray[0];
+        this.MEDIUM_QUALITY=qualityArray[1];
+        this.HIGH_QUALITY=qualityArray[2];
+        this.sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+        this.backdropQuality=assignQuality(BACKDROP_QUALITY_KEY,HIGH_QUALITY);
+        this.coverQuality=assignQuality(COVER_QUALITY_KEY,LOW_QUALITY);
     }
 
-    private ImageQuality init(String key, int defValue){
-        int quality=sharedPreferences.getInt(key,defValue);
-        switch (quality){
-            case MEDIUM_QUALITY:
-                return ImageQuality.MEDIUM;
-            case HIGH_QUALITY:
-                return ImageQuality.HIGH;
-            default:
-                return ImageQuality.LOW;
+
+    private ImageQuality assignQuality(String key, String defValue){
+        String quality=sharedPreferences.getString(key,defValue);
+        if(quality.equals(MEDIUM_QUALITY)){
+            return ImageQuality.MEDIUM;
+        }else if(quality.equals(HIGH_QUALITY)){
+            return ImageQuality.HIGH;
+        }
+        return ImageQuality.LOW;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(BACKDROP_QUALITY_KEY.equals(key)){
+            this.backdropQuality=assignQuality(BACKDROP_QUALITY_KEY,HIGH_QUALITY);
+        }else{
+            this.coverQuality=assignQuality(COVER_QUALITY_KEY,LOW_QUALITY);
         }
     }
 
@@ -48,13 +66,13 @@ public class ImageQualityConfiguration implements IImageQualityConfiguration {
         this.backdropQuality=quality;
         switch (quality){
             case LOW:
-                sharedPreferences.edit().putInt(BACKDROPS_KEY,LOW_QUALITY).apply();
+                sharedPreferences.edit().putString(BACKDROP_QUALITY_KEY,LOW_QUALITY).apply();
                 break;
             case MEDIUM:
-                sharedPreferences.edit().putInt(BACKDROPS_KEY,MEDIUM_QUALITY).apply();
+                sharedPreferences.edit().putString(BACKDROP_QUALITY_KEY,MEDIUM_QUALITY).apply();
                 break;
             case HIGH:
-                sharedPreferences.edit().putInt(BACKDROPS_KEY,HIGH_QUALITY).apply();
+                sharedPreferences.edit().putString(BACKDROP_QUALITY_KEY,HIGH_QUALITY).apply();
                 break;
         }
     }
@@ -64,13 +82,13 @@ public class ImageQualityConfiguration implements IImageQualityConfiguration {
         this.coverQuality=quality;
         switch (quality){
             case LOW:
-                sharedPreferences.edit().putInt(COVER_KEY,LOW_QUALITY).apply();
+                sharedPreferences.edit().putString(COVER_QUALITY_KEY,LOW_QUALITY).apply();
                 break;
             case MEDIUM:
-                sharedPreferences.edit().putInt(COVER_KEY,MEDIUM_QUALITY).apply();
+                sharedPreferences.edit().putString(COVER_QUALITY_KEY,MEDIUM_QUALITY).apply();
                 break;
             case HIGH:
-                sharedPreferences.edit().putInt(COVER_KEY,HIGH_QUALITY).apply();
+                sharedPreferences.edit().putString(COVER_QUALITY_KEY,HIGH_QUALITY).apply();
                 break;
         }
     }

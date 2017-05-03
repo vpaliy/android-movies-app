@@ -8,14 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.SettingsFragment;
+
+import butterknife.ButterKnife;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        setSupportActionBar(ButterKnife.findById(this,R.id.actionBar));
         ActionBar actionBar=this.getSupportActionBar();
         if(actionBar!=null){
+            actionBar.setTitle(R.string.settingsActivity);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }

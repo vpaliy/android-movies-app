@@ -20,6 +20,9 @@
     <string name="settingsItem">Settings</string>
     <string name="helpItem">Help</string>
 
+    <string name="settingsActivity">Settings</string>
+
+
     <string name="movieDescription">Plot</string>
     <string name="movieReleaseDate">Release Date:</string>
     <string name="movieDuration">Duration</string>

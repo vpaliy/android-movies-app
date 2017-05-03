@@ -1,7 +1,6 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
@@ -55,27 +54,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp" />
 
+
                 <ImageView
                     android:id="@+id/movieImage"
                     android:layout_width="120dp"
                     android:layout_height="184dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
                     android:layout_marginStart="16dp"
+                    android:layout_alignParentLeft="true"
                     android:layout_marginLeft="16dp"
                     android:scaleType="centerCrop"
+                    android:transitionName="@string/movieImage"
                     tools:ignore="ContentDescription"/>
 
                 <TextView
-                    android:layout_toEndOf="@+id/movieImage"
                     android:layout_toRightOf="@+id/movieImage"
+                    android:layout_toEndOf="@+id/movieImage"
                     android:textSize="18sp"
                     android:textColor="@color/colorWhite"
                     android:textStyle="bold"
                     android:paddingTop="5dp"
-                    android:paddingStart="16dp"
                     android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
                     android:text="@string/NA"
                     android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
@@ -88,10 +89,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/title"
-                    android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_toEndOf="@+id/movieImage"
                     android:layout_toRightOf="@+id/movieImage"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@+id/movieImage"
                     />
 
                 <TextView
@@ -100,8 +101,8 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/colorWhite"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/year"
                     android:layout_alignLeft="@+id/year"
+                    android:layout_alignStart="@+id/year"
                     android:layout_below="@+id/title"
                     android:layout_marginTop="6dp" />
 
@@ -111,35 +112,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/year"
-                    android:layout_marginStart="7dp"
                     android:layout_marginLeft="7dp"
                     android:layout_toRightOf="@+id/year"
+                    android:layout_marginStart="7dp"
                     android:layout_toEndOf="@+id/year" />
 
-                <TextView
-                    android:id="@+id/ratings"
-                    android:layout_marginTop="8dp"
-                    android:textStyle="bold"
-                    android:drawableLeft="@drawable/star"
-                    android:drawableStart="@drawable/star"
-                    android:gravity="center_vertical"
-                    android:textSize="15sp"
+                <ImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/ratingStar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/genres"
-                    android:layout_toRightOf="@+id/movieImage"
-                    android:layout_toEndOf="@+id/movieImage"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp" />
+                    android:layout_alignLeft="@+id/genres"
+                    android:layout_alignStart="@+id/genres"
+                    android:layout_marginTop="6dp" />
+
+
+                <TextView
+                    android:id="@+id/ratings"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:textSize="15sp"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/ratingStar"
+                    android:layout_toEndOf="@+id/ratingStar"
+                    android:layout_toRightOf="@+id/ratingStar"/>
             </RelativeLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:gravity="top"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-                app:layout_collapseMode="pin" />
-
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -164,13 +165,13 @@
         android:layout_height="wrap_content">
     </android.support.v4.view.ViewPager>
 
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/favoriteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:fabSize="normal"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_anchor="@id/movieDetailsPager"
         app:layout_anchorGravity="bottom|right|end" />
 

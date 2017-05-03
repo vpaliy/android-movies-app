@@ -2,15 +2,21 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +55,10 @@ import android.annotation.TargetApi;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+import net.steamcrafted.materialiconlib.MaterialIconView;
+
 import butterknife.BindView;
 
 
@@ -66,6 +76,9 @@ public class MovieDetailsFragment extends Fragment
     @BindView(R.id.movieImage)
     protected ImageView movieImage;
 
+    @BindView(R.id.actionBar)
+    protected Toolbar actionBar;
+
     @BindView(R.id.movieDetailsPager)
     protected ViewPager detailsPager;
 
@@ -78,16 +91,20 @@ public class MovieDetailsFragment extends Fragment
     @BindView(R.id.indicator)
     protected CircleIndicator indicator;
 
-    @BindDrawable(R.drawable.star)
+    @BindView(R.id.ratingStar)
+    protected ImageView ratingStar;
+
+    @BindView(R.id.main_collapsing)
+    protected CollapsingToolbarLayout collapsingToolbarLayout;
+
     protected Drawable starDrawable;
 
     @BindView(R.id.favoriteButton)
     protected FloatingActionButton favoriteButton;
 
     private int favoriteColor;
-
-    private boolean isFavorite;
     private int ID;
+    private boolean isFavorite;
     private String imageTransitionName;
 
     public static MovieDetailsFragment newInstance(@NonNull Bundle extraData){
@@ -103,6 +120,7 @@ public class MovieDetailsFragment extends Fragment
         if(savedInstanceState==null){
             savedInstanceState=getArguments();
         }
+
         this.ID=savedInstanceState.getInt(Constants.EXTRA_ID);
         this.imageTransitionName=savedInstanceState.getString(Constants.EXTRA_TRANSITION_NAME);
         initializeDependencies();
@@ -141,6 +159,8 @@ public class MovieDetailsFragment extends Fragment
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(root, savedInstanceState);
         if(root!=null){
+            initActionBar();
+
             adapter=new MovieDetailsAdapter(getContext(),getFragmentManager(),ID);
             backdropsAdapter=new MovieBackdropsAdapter();
             detailsPager.setAdapter(adapter);
@@ -149,6 +169,33 @@ public class MovieDetailsFragment extends Fragment
             indicator.setViewPager(backdropPager);
 
         }
+    }
+
+    private void initActionBar(){
+        Drawable icon=MaterialDrawableBuilder.with(getContext())
+                .setIcon(MaterialDrawableBuilder.IconValue.ARROW_LEFT)
+                .setColor(Color.WHITE).build();
+        actionBar.setNavigationIcon(icon);
+        actionBar.setNavigationOnClickListener(view->{
+            if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
+                getActivity().finishAfterTransition();
+            }else{
+                getActivity().finish();
+            }
+        });
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        ViewGroup.MarginLayoutParams params= ViewGroup.MarginLayoutParams.class.cast(actionBar.getLayoutParams());
+        params.topMargin=getStatusBarHeight();
+
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Inject
@@ -176,6 +223,7 @@ public class MovieDetailsFragment extends Fragment
 
     @Override
     public void showCover(@NonNull MovieCover movieCover) {
+        collapsingToolbarLayout.setTitle(movieCover.getMovieTitle());
         favoriteButton.setScaleX(0);
         favoriteButton.setScaleY(0);
         Glide.with(this)
@@ -247,7 +295,7 @@ public class MovieDetailsFragment extends Fragment
             Swatch lightVibrantSwatch   = palette.getLightVibrantSwatch();
             Swatch lightMutedSwatch     = palette.getLightMutedSwatch();
             Swatch tabBackground=lightMutedSwatch!=null?lightMutedSwatch
-                        :(lightVibrantSwatch!=null?lightVibrantSwatch:palette.getVibrantSwatch());
+                    :(lightVibrantSwatch!=null?lightVibrantSwatch:palette.getVibrantSwatch());
             Swatch backgroundSwatch=darkMutedSwatch!=null?darkMutedSwatch:
                     (darkVibrantSwatch!=null?darkVibrantSwatch:palette.getDominantSwatch());
             setBackgroundSwatch(backgroundSwatch);
@@ -259,6 +307,8 @@ public class MovieDetailsFragment extends Fragment
     private void setTabBackground(Swatch swatch){
         if(swatch!=null) {
             tabLayout.setBackgroundColor(swatch.getRgb());
+        //    collapsingToolbarLayout.setScrimsShown(false);
+            collapsingToolbarLayout.setContentScrimColor(swatch.getRgb());
         }
 
     }
@@ -274,16 +324,14 @@ public class MovieDetailsFragment extends Fragment
             TextView genres=ButterKnife.findById(getView(),R.id.genres);
             TextView ratings=ButterKnife.findById(getView(),R.id.ratings);
 
+            favoriteButton.setBackgroundTintList(ColorStateList.valueOf(swatch.getRgb()));
             this.favoriteColor=swatch.getBodyTextColor();
             changeFavoriteColor(swatch.getBodyTextColor());
 
-            favoriteButton.setBackgroundTintList(ColorStateList.valueOf(swatch.getRgb()));
-            favoriteButton.setImageDrawable(starDrawable);
             favoriteButton.setVisibility(View.VISIBLE);
             favoriteButton.animate()
                     .scaleX(1).scaleY(1)
                     .setDuration(300).start();
-            ratings.setCompoundDrawablesWithIntrinsicBounds(starDrawable,null,null,null);
             ratings.setTextColor(swatch.getTitleTextColor());
             year.setTextColor(swatch.getTitleTextColor());
             duration.setTextColor(swatch.getTitleTextColor());
@@ -312,11 +360,17 @@ public class MovieDetailsFragment extends Fragment
         presenter.makeFavorite();
         isFavorite=!isFavorite;
         changeFavoriteColor(favoriteColor);
+
     }
 
     private void changeFavoriteColor(int color){
-        Log.d(TAG,Boolean.toString(isFavorite));
-        DrawableCompat.setTint(starDrawable,isFavorite? Color.parseColor("#ffeb3b"):color);
+        starDrawable=MaterialDrawableBuilder.with(getContext())
+                .setIcon(MaterialDrawableBuilder.IconValue.STAR)
+                .setColor(isFavorite? Color.parseColor("#ffeb3b"):color)
+                .build();
+        ratingStar.setImageDrawable(starDrawable);
+        favoriteButton.setImageDrawable(starDrawable);
+
     }
 
     @Override

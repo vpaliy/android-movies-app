@@ -148,10 +148,13 @@ public class MoviesFragment extends Fragment
     @Override
     public void appendMovies(@NonNull List<MovieCover> movies) {
         adapter.appendData(movies);
-        Log.d(MoviesFragment.class.getSimpleName(),Integer.toString(adapter.getItemCount()));
     }
 
-    //TODO set time for the button
+    @Override
+    public void onConfigChanged() {
+        presenter.requestDataRefresh();
+    }
+
     @Override
     public void showEmptyMessage() {
         adapter.clear();
