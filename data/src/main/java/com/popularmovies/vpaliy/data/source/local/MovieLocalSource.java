@@ -15,8 +15,6 @@ import java.util.List;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
-
 import javax.inject.Inject;
 import rx.Observable;
 
@@ -58,7 +56,6 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public Observable<List<Movie>> getCovers() {
-        Log.d(TAG,sortConfiguration.getConfiguration().toString());
         switch (sortConfiguration.getConfiguration()){
             case TOP_RATED:
                 return Observable.fromCallable(()->
@@ -81,7 +78,6 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
         if(cursor!=null){
 
             if(cursor.moveToFirst()){
-                Log.d(TAG,Integer.toString(cursor.getCount()));
                 List<Movie> movies=new ArrayList<>(cursor.getCount());
                 do{
                     movies.add(DatabaseUtils.convertToMovie(cursor));
@@ -162,7 +158,6 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public void update(Movie item) {
-        Log.d(TAG,"Needs to be:"+(item.isFavorite()?"Deleted":"Inserted"));
         if(item.isFavorite()){
             Uri uri= ContentUris.withAppendedId(MoviesContract.FavoriteEntry.CONTENT_URI,item.getMovieId());
             contentResolver.delete(uri,null,null);

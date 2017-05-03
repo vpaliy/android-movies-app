@@ -3,14 +3,13 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 import android.app.Application;
 import android.content.Context;
 
-import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
+import com.popularmovies.vpaliy.data.utils.scheduler.SchedulerProvider;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
-import com.squareup.otto.Bus;
 import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
-import android.support.annotation.NonNull;
 
 @Module
 public class ApplicationModule {
@@ -43,7 +42,7 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    SchedulerProvider provideSchedulers(){
+    BaseSchedulerProvider provideSchedulers(){
         return new SchedulerProvider();
     }
 

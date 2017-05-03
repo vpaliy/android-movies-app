@@ -37,6 +37,7 @@ public final class DataSourceTestUtils {
 
     public static final List<BackdropImage> FAKE_BACKDROPS= Arrays.asList(new BackdropImage(FAKE_POSTER_PATH),
             new BackdropImage(FAKE_POSTER_PATH),new BackdropImage(FAKE_POSTER_PATH),new BackdropImage(FAKE_POSTER_PATH));
+
     public static final List<Genre> FAKE_GENRES=Arrays.asList(new Genre("Action"),
             new Genre("Adventure"),new Genre("Thriller"));
 

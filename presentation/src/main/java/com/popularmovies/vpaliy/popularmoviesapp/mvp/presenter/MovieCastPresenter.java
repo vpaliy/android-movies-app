@@ -1,14 +1,11 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
-import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract.View;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import javax.inject.Inject;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
@@ -22,12 +19,12 @@ public class MovieCastPresenter
     private View view;
     private final IRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
-    private final SchedulerProvider schedulerProvider;
+    private final BaseSchedulerProvider schedulerProvider;
 
 
     @Inject
     public MovieCastPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository,
-                              @NonNull SchedulerProvider schedulerProvider){
+                              @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.subscriptions=new CompositeSubscription();
         this.schedulerProvider=schedulerProvider;

@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.data.utils;
+package com.popularmovies.vpaliy.data.utils.scheduler;
 
 import android.support.annotation.NonNull;
 
@@ -6,7 +6,7 @@ import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class SchedulerProvider {
+public class SchedulerProvider implements BaseSchedulerProvider{
 
     @NonNull
     public Scheduler computation() {

@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
-import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -25,12 +25,12 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     private View view;
     private final IMovieRepository<MovieCover,MovieDetails> repository;
     private final CompositeSubscription subscriptions;
-    private final SchedulerProvider schedulerProvider;
+    private final BaseSchedulerProvider schedulerProvider;
     private int movieId;
 
     @Inject
     public DetailsMoviePresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> repository,
-                                 @NonNull SchedulerProvider schedulerProvider){
+                                 @NonNull BaseSchedulerProvider schedulerProvider){
         this.repository=repository;
         this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
@@ -44,6 +44,7 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
         retrieveDetails(ID);
     }
 
+    //TODO setLoadingFor
     private void retrieveCover(int ID){
         subscriptions.add(repository.getCover(ID)
                 .subscribeOn(schedulerProvider.io())
@@ -61,6 +62,25 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
                         this::handleErrorMessage,
                         ()->{}));
     }
+
+    private void processData(@NonNull MovieDetails details){
+        MovieCover cover=details.getMovieCover();
+        if(cover.getBackdrops()!=null){
+            view.showBackdrops(cover.getBackdrops());
+        }
+        view.showDetails(details);
+    }
+
+    private void processData(@NonNull MovieCover movie){
+        view.showCover(movie);
+
+    }
+
+    private void handleErrorMessage(Throwable throwable){
+        throwable.printStackTrace();
+
+    }
+
     @Override
     public void stop() {
         view=null;
@@ -84,10 +104,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
         this.view=view;
     }
 
-    private void processData(@NonNull MovieCover movie){
-        view.showCover(movie);
-
-    }
 
     @Override
     public void shareWithMovie() {
@@ -99,18 +115,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
                            ()->{}));
     }
 
-    private void processData(@NonNull MovieDetails details){
-        MovieCover cover=details.getMovieCover();
-        if(cover.getBackdrops()!=null){
-            view.showBackdrops(cover.getBackdrops());
-        }
-        view.showDetails(details);
-    }
-
-    private void handleErrorMessage(Throwable throwable){
-        throwable.printStackTrace();
-
-    }
 
 
 

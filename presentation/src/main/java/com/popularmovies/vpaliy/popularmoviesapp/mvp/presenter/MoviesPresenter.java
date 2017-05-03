@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
-import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -27,15 +27,15 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private static final String TAG=MoviesPresenter.class.getSimpleName();
 
     private final IMovieRepository<MovieCover,MovieDetails> iRepository;
+    private final BaseSchedulerProvider schedulerProvider;
     private final CompositeSubscription subscriptions;
-    private final SchedulerProvider schedulerProvider;
     private View view;
 
     private SortType sortType;
 
     @Inject
     public MoviesPresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> iRepository,
-                           @NonNull SchedulerProvider schedulerProvider){
+                           @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
@@ -117,7 +117,6 @@ public class MoviesPresenter implements MoviesContract.Presenter{
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
                 view.appendMovies(movieList);
-                Log.d(TAG,Integer.toString(movieList.size()));
             }
         }
     }

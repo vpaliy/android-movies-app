@@ -54,6 +54,8 @@ public class MoviesActivity extends BaseActivity
         setActionBar();
         if(savedInstanceState==null) {
             setUI();
+        }else{
+            //TODO
         }
 
         PreferenceManager.getDefaultSharedPreferences(this)

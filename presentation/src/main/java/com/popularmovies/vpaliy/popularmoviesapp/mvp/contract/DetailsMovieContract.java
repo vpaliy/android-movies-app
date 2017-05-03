@@ -19,7 +19,6 @@ public interface DetailsMovieContract {
         void showMakeFavoriteMessage();
         void shareWithMovie(MovieDetails details);
 
-
     }
 
     interface Presenter extends BasePresenter<View> {

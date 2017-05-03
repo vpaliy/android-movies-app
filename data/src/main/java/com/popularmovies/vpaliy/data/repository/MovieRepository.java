@@ -86,6 +86,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                         .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
                         .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
 
+
+
     }
 
 

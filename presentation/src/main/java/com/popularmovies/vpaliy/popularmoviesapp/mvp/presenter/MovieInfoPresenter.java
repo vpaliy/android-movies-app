@@ -1,14 +1,11 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
-import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.View;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
@@ -24,11 +21,11 @@ public class MovieInfoPresenter
     private View view;
     private final IRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
-    private final SchedulerProvider schedulerProvider;
+    private final BaseSchedulerProvider schedulerProvider;
 
     @Inject
     public MovieInfoPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository,
-                              @NonNull SchedulerProvider schedulerProvider){
+                              @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
@@ -41,12 +38,11 @@ public class MovieInfoPresenter
                     .observeOn(schedulerProvider.ui())
                     .subscribe(this::processData,
                                this::handleError,
-                                ()->{}));
+                               subscriptions::clear));
     }
 
 
     private void processData(@NonNull MovieDetails details){
-        subscriptions.clear();
         if(details.getMovieInfo()!=null){
             view.showGeneralInfo(details.getMovieInfo());
         }else{

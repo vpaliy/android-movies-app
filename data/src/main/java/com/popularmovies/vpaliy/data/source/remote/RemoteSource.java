@@ -12,7 +12,7 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
-import com.popularmovies.vpaliy.data.utils.SchedulerProvider;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
     private final ISortConfiguration sortConfiguration;
     private final MovieDatabaseAPI movieDatabaseAPI;
-    private final SchedulerProvider schedulerProvider;
+    private final BaseSchedulerProvider schedulerProvider;
 
     private int totalPages;
     private int currentPage;
@@ -37,7 +37,7 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     @Inject
     public RemoteSource(@NonNull ISortConfiguration sortConfiguration,
                         @NonNull MovieDatabaseAPI movieDatabaseAPI,
-                        @NonNull SchedulerProvider schedulerProvider){
+                        @NonNull BaseSchedulerProvider schedulerProvider){
         this.sortConfiguration=sortConfiguration;
         this.movieDatabaseAPI=movieDatabaseAPI;
         this.schedulerProvider=schedulerProvider;
