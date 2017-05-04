@@ -103,15 +103,15 @@ public class MoviesFragment extends Fragment
                 case R.id.asCard:
                     if(presentationConfiguration.getPresentation()!= CARD){
                         presentationConfiguration.savePresentation(CARD);
+                        adjustMoviesAdapter();
                         adjustColumnWidth();
-                        adapter.notifyDataSetChanged();
                     }
                     break;
                 case R.id.asGrid:
                     if(presentationConfiguration.getPresentation()!= GRID){
                         presentationConfiguration.savePresentation(GRID);
+                        adjustMoviesAdapter();
                         adjustColumnWidth();
-                        adapter.notifyDataSetChanged();
                     }
                     break;
             }
@@ -175,6 +175,10 @@ public class MoviesFragment extends Fragment
                 recyclerView.setColumnWidth((int)getResources().getDimension(R.dimen.item_width));
                 break;
         }
+    }
+
+    private void adjustMoviesAdapter(){
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

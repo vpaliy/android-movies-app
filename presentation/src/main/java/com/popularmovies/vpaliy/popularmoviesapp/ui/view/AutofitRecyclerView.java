@@ -43,6 +43,8 @@ public class AutofitRecyclerView extends RecyclerView {
     public void setColumnWidth(int columnWidth){
         if(this.columnWidth!=columnWidth){
             this.columnWidth=columnWidth;
+            manager = new GridLayoutManager(getContext(), 1);
+            setLayoutManager(manager);
             requestLayout();
         }
     }
