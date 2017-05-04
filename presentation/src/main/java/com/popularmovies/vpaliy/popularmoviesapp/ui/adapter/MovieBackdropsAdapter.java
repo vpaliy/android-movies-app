@@ -1,13 +1,12 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
-
-import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.ImageViewTarget;
 
 import java.util.ArrayList;
 import java.util.List;

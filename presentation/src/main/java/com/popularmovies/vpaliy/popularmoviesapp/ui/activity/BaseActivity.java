@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 import javax.inject.Inject;
@@ -26,6 +27,9 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     @Inject
     protected ISortConfiguration iSortConfiguration;
+
+    @Inject
+    protected PresentationConfiguration presentationConfigs;
 
     protected CompositeDisposable disposables;
 

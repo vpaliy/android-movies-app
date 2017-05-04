@@ -9,11 +9,16 @@ import android.os.Bundle;
 import android.view.View;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import javax.inject.Inject;
+
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.CARD;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.EXTRA_DATA;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.MOVIE_DETAILS_TAG;
 
@@ -21,12 +26,13 @@ public class DetailsActivity extends BaseActivity {
 
     private Bundle extraData;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-            if(isNetworkConnection()) {
+            if(isNetworkConnection() && presentationConfigs.getPresentation()!=CARD) {
                 postponeEnterTransition();
             }
         }
@@ -46,6 +52,9 @@ public class DetailsActivity extends BaseActivity {
         }
     }
 
+    private void initTransition(){
+
+    }
     private void setUI(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.movies, MovieDetailsFragment.newInstance(extraData),MOVIE_DETAILS_TAG)

@@ -1,11 +1,15 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.transition.Transition;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,11 +29,14 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MoviesActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.AutofitRecyclerView;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MarginDecoration;
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
 import android.support.annotation.StringRes;
@@ -178,6 +185,11 @@ public class MoviesFragment extends Fragment
     }
 
     private void adjustMoviesAdapter(){
+        if (Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
+            Transition transition = new Explode();
+            transition.setInterpolator(new AccelerateDecelerateInterpolator());
+            TransitionManager.beginDelayedTransition(recyclerView, transition);
+        }
         recyclerView.setAdapter(adapter);
     }
 
@@ -227,24 +239,18 @@ public class MoviesFragment extends Fragment
     public void showEmptyMessage() {
         adapter.clear();
         emptyBox.setVisibility(View.VISIBLE);
-        if(getView()!=null){
-            Snackbar.make(getView(),R.string.noDataMessage,Snackbar.LENGTH_LONG)
-                    .show();
-        }
+        showMessage(R.string.noDataMessage);
     }
 
     @Override
     public void showErrorMessage() {
-        if(getView()!=null){
-            Snackbar.make(getView(),R.string.dataError,Snackbar.LENGTH_LONG)
-                    .setAction(R.string.refreshAction,v->presenter.requestDataRefresh())
-                    .show();
-        }
+       showMessage(R.string.dataError);
     }
 
     private void showMessage(@StringRes int resourceId){
         if(getView()!=null){
             Snackbar.make(getView(),resourceId,Snackbar.LENGTH_LONG)
+                    .setAction(R.string.refreshAction,v->presenter.requestDataRefresh())
                     .show();
         }
     }

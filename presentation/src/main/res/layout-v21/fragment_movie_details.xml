@@ -64,7 +64,6 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="16dp"
                     android:scaleType="centerCrop"
-                    android:transitionName="@string/movieImage"
                     tools:ignore="ContentDescription"/>
 
                 <TextView

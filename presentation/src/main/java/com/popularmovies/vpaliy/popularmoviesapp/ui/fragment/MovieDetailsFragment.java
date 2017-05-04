@@ -41,6 +41,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContra
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 
@@ -65,6 +66,8 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import butterknife.BindView;
+
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.CARD;
 
 
 public class MovieDetailsFragment extends Fragment
@@ -103,6 +106,9 @@ public class MovieDetailsFragment extends Fragment
     protected CollapsingToolbarLayout collapsingToolbarLayout;
 
     protected Drawable starDrawable;
+
+    @Inject
+    protected PresentationConfiguration presentationConfigs;
 
     @BindView(R.id.favoriteButton)
     protected FloatingActionButton favoriteButton;
@@ -267,9 +273,11 @@ public class MovieDetailsFragment extends Fragment
                         movieImage.setImageBitmap(resource);
                         new Palette.Builder(resource)
                                 .generate(MovieDetailsFragment.this::applyPalette);
-                        if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-                            movieImage.setTransitionName(imageTransitionName);
-                            startTransition();
+                        if(presentationConfigs.getPresentation()!=CARD) {
+                            if (Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
+                                movieImage.setTransitionName(imageTransitionName);
+                                startTransition();
+                            }
                         }
                     }
                 });
