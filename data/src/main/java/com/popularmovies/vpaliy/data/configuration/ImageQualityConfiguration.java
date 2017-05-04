@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.popularmovies.vpaliy.data.R;
 import com.popularmovies.vpaliy.data.utils.Constants;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;

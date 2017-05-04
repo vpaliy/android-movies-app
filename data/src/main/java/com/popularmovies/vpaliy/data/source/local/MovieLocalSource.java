@@ -5,6 +5,8 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+
+import com.google.common.annotations.VisibleForTesting;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
@@ -71,7 +73,6 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
                                 MostPopularEntry.CONTENT_URI, null,null,null,null)));
         }
     }
-
 
 
     private List<Movie> toMovies(Cursor cursor){

@@ -2,7 +2,6 @@ package com.popularmovies.vpaliy.data.mapper;
 
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
-import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
@@ -11,8 +10,6 @@ import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
-import com.popularmovies.vpaliy.domain.model.Trailer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,16 +65,22 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
         MovieDetailEntity detailEntity=new MovieDetailEntity();
         Movie movie=movieCoverMapper.reverseMap(details.getMovieCover());
         Movie movieInfo=movieInfoMapper.reverseMap(details.getMovieInfo());
-        movie.setVoteAverage(movieInfo.getVoteAverage());
-        movie.setReleaseDate(movieInfo.getReleaseDate());
-        movie.setBudget(movieInfo.getBudget());
-        movie.setRevenue(movieInfo.getRevenue());
-        movie.setOverview(movieInfo.getOverview());
-        movie.setMovieId(movieInfo.getMovieId());
+        if(movie!=null) {
+            movie.setVoteAverage(movieInfo.getVoteAverage());
+            movie.setReleaseDate(movieInfo.getReleaseDate());
+            movie.setBudget(movieInfo.getBudget());
+            movie.setRevenue(movieInfo.getRevenue());
+            movie.setOverview(movieInfo.getOverview());
+            movie.setMovieId(movieInfo.getMovieId());
+        }else{
+            movie=movieInfo;
+        }
 
-        detailEntity.setMovie(movie);
-        detailEntity.setBackdropImages(movie.getBackdropImages());
-        detailEntity.setFavorite(movie.isFavorite());
+        if(movie!=null) {
+            detailEntity.setMovie(movie);
+            detailEntity.setBackdropImages(movie.getBackdropImages());
+            detailEntity.setFavorite(movie.isFavorite());
+        }
         List<ActorCover> actorCovers=details.getCast();
         if(actorCovers!=null) {
             List<ActorEntity> actorEntities = new ArrayList<>(actorCovers.size());

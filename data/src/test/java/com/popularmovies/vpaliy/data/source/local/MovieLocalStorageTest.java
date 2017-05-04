@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.data.source.local;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -130,8 +131,13 @@ public class MovieLocalStorageTest {
 
     @Test
     public void testUpdateMovie(){
-        localSource.update(DataSourceTestUtils.provideFakeMovie());
-        verify(contentResolver).update(any(),any(),any(),any());
+        Movie movie=DataSourceTestUtils.provideFakeMovie();
+        movie.setFavorite(true);
+        localSource.update(movie);
+        movie.setFavorite(false);
+        localSource.update(movie);
+        verify(contentResolver).delete(ContentUris.withAppendedId(MoviesContract.FavoriteEntry.CONTENT_URI,movie.getMovieId()),null,null);
+        verify(contentResolver).insert(eq(MoviesContract.FavoriteEntry.CONTENT_URI),any(ContentValues.class));
     }
 
     @Test
@@ -153,14 +159,39 @@ public class MovieLocalStorageTest {
     }
 
     @Test
+    public void testIfFavorite(){
+        Movie movie= DataSourceTestUtils.provideFakeMovie();
+        movie.setFavorite(false);
+        localSource.update(movie);
+        localSource.isFavorite(movie.getMovieId());
+        movie.setFavorite(true);
+        localSource.isFavorite(movie.getMovieId());
+        verify(contentResolver,times(2)).query(eq(ContentUris.withAppendedId(MoviesContract.FavoriteEntry.CONTENT_URI,
+                movie.getMovieId())),any(),any(),any(),any());
+    }
+
+    @Test
     public void testRequestMoreCovers(){
         assertThat(localSource.requestMoreCovers()!=null,is(false));
     }
 
     @Test
     public void testGetDetails(){
-        assertThat(localSource.getDetails(123)!=null,is(false));
+        localSource.getDetails(123)
+                .subscribeOn(UI)
+                .observeOn(UI)
+                .subscribe(list->assertThat(list==null,is(true)));
+        Movie movie=DataSourceTestUtils.provideFakeMovie();
+        when(configuration.getConfiguration()).thenReturn(ISortConfiguration.SortType.POPULAR);
+        localSource.insert(movie);
+        localSource.getDetails(movie.getMovieId())
+                .subscribeOn(UI)
+                .observeOn(UI)
+                .subscribe(list->assertThat(list==null,is(false)));
+
+
     }
+
 
     private void shouldBeNull(Object object){
         assertThat(object!=null,is(false));

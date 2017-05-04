@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Build;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.google.android.apps.common.testing.accessibility.framework.proto.FrameworkProtos;
@@ -72,6 +73,9 @@ public class MovieDatabaseTest {
 
     private static final String MOST_POPULAR_SELECTION_BY_ID=
             MoviesContract.MostPopularEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
+
+    private static final String FAVORITE_SELECTION_BY_ID=
+            MoviesContract.FavoriteEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
 
     private  ImageQualityConfiguration qualityConfiguration;
 
@@ -209,30 +213,38 @@ public class MovieDatabaseTest {
     public void testFavoriteQuery(){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
         final Movie firstMovie=DataSourceTestUtils.provideFakeMovie();
-        firstMovie.setFavorite(true);
         final Movie secondMovie=DataSourceTestUtils.provideFakeMovie();
-        secondMovie.setFavorite(true);
         secondMovie.setMovieId(1);
         final Movie thirdMovie=DataSourceTestUtils.provideFakeMovie();
         thirdMovie.setMovieId(0);
-        thirdMovie.setFavorite(true);
-        final Movie fourthMovie=DataSourceTestUtils.provideFakeMovie();
-        fourthMovie.setMovieId(2);
-        fourthMovie.setFavorite(false);
 
-        final Movie[] movies={firstMovie,secondMovie,thirdMovie,fourthMovie};
+        final Movie[] movies={firstMovie,secondMovie,thirdMovie};
         for(Movie movie:movies) {
             database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,
                     DataSourceTestUtils.provideFakeValues(movie));
 
         }
+
+        ContentValues values=new ContentValues();
+        values.put(MoviesContract.FavoriteEntry._ID,firstMovie.getMovieId());
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,firstMovie.getMovieId());
+        database.insert(MoviesContract.FavoriteEntry.TABLE_NAME,null,values);
+
+        values.put(MoviesContract.FavoriteEntry._ID,secondMovie.getMovieId());
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,secondMovie.getMovieId());
+        database.insert(MoviesContract.FavoriteEntry.TABLE_NAME,null,values);
+
+        values.put(MoviesContract.FavoriteEntry._ID,thirdMovie.getMovieId());
+        values.put(MoviesContract.MovieEntry.MOVIE_ID,thirdMovie.getMovieId());
+        database.insert(MoviesContract.FavoriteEntry.TABLE_NAME,null,values);
+
+
         //test favorite query
-        String selection= MoviesContract.MovieEntry.COLUMN_IS_FAVORITE+" LIKE ?";
-        String[] selectionArgs={Integer.toString(1)};
         String order=MoviesContract.MovieEntry._ID+" ASC";
-        Cursor cursor=database.query(MoviesContract.MovieEntry.TABLE_NAME,
-                null,selection,selectionArgs,null,null,order);
+        Cursor cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.FavoriteEntry.TABLE_NAME,
+                null,null,null,order,sqlHelper);
         assertThat(cursor.moveToFirst(),is(true));
+
 
         //Cursor reads rows in the ascending order by its id
         assertThatMovieIsEqualToCursor(cursor,thirdMovie,3,false);
@@ -360,34 +372,22 @@ public class MovieDatabaseTest {
 
     @Test
     public void testMostPopularDelete(){
-        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        final Movie movie= DataSourceTestUtils.provideFakeMovie();
-        database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
-        String[] selectionArgs = new String[]{Long.toString(movie.getMovieId())};
-
-        ContentValues values=new ContentValues();
-        values.put(MoviesContract.MostPopularEntry._ID,movie.getMovieId());
-        values.put(MoviesContract.MovieEntry.MOVIE_ID,movie.getMovieId());
-        database.insert(MoviesContract.MostPopularEntry.TABLE_NAME,null,values);
-
-
-        Cursor cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,null,
-                MOST_POPULAR_SELECTION_BY_ID, selectionArgs,null,sqlHelper);
-        assertThat(cursor.getCount(),is(1));
-        if(!cursor.isClosed()) cursor.close();
-
-        final int rowsDeleted=database.delete(MoviesContract.MostPopularEntry.TABLE_NAME,MOST_POPULAR_SELECTION_BY_ID,selectionArgs);
-        assertThat(rowsDeleted,is(1));
-
-        cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,null,
-                MOST_POPULAR_SELECTION_BY_ID, selectionArgs,null,sqlHelper);
-        assertThat(cursor.getCount(),is(0));
-        if(!cursor.isClosed()) cursor.close();
-
+        testDeleteInAdditionalTable(MoviesContract.MostPopularEntry.TABLE_NAME,MOST_POPULAR_SELECTION_BY_ID);
     }
 
     @Test
     public void testMostRatedDelete(){
+        testDeleteInAdditionalTable(MoviesContract.MostRatedEntry.TABLE_NAME,MOST_RATED_SELECTION_BY_ID);
+    }
+
+
+    @Test
+    public void testFavoriteDelete(){
+        testDeleteInAdditionalTable(MoviesContract.FavoriteEntry.TABLE_NAME,FAVORITE_SELECTION_BY_ID);
+    }
+
+
+    private void testDeleteInAdditionalTable(String tableName, String selectionById){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
         final Movie movie= DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
@@ -395,57 +395,48 @@ public class MovieDatabaseTest {
 
 
         ContentValues values=new ContentValues();
-        values.put(MoviesContract.MostRatedEntry._ID,movie.getMovieId());
+        values.put(BaseColumns._ID,movie.getMovieId());
         values.put(MoviesContract.MovieEntry.MOVIE_ID,movie.getMovieId());
-        database.insert(MoviesContract.MostRatedEntry.TABLE_NAME,null,values);
+        database.insert(tableName,null,values);
 
-        Cursor cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,null,
-                MOST_RATED_SELECTION_BY_ID, selectionArgs,null,sqlHelper);
+        Cursor cursor=DatabaseUtils.fetchFromMovieTable(tableName,null,selectionById, selectionArgs,null,sqlHelper);
         assertThat(cursor.getCount(),is(1));
         if(!cursor.isClosed()) cursor.close();
 
-        final int rowsDeleted=database.delete(MoviesContract.MostRatedEntry.TABLE_NAME,MOST_RATED_SELECTION_BY_ID,selectionArgs);
+        final int rowsDeleted=database.delete(tableName,selectionById,selectionArgs);
         assertThat(rowsDeleted,is(1));
 
-        cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,null,
-                MOST_RATED_SELECTION_BY_ID, selectionArgs,null,sqlHelper);
+        cursor=DatabaseUtils.fetchFromMovieTable(tableName,null,selectionById, selectionArgs,null,sqlHelper);
         assertThat(cursor.getCount(),is(0));
         if(!cursor.isClosed()) cursor.close();
-
     }
-
 
 
     @Test
     public void testMostPopularMoviesInsert(){
-        final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        ContentValues values=new ContentValues();
-        values.put(MoviesContract.MostPopularEntry._ID,FAKE_MOVIE_ID);
-        values.put(MoviesContract.MovieEntry.MOVIE_ID,FAKE_MOVIE_ID);
-
-        database.insert(MoviesContract.MostPopularEntry.TABLE_NAME,null,values);
-
-        Cursor cursor=database.query(MoviesContract.MostPopularEntry.TABLE_NAME,
-                null,null,null,null,null,null);
-
-        assertThat(cursor.getCount(),is(1));
-        assertThat(cursor.moveToFirst(),is(true));
-        assertThat(cursor.getInt(cursor.getColumnIndex(MoviesContract.MovieEntry.MOVIE_ID)),is(FAKE_MOVIE_ID));
-
-        if(!cursor.isClosed()) cursor.close();
+        testInsertInAdditionalTable(MoviesContract.MostPopularEntry.TABLE_NAME);
     }
 
     @Test
     public void testTopRatedMoviesInsert(){
+      testInsertInAdditionalTable(MoviesContract.MostRatedEntry.TABLE_NAME);
+    }
+
+    @Test
+    public void testFavoriteInsert(){
+        testInsertInAdditionalTable(MoviesContract.FavoriteEntry.TABLE_NAME);
+    }
+
+
+    private void testInsertInAdditionalTable(String tableName){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
         ContentValues values=new ContentValues();
-        values.put(MoviesContract.MostRatedEntry._ID,FAKE_MOVIE_ID);
+        values.put(BaseColumns._ID,FAKE_MOVIE_ID);
         values.put(MoviesContract.MovieEntry.MOVIE_ID,FAKE_MOVIE_ID);
 
-        database.insert(MoviesContract.MostRatedEntry.TABLE_NAME,null,values);
+        database.insert(tableName,null,values);
 
-        Cursor cursor=database.query(MoviesContract.MostRatedEntry.TABLE_NAME,
-                null,null,null,null,null,null);
+        Cursor cursor=database.query(tableName,null,null,null,null,null,null);
 
         assertThat(cursor.getCount(),is(1));
         assertThat(cursor.moveToFirst(),is(true));

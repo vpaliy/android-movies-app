@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
@@ -51,9 +50,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class,
-        sdk = Build.VERSION_CODES.LOLLIPOP)
 public class DatabaseUtilsTest {
 
     private  ImageQualityConfiguration qualityConfiguration;
