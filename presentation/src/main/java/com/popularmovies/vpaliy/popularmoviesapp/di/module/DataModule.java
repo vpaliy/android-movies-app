@@ -3,15 +3,12 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.configuration.SortConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
-import com.popularmovies.vpaliy.data.entity.BackdropImage;
-import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
-import com.popularmovies.vpaliy.data.entity.ReviewEntity;
-import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.mapper.ActorMapper;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.mapper.MovieDetailsMapper;
+import com.popularmovies.vpaliy.data.mapper.MovieInfoMapper;
 import com.popularmovies.vpaliy.data.mapper.MovieMapper;
 import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.source.DataSource;
@@ -25,10 +22,6 @@ import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
@@ -45,6 +38,12 @@ public class DataModule {
     Mapper<MovieCover,Movie> provideMovieCoverMapper(@NonNull MovieMapper mapper){
         return mapper;
 
+    }
+
+    @Singleton
+    @Provides
+    Mapper<MovieInfo,Movie> provideMovieInfoMapper(@NonNull MovieInfoMapper mapper){
+        return mapper;
     }
 
     @Singleton

@@ -144,12 +144,14 @@ public class MoviesActivity extends BaseActivity
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_movies,menu);
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
         if(menu!=null){
             MenuItem item=menu.findItem(R.id.sortAction);
             if(item!=null) item.setVisible(isMenuVisible);
@@ -182,7 +184,7 @@ public class MoviesActivity extends BaseActivity
                     return true;
             }
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -39,7 +39,7 @@ public class MovieMapper implements Mapper<MovieCover,Movie> {
         List<BackdropImage> backdropImages=movieEntity.getBackdropImages();
         if(backdropImages==null){
             if(movieEntity.getBackdrop_path()!=null) {
-                cover.setBackdrops(Collections.singletonList(movieEntity.getBackdrop_path()));
+                cover.setBackdrops(Collections.singletonList(qualityConfiguration.convertBackdrop(movieEntity.getBackdrop_path())));
             }
         }else {
             cover.setBackdrops(BackdropImage.convert(backdropImages, qualityConfiguration));

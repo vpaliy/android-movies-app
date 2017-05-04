@@ -2,6 +2,7 @@
 <resources>
     <dimen name="item_margin">10dp</dimen>
     <dimen name="item_width">150dp</dimen>
+    <dimen name="item_card_width">0dp</dimen>
     <dimen name="item_padding">8dp</dimen>
 
 </resources>

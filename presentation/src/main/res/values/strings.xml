@@ -11,6 +11,10 @@
     <string name="ByTopRated">Top Rated</string>
     <string name="ByFavorite">Favorite</string>
 
+    <string name="presentation_key">Presentation Key</string>
+    <string name="asGrid">Grid</string>
+    <string name="asCards">Cards</string>
+
 
     <!-- Menu -->
     <string name="sortMenuAction">Sort By</string>
@@ -21,7 +25,7 @@
     <string name="settingsItem">Settings</string>
     <string name="helpItem">Help</string>
     <string name="shareMenuAction">Share</string>
-
+    <string name="changeViewAction">Change View</string>
     <string name="settingsActivity">Settings</string>
 
 

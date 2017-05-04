@@ -40,6 +40,13 @@ public class AutofitRecyclerView extends RecyclerView {
         setLayoutManager(manager);
     }
 
+    public void setColumnWidth(int columnWidth){
+        if(this.columnWidth!=columnWidth){
+            this.columnWidth=columnWidth;
+            requestLayout();
+        }
+    }
+
     @Override
     protected void onMeasure(int widthSpec, int heightSpec) {
         super.onMeasure(widthSpec, heightSpec);

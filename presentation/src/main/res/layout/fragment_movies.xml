@@ -23,7 +23,6 @@
 
         <com.popularmovies.vpaliy.popularmoviesapp.ui.view.AutofitRecyclerView
             android:id="@+id/recycleView"
-            android:columnWidth="@dimen/item_width"
             android:clipToPadding="false"
             android:padding="@dimen/item_padding"
             android:layout_width="match_parent"

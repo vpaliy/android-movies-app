@@ -14,6 +14,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.NetworkModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.BaseActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 import com.squareup.otto.Bus;
@@ -33,6 +34,7 @@ public interface ApplicationComponent {
     IRepository<MovieCover,MovieDetails> repository();
     IMovieRepository<MovieCover,MovieDetails> movieRepository();
     ISortConfiguration sortConfiguration();
+    PresentationConfiguration presentationConfiguration();
     IImageQualityConfiguration imageQualityConfiguration();
     MovieDatabaseAPI provideMovieDataBaseAPI();
     BaseSchedulerProvider schedulerProvider();

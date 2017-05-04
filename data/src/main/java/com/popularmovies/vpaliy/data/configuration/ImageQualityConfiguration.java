@@ -3,8 +3,6 @@ package com.popularmovies.vpaliy.data.configuration;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
-import com.google.common.annotations.VisibleForTesting;
 import com.popularmovies.vpaliy.data.R;
 import com.popularmovies.vpaliy.data.utils.Constants;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
@@ -57,7 +55,7 @@ public class ImageQualityConfiguration implements IImageQualityConfiguration,
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(BACKDROP_QUALITY_KEY.equals(key)){
             this.backdropQuality=assignQuality(BACKDROP_QUALITY_KEY,HIGH_QUALITY);
-        }else{
+        }else if(COVER_QUALITY_KEY.equals(key)){
             this.coverQuality=assignQuality(COVER_QUALITY_KEY,LOW_QUALITY);
         }
     }

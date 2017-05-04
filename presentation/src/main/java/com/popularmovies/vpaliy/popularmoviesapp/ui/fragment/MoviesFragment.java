@@ -1,14 +1,15 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
@@ -22,21 +23,29 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MoviesActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.AutofitRecyclerView;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MarginDecoration;
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import android.widget.ImageView;
 
+import android.support.annotation.StringRes;
 import javax.inject.Inject;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.ImageView;
+
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.CARD;
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.GRID;
 
 
 public class MoviesFragment extends Fragment
         implements MoviesContract.View, MoviesActivity.IMoviesFragment{
+
+    private static final String TAG=MoviesFragment.class.getSimpleName();
 
     private Presenter presenter;
     private MoviesAdapter adapter;
@@ -51,10 +60,13 @@ public class MoviesFragment extends Fragment
     protected SwipeRefreshLayout swipeRefresher;
 
     @BindView(R.id.recycleView)
-    protected RecyclerView recyclerView;
+    protected AutofitRecyclerView recyclerView;
 
     @BindView(R.id.emptyBox)
     protected ImageView emptyBox;
+
+    @Inject
+    protected PresentationConfiguration presentationConfiguration;
 
     private Unbinder unbinder;
 
@@ -70,10 +82,48 @@ public class MoviesFragment extends Fragment
     }
 
     private void initializeDependencies(){
-            DaggerViewComponent.builder()
+        DaggerViewComponent.builder()
                 .applicationComponent(App.appInstance().appComponent())
                 .presenterModule(new PresenterModule())
                 .build().inject(this);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_fragment_movies,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getGroupId()==R.id.changeViewChoice) {
+            switch (item.getItemId()) {
+                case R.id.asCard:
+                    if(presentationConfiguration.getPresentation()!= CARD){
+                        presentationConfiguration.savePresentation(CARD);
+                        adjustColumnWidth();
+                        adapter.notifyDataSetChanged();
+                    }
+                    break;
+                case R.id.asGrid:
+                    if(presentationConfiguration.getPresentation()!= GRID){
+                        presentationConfiguration.savePresentation(GRID);
+                        adjustColumnWidth();
+                        adapter.notifyDataSetChanged();
+                    }
+                    break;
+            }
+            return true;
+        }else {
+            switch (item.getItemId()) {
+                case R.id.changeView:
+                    //expand the choices
+                    return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Nullable
@@ -91,7 +141,8 @@ public class MoviesFragment extends Fragment
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
             swipeRefresher.setOnRefreshListener(presenter::requestDataRefresh);
-            adapter=new MoviesAdapter(getContext(),eventBus);
+            adapter=new MoviesAdapter(getContext(),eventBus,presentationConfiguration);
+            adjustColumnWidth();
             recyclerView.setAdapter(adapter);
             recyclerView.addItemDecoration(new MarginDecoration(getContext()));
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -111,6 +162,18 @@ public class MoviesFragment extends Fragment
                 }
             });
 
+        }
+    }
+
+
+    private void adjustColumnWidth(){
+        switch (presentationConfiguration.getPresentation()){
+            case CARD:
+                recyclerView.setColumnWidth((int)getResources().getDimension(R.dimen.item_card_width));
+                break;
+            case GRID:
+                recyclerView.setColumnWidth((int)getResources().getDimension(R.dimen.item_width));
+                break;
         }
     }
 

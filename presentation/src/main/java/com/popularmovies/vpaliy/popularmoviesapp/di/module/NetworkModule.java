@@ -1,17 +1,10 @@
 package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
 
-import android.app.Application;
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.NonNull;
-
 import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
 import com.popularmovies.vpaliy.popularmoviesapp.BuildConfig;
-
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Cache;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -22,6 +15,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import dagger.Module;
+import android.support.annotation.NonNull;
 import javax.inject.Singleton;
 import dagger.Provides;
 

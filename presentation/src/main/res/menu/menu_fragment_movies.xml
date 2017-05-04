@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/changeView"
+        android:icon="@android:drawable/ic_menu_help"
+        android:title="@string/changeViewAction">
+        <menu>
+            <group
+                android:id="@+id/changeViewChoice">
+                <item
+                    android:id="@+id/asCard"
+                    android:title="@string/asCards">
+                </item>
+                <item
+                    android:id="@+id/asGrid"
+                    android:title="@string/asGrid">
+                </item>
+            </group>
+        </menu>
+    </item>
+
+
+</menu>

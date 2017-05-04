@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
@@ -33,12 +33,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     private final RxBus eventBus;
     private final LayoutInflater inflater;
+    private final PresentationConfiguration presentationConfig;
     private boolean hasBeenClicked;
     private  List<MovieCover> data;
 
-    public MoviesAdapter(@NonNull Context context, @NonNull RxBus eventBus){
+    public MoviesAdapter(@NonNull Context context,
+                         @NonNull RxBus eventBus,
+                         @NonNull PresentationConfiguration configuration){
         this.eventBus=eventBus;
         this.data=new ArrayList<>();
+        this.presentationConfig=configuration;
         this.inflater=LayoutInflater.from(context);
 
     }
@@ -65,16 +69,27 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                 hasBeenClicked=true;
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constants.EXTRA_ID, data.get(getAdapterPosition()).getMovieId());
-                Log.d(TAG,Boolean.toString(eventBus.hasObservers()));
                 eventBus.send(new ExposeDetailsEvent(TransitionWrapper.wrap(image, bundle)));
+            }
+        }
+
+        private String provideImageUrl(){
+            MovieCover cover=data.get(getAdapterPosition());
+            switch (presentationConfig.getPresentation()){
+                case CARD:
+                    List<String> backdrop=cover.getBackdrops();
+                    if(backdrop==null||backdrop.isEmpty()) return cover.getPosterPath();
+                    return backdrop.get(0);
+                default:
+                    return cover.getPosterPath();
             }
         }
 
         void bindData(){
             MovieCover cover=data.get(getAdapterPosition());
             Glide.with(itemView.getContext())
-                    .load(cover.getPosterPath())
-                    .centerCrop()
+                    .load(provideImageUrl())
+                //    .centerCrop()
                     .priority(Priority.HIGH)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.placeholder)
@@ -111,7 +126,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root=inflater.inflate(R.layout.adapter_movie_item,parent,false);
+        View root;
+        switch (presentationConfig.getPresentation()){
+            case GRID:
+                root=inflater.inflate(R.layout.adapter_movie_item,parent,false);
+                break;
+            default:
+                root=inflater.inflate(R.layout.adapter_movie_card_item,parent,false);
+        }
         return new MovieViewHolder(root);
     }
 

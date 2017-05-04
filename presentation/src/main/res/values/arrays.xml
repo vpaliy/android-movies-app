@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string-array name="presentation">
+        <item>Grid</item>
+        <item>Card</item>
+        <item>List</item>
+    </string-array>
 </resources>
