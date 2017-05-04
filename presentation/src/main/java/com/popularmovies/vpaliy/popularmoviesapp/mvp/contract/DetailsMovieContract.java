@@ -16,7 +16,6 @@ public interface DetailsMovieContract {
         void showBackdrops(@NonNull List<String> backdrops);
         void showCover(@NonNull MovieCover movieCover);
         void showDetails(@NonNull MovieDetails movieDetails);
-        void showMakeFavoriteMessage();
         void shareWithMovie(MovieDetails details);
 
     }

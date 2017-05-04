@@ -76,7 +76,6 @@ public class MovieDetailsPresenterTest extends BasePresenterTest {
         presenter.makeFavorite();
         verify(mockRepository).getCover(anyInt());
         verify(mockRepository).update(FAKE_MOVIE_COVER);
-        verify(mockView).showMakeFavoriteMessage();
     }
 
     @Test

@@ -96,7 +96,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(repository::update));
-        view.showMakeFavoriteMessage();
     }
 
     @Override

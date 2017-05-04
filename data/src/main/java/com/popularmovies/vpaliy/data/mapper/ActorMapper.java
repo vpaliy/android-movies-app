@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.data.mapper;
 
+import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 
@@ -12,12 +13,16 @@ import javax.inject.Singleton;
 @Singleton
 public class ActorMapper implements Mapper<ActorCover,ActorEntity> {
 
+    private final ImageQualityConfiguration qualityConfiguration;
+
     @Inject
-    public ActorMapper(){}
+    public ActorMapper(ImageQualityConfiguration qualityConfiguration){
+        this.qualityConfiguration=qualityConfiguration;
+    }
     @Override
     public ActorCover map(ActorEntity actorEntity) {
         ActorCover cover=new ActorCover(actorEntity.getActorId(),actorEntity.getMovieId());
-        cover.setActorAvatar(actorEntity.getActorAvatar());
+        cover.setActorAvatar(qualityConfiguration.convertCover(actorEntity.getActorAvatar()));
         cover.setRole(actorEntity.getRole());
         cover.setName(actorEntity.getName());
         return cover;
@@ -40,7 +45,7 @@ public class ActorMapper implements Mapper<ActorCover,ActorEntity> {
     public ActorEntity reverseMap(ActorCover actorCover) {
         ActorEntity entity=new ActorEntity();
         entity.setActorId(actorCover.getActorId());
-        entity.setActorAvatar(actorCover.getActorAvatar());
+        entity.setActorAvatar(qualityConfiguration.extractPath(actorCover.getActorAvatar()));
         entity.setRole(actorCover.getRole());
         entity.setName(actorCover.getName());
         return entity;

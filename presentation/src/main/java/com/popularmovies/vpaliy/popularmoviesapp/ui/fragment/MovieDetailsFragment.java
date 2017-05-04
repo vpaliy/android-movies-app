@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -275,10 +276,6 @@ public class MovieDetailsFragment extends Fragment
     }
 
 
-    @Override
-    public void showMakeFavoriteMessage() {
-        //TODO show a message
-    }
 
     private void showCoverDetails(@NonNull MovieCover movieCover){
         if(getView()!=null) {

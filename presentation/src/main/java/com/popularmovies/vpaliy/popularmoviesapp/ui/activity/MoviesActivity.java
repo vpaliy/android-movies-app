@@ -50,14 +50,7 @@ public class MoviesActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
         ButterKnife.bind(this);
-        setDrawer();
-        setActionBar();
-        if(savedInstanceState==null) {
-            setUI();
-        }else{
-            //TODO
-        }
-
+        setUI(savedInstanceState);
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
 
@@ -125,13 +118,20 @@ public class MoviesActivity extends BaseActivity
         moviesFragment.onConfigChanged();
     }
 
-    private void setUI(){
-        MoviesFragment fragment=new MoviesFragment();
-        moviesFragment=fragment;
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.movies, fragment, MOVIES_TAG)
-                .commit();
+    private void setUI(Bundle savedInstanceState){
+        setDrawer();
+        setActionBar();
+        if(savedInstanceState==null) {
+            MoviesFragment fragment = new MoviesFragment();
+            moviesFragment = fragment;
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.movies, fragment, MOVIES_TAG)
+                    .commit();
+        }else{
+            moviesFragment=MoviesFragment.class
+                    .cast(getSupportFragmentManager().findFragmentByTag(MOVIES_TAG));
+        }
 
     }
 

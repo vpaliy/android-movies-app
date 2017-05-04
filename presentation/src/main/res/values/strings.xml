@@ -5,6 +5,7 @@
     <string name="noDataMessage">No data has been found</string>
     <string name="movieImage">MovieImage</string>
     <string name="relatedMovieImage">RelatedMovieImage</string>
+    <string name="addToFavoriteMessage">Movie has been marked as favorite</string>
 
     <string name="ByPopularity">Popular</string>
     <string name="ByTopRated">Top Rated</string>

@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -170,6 +171,13 @@ public class MoviesFragment extends Fragment
         if(getView()!=null){
             Snackbar.make(getView(),R.string.dataError,Snackbar.LENGTH_LONG)
                     .setAction(R.string.refreshAction,v->presenter.requestDataRefresh())
+                    .show();
+        }
+    }
+
+    private void showMessage(@StringRes int resourceId){
+        if(getView()!=null){
+            Snackbar.make(getView(),resourceId,Snackbar.LENGTH_LONG)
                     .show();
         }
     }

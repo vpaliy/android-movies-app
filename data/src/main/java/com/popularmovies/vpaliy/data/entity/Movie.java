@@ -192,6 +192,7 @@ public class Movie {
         this.status = status;
     }
 
+
     public void setRuntime(int runtime) {
         this.runtime = runtime;
     }

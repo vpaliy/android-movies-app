@@ -33,6 +33,18 @@ public class ReviewEntity {
         return url;
     }
 
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public static List<Review> convert(List<ReviewEntity> reviewEntities){
         if(reviewEntities==null||reviewEntities.isEmpty()){
             return null;
@@ -41,6 +53,22 @@ public class ReviewEntity {
         for(ReviewEntity reviewEntity:reviewEntities){
             Review review=new Review(0,reviewEntity.getAuthor(),reviewEntity.getContent(),reviewEntity.getUrl());
             reviewList.add(review);
+        }
+
+        return reviewList;
+    }
+
+    public static List<ReviewEntity> convertBack(List<Review> reviewEntities){
+        if(reviewEntities==null||reviewEntities.isEmpty()){
+            return null;
+        }
+        List<ReviewEntity> reviewList=new ArrayList<>(reviewEntities.size());
+        for(Review review:reviewEntities){
+            ReviewEntity reviewEntity=new ReviewEntity();
+            reviewEntity.setAuthor(review.getAuthor());
+            reviewEntity.setContent(review.getContent());
+            reviewEntity.setUrl(review.getUrl());
+            reviewList.add(reviewEntity);
         }
 
         return reviewList;

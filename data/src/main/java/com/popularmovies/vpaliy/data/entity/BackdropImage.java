@@ -1,8 +1,5 @@
 package com.popularmovies.vpaliy.data.entity;
 
-
-import android.util.Log;
-
 import com.google.gson.annotations.SerializedName;
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 
@@ -31,7 +28,6 @@ public class BackdropImage {
         List<String> paths=new LinkedList<>();
         for(BackdropImage image:images){
             paths.add(configuration.convertBackdrop(image.getBackdropPath()));
-            Log.d(TAG,configuration.convertBackdrop(image.getBackdropPath()));
         }
         return paths;
     }
@@ -41,7 +37,6 @@ public class BackdropImage {
         List<BackdropImage> images=new LinkedList<>();
         for(String image:backdrops){
             String result=configuration.extractPath(image);
-            Log.d(TAG,result);
             images.add(new BackdropImage(result));
         }
         return images;
