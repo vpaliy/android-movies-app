@@ -9,6 +9,7 @@ The application uses an API key in order to get the information from  [The Movie
 # Screenshots #
 
 ![](https://github.com/vpaliyX/PopularMovies/blob/master/art/rsz_mainscreen2_framed.png)
+![](https://github.com/vpaliyX/PopularMovies/blob/master/art/rsz_1details.png)
 ![](https://github.com/vpaliyX/PopularMovies/blob/master/art/rsz_detailsview.png)
 
 
