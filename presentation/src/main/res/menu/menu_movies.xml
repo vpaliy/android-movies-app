@@ -4,21 +4,23 @@
     <item
         android:id="@+id/sortAction"
         android:icon="@android:drawable/ic_menu_sort_by_size"
+
         android:title="@string/sortMenuAction">
-        <menu>
-            <group
-                android:id="@+id/sortingChoice">
-                <item
-                    android:id="@+id/byPopularity"
-                    android:title="@string/sortByPopularity">
-                </item>
-                <item
-                    android:id="@+id/byLatest"
-                    android:title="@string/sortByTopRated">
-                </item>
-            </group>
+        <menu
+            xmlns:HTMLCode="http://schemas.android.com/apk/res-auto" >
+            <item
+                android:id="@+id/byPopularity"
+                HTMLCode:showAsAction="ifRoom|withText"
+                android:title="@string/sortByPopularity">
+            </item>
+            <item
+                android:id="@+id/byLatest"
+                HTMLCode:showAsAction="ifRoom|withText"
+                android:title="@string/sortByTopRated">
+            </item>
         </menu>
     </item>
+
 
 
 </menu>

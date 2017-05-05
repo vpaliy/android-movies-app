@@ -48,7 +48,8 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
     }
 
 
-    public class InfoViewHolder extends AbstractViewHolder {
+    public class InfoViewHolder extends AbstractViewHolder
+            implements View.OnClickListener{
 
         @BindView(R.id.budget)
         TextView movieBudget;
@@ -65,7 +66,13 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
         public InfoViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
+            movieDescription.setOnClickListener(this);
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            movieDescription.toggle();
         }
 
         void bindData(){

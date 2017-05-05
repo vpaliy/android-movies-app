@@ -85,11 +85,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                         .map(this::isFavorite)
                         .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
                         .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
-
-
-
     }
-
 
     private void saveMoviesToDisk(List<Movie> movies){
         if(movies!=null){
@@ -98,7 +94,6 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
             }
         }
     }
-
 
     private MovieCover isFavorite(MovieCover movie){
         movie.setFavorite(localDataSource.isFavorite(movie.getMovieId()));
@@ -110,12 +105,9 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
         return detailEntity;
     }
 
-
-    //TODO take care of this code
     @Override
     public synchronized Observable<MovieDetails> getDetails(int ID) {
         if(!detailsCache.isInCache(ID)) {
-            Log.d(TAG,"Details are NOT in cache");
             if(isNetworkConnection()) {
                 return remoteDataSource.getDetails(ID)
                         .map(this::isFavorite)
@@ -126,14 +118,12 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                     .map(this::isFavorite)
                     .map(detailsMapper::map);
         }
-        Log.d(TAG,"Details are  in cache");
         return detailsCache.getStream(ID);
     }
 
     @Override
     public Observable<MovieCover> getCover(int ID) {
         if(!coversCache.isInCache(ID)) {
-            Log.d(TAG,"No in cache");
             if(isNetworkConnection()) {
                 return remoteDataSource.getCover(ID)
                         .map(entityMapper::map)
@@ -145,7 +135,6 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                     .map(this::isFavorite)
                     .doOnNext(movie -> coversCache.put(ID, movie));
         }
-        Log.d(TAG,"Is in cache");
         return coversCache.getStream(ID);
     }
 

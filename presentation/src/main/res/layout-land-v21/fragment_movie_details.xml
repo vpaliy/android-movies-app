@@ -64,7 +64,6 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="16dp"
                     android:scaleType="centerCrop"
-                    android:transitionName="@string/movieImage"
                     tools:ignore="ContentDescription"/>
 
                 <TextView
@@ -82,7 +81,6 @@
 
                 <TextView
                     android:id="@+id/year"
-                    android:text="@string/NA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/title"
@@ -92,7 +90,6 @@
 
                 <TextView
                     android:id="@+id/duration"
-                    android:text="@string/NA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/year"
@@ -101,7 +98,6 @@
 
                 <TextView
                     android:id="@+id/genres"
-                    android:text="@string/NA"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/year"

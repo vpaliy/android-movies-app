@@ -33,9 +33,6 @@ import static com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReview
 public class MovieReviewFragment extends Fragment
             implements MovieReviewContract.View{
 
-
-    private static final String TAG= MovieReviewFragment.class.getSimpleName();
-
     private int movieId;
     private Presenter presenter;
 

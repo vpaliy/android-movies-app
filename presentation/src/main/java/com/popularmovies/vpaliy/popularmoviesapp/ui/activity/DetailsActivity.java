@@ -30,6 +30,17 @@ public class DetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initTransition();
+        setContentView(R.layout.activity_movie_details);
+        if(savedInstanceState==null){
+            extraData=getIntent().getExtras();
+            setUI();
+        }else{
+            extraData=savedInstanceState.getBundle(EXTRA_DATA);
+        }
+    }
+
+    private void initTransition(){
 
         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
             if(isNetworkConnection() && presentationConfigs.getPresentation()!=CARD) {
@@ -43,18 +54,8 @@ public class DetailsActivity extends BaseActivity {
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        setContentView(R.layout.activity_movie_details);
-        if(savedInstanceState==null){
-            extraData=getIntent().getExtras();
-            setUI();
-        }else{
-            extraData=savedInstanceState.getBundle(EXTRA_DATA);
-        }
     }
 
-    private void initTransition(){
-
-    }
     private void setUI(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.movies, MovieDetailsFragment.newInstance(extraData),MOVIE_DETAILS_TAG)

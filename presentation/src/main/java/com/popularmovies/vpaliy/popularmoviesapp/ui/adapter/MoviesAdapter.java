@@ -89,7 +89,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             MovieCover cover=data.get(getAdapterPosition());
             Glide.with(itemView.getContext())
                     .load(provideImageUrl())
-                //    .centerCrop()
                     .priority(Priority.HIGH)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.placeholder)

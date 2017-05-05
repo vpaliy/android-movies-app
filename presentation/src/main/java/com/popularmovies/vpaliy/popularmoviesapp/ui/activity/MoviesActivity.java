@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.MOVIES_TAG;
 
 public class MoviesActivity extends BaseActivity
-    implements SharedPreferences.OnSharedPreferenceChangeListener{
+        implements SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final String TAG=MoviesActivity.class.getSimpleName();
 
@@ -165,25 +165,21 @@ public class MoviesActivity extends BaseActivity
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        if(item.getGroupId()==R.id.sortingChoice) {
-            switch (item.getItemId()) {
-                case R.id.byPopularity:
-                    actionBar.setTitle(R.string.ByPopularity);
-                    moviesFragment.sort(ISortConfiguration.SortType.POPULAR);
-                    break;
-                case R.id.byLatest:
-                    actionBar.setTitle(R.string.ByTopRated);
-                    moviesFragment.sort(ISortConfiguration.SortType.TOP_RATED);
-                    break;
-            }
-            return true;
-        }else {
+
             switch (item.getItemId()) {
                 case R.id.sortAction:
                     //expand the choices
                     return true;
+                case R.id.byPopularity:
+                    actionBar.setTitle(R.string.ByPopularity);
+                    moviesFragment.sort(ISortConfiguration.SortType.POPULAR);
+                    return true;
+                case R.id.byLatest:
+                    actionBar.setTitle(R.string.ByTopRated);
+                    moviesFragment.sort(ISortConfiguration.SortType.TOP_RATED);
+                    return true;
             }
-        }
+
         return super.onOptionsItemSelected(item);
     }
 

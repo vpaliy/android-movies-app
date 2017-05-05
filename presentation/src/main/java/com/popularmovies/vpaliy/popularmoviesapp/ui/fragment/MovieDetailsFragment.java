@@ -73,8 +73,6 @@ import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.Present
 public class MovieDetailsFragment extends Fragment
         implements DetailsMovieContract.View{
 
-    private static final String TAG=MovieDetailsFragment.class.getSimpleName();
-
     private Presenter presenter;
     private Unbinder unbinder;
 
@@ -173,7 +171,7 @@ public class MovieDetailsFragment extends Fragment
             initActionBar();
 
             adapter=new MovieDetailsAdapter(getContext(),getFragmentManager(),ID);
-            backdropsAdapter=new MovieBackdropsAdapter();
+            backdropsAdapter=new MovieBackdropsAdapter(getContext());
             detailsPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(detailsPager);
             backdropPager.setAdapter(backdropsAdapter);
@@ -216,7 +214,9 @@ public class MovieDetailsFragment extends Fragment
             }
             return false;
         });
+
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         ViewGroup.MarginLayoutParams params= ViewGroup.MarginLayoutParams.class.cast(actionBar.getLayoutParams());
         params.topMargin=getStatusBarHeight();
 
@@ -326,7 +326,7 @@ public class MovieDetailsFragment extends Fragment
             Swatch lightVibrantSwatch   = palette.getLightVibrantSwatch();
             Swatch lightMutedSwatch     = palette.getLightMutedSwatch();
             Swatch tabBackground=lightMutedSwatch!=null?lightMutedSwatch
-                    :(lightVibrantSwatch!=null?lightVibrantSwatch:palette.getVibrantSwatch());
+                    :(lightVibrantSwatch!=null?lightVibrantSwatch:palette.getDominantSwatch());
             Swatch backgroundSwatch=darkMutedSwatch!=null?darkMutedSwatch:
                     (darkVibrantSwatch!=null?darkVibrantSwatch:palette.getDominantSwatch());
             setBackgroundSwatch(backgroundSwatch);
@@ -338,7 +338,6 @@ public class MovieDetailsFragment extends Fragment
     private void setTabBackground(Swatch swatch){
         if(swatch!=null) {
             tabLayout.setBackgroundColor(swatch.getRgb());
-        //    collapsingToolbarLayout.setScrimsShown(false);
             collapsingToolbarLayout.setContentScrimColor(swatch.getRgb());
         }
 
@@ -394,11 +393,10 @@ public class MovieDetailsFragment extends Fragment
 
     }
 
-    //TODO convert colors to XML
     private void changeFavoriteColor(int color){
         starDrawable=MaterialDrawableBuilder.with(getContext())
                 .setIcon(MaterialDrawableBuilder.IconValue.STAR)
-                .setColor(isFavorite? Color.parseColor("#ffeb3b"):color)
+                .setColor(isFavorite?getResources().getColor(R.color.colorFavorite):color)
                 .build();
         ratingStar.setImageDrawable(starDrawable);
         favoriteButton.setImageDrawable(starDrawable);

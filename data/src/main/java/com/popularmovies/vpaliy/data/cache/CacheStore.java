@@ -29,9 +29,6 @@ public class CacheStore<K, V> {
 
     public void put(K key, V value) {
         cache.put(key, value);
-       // if (subjectMap.containsKey(key)) {
-         //   subjectMap.get(key).onNext(value);
-        //}
     }
 
     public void putAll(Map<? extends K,? extends V> m) {
@@ -44,9 +41,7 @@ public class CacheStore<K, V> {
     }
 
     public Observable<V> getStream(K key) {
-      //  if (!subjectMap.containsKey(key)) {
-            subjectMap.put(key, PublishSubject.create());
-       // }
+        subjectMap.put(key, PublishSubject.create());
         V cachedValue = cache.getIfPresent(key);
         if (cachedValue != null) {
             final Subject<V, V> subject = BehaviorSubject.create(cachedValue);

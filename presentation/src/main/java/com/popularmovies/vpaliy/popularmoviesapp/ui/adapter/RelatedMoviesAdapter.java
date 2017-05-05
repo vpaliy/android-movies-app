@@ -72,7 +72,6 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
                 }
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constants.EXTRA_ID, victim.getMovieId());
-                Log.d(TAG,Boolean.toString(eventBus.hasObservers()));
                 eventBus.send(new ExposeDetailsEvent(TransitionWrapper.wrap(image, bundle)));
             }
         }

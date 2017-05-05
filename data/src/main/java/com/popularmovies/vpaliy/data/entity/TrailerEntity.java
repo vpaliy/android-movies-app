@@ -5,6 +5,7 @@ import com.popularmovies.vpaliy.domain.model.Trailer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TrailerEntity {
 
@@ -16,6 +17,8 @@ public class TrailerEntity {
     @SerializedName("key")
     private String trailerUrl;
 
+    @SerializedName("site")
+    private String site;
 
     public int getMovieId() {
         return movieId;
@@ -39,6 +42,11 @@ public class TrailerEntity {
 
     public void setTrailerUrl(String trailerUrl) {
         this.trailerUrl = trailerUrl;
+    }
+
+
+    public boolean isFromYoutube() {
+        return site.toLowerCase(Locale.US).equals("YouTube".toLowerCase(Locale.US));
     }
 
     public static List<Trailer> convert(List<TrailerEntity> list){

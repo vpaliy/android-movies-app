@@ -44,7 +44,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
         retrieveDetails(ID);
     }
 
-    //TODO setLoadingFor
     private void retrieveCover(int ID){
         subscriptions.add(repository.getCover(ID)
                 .subscribeOn(schedulerProvider.io())
