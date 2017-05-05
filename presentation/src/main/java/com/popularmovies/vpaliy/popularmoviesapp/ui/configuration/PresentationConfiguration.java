@@ -28,7 +28,7 @@ public class PresentationConfiguration
         final String[] representations=context.getResources().getStringArray(R.array.presentation);
         GRID_PRESENTATION=representations[0];
         CARD_PRESENTATION=representations[1];
-        this.presentation=assignView(PRESENTATION_KEY,CARD_PRESENTATION);
+        this.presentation=assignView(PRESENTATION_KEY,GRID_PRESENTATION);
     }
 
     private Presentation assignView(String key,String defValue){
