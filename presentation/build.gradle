@@ -52,6 +52,7 @@ dependencies {
     compile project(":data")
     compile project(":domain")
 
+    compile libs.constraintLayout
     compile libs.multiDex
     compile libs.materialIconLib
     compile libs.preferenceCompat7
