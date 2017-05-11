@@ -1,72 +1,57 @@
 package com.popularmovies.vpaliy.data.source.local;
 
+
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
+import com.popularmovies.vpaliy.data.entity.ReviewEntity;
+import com.popularmovies.vpaliy.data.entity.TrailerEntity;
+
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Genres;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
+
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
+
 import static android.provider.BaseColumns._ID;
-import static com.popularmovies.vpaliy.data.source.local.MovieSQLHelper.Tables;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Actors;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Genres;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Trailers;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Reviews;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.PopularMedia;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.FavoriteMedia;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.TopRatedMedia;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.UpcomingMedia;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.LatestMedia;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.RecommendedMedia;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.NowPlayingMedia;
 
-public final class DatabaseUtils {
+public class MovieDataConverter {
 
-    private DatabaseUtils(){
-        throw new UnsupportedOperationException("Can't be created");
+    private ContentValues values;
+    private MovieDetailEntity detailEntity;
+    private Movie movie;
+    private List<ActorEntity> actors;
+    private List<TrailerEntity> trailers;
+    private List<ReviewEntity> reviews;
+
+
+
+    public MovieDataConverter appendTrailersFrom(Cursor cursor){
+
+        return this;
     }
 
-    public static ContentValues convertToValues(Movie item){
-        if(item==null) return null;
+    public MovieDataConverter appendCastFrom(Cursor cursor){
 
-        ContentValues values=new ContentValues();
-        values.put(_ID,item.getMovieId());
-        values.put(Movies.MOVIE_ORIGINAL_TITLE,item.getOriginalTitle());
-        values.put(Movies.MOVIE_OVERVIEW,item.getOverview());
-        values.put(Movies.MOVIE_RELEASE_DATE,item.getReleaseDate());
-        values.put(Movies.MOVIE_POSTER_URL,item.getPosterPath());
-        values.put(Movies.MOVIE_POPULARITY,item.getPopularity());
-        values.put(Movies.MOVIE_BUDGET,item.getBudget());
-        values.put(Movies.MOVIE_RUNTIME,item.getRuntime());
-        values.put(Movies.MOVIE_REVENUE,item.getRevenue());
-        values.put(Movies.MOVIE_HOMEPAGE,item.getHomepage());
-        values.put(Movies.MOVIE_TITLE,item.getTitle());
-        values.put(Movies.MOVIE_VOTE_COUNT,item.getVoteCount());
-        values.put(Movies.MOVIE_AVERAGE_VOTE,item.getVoteAverage());
-        values.put(Movies.MOVIE_BACKDROP_URL,item.getBackdrop_path());
-
-        //convert the backdrops
-        Type type = new TypeToken<ArrayList<BackdropImage>>() {}.getType();
-        String jsonString=convertToJsonString(item.getBackdropImages(),type);
-        values.put(Movies.MOVIE_BACKDROPS,jsonString);
-
-        return values;
+        return this;
     }
 
+    public MovieDataConverter appendReviewsFrom(Cursor cursor){
 
-    public static Movie convertToMovie(Cursor cursor){
-        if(cursor==null) return null;
+        return this;
+    }
+
+    public MovieDataConverter begin(Cursor cursor){
         Movie movie=new Movie();
-
         final int movieId=cursor.getInt(cursor.getColumnIndex(_ID));
         final String originalTitle=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_ORIGINAL_TITLE));
         final String overview=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_OVERVIEW));
@@ -76,6 +61,7 @@ public final class DatabaseUtils {
         final long budget=cursor.getLong(cursor.getColumnIndex(Movies.MOVIE_BUDGET));
         final int runtime=cursor.getInt(cursor.getColumnIndex(Movies.MOVIE_RUNTIME));
         final long revenue=cursor.getLong(cursor.getColumnIndex(Movies.MOVIE_REVENUE));
+
         final String homePage=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_HOMEPAGE));
         final String title=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_TITLE));
         final double averageVote=cursor.getDouble(cursor.getColumnIndex(Movies.MOVIE_AVERAGE_VOTE));
@@ -100,7 +86,39 @@ public final class DatabaseUtils {
         movie.setHomepage(homePage);
         movie.setVoteAverage(averageVote);
 
-        return movie;
+        return this;
+    }
+
+    public MovieDataConverter isFavorite(Cursor cursor){
+        if(movie==null) movie=new Movie();
+        if(cursor!=null) {
+            movie.setFavorite(cursor.getCount()!=0);
+        }
+        return this;
+    }
+
+    public MovieDataConverter appendGenresFrom(Cursor cursor){
+        if(movie==null) movie=new Movie();
+
+        String genreName=cursor.getString(cursor.getColumnIndex(Genres.GENRE_NAME));
+        List<Genre> genres=movie.getGenres();
+        if(genres==null) genres=new ArrayList<>();
+        genres.add(new Genre(genreName));
+        movie.setGenres(genres);
+        return this;
+    }
+
+    public MovieDetailEntity merge(){
+        if(movie!=null){
+            detailEntity.setMovie(movie);
+            detailEntity.setFavorite(movie.isFavorite());
+            detailEntity.setBackdropImages(movie.getBackdropImages());
+        }
+        if(actors!=null) detailEntity.setCast(actors);
+        if(trailers!=null) detailEntity.setTrailers(trailers);
+        if(reviews!=null) detailEntity.setReviews(reviews);
+
+        return detailEntity;
     }
 
 
