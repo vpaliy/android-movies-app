@@ -11,7 +11,7 @@ public final class MoviesContract {
     interface MovieColumns extends BaseColumns{
         String MOVIE_TITLE = "title";
         String MOVIE_ORIGINAL_TITLE="original_title";
-        String MOVIE_TAGLINE="tagline";
+        String MOVIE_TAG_LINE="tag_line";
         String MOVIE_STATUS="status";
         String MOVIE_OVERVIEW="overview";
         String MOVIE_BUDGET="budget";
@@ -52,6 +52,10 @@ public final class MoviesContract {
         String REVIEW_URL="review_url";
     }
 
+    interface GenreColumns extends BaseColumns {
+        String GENRE_NAME="genre_name";
+    }
+
 
     public static final String CONTENT_AUTHORITY="com.popularmovies.vpaliy";
     public static final String PREFIX="content://";
@@ -61,7 +65,7 @@ public final class MoviesContract {
     public static final String PATH_ACTOR="actor";
     public static final String PATH_TRAILER="trailer";
     public static final String PATH_REVIEW="review";
-
+    public static final String PATH_GENRE="genre";
     public static final String PATH_FAVORITE="favorite";
     public static final String PATH_TOP_RATED="top_rated";
     public static final String PATH_NOW_PLAYING="now_playing";
@@ -95,6 +99,23 @@ public final class MoviesContract {
 
     }
 
+    public static class Genres implements GenreColumns {
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_GENRE).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GENRE;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_GENRE;
+
+        public static Uri buildGenreUri(String genreId){
+            return CONTENT_URI.buildUpon().appendPath(genreId).build();
+        }
+
+        public static String getGenreId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+    }
 
     public static class Trailers implements TrailerColumns {
 
@@ -152,141 +173,139 @@ public final class MoviesContract {
 
     }
 
-    public static class MovieEntry implements BaseColumns{
 
-        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
+    public static class PopularMedia implements BaseColumns {
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_POPULAR).build();
 
         public static final String CONTENT_DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_POPULAR;
+
         public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_MOVIE;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_POPULAR;
 
-        public static final String MOVIE_ID="movieId";
+        public static Uri buildPopularMediaUri(String popularId){
+            return CONTENT_URI.buildUpon().appendPath(popularId).build();
+        }
 
-        public static final String TABLE_NAME="movies";
-        public static final String COLUMN_ORIGINAL_TITLE="originalTitle";
-        public static final String COLUMN_OVERVIEW="overview";
-        public static final String COLUMN_BUDGET="budget";
-        public static final String COLUMN_REVENUE="revenue";
-        public static final String COLUMN_RUNTIME="runtime";
-        public static final String COLUMN_HOME_PAGE="homePage";
-        public static final String COLUMN_POPULARITY="popularity";
-        public static final String COLUMN_MOVIE_BACKDROPS="backdrops";
-        public static final String COLUMN_POSTER_PATH = "posterPath";
-        public static final String COLUMN_RELEASE_DATE = "releaseDate";
-        public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_IS_FAVORITE="isFavorite";
-        public static final String COLUMN_AVERAGE_VOTE = "voteAverage";
-        public static final String COLUMN_VOTE_COUNT = "voteCount";
-        public static final String COLUMN_GENRES="genres";
-        public static final String COLUMN_BACKDROP_PATH = "backdropPath";
-
-        public static final String SQL_CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY, " +
-                        COLUMN_ORIGINAL_TITLE + " TEXT, " +
-                        COLUMN_OVERVIEW + " TEXT, " +
-                        COLUMN_RELEASE_DATE + " TEXT, " +
-                        COLUMN_POSTER_PATH + " TEXT, " +
-                        COLUMN_POPULARITY + " REAL, " +
-                        COLUMN_BUDGET+" INTEGER, "+
-                        COLUMN_RUNTIME+" INTEGER, "+
-                        COLUMN_REVENUE+" INTEGER, "+
-                        COLUMN_GENRES+" TEXT, "+
-                        COLUMN_HOME_PAGE+" TEXT, "+
-                        COLUMN_TITLE + " TEXT, " +
-                        COLUMN_IS_FAVORITE+" INTEGER, "+
-                        COLUMN_AVERAGE_VOTE + " REAL, " +
-                        COLUMN_VOTE_COUNT + " INTEGER," +
-                        COLUMN_BACKDROP_PATH + " TEXT, " +
-                        COLUMN_MOVIE_BACKDROPS + " TEXT " +
-                        " );";
-
-        public static final String SQL_DROP_IF_EXISTS="DROP TABLE IF EXISTS "+TABLE_NAME;
-
-
-        public static final String[] COLUMNS= new String[]{
-                _ID,
-                COLUMN_ORIGINAL_TITLE,COLUMN_OVERVIEW,
-                COLUMN_RELEASE_DATE,COLUMN_POSTER_PATH,
-                COLUMN_POPULARITY,COLUMN_BUDGET,
-                COLUMN_RUNTIME,COLUMN_REVENUE,
-                COLUMN_GENRES,COLUMN_HOME_PAGE,
-                COLUMN_TITLE,COLUMN_IS_FAVORITE,
-                COLUMN_AVERAGE_VOTE,COLUMN_VOTE_COUNT,
-                COLUMN_BACKDROP_PATH,COLUMN_MOVIE_BACKDROPS
-        };
-
-
+        public static String getPopularMediaId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
     }
 
 
+    public static class TopRatedMedia implements BaseColumns {
 
-
-    public static class MostPopularEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOST_POPULAR).build();
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_TOP_RATED).build();
 
         public static final String CONTENT_DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" +
-                        CONTENT_AUTHORITY + "/" + PATH_MOVIE+"/"+PATH_MOST_POPULAR;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TOP_RATED;
 
-        public static final String TABLE_NAME="mostPopular";
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_TOP_RATED;
 
+        public static Uri buildTopRatedMediaUri(String topRatedId){
+            return CONTENT_URI.buildUpon().appendPath(topRatedId).build();
+        }
 
-        public static final String SQL_CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY, " +
-                        MovieEntry.MOVIE_ID + " INTEGER NOT NULL, " +
-                        " FOREIGN KEY (" + MovieEntry.MOVIE_ID + ") REFERENCES " +
-                        MovieEntry.TABLE_NAME + " (" + MovieEntry._ID + ") " + " );";
-        public static final String SQL_DROP_IF_EXISTS="DROP TABLE IF EXISTS "+TABLE_NAME;
-
+        public static String getTopRatedMediaId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
     }
 
+    public static class NowPlayingMedia implements BaseColumns {
 
-    public static class FavoriteEntry implements BaseColumns {
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_NOW_PLAYING).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_NOW_PLAYING;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_NOW_PLAYING;
+
+        public static Uri buildNowPlayingMediaUri(String id){
+            return CONTENT_URI.buildUpon().appendPath(id).build();
+        }
+
+        public static String getNowPlayingMediaUri(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+    }
+
+    public static class UpcomingMedia implements BaseColumns {
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_UPCOMING).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_UPCOMING;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_UPCOMING;
+
+        public static Uri buildUpcomingMediaUri(String id){
+            return CONTENT_URI.buildUpon().appendPath(id).build();
+        }
+
+        public static String getUpcomingMediaId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+    }
+
+    public static class LatestMedia implements BaseColumns {
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_LATEST).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_LATEST;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_LATEST;
+
+        public static Uri buildLatestMediaUri(String id){
+            return CONTENT_URI.buildUpon().appendPath(id).build();
+        }
+
+        public static String getLatestMediaId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+    }
+
+    public static class FavoriteMedia implements BaseColumns {
 
         public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_FAVORITE).build();
 
         public static final String CONTENT_DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE
-                        +"/"+PATH_FAVORITE;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_FAVORITE;
 
-        public static final String TABLE_NAME="favorite";
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_FAVORITE;
 
+        public static Uri buildFavoriteMediaUri(String id){
+            return CONTENT_URI.buildUpon().appendPath(id).build();
+        }
 
-        public static final String SQL_CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY, " +
-                        MovieEntry.MOVIE_ID + " INTEGER NOT NULL, " +
-                        " FOREIGN KEY (" + MovieEntry.MOVIE_ID + ") REFERENCES " +
-                        MovieEntry.TABLE_NAME + " (" + MovieEntry._ID + ") " + " );";
-
-        public static final String SQL_DROP_IF_EXISTS="DROP TABLE IF EXISTS "+TABLE_NAME;
+        public static String getFavoriteMediaId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
     }
 
+    public static class RecommendedMedia implements BaseColumns {
 
-    public static class MostRatedEntry implements BaseColumns {
-
-        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_HIGHEST_RATED).build();
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_RECOMMENDED).build();
 
         public static final String CONTENT_DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE
-                        +"/"+PATH_HIGHEST_RATED;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_RECOMMENDED;
 
-        public static final String TABLE_NAME="favorites";
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_RECOMMENDED;
 
+        public static Uri buildRecommendedMediaUri(String id){
+            return CONTENT_URI.buildUpon().appendPath(id).build();
+        }
 
-        public static final String SQL_CREATE_TABLE =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY, " +
-                        MovieEntry.MOVIE_ID + " INTEGER NOT NULL, " +
-                        " FOREIGN KEY (" + MovieEntry.MOVIE_ID + ") REFERENCES " +
-                        MovieEntry.TABLE_NAME + " (" + MovieEntry._ID + ") " + " );";
-        public static final String SQL_DROP_IF_EXISTS="DROP TABLE IF EXISTS "+TABLE_NAME;
-
+        public static String getRecommendedMediaId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
     }
-
 
 }
