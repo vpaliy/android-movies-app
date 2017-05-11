@@ -26,6 +26,7 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         String LATEST="latest";
         String FAVORITE="favorite";
         String NOW_PLAYING="now_playing";
+        String SIMILAR_MEDIA="similar_movies";
         String MEDIA_ACTORS="media_actors";
         String MEDIA_REVIEWS="media_reviews";
         String MEDIA_TRAILERS="media_trailers";
@@ -53,6 +54,10 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         String REVIEW_ID="review_id";
     }
 
+    interface SimilarMovies {
+        String MEDIA_ID="media_id";
+        String SIMILAR_MEDIA_ID="similar_media_id";
+    }
 
 
     public MovieSQLHelper(@NonNull Context context){
