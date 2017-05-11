@@ -186,7 +186,21 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.MOVIES);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.ACTORS);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.GENRES);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.MEDIA_GENRES);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.MEDIA_ACTORS);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.SIMILAR_MEDIA);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.FAVORITE);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.LATEST);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.UPCOMING);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.TRAILERS);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.REVIEWS);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.POPULAR);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.TOP_RATED);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.NOW_PLAYING);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.RECOMMENDED);
         onCreate(db);
     }
 }
