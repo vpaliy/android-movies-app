@@ -8,7 +8,6 @@ import android.provider.BaseColumns;
 @SuppressWarnings("all")
 public final class MoviesContract {
 
-
     interface MovieColumns extends BaseColumns{
         String MOVIE_TITLE = "title";
         String MOVIE_ORIGINAL_TITLE="original_title";
@@ -65,19 +64,33 @@ public final class MoviesContract {
 
     public static final String CONTENT_AUTHORITY="com.popularmovies.vpaliy";
     public static final String PREFIX="content://";
+
     public static final Uri BASE_CONTENT_URI=Uri.parse(PREFIX+CONTENT_AUTHORITY);
 
     public static final String PATH_MOVIE="movie";
+
+    public static final String PATH_ALL_DETAILS="details";
+
     public static final String PATH_ACTOR="actor";
+
     public static final String PATH_TRAILER="trailer";
+
     public static final String PATH_REVIEW="review";
+
     public static final String PATH_GENRE="genre";
+
     public static final String PATH_FAVORITE="favorite";
+
     public static final String PATH_TOP_RATED="top_rated";
+
     public static final String PATH_NOW_PLAYING="now_playing";
+
     public static final String PATH_UPCOMING="upcoming";
+
     public static final String PATH_LATEST="latest";
+
     public static final String PATH_POPULAR="most_popular";
+
     public static final String PATH_RECOMMENDED="recommended";
 
 
@@ -92,11 +105,28 @@ public final class MoviesContract {
 
         public static final String CONTENT_DIR_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
+
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_MOVIE;
 
         public static Uri buildMovieUri(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).build();
+        }
+
+        public static Uri buildMovieWithTrailersUri(String movieId){
+            return CONTENT_URI.buildUpon().appendPath(PATH_TRAILER).appendPath(movieId).build();
+        }
+
+        public static Uri buildMovieWithReviewsUri(String movieId){
+            return CONTENT_URI.buildUpon().appendPath(PATH_REVIEW).appendPath(movieId).build();
+        }
+
+        public static Uri buildMovieWithGenresUri(String movieId){
+            return CONTENT_URI.buildUpon().appendPath(PATH_GENRE).appendPath(movieId).build();
+        }
+
+        public static Uri buildMovieWithDetailsUri(String movieId){
+            return CONTENT_URI.buildUpon().appendPath(PATH_ALL_DETAILS).appendPath(movieId).build();
         }
 
         public static String getMovieId(Uri uri){

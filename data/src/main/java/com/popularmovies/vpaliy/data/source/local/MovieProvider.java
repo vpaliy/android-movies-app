@@ -4,11 +4,8 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.CONTENT_AUTHORITY;
 import static com.popularmovies.vpaliy.data.source.local.MovieSQLHelper.Tables;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Actors;
