@@ -33,6 +33,7 @@ import java.util.Arrays;
 public class MovieProvider extends ContentProvider {
 
     private static final String TAG=MovieProvider.class.getSimpleName();
+
     private MovieSQLHelper sqlHelper;
     private MovieUriMatcher uriMatcher;
 

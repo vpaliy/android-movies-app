@@ -64,16 +64,22 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
 
         String MOVIE_JOIN_FAVORITES=MOVIES+" "+
                     INNER_JOIN+FAVORITE+ON+MOVIES+DOT+Movies._ID+"="+FAVORITE+DOT+FavoriteMedia.COLLECTION_MEDIA_ID;
+
         String MOVIE_JOIN_TOP_RATED=MOVIES+" "+
                 INNER_JOIN+TOP_RATED+ON+MOVIES+DOT+Movies._ID+"="+TOP_RATED+DOT+TopRatedMedia.COLLECTION_MEDIA_ID;
+
         String MOVIE_JOIN_LATEST=MOVIES+" "+
                 INNER_JOIN+LATEST+ON+MOVIES+DOT+Movies._ID+"="+LATEST+DOT+LatestMedia.COLLECTION_MEDIA_ID;
+
         String MOVIE_JOIN_NOW_PLAYING=MOVIES+" "+
                 INNER_JOIN+NOW_PLAYING+ON+MOVIES+DOT+Movies._ID+"="+NOW_PLAYING+DOT+NowPlayingMedia.COLLECTION_MEDIA_ID;
+
         String MOVIE_JOIN_UPCOMING=MOVIES+" "+
                 INNER_JOIN+UPCOMING+ON+MOVIES+DOT+Movies._ID+"="+UPCOMING+DOT+UpcomingMedia.COLLECTION_MEDIA_ID;
+
         String MOVIE_JOIN_POPULAR=MOVIES+" "+
                 INNER_JOIN+POPULAR+ON+MOVIES+DOT+Movies._ID+"="+POPULAR+DOT+PopularMedia.COLLECTION_MEDIA_ID;
+
         String MOVIE_JOIN_RECOMMENDED=MOVIES+" "+
                 INNER_JOIN+RECOMMENDED+ON+MOVIES+DOT+Movies._ID+"="+RECOMMENDED+DOT+RecommendedMedia.COLLECTION_MEDIA_ID;
 
@@ -160,39 +166,39 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
                 "UNIQUE (" + Reviews._ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.POPULAR+" ("+
-                PopularMedia._ID+" INTEGER PRIMARY KEY,"+
+                PopularMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 PopularMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
                 "UNIQUE (" + Reviews._ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.FAVORITE+" ("+
-                FavoriteMedia._ID+" INTEGER PRIMARY KEY,"+
+                FavoriteMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 FavoriteMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                "UNIQUE (" + FavoriteMedia._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + FavoriteMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.TOP_RATED+" ("+
-                TopRatedMedia._ID+" INTEGER PRIMARY KEY,"+
+                TopRatedMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 TopRatedMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                "UNIQUE (" + TopRatedMedia._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + TopRatedMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.UPCOMING+" ("+
-                UpcomingMedia._ID+" INTEGER PRIMARY KEY,"+
+                UpcomingMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 UpcomingMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                "UNIQUE (" + UpcomingMedia._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + UpcomingMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.RECOMMENDED+" ("+
-                RecommendedMedia._ID+" INTEGER PRIMARY KEY,"+
+                RecommendedMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 RecommendedMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                "UNIQUE (" + RecommendedMedia._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + RecommendedMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.LATEST+" ("+
-                LatestMedia._ID+" INTEGER PRIMARY KEY,"+
+                LatestMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 LatestMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                "UNIQUE (" + LatestMedia._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + LatestMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.NOW_PLAYING+" ("+
-                NowPlayingMedia._ID+" INTEGER PRIMARY KEY,"+
+                NowPlayingMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 NowPlayingMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                "UNIQUE (" + NowPlayingMedia._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + NowPlayingMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.SIMILAR_MEDIA+" ("+
                 BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -237,7 +243,7 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    public static void deleteDatabase(Context context) {
+    static void deleteDatabase(Context context) {
         context.deleteDatabase(DATABASE_NAME);
     }
 }
