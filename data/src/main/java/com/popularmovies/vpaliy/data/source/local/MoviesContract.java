@@ -1,20 +1,68 @@
 package com.popularmovies.vpaliy.data.source.local;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class MoviesContract {
+
+
+    interface MovieColumns extends BaseColumns{
+        String MOVIE_TITLE = "title";
+        String MOVIE_ORIGINAL_TITLE="original_title";
+        String MOVIE_OVERVIEW="overview";
+        String MOVIE_BUDGET="budget";
+        String MOVIE_REVENUE="revenue";
+        String MOVIE_RUNTIME="runtime";
+        String MOVIE_HOMEPAGE="homepage";
+        String MOVIE_POPULARITY="popularity";
+        String MOVIE_BACKDROPS="backdrops";
+        String MOVIE_POSTER_PATH = "poster_path";
+        String MOVIE_RELEASE_DATE = "release_date";
+        String MOVIE_AVERAGE_VOTE = "vote_average";
+        String MOVIE_VOTE_COUNT = "vote_count";
+        String MOVIE_GENRES="genres";
+        String MOVIE_BACKDROP_PATH = "backdropPath";
+    }
+
+
+    interface ActorColumns extends BaseColumns {
+        String ACTOR_NAME="name";
+        String ACTOR_BIRTHDAY="birthday";
+        String ACTOR_BIOGRAPHY="biography";
+        String ACTOR_HOMEPAGE="homepage";
+        String ACTOR_PLACE_OF_BIRTH="place_of_birth";
+        String ACTOR_POPULARITY="popularity";
+        String ACTOR_IMAGE_URL="image_url";
+    }
+
+    interface TrailerColumns extends BaseColumns {
+        String TRAILER_MEDIA_ID="media_id";
+        String TRAILER_VIDEO_URL="video_url";
+        String TRAILER_TITLE="trailer_title";
+        String TRAILER_SITE="site";
+    }
+
+    interface ReviewColumns extends BaseColumns{
+        String REVIEW_MEDIA_ID="media_id";
+        String REVIEW_AUTHOR="author";
+        String REVIEW_CONTENT="content";
+        String REVIEW_URL="review_url";
+    }
+
 
     public static final String CONTENT_AUTHORITY="com.popularmovies.vpaliy";
     public static final String PREFIX="content://";
     public static final Uri BASE_CONTENT_URI=Uri.parse(PREFIX+CONTENT_AUTHORITY);
 
     public static final String PATH_MOVIE="movie";
-    public static final String PATH_MOVIE_DETAILS="movieDetails";
     public static final String PATH_FAVORITE="favorite";
-    public static final String PATH_MOST_POPULAR="mostPopular";
-    public static final String PATH_HIGHEST_RATED="highestRated";
+    public static final String PATH_ACTOR="actor";
+    public static final String PATH_TRAILER="trailer";
+    public static final String PATH_REVIEW="review";
+    public static final String PATH_MOST_POPULAR="most_popular";
+    public static final String PATH_TOP_RATED="top_rated";
 
 
     private MoviesContract(){
@@ -22,6 +70,67 @@ public final class MoviesContract {
     }
 
 
+    public static class Movies implements MovieColumns {
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_MOVIE;
+
+        public static Uri buildMovieUri(String movieId){
+            return CONTENT_URI.buildUpon().appendPath(movieId).build();
+        }
+
+        public static String getMovieId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+
+    }
+
+
+    public static class Trailers implements TrailerColumns {
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_TRAILER).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TRAILER;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_TRAILER;
+
+        public static Uri buildTrailerUri(String trailerId){
+            return CONTENT_URI.buildUpon().appendPath(trailerId).build();
+        }
+
+        public static String getTrailerId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+
+    }
+
+    public static class Reviews implements ReviewColumns{
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_REVIEW).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_REVIEW;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_REVIEW;
+
+        public static Uri buildReviewUri(String reviewUri){
+            return CONTENT_URI.buildUpon().appendPath(reviewUri).build();
+        }
+
+        public static String getReviewId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+    }
+
+    public static class Actors implements ActorColumns {
+
+
+    }
 
     public static class MovieEntry implements BaseColumns{
 
