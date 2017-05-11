@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+@SuppressWarnings("all")
 public final class MoviesContract {
 
 
@@ -55,6 +56,10 @@ public final class MoviesContract {
 
     interface GenreColumns extends BaseColumns {
         String GENRE_NAME="genre_name";
+    }
+
+    interface MediaCollectionColumns extends BaseColumns{
+        String COLLECTION_MEDIA_ID="collection_media_id";
     }
 
 
@@ -175,7 +180,7 @@ public final class MoviesContract {
     }
 
 
-    public static class PopularMedia implements BaseColumns {
+    public static class PopularMedia implements MediaCollectionColumns  {
 
         public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_POPULAR).build();
 
@@ -195,7 +200,7 @@ public final class MoviesContract {
     }
 
 
-    public static class TopRatedMedia implements BaseColumns {
+    public static class TopRatedMedia implements MediaCollectionColumns  {
 
         public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_TOP_RATED).build();
 
@@ -214,7 +219,7 @@ public final class MoviesContract {
         }
     }
 
-    public static class NowPlayingMedia implements BaseColumns {
+    public static class NowPlayingMedia implements MediaCollectionColumns  {
 
         public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_NOW_PLAYING).build();
 
@@ -233,7 +238,7 @@ public final class MoviesContract {
         }
     }
 
-    public static class UpcomingMedia implements BaseColumns {
+    public static class UpcomingMedia implements MediaCollectionColumns  {
 
         public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_UPCOMING).build();
 
@@ -252,7 +257,7 @@ public final class MoviesContract {
         }
     }
 
-    public static class LatestMedia implements BaseColumns {
+    public static class LatestMedia implements MediaCollectionColumns {
 
         public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_LATEST).build();
 
@@ -271,7 +276,7 @@ public final class MoviesContract {
         }
     }
 
-    public static class FavoriteMedia implements BaseColumns {
+    public static class FavoriteMedia implements MediaCollectionColumns  {
 
         public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_FAVORITE).build();
 
@@ -290,7 +295,7 @@ public final class MoviesContract {
         }
     }
 
-    public static class RecommendedMedia implements BaseColumns {
+    public static class RecommendedMedia implements MediaCollectionColumns {
 
         public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_RECOMMENDED).build();
 
