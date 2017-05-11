@@ -4,8 +4,16 @@ package com.popularmovies.vpaliy.data.source.local;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+
+import com.popularmovies.vpaliy.domain.model.Trailer;
+
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Actors;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Genres;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Trailers;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Reviews;
 
 public class MovieSQLHelper extends SQLiteOpenHelper{
 
@@ -32,6 +40,12 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         String MEDIA_TRAILERS="media_trailers";
         String MEDIA_GENRES="media_genres";
 
+    }
+
+    interface References {
+        String MEDIA_ID="REFERENCES "+Tables.MOVIES+"("+Movies._ID+")";
+        String ACTOR_ID="REFERENCES "+Tables.ACTORS+"("+ Actors._ID+")";
+        String GENRE_ID="REFERENCES "+Tables.GENRES+"("+ Genres._ID+")";
     }
 
     interface MediaActors {
@@ -67,7 +81,7 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+Tables.MOVIES+" (" +
-                Movies._ID + " INTEGER PRIMARY KEY, " +
+                Movies._ID + " INTEGER PRIMARY KEY," +
                 Movies.MOVIE_ORIGINAL_TITLE + " TEXT, " +
                 Movies.MOVIE_OVERVIEW + " TEXT, " +
                 Movies.MOVIE_RELEASE_DATE + " TEXT, " +
@@ -85,6 +99,38 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
                 Movies.MOVIE_BACKDROP_URL + " TEXT, " +
                 Movies.MOVIE_BACKDROPS + " TEXT " + " );");
 
+        db.execSQL("CREATE TABLE "+Tables.GENRES+" ("+
+                Genres._ID+" INTEGER PRIMARY KEY,"+
+                Genres.GENRE_NAME+" TEXT NOT NULL, "+
+                "UNIQUE (" + Genres._ID + ") ON CONFLICT REPLACE)");
+
+        db.execSQL("CREATE TABLE "+Tables.ACTORS+" ("+
+                Actors._ID+" INTEGER PRIMARY KEY,"+
+                Actors.ACTOR_NAME+" TEXT NOT NULL, "+
+                Actors.ACTOR_BIOGRAPHY+" TEXT,"+
+                Actors.ACTOR_IMAGE_URL+" TEXT,"+
+                Actors.ACTOR_BIRTHDAY+" TEXT, "+
+                Actors.ACTOR_PLACE_OF_BIRTH+" TEXT,"+
+                Actors.ACTOR_POPULARITY+" REAL, "+
+                Actors.ACTOR_HOMEPAGE+" TEXT,"+
+                Actors.ACTOR_DEATH_DAY+" TEXT,"+
+                "UNIQUE (" + Actors._ID + ") ON CONFLICT REPLACE)");
+
+        db.execSQL("CREATE TABLE "+Tables.TRAILERS+" ("+
+                Trailers._ID+" TEXT PRIMARY KEY,"+
+                Trailers.TRAILER_TITLE+" TEXT NOT NULL,"+
+                Trailers.TRAILER_SITE+" TEXT,"+
+                Trailers.TRAILER_VIDEO_URL+" TEXT NOT NULL,"+
+                Trailers.TRAILER_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
+                "UNIQUE (" + Trailers._ID + ") ON CONFLICT REPLACE)");
+
+        db.execSQL("CREATE TABLE "+Tables.REVIEWS+" ("+
+                Reviews._ID+" TEXT PRIMARY KEY,"+
+                Reviews.REVIEW_AUTHOR+" TEXT,"+
+                Reviews.REVIEW_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
+                Reviews.REVIEW_URL+" TEXT,"+
+                Reviews.REVIEW_CONTENT+" TEXT NOT NULL,"+
+                "UNIQUE (" + Reviews._ID + ") ON CONFLICT REPLACE)");
 
 
 

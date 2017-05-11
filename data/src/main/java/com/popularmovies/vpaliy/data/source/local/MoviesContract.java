@@ -36,6 +36,7 @@ public final class MoviesContract {
         String ACTOR_PLACE_OF_BIRTH="place_of_birth";
         String ACTOR_POPULARITY="popularity";
         String ACTOR_IMAGE_URL="image_url";
+        String ACTOR_DEATH_DAY="death_day";
     }
 
     interface TrailerColumns extends BaseColumns {
