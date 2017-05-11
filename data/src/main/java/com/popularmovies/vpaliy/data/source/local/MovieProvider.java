@@ -1,328 +1,246 @@
 package com.popularmovies.vpaliy.data.source.local;
 
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.UriMatcher;
+import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.provider.ContactsContract;
+
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.CONTENT_AUTHORITY;
+import static com.popularmovies.vpaliy.data.source.local.MovieSQLHelper.Tables;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Actors;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Genres;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Trailers;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Reviews;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.PopularMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.FavoriteMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.TopRatedMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.UpcomingMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.LatestMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.RecommendedMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.NowPlayingMedia;
+
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.util.Arrays;
+
+
 public class MovieProvider extends ContentProvider {
 
-    private SQLiteOpenHelper sqlHelper;
-
-    private static final int MOVIES=100;
-    private static final int MOVIES_WITH_ID=101;
-    private static final int MOST_RATED=200;
-    private static final int MOST_RATED_WITH_ID=201;
-    private static final int MOST_POPULAR=300;
-    private static final int MOST_POPULAR_WITH_ID=301;
-    private static final int FAVORITE=400;
-    private static final int FAVORITE_WITH_ID=401;
-
-    private static final String MOVIE_SELECTION_BY_ID=
-            MoviesContract.MovieEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry._ID+"=?";
-
-    private static final String MOST_RATED_SELECTION_BY_ID=
-            MoviesContract.MostRatedEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
-
-    private static final String MOST_POPULAR_SELECTION_BY_ID=
-            MoviesContract.MostPopularEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
-
-    private static final String FAVORITE_SELECTION_BY_ID=
-            MoviesContract.FavoriteEntry.TABLE_NAME+"."+ MoviesContract.MovieEntry.MOVIE_ID+"=?";
-
-
-    private static UriMatcher buildUriMatcher(){
-        UriMatcher uriMatcher=new UriMatcher(UriMatcher.NO_MATCH);
-        final String authority=MoviesContract.CONTENT_AUTHORITY;
-
-        uriMatcher.addURI(authority,MoviesContract.PATH_MOVIE,MOVIES);
-        uriMatcher.addURI(authority,MoviesContract.PATH_MOVIE+"/#",MOVIES_WITH_ID);
-        uriMatcher.addURI(authority,MoviesContract.PATH_MOST_POPULAR,MOST_POPULAR);
-        uriMatcher.addURI(authority,MoviesContract.PATH_HIGHEST_RATED,MOST_RATED);
-        uriMatcher.addURI(authority,MoviesContract.PATH_MOST_POPULAR+"/#",MOST_POPULAR_WITH_ID);
-        uriMatcher.addURI(authority,MoviesContract.PATH_HIGHEST_RATED+"/#",MOST_RATED_WITH_ID);
-        uriMatcher.addURI(authority,MoviesContract.PATH_FAVORITE,FAVORITE);
-        uriMatcher.addURI(authority,MoviesContract.PATH_FAVORITE+"/#",FAVORITE_WITH_ID);
-
-        return uriMatcher;
-    }
-
-    private final UriMatcher URI_MATCHER=buildUriMatcher();
+    private static final String TAG=MovieProvider.class.getSimpleName();
+    private MovieSQLHelper sqlHelper;
+    private MovieUriMatcher uriMatcher;
 
     @Override
     public boolean onCreate() {
         if(getContext()!=null) {
-            sqlHelper = new MovieSQLHelper(getContext());
-            return sqlHelper.getWritableDatabase()!=null;
+            this.sqlHelper = new MovieSQLHelper(getContext());
+            this.uriMatcher=new MovieUriMatcher();
         }
-        return false;
-
+        return sqlHelper!=null;
     }
 
-
-    @Nullable
-    @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
-                        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        final int match=URI_MATCHER.match(uri);
-        Cursor cursor=null;
-        long movieId=0;
-        switch (match){
-            case MOVIES:
-                cursor=sqlHelper.getReadableDatabase()
-                        .query(MoviesContract.MovieEntry.TABLE_NAME,
-                                projection,
-                                selection,
-                                selectionArgs,
-                                null,
-                                null,
-                                sortOrder);
-                break;
-            case FAVORITE:
-                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.FavoriteEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        sortOrder,sqlHelper);
-                break;
-            case FAVORITE_WITH_ID:
-                movieId=ContentUris.parseId(uri);
-                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.FavoriteEntry.TABLE_NAME,
-                        projection,
-                        FAVORITE_SELECTION_BY_ID,
-                        new String[]{Long.toString(movieId)},
-                        sortOrder,sqlHelper);
-                break;
-            case MOVIES_WITH_ID:
-                movieId=ContentUris.parseId(uri);
-                cursor=sqlHelper.getReadableDatabase()
-                        .query(MoviesContract.MovieEntry.TABLE_NAME,
-                                projection,
-                                MOVIE_SELECTION_BY_ID,
-                                new String[]{Long.toString(movieId)},
-                                null,
-                                null,
-                                sortOrder);
-                break;
-            case MOST_POPULAR:
-                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        sortOrder,sqlHelper);
-                break;
-            case MOST_POPULAR_WITH_ID:
-                movieId=ContentUris.parseId(uri);
-                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostPopularEntry.TABLE_NAME,
-                                projection,
-                                MOST_POPULAR_SELECTION_BY_ID,
-                                new String[]{Long.toString(movieId)},
-                                sortOrder,sqlHelper);
-                break;
-            case MOST_RATED:
-                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,
-                        projection,
-                        selection,
-                        selectionArgs,
-                        sortOrder,sqlHelper);
-                break;
-            case MOST_RATED_WITH_ID:
-                movieId=ContentUris.parseId(uri);
-                cursor=DatabaseUtils.fetchFromMovieTable(MoviesContract.MostRatedEntry.TABLE_NAME,
-                        projection,
-                        MOST_RATED_SELECTION_BY_ID,
-                        new String[]{Long.toString(movieId)},
-                        sortOrder,sqlHelper);
-                break;
-            default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
-        }
-        return cursor;
-    }
-
-    @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        final int match=URI_MATCHER.match(uri);
-        int rowsUpdated=0;
-        switch (match){
-            case MOVIES:
-                rowsUpdated=sqlHelper.getWritableDatabase()
-                        .update(MoviesContract.MovieEntry.TABLE_NAME,
-                                values,selection,selectionArgs);
-                break;
-            case MOVIES_WITH_ID:
-                long movieId= ContentUris.parseId(uri);
-                rowsUpdated=sqlHelper.getWritableDatabase()
-                        .update(MoviesContract.MovieEntry.TABLE_NAME,
-                                values,MOVIE_SELECTION_BY_ID,new String[]{Long.toString(movieId)});
-                break;
-            case MOST_POPULAR:
-                rowsUpdated=sqlHelper.getWritableDatabase()
-                        .update(MoviesContract.MostPopularEntry.TABLE_NAME,
-                                values,selection,selectionArgs);
-                break;
-            case MOST_RATED:
-                rowsUpdated=sqlHelper.getWritableDatabase()
-                        .update(MoviesContract.MostRatedEntry.TABLE_NAME,
-                                values,selection,selectionArgs);
-                break;
-            case FAVORITE:
-                rowsUpdated=sqlHelper.getWritableDatabase()
-                        .update(MoviesContract.FavoriteEntry.TABLE_NAME,values,selection,selectionArgs);
-                break;
-            case FAVORITE_WITH_ID:
-                movieId=ContentUris.parseId(uri);
-                rowsUpdated=sqlHelper.getWritableDatabase()
-                        .update(MoviesContract.FavoriteEntry.TABLE_NAME,values,
-                                FAVORITE_SELECTION_BY_ID, new String[]{Long.toString(movieId)});
-                break;
-            default:
-                throw new UnsupportedOperationException("Unknown uri: " + uri);
-
-        }
-        if(rowsUpdated!=0){
-            if(getContext()!=null){
-                getContext().getContentResolver().notifyChange(uri,null);
-            }
-        }
-        return rowsUpdated;
-    }
-
-
-    @Override
-    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        final int match=URI_MATCHER.match(uri);
-        int rowsDeleted=0;
-        long movieId=0;
-        switch (match){
-            case MOVIES:
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.MovieEntry.TABLE_NAME,selection,selectionArgs);
-                break;
-            case MOVIES_WITH_ID:
-                movieId= ContentUris.parseId(uri);
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.MovieEntry.TABLE_NAME,
-                                MOVIE_SELECTION_BY_ID,
-                                new String[] {Long.toString(movieId)});
-                break;
-            case FAVORITE:
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.FavoriteEntry.TABLE_NAME,selection,selectionArgs);
-                break;
-            case FAVORITE_WITH_ID:
-                Log.d(MovieProvider.class.getSimpleName(),"Delete favorite by its id!");
-                movieId=ContentUris.parseId(uri);
-                Log.d(MovieProvider.class.getSimpleName(),Long.toString(movieId));
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.FavoriteEntry.TABLE_NAME,
-                                FAVORITE_SELECTION_BY_ID, new String[]{Long.toString(movieId)});
-                break;
-            case MOST_POPULAR:
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.MostPopularEntry.TABLE_NAME,selection,selectionArgs);
-                break;
-            case MOST_POPULAR_WITH_ID:
-                movieId=ContentUris.parseId(uri);
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.MostPopularEntry.TABLE_NAME,
-                                MOST_POPULAR_SELECTION_BY_ID, new String[]{Long.toString(movieId)});
-                break;
-            case MOST_RATED:
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.MostRatedEntry.TABLE_NAME,selection,selectionArgs);
-                break;
-            case MOST_RATED_WITH_ID:
-                movieId=ContentUris.parseId(uri);
-                rowsDeleted=sqlHelper.getWritableDatabase()
-                        .delete(MoviesContract.MostRatedEntry.TABLE_NAME,
-                                MOST_RATED_SELECTION_BY_ID,new String[]{Long.toString(movieId)});
-                break;
-            default:
-                throw new UnsupportedOperationException("Unknown Uri: " + uri);
-        }
-        if(rowsDeleted!=0){
-            if(getContext()!=null){
-                getContext().getContentResolver().notifyChange(uri,null);
-            }
-        }
-        return rowsDeleted;
-    }
-
-    @Override
-    public void shutdown() {
+    private void deleteDatabase(){
         sqlHelper.close();
-        super.shutdown();
-    }
-
-
-    @Nullable
-    @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        final int match=URI_MATCHER.match(uri);
-        Uri appendedUri=null;
-        long id=0;
-        switch (match){
-            case MOVIES:
-                id=sqlHelper.getWritableDatabase()
-                        .insertWithOnConflict(MoviesContract.MovieEntry.TABLE_NAME,null,values,
-                                SQLiteDatabase.CONFLICT_REPLACE);
-                    appendedUri=MoviesContract.MovieEntry.CONTENT_URI;
-                break;
-            case FAVORITE:
-                Log.d(MovieProvider.class.getSimpleName(),"Insert favorite by its id!");
-                id=sqlHelper.getWritableDatabase()
-                        .insertWithOnConflict(MoviesContract.FavoriteEntry.TABLE_NAME,null,values,
-                                SQLiteDatabase.CONFLICT_REPLACE);
-                Log.d(MovieProvider.class.getSimpleName(),Long.toString(id));
-                appendedUri=MoviesContract.FavoriteEntry.CONTENT_URI;
-                break;
-            case MOST_POPULAR:
-                id=sqlHelper.getWritableDatabase()
-                        .insertWithOnConflict(MoviesContract.MostPopularEntry.TABLE_NAME,null,values,
-                                SQLiteDatabase.CONFLICT_REPLACE);
-                appendedUri=MoviesContract.MostPopularEntry.CONTENT_URI;
-                break;
-            case MOST_RATED:
-                id=sqlHelper.getWritableDatabase()
-                        .insertWithOnConflict(MoviesContract.MostRatedEntry.TABLE_NAME,null,values,
-                                SQLiteDatabase.CONFLICT_REPLACE);
-                appendedUri=MoviesContract.MostRatedEntry.CONTENT_URI;
-                break;
-            default:
-                throw new UnsupportedOperationException("Unknown Uri: " + uri);
-
+        Context context=getContext();
+        if(context!=null){
+            MovieSQLHelper.deleteDatabase(context);
+            sqlHelper=new MovieSQLHelper(context);
         }
-
-        return ContentUris.withAppendedId(appendedUri,id);
     }
 
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        final int match=URI_MATCHER.match(uri);
-        switch (match){
-            case MOVIES:
-                return MoviesContract.MovieEntry.CONTENT_DIR_TYPE;
-            case FAVORITE:
-                return MoviesContract.FavoriteEntry.CONTENT_DIR_TYPE;
-            case MOVIES_WITH_ID:
-                return MoviesContract.MovieEntry.CONTENT_ITEM_TYPE;
-            case MOST_POPULAR:
-                return MoviesContract.MostPopularEntry.CONTENT_DIR_TYPE;
-            case MOST_RATED:
-                return MoviesContract.MostRatedEntry.CONTENT_DIR_TYPE;
-        }
-        return null;
+        return uriMatcher.getType(uri);
     }
 
+    @Nullable
+    @Override
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
+                        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
+        final SQLiteDatabase db=sqlHelper.getReadableDatabase();
+        final MovieUriEnum movieUriEnum=uriMatcher.match(uri);
+
+        Log.v(TAG, "Uri=" + uri + " code=" + movieUriEnum.code + " projection=" +
+                Arrays.toString(projection) + " selection=" + selection + " args="
+                + Arrays.toString(selectionArgs) + ")");
+
+        QueryBuilder builder=buildExpandedQuery(uri,movieUriEnum);
+        Cursor cursor=builder
+                    .where(selection,selectionArgs)
+                    .query(db,projection,sortOrder);
+
+        Context context = getContext();
+        if (null != context) {
+            cursor.setNotificationUri(context.getContentResolver(), uri);
+        }
+        return cursor;
+    }
+
+    @Override
+    public int update(@NonNull Uri uri, @Nullable ContentValues values,
+                      @Nullable String selection, @Nullable String[] selectionArgs) {
+
+        final SQLiteDatabase db=sqlHelper.getWritableDatabase();
+        final MovieUriEnum movieUriEnum=uriMatcher.match(uri);
+        final QueryBuilder builder=buildSimpleQuery(uri,movieUriEnum);
+
+        int retVal = builder.where(selection, selectionArgs).update(db,values);
+        notifyChange(uri);
+        return retVal;
+    }
+
+    @Override
+    public int delete(@NonNull Uri uri, @Nullable String selection,
+                      @Nullable String[] selectionArgs) {
+
+        if (uri == MoviesContract.BASE_CONTENT_URI) {
+            deleteDatabase();
+            notifyChange(uri);
+            return 1;
+        }
+
+        final SQLiteDatabase db=sqlHelper.getWritableDatabase();
+        final MovieUriEnum movieUriEnum=uriMatcher.match(uri);
+        final QueryBuilder builder=buildSimpleQuery(uri,movieUriEnum);
+
+        int retVal = builder.where(selection, selectionArgs).delete(db);
+        notifyChange(uri);
+        return retVal;
+    }
+
+    @Nullable
+    @Override
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        Log.v(TAG, "insert(Uri=" + uri + ", values=" + values.toString());
+
+        final SQLiteDatabase db=sqlHelper.getWritableDatabase();
+        final MovieUriEnum movieUriEnum=uriMatcher.match(uri);
+
+        if(movieUriEnum.table!=null) {
+            db.insertOrThrow(movieUriEnum.table, null, values);
+            notifyChange(uri);
+
+        }
+
+        switch (movieUriEnum) {
+            case MOVIES:
+                return Movies.buildMovieUri(values.getAsString(Movies._ID));
+            case ACTORS:
+                return Actors.buildActorUri(values.getAsString(Actors._ID));
+            case GENRES:
+                return Genres.buildGenreUri(values.getAsString(Genres._ID));
+            case REVIEWS:
+                return Reviews.buildReviewUri(values.getAsString(Reviews._ID));
+            case TRAILERS:
+                return Trailers.buildTrailerUri(values.getAsString(Trailers._ID));
+            case POPULAR_MOVIES:
+                return PopularMedia.buildPopularMediaUri(values.getAsString(PopularMedia._ID));
+            case TOP_RATED_MOVIES:
+                return TopRatedMedia.buildTopRatedMediaUri(values.getAsString(TopRatedMedia._ID));
+            case FAVORITE_MOVIES:
+                return FavoriteMedia.buildFavoriteMediaUri(values.getAsString(FavoriteMedia._ID));
+            case UPCOMING_MOVIES:
+                return UpcomingMedia.buildUpcomingMediaUri(values.getAsString(UpcomingMedia._ID));
+            case LATEST_MOVIES:
+                return LatestMedia.buildLatestMediaUri(values.getAsString(LatestMedia._ID));
+            case RECOMMENDED_MOVIES:
+                return RecommendedMedia.buildRecommendedMediaUri(values.getAsString(RecommendedMedia._ID));
+            case NOW_PLAYING_MOVIES:
+                return NowPlayingMedia.buildNowPlayingMediaUri(values.getAsString(NowPlayingMedia._ID));
+            default:
+                throw new UnsupportedOperationException("Unknown uri");
+        }
+    }
+
+    private void notifyChange(Uri uri) {
+        if (getContext()!=null) {
+            Context context = getContext();
+            context.getContentResolver().notifyChange(uri, null);
+        }
+    }
+
+    private QueryBuilder buildSimpleQuery(Uri uri, MovieUriEnum movieUriEnum){
+        final QueryBuilder queryBuilder=new QueryBuilder();
+        switch (movieUriEnum){
+            case MOVIES:
+            case ACTORS:
+            case REVIEWS:
+            case GENRES:
+            case TRAILERS:
+            case POPULAR_MOVIES:
+            case TOP_RATED_MOVIES:
+            case LATEST_MOVIES:
+            case UPCOMING_MOVIES:
+            case RECOMMENDED_MOVIES:
+            case NOW_PLAYING_MOVIES:
+            case FAVORITE_MOVIES:
+                return queryBuilder.table(movieUriEnum.table);
+            case MOVIE_ID:
+                String movieId=Movies.getMovieId(uri);
+                return queryBuilder.table(Tables.MOVIES)
+                        .where(Movies._ID+"=?",movieId);
+            case ACTOR_ID:
+                String actorId=Actors.getActorId(uri);
+                return queryBuilder.table(Tables.ACTORS)
+                        .where(Actors._ID+"=?",actorId);
+            case GENRE_ID:
+                String genreId=Genres.getGenreId(uri);
+                return queryBuilder.table(Tables.GENRES)
+                        .where(Genres._ID+"=?",genreId);
+            case TRAILER_ID:
+                String trailerId=Trailers.getTrailerId(uri);
+                return queryBuilder.table(Tables.TRAILERS)
+                        .where(Trailers._ID+"=?",trailerId);
+            default:
+                throw new UnsupportedOperationException("Unknown uri");
+        }
+    }
+
+    private QueryBuilder buildExpandedQuery(Uri uri, MovieUriEnum movieUriEnum){
+        QueryBuilder builder=new QueryBuilder();
+        switch (movieUriEnum){
+            case MOVIES:
+                return builder.table(Tables.MOVIE_JOIN_DETAILS);
+            case MOVIE_ID:
+                String movieId=Movies.getMovieId(uri);
+                return builder.table(Tables.MOVIE_JOIN_DETAILS)
+                        .where(Movies._ID+"=?",movieId);
+            case ACTORS:
+                return builder.table(Tables.ACTORS);
+            case ACTOR_ID:
+                String actorId=Actors.getActorId(uri);
+                return builder.table(Tables.ACTORS)
+                        .where(Actors._ID+"=?",actorId);
+            case GENRES:
+                return builder.table(Tables.GENRES);
+            case TRAILERS:
+                return builder.table(Tables.TRAILERS);
+            case REVIEWS:
+                return builder.table(Tables.REVIEWS);
+            case POPULAR_MOVIES:
+                return builder.table(Tables.MOVIE_JOIN_POPULAR);
+            case TOP_RATED_MOVIES:
+                return builder.table(Tables.MOVIE_JOIN_TOP_RATED);
+            case RECOMMENDED_MOVIES:
+                return builder.table(Tables.MOVIE_JOIN_RECOMMENDED);
+            case LATEST_MOVIES:
+                return builder.table(Tables.MOVIE_JOIN_LATEST);
+            case NOW_PLAYING_MOVIES:
+                return builder.table(Tables.MOVIE_JOIN_NOW_PLAYING);
+            case FAVORITE_MOVIES:
+                return builder.table(Tables.MOVIE_JOIN_FAVORITES);
+            case UPCOMING_MOVIES:
+                return builder.table(Tables.MOVIE_JOIN_UPCOMING);
+            default:
+                throw new UnsupportedOperationException("Unknown uri");
+        }
+    }
 }

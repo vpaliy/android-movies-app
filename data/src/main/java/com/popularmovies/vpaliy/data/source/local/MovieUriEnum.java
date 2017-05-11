@@ -16,15 +16,15 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.NowPlayi
 
 public enum MovieUriEnum {
 
-    MOVIE(100, MoviesContract.PATH_MOVIE, Tables.MOVIES,Movies.CONTENT_DIR_TYPE),
+    MOVIES(100, MoviesContract.PATH_MOVIE, Tables.MOVIES,Movies.CONTENT_DIR_TYPE),
     MOVIE_ID(101,MoviesContract.PATH_MOVIE+"/*",Tables.MOVIES,Movies.CONTENT_ITEM_TYPE),
-    ACTOR(200,MoviesContract.PATH_ACTOR,Tables.ACTORS,Actors.CONTENT_DIR_TYPE),
+    ACTORS(200,MoviesContract.PATH_ACTOR,Tables.ACTORS,Actors.CONTENT_DIR_TYPE),
     ACTOR_ID(201,MoviesContract.PATH_ACTOR+"/*",Tables.ACTORS,Actors.CONTENT_ITEM_TYPE),
-    GENRE(300,MoviesContract.PATH_GENRE,Tables.GENRES,Genres.CONTENT_DIR_TYPE),
+    GENRES(300,MoviesContract.PATH_GENRE,Tables.GENRES,Genres.CONTENT_DIR_TYPE),
     GENRE_ID(301,MoviesContract.PATH_GENRE+"/*",Tables.GENRES,Genres.CONTENT_ITEM_TYPE),
-    TRAILER(400,MoviesContract.PATH_TRAILER,Tables.TRAILERS,Trailers.CONTENT_DIR_TYPE),
+    TRAILERS(400,MoviesContract.PATH_TRAILER,Tables.TRAILERS,Trailers.CONTENT_DIR_TYPE),
     TRAILER_ID(401,MoviesContract.PATH_TRAILER+"/*",Tables.TRAILERS,Trailers.CONTENT_ITEM_TYPE),
-    REVIEW(500,MoviesContract.PATH_REVIEW,Tables.REVIEWS,Reviews.CONTENT_DIR_TYPE),
+    REVIEWS(500,MoviesContract.PATH_REVIEW,Tables.REVIEWS,Reviews.CONTENT_DIR_TYPE),
     REVIEW_ID(501,MoviesContract.PATH_REVIEW+"/*",Tables.REVIEWS,Reviews.CONTENT_ITEM_TYPE),
     POPULAR_MOVIES(600,MoviesContract.PATH_POPULAR,Tables.POPULAR,PopularMedia.CONTENT_DIR_TYPE),
     TOP_RATED_MOVIES(700,MoviesContract.PATH_TOP_RATED,Tables.TOP_RATED,TopRatedMedia.CONTENT_DIR_TYPE),
