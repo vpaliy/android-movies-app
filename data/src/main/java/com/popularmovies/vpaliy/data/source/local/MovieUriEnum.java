@@ -22,6 +22,7 @@ public enum MovieUriEnum {
     MOVIE_WITH_REVIEWS_ID(103,MoviesContract.PATH_MOVIE+"/"+MoviesContract.PATH_REVIEW+"/#",null,Movies.CONTENT_ITEM_TYPE),
     MOVIE_WITH_GENRES_ID(105,MoviesContract.PATH_MOVIE+"/"+MoviesContract.PATH_GENRE+"/#",null,Movies.CONTENT_ITEM_TYPE),
     MOVIE_WITH_DETAILS_ID(109,MoviesContract.PATH_MOVIE+"/"+MoviesContract.PATH_ALL_DETAILS+"/#",null,Movies.CONTENT_ITEM_TYPE),
+    MOVIE_WITH_CAST_ID(115,MoviesContract.PATH_MOVIE+"/"+MoviesContract.PATH_ACTOR+"/#",null,Movies.CONTENT_ITEM_TYPE),
 
     ACTORS(200,MoviesContract.PATH_ACTOR,Tables.ACTORS,Actors.CONTENT_DIR_TYPE),
     ACTOR_ID(201,MoviesContract.PATH_ACTOR+"/#",null,Actors.CONTENT_ITEM_TYPE),
