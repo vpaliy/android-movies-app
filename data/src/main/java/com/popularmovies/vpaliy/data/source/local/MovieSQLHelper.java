@@ -26,6 +26,11 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME="movies.db";
     private static final int DATABASE_VERSION=1;
 
+    private static final String INNER_JOIN=" INNER JOIN ";
+    private static final String LEFT_OUTER_JOIN=" LEFT OUTER JOIN ";
+    private static final String ON=" ON ";
+    private static final String DOT=".";
+
     interface Tables {
 
         String MOVIES="movies";
@@ -43,6 +48,25 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         String SIMILAR_MEDIA="similar_movies";
         String MEDIA_ACTORS="media_actors";
         String MEDIA_GENRES="media_genres";
+
+        String MOVIE_JOIN_TRAILERS=LEFT_OUTER_JOIN+TRAILERS+ON+MOVIES+DOT+Movies._ID+"="+TRAILERS+DOT+Trailers.TRAILER_MEDIA_ID;
+        String MOVIE_JOIN_REVIEWS=LEFT_OUTER_JOIN+REVIEWS+ON+MOVIES+DOT+Movies._ID+"="+REVIEWS+DOT+Reviews.REVIEW_MEDIA_ID;
+        String MOVIE_JOIN_SIMILAR_MOVIES=LEFT_OUTER_JOIN+SIMILAR_MEDIA+ON+MOVIES+DOT+Movies._ID+"="+SIMILAR_MEDIA+DOT+SimilarMovies.MEDIA_ID;
+        String MOVIE_JOIN_GENRES=LEFT_OUTER_JOIN+MEDIA_GENRES+ON+MOVIES+DOT+Movies._ID+"="+MEDIA_GENRES+DOT+MediaGenres.MEDIA_ID;
+        String MOVIE_JOIN_ACTORS=LEFT_OUTER_JOIN+MEDIA_ACTORS+ON+MOVIES+DOT+Movies._ID+"="+MEDIA_ACTORS+DOT+MediaActors.MEDIA_ID;
+        String MOVIE_JOIN_FAVORITES=LEFT_OUTER_JOIN+FAVORITE+ON+MOVIES+DOT+Movies._ID+"="+FAVORITE+DOT+FavoriteMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_TOP_RATED=LEFT_OUTER_JOIN+TOP_RATED+ON+MOVIES+DOT+Movies._ID+"="+TOP_RATED+DOT+TopRatedMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_LATEST=LEFT_OUTER_JOIN+LATEST+ON+MOVIES+DOT+Movies._ID+"="+LATEST+DOT+LatestMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_NOW_PLAYING=LEFT_OUTER_JOIN+NOW_PLAYING+ON+MOVIES+DOT+Movies._ID+"="+NOW_PLAYING+DOT+NowPlayingMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_UPCOMING=LEFT_OUTER_JOIN+UPCOMING+ON+MOVIES+DOT+Movies._ID+"="+UPCOMING+DOT+UpcomingMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_POPULAR=LEFT_OUTER_JOIN+POPULAR+ON+MOVIES+DOT+Movies._ID+"="+POPULAR+DOT+PopularMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_RECOMMENDED=LEFT_OUTER_JOIN+RECOMMENDED+ON+MOVIES+DOT+Movies._ID+"="+RECOMMENDED+DOT+RecommendedMedia.COLLECTION_MEDIA_ID;
+
+        String MOVIE_JOIN_DETAILS=MOVIE_JOIN_TRAILERS+" "+
+                                MOVIE_JOIN_ACTORS+" "+
+                                MOVIE_JOIN_GENRES+" "+
+                                MOVIE_JOIN_REVIEWS+" "+
+                                MOVIE_JOIN_SIMILAR_MOVIES;
 
     }
 
@@ -202,5 +226,9 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS"+Tables.NOW_PLAYING);
         db.execSQL("DROP TABLE IF EXISTS"+Tables.RECOMMENDED);
         onCreate(db);
+    }
+
+    public static void deleteDatabase(Context context) {
+        context.deleteDatabase(DATABASE_NAME);
     }
 }
