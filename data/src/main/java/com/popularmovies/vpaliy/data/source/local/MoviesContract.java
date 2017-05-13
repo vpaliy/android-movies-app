@@ -9,6 +9,7 @@ import android.provider.BaseColumns;
 public final class MoviesContract {
 
     interface MovieColumns extends BaseColumns{
+        String MOVIE_ID="movie_id";
         String MOVIE_TITLE = "title";
         String MOVIE_ORIGINAL_TITLE="original_title";
         String MOVIE_TAG_LINE="tag_line";
@@ -29,6 +30,7 @@ public final class MoviesContract {
 
 
     interface ActorColumns extends BaseColumns {
+        String ACTOR_ID="actor_id";
         String ACTOR_NAME="name";
         String ACTOR_BIRTHDAY="birthday";
         String ACTOR_BIOGRAPHY="biography";
@@ -40,6 +42,7 @@ public final class MoviesContract {
     }
 
     interface TrailerColumns extends BaseColumns {
+        String TRAILER_ID="trailer_id";
         String TRAILER_MEDIA_ID="media_id";
         String TRAILER_VIDEO_URL="video_url";
         String TRAILER_TITLE="trailer_title";
@@ -47,6 +50,7 @@ public final class MoviesContract {
     }
 
     interface ReviewColumns extends BaseColumns{
+        String REVIEW_ID="review_id";
         String REVIEW_MEDIA_ID="media_id";
         String REVIEW_AUTHOR="author";
         String REVIEW_CONTENT="content";
