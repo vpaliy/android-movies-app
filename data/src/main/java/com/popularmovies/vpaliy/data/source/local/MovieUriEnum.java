@@ -21,7 +21,6 @@ enum MovieUriEnum {
     MOVIE_ID_TRAILERS(102,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_TRAILER,null,Movies.CONTENT_ITEM_TYPE),
     MOVIE_ID_REVIEWS(103,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_REVIEW,null,Movies.CONTENT_ITEM_TYPE),
     MOVIE_ID_GENRES(105,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_GENRE,Tables.MEDIA_GENRES,Movies.CONTENT_ITEM_TYPE),
-    MOVIE_ID_DETAILS(109,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_ALL_DETAILS,null,Movies.CONTENT_ITEM_TYPE),
     MOVIE_ID_ACTORS(115,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_ACTOR,Tables.MEDIA_ACTORS,Movies.CONTENT_ITEM_TYPE),
 
     ACTORS(200,MoviesContract.PATH_ACTOR,Tables.ACTORS,Actors.CONTENT_DIR_TYPE),
