@@ -20,17 +20,17 @@ enum MovieUriEnum {
     MOVIE_ID(101,MoviesContract.PATH_MOVIE+"/#",null,Movies.CONTENT_ITEM_TYPE),
     MOVIE_ID_TRAILERS(102,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_TRAILER,null,Movies.CONTENT_ITEM_TYPE),
     MOVIE_ID_REVIEWS(103,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_REVIEW,null,Movies.CONTENT_ITEM_TYPE),
-    MOVIE_ID_GENRES(105,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_GENRE,null,Movies.CONTENT_ITEM_TYPE),
+    MOVIE_ID_GENRES(105,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_GENRE,Tables.MEDIA_GENRES,Movies.CONTENT_ITEM_TYPE),
     MOVIE_ID_DETAILS(109,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_ALL_DETAILS,null,Movies.CONTENT_ITEM_TYPE),
-    MOVIE_ID_ACTORS(115,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_ACTOR,null,Movies.CONTENT_ITEM_TYPE),
+    MOVIE_ID_ACTORS(115,MoviesContract.PATH_MOVIE+"/*"+MoviesContract.PATH_ACTOR,Tables.MEDIA_ACTORS,Movies.CONTENT_ITEM_TYPE),
 
     ACTORS(200,MoviesContract.PATH_ACTOR,Tables.ACTORS,Actors.CONTENT_DIR_TYPE),
     ACTOR_ID(201,MoviesContract.PATH_ACTOR+"/#",null,Actors.CONTENT_ITEM_TYPE),
-    ACTOR_ID_MOVIES(202,MoviesContract.PATH_ACTOR+"/*"+MoviesContract.PATH_MOVIE,null,Actors.CONTENT_ITEM_TYPE),
+    ACTOR_ID_MOVIES(202,MoviesContract.PATH_ACTOR+"/*"+MoviesContract.PATH_MOVIE,Tables.MEDIA_ACTORS,Actors.CONTENT_ITEM_TYPE),
 
     GENRES(300,MoviesContract.PATH_GENRE,Tables.GENRES,Genres.CONTENT_DIR_TYPE),
     GENRE_ID(301,MoviesContract.PATH_GENRE+"/#",null,Genres.CONTENT_ITEM_TYPE),
-    GENRE_ID_MOVIES(302,MoviesContract.PATH_GENRE+"/#"+MoviesContract.PATH_MOVIE,null, Genres.CONTENT_ITEM_TYPE),
+    GENRE_ID_MOVIES(302,MoviesContract.PATH_GENRE+"/#"+MoviesContract.PATH_MOVIE,Tables.MEDIA_GENRES, Genres.CONTENT_ITEM_TYPE),
 
     TRAILERS(400,MoviesContract.PATH_TRAILER,Tables.TRAILERS,Trailers.CONTENT_DIR_TYPE),
     TRAILER_ID(401,MoviesContract.PATH_TRAILER+"/#",null,Trailers.CONTENT_ITEM_TYPE),

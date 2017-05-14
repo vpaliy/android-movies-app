@@ -27,7 +27,6 @@ public final class MoviesContract {
         String MOVIE_ACTORS="actors";
         String MOVIE_GENRES="genres";
         String MOVIE_POSTER_URL = "poster_url";
-        String MOVIE_BACKDROP_URL = "backdrop_url";
     }
 
 
@@ -48,7 +47,7 @@ public final class MoviesContract {
         String TRAILER_MEDIA_ID="media_id";
         String TRAILER_VIDEO_URL="video_url";
         String TRAILER_TITLE="trailer_title";
-        String TRAILER_SITE="site";
+        String TRAILER_SITE="trailer_site";
     }
 
     interface ReviewColumns extends BaseColumns{
@@ -63,6 +62,7 @@ public final class MoviesContract {
         String GENRE_ID="genre_id";
         String GENRE_NAME="genre_name";
     }
+
 
     interface MediaCollectionColumns extends BaseColumns{
         String COLLECTION_MEDIA_ID="collection_media_id";
@@ -116,26 +116,44 @@ public final class MoviesContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_MOVIE;
 
+        /** Build {@link Uri} for requested {@link #MOVIE_ID}. */
         public static Uri buildMovieUri(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).build();
         }
 
+        /**
+         * Build {@link Uri} that references any {@link Trailers} associated
+         * with the requested {@link #MOVIE_ID}.
+         */
         public static Uri buildMovieWithTrailersUri(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_TRAILER).build();
         }
 
+        /**
+         * Build {@link Uri} that references any {@link Reviews} associated
+         * with the requested {@link #MOVIE_ID}.
+         */
         public static Uri buildMovieWithReviewsUri(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_REVIEW).build();
         }
 
+        /**
+         * Build {@link Uri} that references any {@link Genres} associated
+         * with the requested {@link #MOVIE_ID}.
+         */
         public static Uri buildMovieWithGenresUri(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_GENRE).build();
         }
 
+        /**
+         * Build {@link Uri} that references any {@link Genres,Reviews,Trailers} associated
+         * with the requested {@link #MOVIE_ID}.
+         */
         public static Uri buildMovieWithDetailsUri(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_ALL_DETAILS).build();
         }
 
+        /** Read {@link #MOVIE_ID} from {@link Sessions} {@link Uri}. */
         public static String getMovieId(Uri uri){
             return Long.toString(ContentUris.parseId(uri));
         }
@@ -148,13 +166,24 @@ public final class MoviesContract {
 
         public static final String CONTENT_DIR_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GENRE;
+
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_GENRE;
 
+        /** Build {@link Uri} for requested {@link #GENRE_ID}. */
         public static Uri buildGenreUri(String genreId){
             return CONTENT_URI.buildUpon().appendPath(genreId).build();
         }
 
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #GENRE_ID}.
+         */
+        public static Uri buildGenreWithMoviesUri(String genresId){
+            return CONTENT_URI.buildUpon().appendPath(genresId).appendPath(PATH_MOVIE).build();
+        }
+
+        /** Read {@link #GENRE_ID} from {@link Sessions} {@link Uri}. */
         public static String getGenreId(Uri uri){
             return Long.toString(ContentUris.parseId(uri));
         }
@@ -166,13 +195,16 @@ public final class MoviesContract {
 
         public static final String CONTENT_DIR_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_TRAILER;
+
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_TRAILER;
 
+        /** Build {@link Uri} for requested {@link #TRAILER_ID}. */
         public static Uri buildTrailerUri(String trailerId){
             return CONTENT_URI.buildUpon().appendPath(trailerId).build();
         }
 
+        /** Read {@link #TRAILER_ID} from {@link Sessions} {@link Uri}. */
         public static String getTrailerId(Uri uri){
             return Long.toString(ContentUris.parseId(uri));
         }
@@ -185,13 +217,16 @@ public final class MoviesContract {
 
         public static final String CONTENT_DIR_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_REVIEW;
+
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_REVIEW;
 
+        /** Build {@link Uri} for requested {@link #REVIEW_ID}. */
         public static Uri buildReviewUri(String reviewUri){
             return CONTENT_URI.buildUpon().appendPath(reviewUri).build();
         }
 
+        /** Read {@link #REVIEW_ID} from {@link Sessions} {@link Uri}. */
         public static String getReviewId(Uri uri){
             return Long.toString(ContentUris.parseId(uri));
         }
@@ -203,13 +238,24 @@ public final class MoviesContract {
 
         public static final String CONTENT_DIR_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_ACTOR;
+
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_ACTOR;
 
+        /** Build {@link Uri} for requested {@link #ACTOR_ID}. */
         public static Uri buildActorUri(String actorUri){
             return CONTENT_URI.buildUpon().appendPath(actorUri).build();
         }
 
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #ACTOR_ID}.
+         */
+        public static Uri buildActorWithMoviesUri(String actorId){
+            return CONTENT_URI.buildUpon().appendPath(actorId).appendPath(PATH_MOVIE).build();
+        }
+
+        /** Read {@link #ACTOR_ID} from {@link Sessions} {@link Uri}. */
         public static String getActorId(Uri uri){
             return Long.toString(ContentUris.parseId(uri));
         }
@@ -227,6 +273,10 @@ public final class MoviesContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_POPULAR;
 
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
         public static Uri buildPopularMediaUri(String popularId){
             return CONTENT_URI.buildUpon().appendPath(popularId).build();
         }
@@ -247,6 +297,10 @@ public final class MoviesContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_TOP_RATED;
 
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
         public static Uri buildTopRatedMediaUri(String topRatedId){
             return CONTENT_URI.buildUpon().appendPath(topRatedId).build();
         }
@@ -266,6 +320,10 @@ public final class MoviesContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_NOW_PLAYING;
 
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
         public static Uri buildNowPlayingMediaUri(String id){
             return CONTENT_URI.buildUpon().appendPath(id).build();
         }
@@ -285,6 +343,10 @@ public final class MoviesContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_UPCOMING;
 
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
         public static Uri buildUpcomingMediaUri(String id){
             return CONTENT_URI.buildUpon().appendPath(id).build();
         }
@@ -304,6 +366,10 @@ public final class MoviesContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_LATEST;
 
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
         public static Uri buildLatestMediaUri(String id){
             return CONTENT_URI.buildUpon().appendPath(id).build();
         }
@@ -323,6 +389,10 @@ public final class MoviesContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_FAVORITE;
 
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
         public static Uri buildFavoriteMediaUri(String id){
             return CONTENT_URI.buildUpon().appendPath(id).build();
         }
@@ -342,6 +412,11 @@ public final class MoviesContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_RECOMMENDED;
 
+
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
         public static Uri buildRecommendedMediaUri(String id){
             return CONTENT_URI.buildUpon().appendPath(id).build();
         }

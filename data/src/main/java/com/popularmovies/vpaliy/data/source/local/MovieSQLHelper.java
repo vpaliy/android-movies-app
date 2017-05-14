@@ -120,6 +120,7 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         db.execSQL("CREATE TABLE "+Tables.MOVIES+" (" +
                 Movies._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 Movies.MOVIE_ID+" INTEGER NOT NULL,"+
+                Movies.MOVIE_TITLE + " TEXT," +
                 Movies.MOVIE_ORIGINAL_TITLE + " TEXT," +
                 Movies.MOVIE_OVERVIEW + " TEXT," +
                 Movies.MOVIE_RELEASE_DATE + " TEXT," +
@@ -131,17 +132,12 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
                 Movies.MOVIE_RUNTIME+" INTEGER,"+
                 Movies.MOVIE_REVENUE+" INTEGER,"+
                 Movies.MOVIE_HOMEPAGE+" TEXT,"+
-                Movies.MOVIE_TITLE + " TEXT," +
                 Movies.MOVIE_GENRES+ " TEXT,"+
                 Movies.MOVIE_AVERAGE_VOTE + " REAL," +
                 Movies.MOVIE_VOTE_COUNT + " INTEGER," +
-                Movies.MOVIE_BACKDROP_URL + " TEXT," +
-                Movies.MOVIE_BACKDROPS + " TEXT" + " );");
-
-        db.execSQL("CREATE TABLE "+Tables.GENRES+" ("+
-                Genres.GENRE_ID+" TEXT PRIMARY KEY NOT NULL,"+
-                Genres.GENRE_NAME+" TEXT NOT NULL,"+
-                " UNIQUE (" + Genres.GENRE_ID + ") ON CONFLICT REPLACE)");
+                Movies.MOVIE_ACTORS+"  TEXT NOT NULL,"+
+                Movies.MOVIE_BACKDROPS + " TEXT," +
+                " UNIQUE (" + Movies.MOVIE_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.ACTORS+" ("+
                 Actors._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -165,8 +161,14 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
                 Trailers.TRAILER_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
                 "UNIQUE (" + Trailers.TRAILER_ID + ") ON CONFLICT REPLACE)");
 
+        db.execSQL("CREATE TABLE "+Tables.GENRES+" ("+
+                Genres.GENRE_ID+" TEXT PRIMARY KEY NOT NULL,"+
+                Genres.GENRE_NAME+" TEXT NOT NULL,"+
+                " UNIQUE (" + Genres.GENRE_ID + ") ON CONFLICT REPLACE)");
+
+
         db.execSQL("CREATE TABLE "+Tables.REVIEWS+" ("+
-                Reviews._ID+" TEXT PRIMARY KEY,"+
+                Reviews._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 Reviews.REVIEW_ID+" INTEGER NOT NULL,"+
                 Reviews.REVIEW_AUTHOR+" TEXT,"+
                 Reviews.REVIEW_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
