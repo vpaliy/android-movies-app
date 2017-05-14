@@ -24,6 +24,8 @@ public final class MoviesContract {
         String MOVIE_AVERAGE_VOTE = "vote_average";
         String MOVIE_VOTE_COUNT = "vote_count";
         String MOVIE_BACKDROPS="backdrops";
+        String MOVIE_ACTORS="actors";
+        String MOVIE_GENRES="genres";
         String MOVIE_POSTER_URL = "poster_url";
         String MOVIE_BACKDROP_URL = "backdrop_url";
     }
@@ -58,6 +60,7 @@ public final class MoviesContract {
     }
 
     interface GenreColumns extends BaseColumns {
+        String GENRE_ID="genre_id";
         String GENRE_NAME="genre_name";
     }
 
@@ -118,19 +121,19 @@ public final class MoviesContract {
         }
 
         public static Uri buildMovieWithTrailersUri(String movieId){
-            return CONTENT_URI.buildUpon().appendPath(PATH_TRAILER).appendPath(movieId).build();
+            return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_TRAILER).build();
         }
 
         public static Uri buildMovieWithReviewsUri(String movieId){
-            return CONTENT_URI.buildUpon().appendPath(PATH_REVIEW).appendPath(movieId).build();
+            return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_REVIEW).build();
         }
 
         public static Uri buildMovieWithGenresUri(String movieId){
-            return CONTENT_URI.buildUpon().appendPath(PATH_GENRE).appendPath(movieId).build();
+            return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_GENRE).build();
         }
 
         public static Uri buildMovieWithDetailsUri(String movieId){
-            return CONTENT_URI.buildUpon().appendPath(PATH_ALL_DETAILS).appendPath(movieId).build();
+            return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_ALL_DETAILS).build();
         }
 
         public static String getMovieId(Uri uri){

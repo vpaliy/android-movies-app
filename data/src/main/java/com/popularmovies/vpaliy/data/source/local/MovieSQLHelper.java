@@ -50,9 +50,13 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         String MEDIA_GENRES="media_genres";
 
         String MOVIE_JOIN_TRAILERS=LEFT_OUTER_JOIN+TRAILERS+ON+MOVIES+DOT+Movies._ID+"="+TRAILERS+DOT+Trailers.TRAILER_MEDIA_ID;
+
         String MOVIE_JOIN_REVIEWS=LEFT_OUTER_JOIN+REVIEWS+ON+MOVIES+DOT+Movies._ID+"="+REVIEWS+DOT+Reviews.REVIEW_MEDIA_ID;
+
         String MOVIE_JOIN_SIMILAR_MOVIES=LEFT_OUTER_JOIN+SIMILAR_MEDIA+ON+MOVIES+DOT+Movies._ID+"="+SIMILAR_MEDIA+DOT+SimilarMovies.MEDIA_ID;
+
         String MOVIE_JOIN_GENRES=LEFT_OUTER_JOIN+MEDIA_GENRES+ON+MOVIES+DOT+Movies._ID+"="+MEDIA_GENRES+DOT+MediaGenres.MEDIA_ID;
+
         String MOVIE_JOIN_ACTORS=LEFT_OUTER_JOIN+MEDIA_ACTORS+ON+MOVIES+DOT+Movies._ID+"="+MEDIA_ACTORS+DOT+MediaActors.MEDIA_ID;
 
         String MOVIE_JOIN_DETAILS=MOVIES+" "+
@@ -114,61 +118,66 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE "+Tables.MOVIES+" (" +
-                Movies._ID + " INTEGER PRIMARY KEY," +
-                Movies.MOVIE_ORIGINAL_TITLE + " TEXT, " +
-                Movies.MOVIE_OVERVIEW + " TEXT, " +
-                Movies.MOVIE_RELEASE_DATE + " TEXT, " +
-                Movies.MOVIE_STATUS + " TEXT, " +
-                Movies.MOVIE_TAG_LINE + " TEXT, " +
-                Movies.MOVIE_POSTER_URL + " TEXT, " +
-                Movies.MOVIE_POPULARITY + " REAL, " +
-                Movies.MOVIE_BUDGET+" INTEGER, "+
-                Movies.MOVIE_RUNTIME+" INTEGER, "+
-                Movies.MOVIE_REVENUE+" INTEGER, "+
-                Movies.MOVIE_HOMEPAGE+" TEXT, "+
-                Movies.MOVIE_TITLE + " TEXT, " +
-                Movies.MOVIE_AVERAGE_VOTE + " REAL, " +
+                Movies._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                Movies.MOVIE_ID+" INTEGER NOT NULL,"+
+                Movies.MOVIE_ORIGINAL_TITLE + " TEXT," +
+                Movies.MOVIE_OVERVIEW + " TEXT," +
+                Movies.MOVIE_RELEASE_DATE + " TEXT," +
+                Movies.MOVIE_STATUS + " TEXT," +
+                Movies.MOVIE_TAG_LINE + " TEXT," +
+                Movies.MOVIE_POSTER_URL + " TEXT," +
+                Movies.MOVIE_POPULARITY + " REAL," +
+                Movies.MOVIE_BUDGET+" INTEGER,"+
+                Movies.MOVIE_RUNTIME+" INTEGER,"+
+                Movies.MOVIE_REVENUE+" INTEGER,"+
+                Movies.MOVIE_HOMEPAGE+" TEXT,"+
+                Movies.MOVIE_TITLE + " TEXT," +
+                Movies.MOVIE_GENRES+ " TEXT,"+
+                Movies.MOVIE_AVERAGE_VOTE + " REAL," +
                 Movies.MOVIE_VOTE_COUNT + " INTEGER," +
-                Movies.MOVIE_BACKDROP_URL + " TEXT, " +
-                Movies.MOVIE_BACKDROPS + " TEXT " + " );");
+                Movies.MOVIE_BACKDROP_URL + " TEXT," +
+                Movies.MOVIE_BACKDROPS + " TEXT" + " );");
 
         db.execSQL("CREATE TABLE "+Tables.GENRES+" ("+
-                Genres._ID+" INTEGER PRIMARY KEY,"+
-                Genres.GENRE_NAME+" TEXT NOT NULL, "+
-                "UNIQUE (" + Genres._ID + ") ON CONFLICT REPLACE)");
+                Genres.GENRE_ID+" TEXT PRIMARY KEY NOT NULL,"+
+                Genres.GENRE_NAME+" TEXT NOT NULL,"+
+                " UNIQUE (" + Genres.GENRE_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.ACTORS+" ("+
-                Actors._ID+" INTEGER PRIMARY KEY,"+
+                Actors._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                Actors.ACTOR_ID+" INTEGER NOT NULL,"+
                 Actors.ACTOR_NAME+" TEXT NOT NULL, "+
                 Actors.ACTOR_BIOGRAPHY+" TEXT,"+
                 Actors.ACTOR_IMAGE_URL+" TEXT,"+
-                Actors.ACTOR_BIRTHDAY+" TEXT, "+
+                Actors.ACTOR_BIRTHDAY+" TEXT,"+
                 Actors.ACTOR_PLACE_OF_BIRTH+" TEXT,"+
                 Actors.ACTOR_POPULARITY+" REAL, "+
                 Actors.ACTOR_HOMEPAGE+" TEXT,"+
                 Actors.ACTOR_DEATH_DAY+" TEXT,"+
-                "UNIQUE (" + Actors._ID + ") ON CONFLICT REPLACE)");
+                " UNIQUE (" + Actors.ACTOR_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.TRAILERS+" ("+
-                Trailers._ID+" TEXT PRIMARY KEY,"+
+                Trailers._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                Trailers.TRAILER_ID+" INTEGER NOT NULL,"+
                 Trailers.TRAILER_TITLE+" TEXT NOT NULL,"+
                 Trailers.TRAILER_SITE+" TEXT,"+
                 Trailers.TRAILER_VIDEO_URL+" TEXT NOT NULL,"+
                 Trailers.TRAILER_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                "UNIQUE (" + Trailers._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + Trailers.TRAILER_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.REVIEWS+" ("+
                 Reviews._ID+" TEXT PRIMARY KEY,"+
+                Reviews.REVIEW_ID+" INTEGER NOT NULL,"+
                 Reviews.REVIEW_AUTHOR+" TEXT,"+
                 Reviews.REVIEW_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
                 Reviews.REVIEW_URL+" TEXT,"+
                 Reviews.REVIEW_CONTENT+" TEXT NOT NULL,"+
-                "UNIQUE (" + Reviews._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + Reviews.REVIEW_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.POPULAR+" ("+
                 PopularMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 PopularMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                "UNIQUE (" + Reviews._ID + ") ON CONFLICT REPLACE)");
+                "UNIQUE (" + PopularMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.FAVORITE+" ("+
                 FavoriteMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -202,7 +211,7 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
 
         db.execSQL("CREATE TABLE "+Tables.SIMILAR_MEDIA+" ("+
                 BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                SimilarMovies.MEDIA_ID+" INTEGER PRIMARY KEY,"+
+                SimilarMovies.MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
                 SimilarMovies.SIMILAR_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","
                 + "UNIQUE (" + SimilarMovies.MEDIA_ID + ","
                 + SimilarMovies.SIMILAR_MEDIA_ID + ") ON CONFLICT REPLACE)");
@@ -211,14 +220,14 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
                 BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 MediaActors.MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
                 MediaActors.ACTOR_ID+" INTEGER NOT NULL "+References.ACTOR_ID+","
-                + "UNIQUE (" + MediaActors.MEDIA_ID + ","
+                + " UNIQUE (" + MediaActors.MEDIA_ID + ","
                 + MediaActors.ACTOR_ID + ") ON CONFLICT REPLACE)");
 
         db.execSQL("CREATE TABLE "+Tables.MEDIA_GENRES+" ("+
                 BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 MediaGenres.MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
-                MediaGenres.GENRE_ID+" INTEGER NOT NULL "+References.GENRE_ID+","
-                + "UNIQUE (" + MediaGenres.MEDIA_ID + ","
+                MediaGenres.GENRE_ID+" TEXT NOT NULL "+References.GENRE_ID+","
+                + " UNIQUE (" + MediaGenres.MEDIA_ID + ","
                 + MediaGenres.GENRE_ID + ") ON CONFLICT REPLACE)");
 
     }
