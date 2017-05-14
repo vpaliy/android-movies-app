@@ -191,7 +191,7 @@ public class MovieProvider extends ContentProvider {
                         .where(Movies.MOVIE_ID+"=?",movieWithTrailersId);
             case MOVIE_ID_GENRES:
                 String movieWithGenresId=Movies.getMovieId(uri);
-                return queryBuilder.table(Tables.MOVIE_JOIN_GENRES)
+                return queryBuilder.table(Tables.MOVIES_GENRES_JOIN_MOVIES)
                         .where(Movies.MOVIE_ID+"=?",movieWithGenresId);
             case MOVIE_ID_REVIEWS:
                 String movieWithReviewsId=Movies.getMovieId(uri);
@@ -199,7 +199,7 @@ public class MovieProvider extends ContentProvider {
                         .where(Movies.MOVIE_ID+"=?",movieWithReviewsId);
             case MOVIE_ID_ACTORS:
                 String movieWithCastId=Movies.getMovieId(uri);
-                return queryBuilder.table(Tables.MOVIE_JOIN_ACTORS)
+                return queryBuilder.table(Tables.MOVIES_ACTORS_JOIN_MOVIES)
                         .where(Movies.MOVIE_ID+"=?",movieWithCastId);
             case ACTOR_ID:
                 String actorId=Actors.getActorId(uri);
@@ -207,7 +207,7 @@ public class MovieProvider extends ContentProvider {
                         .where(Actors.ACTOR_ID+"=?",actorId);
             case ACTOR_ID_MOVIES:
                 String actorMoviesId=Actors.getActorId(uri);
-                return queryBuilder.table(Tables.MOVIE_JOIN_ACTORS)
+                return queryBuilder.table(Tables.MOVIES_ACTORS_JOIN_ACTORS)
                         .where(Actors.ACTOR_ID+"=?",actorMoviesId);
             case GENRE_ID:
                 String genreId=Genres.getGenreId(uri);
@@ -215,7 +215,7 @@ public class MovieProvider extends ContentProvider {
                         .where(Genres.GENRE_ID+"=?",genreId);
             case GENRE_ID_MOVIES:
                 String genreMovieId=Genres.getGenreId(uri);
-                return queryBuilder.table(Tables.MOVIE_JOIN_GENRES)
+                return queryBuilder.table(Tables.MOVIES_GENRES_JOIN_GENRES)
                         .where(Genres.GENRE_ID+"=?",genreMovieId);
             case TRAILER_ID:
                 String trailerId=Trailers.getTrailerId(uri);
@@ -234,47 +234,47 @@ public class MovieProvider extends ContentProvider {
                 return builder.table(Tables.MOVIE_JOIN_TRAILERS)
                         .mapToTable(Movies.MOVIE_ID,Tables.MOVIES)
                         .mapToTable(Trailers.TRAILER_ID,Tables.TRAILERS)
-                        .where(Movies._ID+"=?",movieWithTrailersId);
+                        .where(Movies.MOVIE_ID+"=?",movieWithTrailersId);
             case MOVIE_ID_GENRES:
                 String movieWithGenresId=Movies.getMovieId(uri);
-                return builder.table(Tables.MOVIE_JOIN_GENRES)
+                return builder.table(Tables.MOVIES_GENRES_JOIN_MOVIES)
                         .mapToTable(Movies.MOVIE_ID,Tables.MOVIES)
                         .mapToTable(Genres.GENRE_ID,Tables.GENRES)
-                        .where(Movies._ID+"=?",movieWithGenresId);
+                        .where(Movies.MOVIE_ID+"=?",movieWithGenresId);
             case MOVIE_ID_REVIEWS:
                 String movieWithReviewsId=Movies.getMovieId(uri);
                 return builder.table(Tables.MOVIE_JOIN_REVIEWS)
                         .mapToTable(Reviews.REVIEW_ID,Tables.REVIEWS)
                         .mapToTable(Movies.MOVIE_ID,Tables.MOVIES)
-                        .where(Movies._ID+"=?",movieWithReviewsId);
+                        .where(Movies.MOVIE_ID+"=?",movieWithReviewsId);
             case MOVIE_ID_ACTORS:
                 String movieWithCastId=Movies.getMovieId(uri);
-                return builder.table(Tables.MOVIE_JOIN_ACTORS)
+                return builder.table(Tables.MOVIES_ACTORS_JOIN_MOVIES)
                         .mapToTable(Movies.MOVIE_ID,Tables.MOVIES)
                         .mapToTable(Actors.ACTOR_ID,Tables.ACTORS)
-                        .where(Movies._ID+"=?",movieWithCastId);
+                        .where(Movies.MOVIE_ID+"=?",movieWithCastId);
             case ACTOR_ID_MOVIES:
                 String actorMoviesId=Actors.getActorId(uri);
-                return builder.table(Tables.MOVIE_JOIN_ACTORS)
+                return builder.table(Tables.MOVIES_ACTORS_JOIN_ACTORS)
                         .mapToTable(Movies.MOVIE_ID,Tables.MOVIES)
                         .mapToTable(Actors.ACTOR_ID,Tables.ACTORS)
-                        .where(Actors._ID+"=?",actorMoviesId);
+                        .where(Actors.ACTOR_ID+"=?",actorMoviesId);
             case GENRES:
                 return builder.table(Tables.GENRES);
             case GENRE_ID_MOVIES:
                 String genreMovieId= Genres.getGenreId(uri);
-                return builder.table(Tables.MOVIE_JOIN_GENRES)
+                return builder.table(Tables.MOVIES_GENRES_JOIN_GENRES)
                         .mapToTable(Movies.MOVIE_ID,Tables.MOVIES)
                         .mapToTable(Genres.GENRE_ID,Tables.GENRES)
                         .where(Genres.GENRE_ID+"=?",genreMovieId);
             case MOVIE_ID:
                 String movieId=Movies.getMovieId(uri);
                 return builder.table(Tables.MOVIES)
-                        .where(Movies._ID+"=?",movieId);
+                        .where(Movies.MOVIE_ID+"=?",movieId);
             case ACTOR_ID:
                 String actorId=Actors.getActorId(uri);
                 return builder.table(Tables.ACTORS)
-                        .where(Actors._ID+"=?",actorId);
+                        .where(Actors.ACTOR_ID+"=?",actorId);
             case MOVIES:
                 return builder.table(Tables.MOVIES);
             case ACTORS:

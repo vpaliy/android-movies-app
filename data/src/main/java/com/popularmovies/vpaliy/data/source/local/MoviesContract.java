@@ -65,7 +65,7 @@ public final class MoviesContract {
 
 
     interface MediaCollectionColumns extends BaseColumns{
-        String COLLECTION_MEDIA_ID="collection_media_id";
+        String COLLECTION_MEDIA_ID="media_id";
     }
 
 

@@ -26,10 +26,6 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME="movies.db";
     private static final int DATABASE_VERSION=1;
 
-    private static final String INNER_JOIN=" INNER JOIN ";
-    private static final String LEFT_OUTER_JOIN=" LEFT OUTER JOIN ";
-    private static final String ON=" ON ";
-    private static final String DOT=".";
 
     interface Tables {
 
@@ -49,37 +45,48 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         String MEDIA_ACTORS="media_actors";
         String MEDIA_GENRES="media_genres";
 
-        String MOVIE_JOIN_TRAILERS=MOVIES+" "+INNER_JOIN+TRAILERS+ON+MOVIES+DOT+Movies._ID+"="+TRAILERS+DOT+Trailers.TRAILER_MEDIA_ID;
 
-        String MOVIE_JOIN_REVIEWS=MOVIES+" "+INNER_JOIN+REVIEWS+ON+MOVIES+DOT+Movies._ID+"="+REVIEWS+DOT+Reviews.REVIEW_MEDIA_ID;
+        String MOVIE_JOIN_TRAILERS="movies"
+                +"INNER JOIN trailers ON movies.movie_id=trailers.media_id";
 
-        String MOVIE_JOIN_SIMILAR_MOVIES=MOVIES+" "+INNER_JOIN+SIMILAR_MEDIA+ON+MOVIES+DOT+Movies._ID+"="+SIMILAR_MEDIA+DOT+SimilarMovies.MEDIA_ID;
+        String MOVIE_JOIN_REVIEWS="movies"
+                +"INNER JOIN reviews ON movies.movie_id=reviews.media_id";
 
-        String MOVIE_JOIN_GENRES=MOVIES+" "+INNER_JOIN+MEDIA_GENRES+ON+MOVIES+DOT+Movies._ID+"="+MEDIA_GENRES+DOT+MediaGenres.MEDIA_ID;
+        String MOVIE_JOIN_SIMILAR_MOVIES="movies"
+                +"INNER JOIN similar_movies ON movies.movie_id=similar_movies.media_id";
 
-        String MOVIE_JOIN_ACTORS=MOVIES+" "+INNER_JOIN+MEDIA_ACTORS+ON+MOVIES+DOT+Movies._ID+"="+MEDIA_ACTORS+DOT+MediaActors.MEDIA_ID;
+        String MOVIES_GENRES_JOIN_GENRES="media_genres"
+                +"INNER JOIN genres ON media_genres.genre_id=genres.genre_id";
 
+        String MOVIES_GENRES_JOIN_MOVIES="media_genres"
+                +"INNER JOIN movies ON media_genres.media_id=movies.movie_id";
 
-        String MOVIE_JOIN_FAVORITES=MOVIES+" "+
-                    INNER_JOIN+FAVORITE+ON+MOVIES+DOT+Movies._ID+"="+FAVORITE+DOT+FavoriteMedia.COLLECTION_MEDIA_ID;
+        String MOVIES_ACTORS_JOIN_ACTORS="media_actors"
+                +"INNER JOIN actors ON media_actors.actor_id=actors.actor_id";
 
-        String MOVIE_JOIN_TOP_RATED=MOVIES+" "+
-                INNER_JOIN+TOP_RATED+ON+MOVIES+DOT+Movies._ID+"="+TOP_RATED+DOT+TopRatedMedia.COLLECTION_MEDIA_ID;
+        String MOVIES_ACTORS_JOIN_MOVIES="media_actors"
+                +"INNER JOIN movies ON media_actors.media_id=movies.movie_id";
 
-        String MOVIE_JOIN_LATEST=MOVIES+" "+
-                INNER_JOIN+LATEST+ON+MOVIES+DOT+Movies._ID+"="+LATEST+DOT+LatestMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_FAVORITES="movies"
+                +"INNER JOIN favorite ON movies.movie_id=favorite.media_id";
 
-        String MOVIE_JOIN_NOW_PLAYING=MOVIES+" "+
-                INNER_JOIN+NOW_PLAYING+ON+MOVIES+DOT+Movies._ID+"="+NOW_PLAYING+DOT+NowPlayingMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_TOP_RATED="movies"
+                +"INNER JOIN top_rated ON movies.movie_id=top_rated.media_id";
 
-        String MOVIE_JOIN_UPCOMING=MOVIES+" "+
-                INNER_JOIN+UPCOMING+ON+MOVIES+DOT+Movies._ID+"="+UPCOMING+DOT+UpcomingMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_LATEST="movies"
+                +"INNER JOIN latest ON movies.movie_id=latest.media_id";
 
-        String MOVIE_JOIN_POPULAR=MOVIES+" "+
-                INNER_JOIN+POPULAR+ON+MOVIES+DOT+Movies._ID+"="+POPULAR+DOT+PopularMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_NOW_PLAYING="movies"
+                +"INNER JOIN now_playing ON movies.movie_id=now_playing.media_id";
 
-        String MOVIE_JOIN_RECOMMENDED=MOVIES+" "+
-                INNER_JOIN+RECOMMENDED+ON+MOVIES+DOT+Movies._ID+"="+RECOMMENDED+DOT+RecommendedMedia.COLLECTION_MEDIA_ID;
+        String MOVIE_JOIN_UPCOMING="movies"
+                +"INNER JOIN upcoming ON movies.movie_id=upcoming.media_id";
+
+        String MOVIE_JOIN_POPULAR="movies"
+                +"INNER JOIN popular ON movies.movie_id=popular.media_id";
+
+        String MOVIE_JOIN_RECOMMENDED="movies"
+                +"INNER JOIN recommended ON movies.movie_id=recommended.media_id";
 
     }
 
