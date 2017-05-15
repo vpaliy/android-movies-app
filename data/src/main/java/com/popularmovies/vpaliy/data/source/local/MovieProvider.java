@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+
 import static com.popularmovies.vpaliy.data.source.local.MovieSQLHelper.Tables;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Actors;
@@ -19,12 +20,11 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Upcoming
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.LatestMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.RecommendedMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.NowPlayingMedia;
+import static com.popularmovies.vpaliy.data.source.local.MovieSQLHelper.SimilarMovies;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
-import java.util.Arrays;
 
 
 public class MovieProvider extends ContentProvider {
@@ -66,9 +66,6 @@ public class MovieProvider extends ContentProvider {
         final SQLiteDatabase db=sqlHelper.getReadableDatabase();
         final MovieUriEnum movieUriEnum=uriMatcher.match(uri);
 
-        Log.v(TAG, "Uri=" + uri + " code=" + movieUriEnum.code + " projection=" +
-                Arrays.toString(projection) + " selection=" + selection + " args="
-                + Arrays.toString(selectionArgs) + ")");
 
         QueryBuilder builder=buildExpandedQuery(uri,movieUriEnum);
         Cursor cursor=builder
@@ -98,7 +95,6 @@ public class MovieProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection,
                       @Nullable String[] selectionArgs) {
-
         if (uri == MoviesContract.BASE_CONTENT_URI) {
             deleteDatabase();
             notifyChange(uri);
@@ -130,15 +126,17 @@ public class MovieProvider extends ContentProvider {
 
         switch (movieUriEnum) {
             case MOVIES:
-                return Movies.buildMovieUri(values.getAsString(Movies._ID));
+                return Movies.buildMovieUri(values.getAsString(Movies.MOVIE_ID));
+            case SIMILAR_MOVIES:
+                return Movies.buildMovieWithSimilarUri(values.getAsString(SimilarMovies.MEDIA_ID));
             case ACTORS:
-                return Actors.buildActorUri(values.getAsString(Actors._ID));
+                return Actors.buildActorUri(values.getAsString(Actors.ACTOR_ID));
             case GENRES:
-                return Genres.buildGenreUri(values.getAsString(Genres._ID));
+                return Genres.buildGenreUri(values.getAsString(Genres.GENRE_ID));
             case REVIEWS:
-                return Reviews.buildReviewUri(values.getAsString(Reviews._ID));
+                return Reviews.buildReviewUri(values.getAsString(Reviews.REVIEW_ID));
             case TRAILERS:
-                return Trailers.buildTrailerUri(values.getAsString(Trailers._ID));
+                return Trailers.buildTrailerUri(values.getAsString(Trailers.TRAILER_ID));
             case POPULAR_MOVIES:
                 return PopularMedia.buildPopularMediaUri(values.getAsString(PopularMedia._ID));
             case TOP_RATED_MOVIES:
@@ -213,6 +211,10 @@ public class MovieProvider extends ContentProvider {
                 String genreId=Genres.getGenreId(uri);
                 return queryBuilder.table(Tables.GENRES)
                         .where(Genres.GENRE_ID+"=?",genreId);
+            case REVIEW_ID:
+                String reviewId=Reviews.getReviewId(uri);
+                return queryBuilder.table(Tables.REVIEWS)
+                        .where(Reviews.REVIEW_ID+"=?",reviewId);
             case GENRE_ID_MOVIES:
                 String genreMovieId=Genres.getGenreId(uri);
                 return queryBuilder.table(Tables.MOVIES_GENRES_JOIN_GENRES)
@@ -221,6 +223,10 @@ public class MovieProvider extends ContentProvider {
                 String trailerId=Trailers.getTrailerId(uri);
                 return queryBuilder.table(Tables.TRAILERS)
                         .where(Trailers.TRAILER_ID+"=?",trailerId);
+            case SIMILAR_MOVIES:
+                String similarMoviesId=Movies.getMovieId(uri);
+                return queryBuilder.table(Tables.MOVIE_JOIN_SIMILAR_MOVIES)
+                        .where(Movies.MOVIE_ID+"=?",similarMoviesId);
             default:
                 throw new UnsupportedOperationException("Unknown uri");
         }
@@ -253,6 +259,7 @@ public class MovieProvider extends ContentProvider {
                         .mapToTable(Movies.MOVIE_ID,Tables.MOVIES)
                         .mapToTable(Actors.ACTOR_ID,Tables.ACTORS)
                         .where(Movies.MOVIE_ID+"=?",movieWithCastId);
+
             case ACTOR_ID_MOVIES:
                 String actorMoviesId=Actors.getActorId(uri);
                 return builder.table(Tables.MOVIES_ACTORS_JOIN_ACTORS)
@@ -275,6 +282,23 @@ public class MovieProvider extends ContentProvider {
                 String actorId=Actors.getActorId(uri);
                 return builder.table(Tables.ACTORS)
                         .where(Actors.ACTOR_ID+"=?",actorId);
+            case TRAILER_ID:
+                String trailerId=Trailers.getTrailerId(uri);
+                return builder.table(Tables.TRAILERS)
+                        .where(Trailers.TRAILER_ID+"=?",trailerId);
+            case REVIEW_ID:
+                String reviewId=Reviews.getReviewId(uri);
+                return builder.table(Tables.REVIEWS)
+                        .where(Reviews.REVIEW_ID+"=?",reviewId);
+            case GENRE_ID:
+                String genreId=Genres.getGenreId(uri);
+                return builder.table(Tables.GENRES)
+                        .where(Genres.GENRE_ID+"=?",genreId);
+
+            case SIMILAR_MOVIES:
+                String similarMoviesId=Movies.getMovieId(uri);
+                return builder.table(Tables.MOVIE_JOIN_SIMILAR_MOVIES)
+                        .where(Movies.MOVIE_ID+"=?",similarMoviesId);
             case MOVIES:
                 return builder.table(Tables.MOVIES);
             case ACTORS:

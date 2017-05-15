@@ -100,6 +100,8 @@ public final class MoviesContract {
 
     public static final String PATH_RECOMMENDED="recommended";
 
+    public static final String PATH_SIMILAR="similar_movies";
+
 
     private MoviesContract(){
         throw new UnsupportedOperationException("Can't create a class instance");
@@ -151,6 +153,10 @@ public final class MoviesContract {
          */
         public static Uri buildMovieWithDetailsUri(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_ALL_DETAILS).build();
+        }
+
+        public static Uri buildMovieWithSimilarUri(String movieId){
+            return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_SIMILAR).build();
         }
 
         /** Read {@link #MOVIE_ID} from {@link Sessions} {@link Uri}. */
@@ -425,5 +431,6 @@ public final class MoviesContract {
             return Long.toString(ContentUris.parseId(uri));
         }
     }
+
 
 }
