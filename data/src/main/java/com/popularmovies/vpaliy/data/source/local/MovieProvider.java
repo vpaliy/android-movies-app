@@ -21,6 +21,8 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.LatestMe
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.RecommendedMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.NowPlayingMedia;
 import static com.popularmovies.vpaliy.data.source.local.MovieSQLHelper.SimilarMovies;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.WatchedhMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MustWatchMedia;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -148,6 +150,10 @@ public class MovieProvider extends ContentProvider {
                 return LatestMedia.buildLatestMediaUri(values.getAsString(LatestMedia._ID));
             case RECOMMENDED_MOVIES:
                 return RecommendedMedia.buildRecommendedMediaUri(values.getAsString(RecommendedMedia._ID));
+            case WATCHED_MOVIES:
+                return WatchedhMedia.buildWatchedMediaUri(values.getAsString(WatchedhMedia._ID));
+            case MUST_WATCH_MOVIES:
+                return MustWatchMedia.buildMustWatchMediaUri(values.getAsString(MustWatchMedia._ID));
             case NOW_PLAYING_MOVIES:
                 return NowPlayingMedia.buildNowPlayingMediaUri(values.getAsString(NowPlayingMedia._ID));
             default:

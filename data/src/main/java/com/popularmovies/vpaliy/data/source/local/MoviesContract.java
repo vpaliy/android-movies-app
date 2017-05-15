@@ -151,16 +151,16 @@ public final class MoviesContract {
             return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_GENRE).build();
         }
 
-        /**
-         * Build {@link Uri} that references any {@link Genres,Reviews,Trailers} associated
-         * with the requested {@link #MOVIE_ID}.
-         */
-        public static Uri buildMovieWithDetailsUri(String movieId){
-            return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_ALL_DETAILS).build();
-        }
-
         public static Uri buildMovieWithSimilarUri(String movieId){
             return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_SIMILAR).build();
+        }
+
+        /**
+         * Build {@link Uri} that references any {@link Actors} associated
+         * with the requested {@link #MOVIE_ID}.
+         */
+        public static Uri buildMovieWithActorsUri(String movieId){
+            return CONTENT_URI.buildUpon().appendPath(movieId).appendPath(PATH_ACTOR).build();
         }
 
         /** Read {@link #MOVIE_ID} from {@link Sessions} {@link Uri}. */
@@ -483,7 +483,6 @@ public final class MoviesContract {
         public static String getWatchedMediaId(Uri uri){
             return Long.toString(ContentUris.parseId(uri));
         }
-
     }
 
 }

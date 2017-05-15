@@ -37,6 +37,10 @@ public class ActorEntity {
         return movieId;
     }
 
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
     public String getRole() {
         return role;
     }

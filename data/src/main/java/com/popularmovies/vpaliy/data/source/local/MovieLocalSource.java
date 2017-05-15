@@ -57,17 +57,12 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public Observable<MovieDetailEntity> getDetails(int ID) {
-        Uri uri= Movies.buildMovieWithDetailsUri(Integer.toString(ID));
-        return Observable.fromCallable(()->{
-           Movie movie=toMovie(contentResolver.query(uri,null,null,null,null));
-           if(movie!=null){
-               MovieDetailEntity detailEntity=new MovieDetailEntity();
-               detailEntity.setMovie(movie);
-               detailEntity.setBackdropImages(movie.getBackdropImages());
-               return detailEntity;
-           }
-           return null;
-        });
+        return Observable.fromCallable(()-> MoviesHandler.start(contentResolver)
+                    .queryById(ID)
+                    .appendCast(ID)
+                    .appendReviews(ID)
+                    .appendTrailers(ID)
+                    .buildDetails());
     }
 
     @Override

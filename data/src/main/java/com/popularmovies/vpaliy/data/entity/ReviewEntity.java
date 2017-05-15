@@ -11,6 +11,9 @@ import java.util.List;
 public class ReviewEntity {
 
 
+    @SerializedName("id")
+    private String reviewId;
+
     @SerializedName("author")
     private String author;
 
@@ -43,6 +46,14 @@ public class ReviewEntity {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setReviewId(String reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public String getReviewId() {
+        return reviewId;
     }
 
     public static List<Review> convert(List<ReviewEntity> reviewEntities){

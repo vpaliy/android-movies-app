@@ -11,6 +11,9 @@ public class TrailerEntity {
 
     private int movieId;
 
+    @SerializedName("id")
+    private int trailerId;
+
     @SerializedName("name")
     private String trailerTitle;
 
@@ -32,6 +35,11 @@ public class TrailerEntity {
         return trailerTitle;
     }
 
+
+    public int getTrailerId() {
+        return trailerId;
+    }
+
     public void setMovieId(int movieId) {
         this.movieId = movieId;
     }
@@ -44,6 +52,13 @@ public class TrailerEntity {
         this.trailerUrl = trailerUrl;
     }
 
+    public void setTrailerId(int trailerId) {
+        this.trailerId = trailerId;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
 
     public boolean isFromYoutube() {
         return site.toLowerCase(Locale.US).equals("YouTube".toLowerCase(Locale.US));
