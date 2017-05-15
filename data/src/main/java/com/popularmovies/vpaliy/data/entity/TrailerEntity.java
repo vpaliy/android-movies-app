@@ -35,6 +35,9 @@ public class TrailerEntity {
         return trailerTitle;
     }
 
+    public String getSite() {
+        return site;
+    }
 
     public int getTrailerId() {
         return trailerId;

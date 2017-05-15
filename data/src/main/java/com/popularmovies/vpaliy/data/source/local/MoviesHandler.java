@@ -4,6 +4,7 @@ package com.popularmovies.vpaliy.data.source.local;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.TrafficStats;
 import android.net.Uri;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -43,7 +44,7 @@ public class MoviesHandler {
     }
 
     public MoviesHandler insert(Movie movie){
-        ContentValues values=convertToValues(movie);
+        ContentValues values=convertMovieToValues(movie);
         if(values!=null){
             contentResolver.insert(Movies.CONTENT_URI,values);
         }
@@ -59,9 +60,60 @@ public class MoviesHandler {
 
     public MoviesHandler insertDetails(MovieDetailEntity detailEntity){
         if(detailEntity!=null){
-            insert(detailEntity.getMovie());
-            List<TrailerEntity> trailer=detailEntity.getTrailers();
+            insert(detailEntity.getMovie())
+                    .insertTrailers(detailEntity.getTrailers(),detailEntity.getMovieId())
+                    .insertSimilarMovies(detailEntity.getSimilarMovies(),detailEntity.getMovieId())
+                    .insertActors(detailEntity.getCast(),detailEntity.getMovieId())
+                    .insertGenres(detailEntity.getGenres(),detailEntity.getMovieId());
 
+        }
+        return this;
+    }
+
+    public MoviesHandler insertTrailers(List<TrailerEntity> trailers, int movieId){
+        if(trailers!=null){
+            for(TrailerEntity trailer:trailers){
+                //in case there is not id
+                trailer.setMovieId(movieId);
+                ContentValues values=convertTrailerToValues(trailer);
+                contentResolver.insert(Trailers.CONTENT_URI,values);
+            }
+        }
+        return this;
+    }
+
+    public MoviesHandler insertGenres(List<Genre> genres, int movieId){
+        if(genres==null||!genres.isEmpty()) return this;
+        Uri uri=Movies.buildMovieWithGenresUri(Integer.toString(movieId));
+        for(Genre genre:genres){
+            ContentValues values=new ContentValues();
+            values.put(MovieSQLHelper.MediaGenres.MEDIA_ID,movieId);
+            values.put(MovieSQLHelper.MediaGenres.GENRE_ID,genre.getId());
+            contentResolver.insert(uri,values);
+        }
+        return this;
+    }
+
+    public MoviesHandler insertActors(List<ActorEntity> actors, int movieId){
+        if(actors==null||actors.isEmpty()) return this;
+        Uri uri=Movies.buildMovieWithActorsUri(Integer.toString(movieId));
+        for(ActorEntity actorEntity:actors){
+            ContentValues values=new ContentValues();
+            values.put(MovieSQLHelper.MediaActors.MEDIA_ID,movieId);
+            values.put(MovieSQLHelper.MediaActors.ACTOR_ID,actorEntity.getActorId());
+            contentResolver.insert(uri,values);
+        }
+        return this;
+    }
+
+    public MoviesHandler insertSimilarMovies(List<Movie> similarMovies, int movieId){
+        if(similarMovies==null||similarMovies.isEmpty()) return null;
+        Uri uri=Movies.buildMovieWithSimilarUri(Integer.toString(movieId));
+        for(Movie movie:similarMovies){
+            ContentValues values=new ContentValues();
+            values.put(MovieSQLHelper.SimilarMovies.MEDIA_ID,movieId);
+            values.put(MovieSQLHelper.SimilarMovies.SIMILAR_MEDIA_ID,movie.getMovieId());
+            contentResolver.insert(uri,values);
         }
         return this;
     }
@@ -197,7 +249,7 @@ public class MoviesHandler {
     }
 
     @VisibleForTesting
-    public ContentValues convertToValues(Movie movie){
+    public ContentValues convertMovieToValues(Movie movie){
         if(movie==null) return null;
         ContentValues values=new ContentValues();
         values.put(Movies.MOVIE_ID,movie.getMovieId());
@@ -220,6 +272,18 @@ public class MoviesHandler {
         type=new TypeToken<ArrayList<Genre>>(){}.getType();
         jsonString=convertToJsonString(movie.getGenres(),type);
         values.put(Movies.MOVIE_GENRES,jsonString);
+        return values;
+    }
+
+    @VisibleForTesting
+    public ContentValues convertTrailerToValues(TrailerEntity trailer){
+        if(trailer==null) return null;
+        ContentValues values=new ContentValues();
+        values.put(Trailers.TRAILER_ID,trailer.getTrailerId());
+        values.put(Trailers.TRAILER_MEDIA_ID,trailer.getMovieId());
+        values.put(Trailers.TRAILER_TITLE,trailer.getTrailerTitle());
+        values.put(Trailers.TRAILER_VIDEO_URL,trailer.getTrailerUrl());
+        values.put(Trailers.TRAILER_SITE,trailer.getSite());
         return values;
     }
 

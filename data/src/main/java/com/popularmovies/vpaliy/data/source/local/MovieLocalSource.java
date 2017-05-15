@@ -21,19 +21,13 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.LatestMe
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.NowPlayingMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.WatchedhMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MustWatchMedia;
-
-import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
 public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
-
-    private static final String TAG= MovieLocal.class.getSimpleName();
-
     private final ContentResolver contentResolver;
     private final ISortConfiguration sortConfiguration;
-
 
     @Inject
     public MovieLocalSource(@NonNull Context context,
@@ -41,7 +35,6 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
         this.contentResolver=context.getContentResolver();
         this.sortConfiguration=sortConfiguration;
     }
-
 
     /* No more movies */
     @Override

@@ -33,22 +33,6 @@ import java.util.List;
 import static android.provider.BaseColumns._ID;
 import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_MOVIE_ID;
 import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_RELEASE_DATE;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_AVERAGE_VOTE;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_BACKDROP_PATH;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_BUDGET;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_GENRES;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_HOME_PAGE;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_IS_FAVORITE;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_MOVIE_BACKDROPS;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_OVERVIEW;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_POPULARITY;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_POSTER_PATH;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_RELEASE_DATE;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_REVENUE;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_RUNTIME;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_TITLE;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MovieEntry.COLUMN_VOTE_COUNT;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_POSTER_PATH;
@@ -63,6 +47,7 @@ import static com.popularmovies.vpaliy.data.source.DataSourceTestUtils.FAKE_TITL
         sdk = Build.VERSION_CODES.LOLLIPOP)
 public class MovieDatabaseTest {
 
+    /*
     private MovieSQLHelper sqlHelper;
 
     private static final String MOVIE_SELECTION_BY_ID=
@@ -463,5 +448,5 @@ public class MovieDatabaseTest {
             db.execSQL(MoviesContract.MostPopularEntry.SQL_DROP_IF_EXISTS);
             db.execSQL(MoviesContract.MostRatedEntry.SQL_DROP_IF_EXISTS);
         }
-    }
+    } */
 }

@@ -14,11 +14,11 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
-
 import java.util.ArrayList;
 import java.util.List;
 import rx.Observable;
 import rx.schedulers.Schedulers;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;

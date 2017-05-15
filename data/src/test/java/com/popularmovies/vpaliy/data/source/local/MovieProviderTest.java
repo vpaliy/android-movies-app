@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
         sdk = Build.VERSION_CODES.LOLLIPOP)
 public class MovieProviderTest  {
 
-
+/*
     private static final Movie FAKE_MOVIE=DataSourceTestUtils.provideFakeMovie();
     private static final Uri MOVIE_URI= MoviesContract.MovieEntry.CONTENT_URI;
     private static final Uri MOST_POPULAR_URI=MoviesContract.MostPopularEntry.CONTENT_URI;
@@ -150,6 +150,6 @@ public class MovieProviderTest  {
         verify(mockDatabase,times(2)).query(anyString(),any(),any(),any(),any(),any(),any());
     }
 
-
+    */
 
 }

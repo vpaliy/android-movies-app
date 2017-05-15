@@ -11,6 +11,7 @@ public class MovieDetailEntity {
     private List<ActorEntity> cast;
     private List<Movie> similarMovies;
     private List<BackdropImage> backdropImages;
+    private List<Genre> genres;
 
     public int getMovieId() {
         return movie.getMovieId();
@@ -47,6 +48,14 @@ public class MovieDetailEntity {
 
     public void setReviews(List<ReviewEntity> reviews) {
         this.reviews = reviews;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
     }
 
     public void setFavorite(boolean isFavorite){

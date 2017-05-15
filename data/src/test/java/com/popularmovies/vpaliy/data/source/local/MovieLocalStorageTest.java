@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
         sdk = Build.VERSION_CODES.LOLLIPOP)
 public class MovieLocalStorageTest {
 
-
+    /*
     private static final Scheduler UI= AndroidSchedulers.mainThread();
     private static final Scheduler IO=Schedulers.io();
 
@@ -196,5 +196,7 @@ public class MovieLocalStorageTest {
     private void shouldBeNull(Object object){
         assertThat(object!=null,is(false));
     }
+
+    */
 
 }
