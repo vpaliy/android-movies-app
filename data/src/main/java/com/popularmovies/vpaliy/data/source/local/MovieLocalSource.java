@@ -2,37 +2,29 @@ package com.popularmovies.vpaliy.data.source.local;
 
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-
-import com.google.common.annotations.VisibleForTesting;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.source.DataSource;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
-import java.util.ArrayList;
 import java.util.List;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import javax.inject.Inject;
 import rx.Observable;
-
-
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Actors;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Genres;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Trailers;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Reviews;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.PopularMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.FavoriteMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.TopRatedMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.UpcomingMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.LatestMedia;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.RecommendedMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.NowPlayingMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.WatchedhMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MustWatchMedia;
+
+import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
+import android.support.annotation.NonNull;
+import javax.inject.Inject;
 
 public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
@@ -57,7 +49,8 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public Observable<MovieDetailEntity> getDetails(int ID) {
-        return Observable.fromCallable(()-> MoviesHandler.start(contentResolver)
+        return Observable.fromCallable(()->
+                MoviesHandler.start(contentResolver)
                     .queryById(ID)
                     .appendCast(ID)
                     .appendReviews(ID)
@@ -70,36 +63,37 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
         switch (sortConfiguration.getConfiguration()){
             case TOP_RATED:
                 return Observable.fromCallable(()->
-                        toMovies(contentResolver.query(MoviesContract.
-                                TopRatedMedia.CONTENT_URI, null,null,null,null)));
+                        MoviesHandler.start(contentResolver)
+                        .queryAll(TopRatedMedia.CONTENT_URI));
             case FAVORITE:
                 return Observable.fromCallable(()->
-                        toMovies(contentResolver.query(TopRatedMedia.CONTENT_URI,
-                                null,null,null,null)));
+                        MoviesHandler.start(contentResolver)
+                                .queryAll(FavoriteMedia.CONTENT_URI));
+            case WATCHED:
+                return Observable.fromCallable(()->
+                        MoviesHandler.start(contentResolver)
+                                .queryAll(WatchedhMedia.CONTENT_URI));
+            case MUST_WATCH:
+                return Observable.fromCallable(()->
+                        MoviesHandler.start(contentResolver)
+                                .queryAll(MustWatchMedia.CONTENT_URI));
+            case UPCOMING:
+                return Observable.fromCallable(()->
+                        MoviesHandler.start(contentResolver)
+                                .queryAll(UpcomingMedia.CONTENT_URI));
+            case NOW_PLAYING:
+                return Observable.fromCallable(()->
+                        MoviesHandler.start(contentResolver)
+                                .queryAll(NowPlayingMedia.CONTENT_URI));
+            case LATEST:
+                return Observable.fromCallable(()->
+                        MoviesHandler.start(contentResolver)
+                                .queryAll(LatestMedia.CONTENT_URI));
             default:
                 return Observable.fromCallable(()->
-                        toMovies(contentResolver.query(MoviesContract.
-                                PopularMedia.CONTENT_URI, null,null,null,null)));
+                        MoviesHandler.start(contentResolver)
+                                .queryAll(PopularMedia.CONTENT_URI));
         }
-    }
-
-
-    private List<Movie> toMovies(Cursor cursor){
-        if(cursor!=null){
-
-            if(cursor.moveToFirst()){
-                List<Movie> movies=new ArrayList<>(cursor.getCount());
-                do{
-                    movies.add(DatabaseUtils.convertToMovie(cursor));
-                }while(cursor.moveToNext());
-                return movies;
-            }
-
-            if(!cursor.isClosed()){
-                cursor.close();
-            }
-        }
-        return new ArrayList<>();
     }
 
     @Override
@@ -126,21 +120,13 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
     }
 
 
-    private Movie toMovie(Cursor cursor){
-        if(cursor!=null){
-            if(cursor.moveToFirst()){
-                Movie movie=DatabaseUtils.convertToMovie(cursor);
-                if(!cursor.isClosed()) cursor.close();
-                return movie;
-            }
-        }
-        return null;
-    }
 
     @Override
     public Observable<Movie> getCover(int ID) {
-        Uri uri= Movies.buildMovieUri(Integer.toString(ID));
-        return Observable.fromCallable(()->toMovie(contentResolver.query(uri,null,null,null,null)));
+        return Observable.fromCallable(()->
+                MoviesHandler.start(contentResolver)
+                    .queryById(ID)
+                    .build(ID));
     }
 
     @Override

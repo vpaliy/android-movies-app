@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.data.source.local;
 
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -41,8 +42,12 @@ public class MoviesHandler {
         return new MoviesHandler(contentResolver);
     }
 
-    public List<Movie> queryAll(){
-        Cursor cursor=contentResolver.query(Movies.CONTENT_URI,null,null,null,null);
+    public void insert(Uri uri, Movie movie){
+
+    }
+
+    public List<Movie> queryAll(Uri uri){
+        Cursor cursor=contentResolver.query(uri,null,null,null,null);
         if(cursor!=null){
             List<Movie> movies=new ArrayList<>(cursor.getCount());
             while(cursor.moveToNext()){
