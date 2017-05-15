@@ -3,7 +3,6 @@ package com.popularmovies.vpaliy.data.source.local;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
@@ -26,6 +25,7 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Trailers;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Reviews;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Actors;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MediaCollectionColumns;
 
 public class MoviesHandler {
 
@@ -42,8 +42,28 @@ public class MoviesHandler {
         return new MoviesHandler(contentResolver);
     }
 
-    public void insert(Uri uri, Movie movie){
+    public MoviesHandler insert(Movie movie){
+        ContentValues values=convertToValues(movie);
+        if(values!=null){
+            contentResolver.insert(Movies.CONTENT_URI,values);
+        }
+        return this;
+    }
 
+    public MoviesHandler insertInCollection(Uri uri, Movie movie){
+        ContentValues values=new ContentValues();
+        values.put(MediaCollectionColumns.COLLECTION_MEDIA_ID,movie.getMovieId());
+        contentResolver.insert(uri,values);
+        return this;
+    }
+
+    public MoviesHandler insertDetails(MovieDetailEntity detailEntity){
+        if(detailEntity!=null){
+            insert(detailEntity.getMovie());
+            List<TrailerEntity> trailer=detailEntity.getTrailers();
+
+        }
+        return this;
     }
 
     public List<Movie> queryAll(Uri uri){
@@ -151,10 +171,12 @@ public class MoviesHandler {
 
     @VisibleForTesting
     public Movie convertToMovie(Cursor cursor){
+        if(cursor==null) return null;
         Movie movie=new Movie();
         movie.setMovieId(cursor.getInt(cursor.getColumnIndex(Movies.MOVIE_ID)));
         movie.setTitle(cursor.getString(cursor.getColumnIndex(Movies.MOVIE_TITLE)));
         movie.setOverview(cursor.getString(cursor.getColumnIndex(Movies.MOVIE_OVERVIEW)));
+        movie.setOriginalTitle(cursor.getString(cursor.getColumnIndex(Movies.MOVIE_ORIGINAL_TITLE)));
         movie.setBudget(cursor.getLong(cursor.getColumnIndex(Movies.MOVIE_BUDGET)));
         movie.setRevenue(cursor.getLong(cursor.getColumnIndex(Movies.MOVIE_REVENUE)));
         movie.setHomepage(cursor.getString(cursor.getColumnIndex(Movies.MOVIE_HOMEPAGE)));
@@ -172,6 +194,33 @@ public class MoviesHandler {
         type=new TypeToken<ArrayList<Genre>>(){}.getType();
         movie.setGenres(convertFromJsonString(jsonString,type));
         return movie;
+    }
+
+    @VisibleForTesting
+    public ContentValues convertToValues(Movie movie){
+        if(movie==null) return null;
+        ContentValues values=new ContentValues();
+        values.put(Movies.MOVIE_ID,movie.getMovieId());
+        values.put(Movies.MOVIE_TITLE,movie.getTitle());
+        values.put(Movies.MOVIE_ORIGINAL_TITLE,movie.getOriginalTitle());
+        values.put(Movies.MOVIE_AVERAGE_VOTE,movie.getVoteAverage());
+        values.put(Movies.MOVIE_BUDGET,movie.getBudget());
+        values.put(Movies.MOVIE_REVENUE,movie.getRevenue());
+        values.put(Movies.MOVIE_OVERVIEW,movie.getOverview());
+        values.put(Movies.MOVIE_HOMEPAGE,movie.getHomepage());
+        values.put(Movies.MOVIE_RUNTIME,movie.getRuntime());
+        values.put(Movies.MOVIE_VOTE_COUNT,movie.getVoteCount());
+        values.put(Movies.MOVIE_POPULARITY,movie.getPopularity());
+        values.put(Movies.MOVIE_POSTER_URL,movie.getPosterPath());
+        values.put(Movies.MOVIE_RELEASE_DATE,movie.getReleaseDate());
+        values.put(Movies.MOVIE_STATUS,movie.getStatus());
+        Type type=new TypeToken<ArrayList<BackdropImage>>(){}.getType();
+        String jsonString=convertToJsonString(movie.getBackdropImages(),type);
+        values.put(Movies.MOVIE_BACKDROPS,jsonString);
+        type=new TypeToken<ArrayList<Genre>>(){}.getType();
+        jsonString=convertToJsonString(movie.getGenres(),type);
+        values.put(Movies.MOVIE_GENRES,jsonString);
+        return values;
     }
 
     public static String convertToJsonString(Object object, Type type){

@@ -12,7 +12,7 @@ import java.util.List;
 import android.database.Cursor;
 import android.net.Uri;
 import rx.Observable;
-import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
+
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.PopularMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.FavoriteMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.TopRatedMedia;
@@ -98,28 +98,35 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public void insert(Movie item) {
-        final ContentValues values=DatabaseUtils.convertToValues(item);
-
-        contentResolver.insert(Movies.CONTENT_URI,values);
-        ContentValues configValues=new ContentValues();
+        Uri collectionUri=PopularMedia.CONTENT_URI;
         switch (sortConfiguration.getConfiguration()){
-            case POPULAR:
-                configValues.put(PopularMedia.COLLECTION_MEDIA_ID,item.getMovieId());
-                contentResolver.insert(PopularMedia.CONTENT_URI,configValues);
-                break;
             case TOP_RATED:
-                configValues.put(TopRatedMedia.COLLECTION_MEDIA_ID,item.getMovieId());
-                contentResolver.insert(TopRatedMedia.CONTENT_URI,configValues);
+                collectionUri=TopRatedMedia.CONTENT_URI;
                 break;
             case FAVORITE:
-                configValues.put(FavoriteMedia.COLLECTION_MEDIA_ID,item.getMovieId());
-                contentResolver.insert(FavoriteMedia.CONTENT_URI,configValues);
+                collectionUri=FavoriteMedia.CONTENT_URI;
+                break;
+            case LATEST:
+                collectionUri=LatestMedia.CONTENT_URI;
+                break;
+            case NOW_PLAYING:
+                collectionUri=NowPlayingMedia.CONTENT_URI;
+                break;
+            case UPCOMING:
+                collectionUri=UpcomingMedia.CONTENT_URI;
+                break;
+            case MUST_WATCH:
+                collectionUri=MustWatchMedia.CONTENT_URI;
+                break;
+            case WATCHED:
+                collectionUri=WatchedhMedia.CONTENT_URI;
                 break;
         }
 
+        MoviesHandler.start(contentResolver)
+                .insert(item)
+                .insertInCollection(collectionUri,item);
     }
-
-
 
     @Override
     public Observable<Movie> getCover(int ID) {
@@ -148,7 +155,8 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
 
     @Override
     public void insertDetails(MovieDetailEntity details) {
-
+        MoviesHandler.start(contentResolver)
+                .insertDetails(details);
     }
 
     @Override
