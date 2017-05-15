@@ -52,7 +52,6 @@ public final class DatabaseUtils {
         values.put(Movies.MOVIE_TITLE,item.getTitle());
         values.put(Movies.MOVIE_VOTE_COUNT,item.getVoteCount());
         values.put(Movies.MOVIE_AVERAGE_VOTE,item.getVoteAverage());
-        values.put(Movies.MOVIE_BACKDROP_URL,item.getBackdrop_path());
 
         //convert the backdrops
         Type type = new TypeToken<ArrayList<BackdropImage>>() {}.getType();
@@ -80,7 +79,6 @@ public final class DatabaseUtils {
         final String title=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_TITLE));
         final double averageVote=cursor.getDouble(cursor.getColumnIndex(Movies.MOVIE_AVERAGE_VOTE));
         final long voteCount=cursor.getLong(cursor.getColumnIndex(Movies.MOVIE_VOTE_COUNT));
-        final String backdropPath=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_BACKDROP_URL));
         final String jsonBackdropsString=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_BACKDROPS));
         Type type = new TypeToken<ArrayList<BackdropImage>>() {}.getType();
         movie.setBackdropImages(convertFromJsonString(jsonBackdropsString,type));
@@ -92,7 +90,6 @@ public final class DatabaseUtils {
         movie.setPosterPath(posterPath);
         movie.setReleaseDate(releaseDate);
         movie.setVoteCount(voteCount);
-        movie.setBackdropPath(backdropPath);
         movie.setOriginalTitle(originalTitle);
         movie.setBudget(budget);
         movie.setRuntime(runtime);

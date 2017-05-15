@@ -102,6 +102,10 @@ public final class MoviesContract {
 
     public static final String PATH_SIMILAR="similar_movies";
 
+    public static final String PATH_WATCHED="watched";
+
+    public static final String PATH_MUST_WATCH="must_watch";
+
 
     private MoviesContract(){
         throw new UnsupportedOperationException("Can't create a class instance");
@@ -432,5 +436,54 @@ public final class MoviesContract {
         }
     }
 
+
+    public static class MustWatchMedia implements MediaCollectionColumns {
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_MUST_WATCH).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MUST_WATCH;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_MUST_WATCH;
+
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
+        public static Uri buildMustWatchMediaUri(String id){
+            return CONTENT_URI.buildUpon().appendPath(id).build();
+        }
+
+        public static String getMusthWatchMediaId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+
+
+    }
+
+    public static class WatchedhMedia implements MediaCollectionColumns {
+
+        public static final Uri CONTENT_URI=BASE_CONTENT_URI.buildUpon().appendPath(PATH_WATCHED).build();
+
+        public static final String CONTENT_DIR_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_WATCHED;
+
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" +PATH_WATCHED;
+
+        /**
+         * Build {@link Uri} that references any {@link Movies} associated
+         * with the requested {@link #COLLECTION_MEDIA_ID}.
+         */
+        public static Uri buildWatchedMediaUri(String id){
+            return CONTENT_URI.buildUpon().appendPath(id).build();
+        }
+
+        public static String getWatchedMediaId(Uri uri){
+            return Long.toString(ContentUris.parseId(uri));
+        }
+
+    }
 
 }

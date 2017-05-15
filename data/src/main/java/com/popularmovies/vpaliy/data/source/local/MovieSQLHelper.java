@@ -20,6 +20,8 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Upcoming
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.LatestMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.RecommendedMedia;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.NowPlayingMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.WatchedhMedia;
+import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MustWatchMedia;
 
 public class MovieSQLHelper extends SQLiteOpenHelper{
 
@@ -38,6 +40,8 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         String UPCOMING="upcoming";
         String TOP_RATED="top_rated";
         String RECOMMENDED="recommended";
+        String MUST_WATCH="must_watch";
+        String WATCHED="watched";
         String LATEST="latest";
         String FAVORITE="favorite";
         String NOW_PLAYING="now_playing";
@@ -87,6 +91,12 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
 
         String MOVIE_JOIN_RECOMMENDED="movies"
                 +"INNER JOIN recommended ON movies.movie_id=recommended.media_id";
+
+        String MOVIE_JOIN_MUST_WATCH="movies"
+                +"INNER JOIN must_watch ON movies.movie_id=must_watch.media_id";
+
+        String MOVIE_JOIN_WATCHED="movies"
+                +"INNER JOIN watched ON movies.movie_id=watched.media_id";
 
     }
 
@@ -233,6 +243,16 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
                 + " UNIQUE (" + MediaGenres.MEDIA_ID + ","
                 + MediaGenres.GENRE_ID + ") ON CONFLICT REPLACE)");
 
+        db.execSQL("CREATE TABLE "+Tables.WATCHED+" ("+
+                WatchedhMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                WatchedhMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
+                "UNIQUE (" + WatchedhMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
+
+        db.execSQL("CREATE TABLE "+Tables.MUST_WATCH+" ("+
+                MustWatchMedia._ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                MustWatchMedia.COLLECTION_MEDIA_ID+" INTEGER NOT NULL "+References.MEDIA_ID+","+
+                "UNIQUE (" + MustWatchMedia.COLLECTION_MEDIA_ID + ") ON CONFLICT REPLACE)");
+
     }
 
     @Override
@@ -252,6 +272,8 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS"+Tables.TOP_RATED);
         db.execSQL("DROP TABLE IF EXISTS"+Tables.NOW_PLAYING);
         db.execSQL("DROP TABLE IF EXISTS"+Tables.RECOMMENDED);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.MUST_WATCH);
+        db.execSQL("DROP TABLE IF EXISTS"+Tables.WATCHED);
         onCreate(db);
     }
 
