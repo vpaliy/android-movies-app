@@ -96,12 +96,12 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     }
 
     private MovieCover isFavorite(MovieCover movie){
-        movie.setFavorite(localDataSource.isFavorite(movie.getMovieId()));
+        //movie.setFavorite(localDataSource.isFavorite(movie.getMovieId()));
         return movie;
     }
 
     private MovieDetailEntity isFavorite(MovieDetailEntity detailEntity){
-        detailEntity.setFavorite(localDataSource.isFavorite(detailEntity.getMovieId()));
+        //detailEntity.setFavorite(localDataSource.isFavorite(detailEntity.getMovieId()));
         return detailEntity;
     }
 

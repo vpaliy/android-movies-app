@@ -120,7 +120,7 @@ public class MovieProvider extends ContentProvider {
         final MovieUriEnum movieUriEnum=uriMatcher.match(uri);
 
         if(movieUriEnum.table!=null) {
-            db.insertOrThrow(movieUriEnum.table, null, values);
+            db.insertWithOnConflict(movieUriEnum.table, null, values,SQLiteDatabase.CONFLICT_REPLACE);
             notifyChange(uri);
 
         }

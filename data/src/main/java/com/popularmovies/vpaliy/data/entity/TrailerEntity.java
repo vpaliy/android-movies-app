@@ -11,7 +11,7 @@ public class TrailerEntity {
 
     private int movieId;
 
-    @SerializedName("id")
+   // @SerializedName("id")
     private int trailerId;
 
     @SerializedName("name")

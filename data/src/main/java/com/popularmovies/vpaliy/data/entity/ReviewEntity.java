@@ -11,7 +11,7 @@ import java.util.List;
 public class ReviewEntity {
 
 
-    @SerializedName("id")
+   // @SerializedName("id")
     private String reviewId;
 
     @SerializedName("author")

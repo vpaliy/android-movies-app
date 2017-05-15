@@ -26,7 +26,7 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MustWatc
 public class MovieSQLHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME="movies.db";
-    private static final int DATABASE_VERSION=1;
+    private static final int DATABASE_VERSION=2;
 
 
     interface Tables {
@@ -146,7 +146,7 @@ public class MovieSQLHelper extends SQLiteOpenHelper{
                 Movies.MOVIE_GENRES+ " TEXT,"+
                 Movies.MOVIE_AVERAGE_VOTE + " REAL," +
                 Movies.MOVIE_VOTE_COUNT + " INTEGER," +
-                Movies.MOVIE_ACTORS+"  TEXT NOT NULL,"+
+                Movies.MOVIE_ACTORS+"  TEXT,"+
                 Movies.MOVIE_BACKDROPS + " TEXT," +
                 " UNIQUE (" + Movies.MOVIE_ID + ") ON CONFLICT REPLACE)");
 
