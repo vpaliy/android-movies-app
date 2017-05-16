@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.data.repository;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
-import com.popularmovies.vpaliy.data.source.DataSource;
+import com.popularmovies.vpaliy.data.source.MovieDataSource;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -34,10 +34,10 @@ public class MovieRepositoryTest {
     private Mapper<MovieDetails, MovieDetailEntity> mockMovieDetailsMapper;
 
     @Mock
-    private DataSource<Movie, MovieDetailEntity> mockRemoteDataSource;
+    private MovieDataSource<Movie, MovieDetailEntity> mockRemoteDataSource;
 
     @Mock
-    private DataSource<Movie,MovieDetailEntity> mockLocalDataSource;
+    private MovieDataSource<Movie,MovieDetailEntity> mockLocalDataSource;
 
     @InjectMocks
     private MovieRepository movieRepository;

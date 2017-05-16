@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.support.annotation.NonNull;
 
-
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Movies;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Actors;
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Genres;

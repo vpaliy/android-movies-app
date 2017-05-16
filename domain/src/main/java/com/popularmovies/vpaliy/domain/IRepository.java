@@ -13,8 +13,5 @@ import rx.Observable;
 
 public interface IRepository<T,D> {
 
-    Observable<List<T>> getCovers();
-    Observable<D> getDetails(int ID);
-    Observable<T> getCover(int ID);
 
 }

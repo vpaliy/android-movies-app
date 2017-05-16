@@ -1,15 +1,17 @@
 package com.popularmovies.vpaliy.domain;
 
 import android.support.annotation.NonNull;
-
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
-
 import java.util.List;
-
 import rx.Observable;
 
-public interface IMovieRepository<T,D> extends IRepository<T,D> {
-    Observable<List<T>> requestMoreCovers();
-    Observable<List<T>> sortBy(@NonNull ISortConfiguration.SortType type);
-    void update(T item);
+import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+
+public interface IMovieRepository<T,D>  {
+    Observable<List<T>> requestMoreCovers(@NonNull SortType type);
+    Observable<List<T>> getCovers(@NonNull SortType type);
+    Observable<D> getDetails(int movieId);
+    Observable<T> getCover(int movieId);
+    void update(T item, @NonNull SortType sortType);
+    boolean isType(int movieId, SortType sortType);
+
 }

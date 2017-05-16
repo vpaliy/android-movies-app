@@ -6,16 +6,19 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
-import com.popularmovies.vpaliy.data.source.DataSource;
+import com.popularmovies.vpaliy.data.source.MovieDataSource;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -24,44 +27,44 @@ import javax.inject.Singleton;
 import android.support.annotation.NonNull;
 
 @Singleton
-public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
+public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> {
 
-    private final ISortConfiguration sortConfiguration;
     private final MovieDatabaseAPI movieDatabaseAPI;
     private final BaseSchedulerProvider schedulerProvider;
-
-    private int totalPages;
-    private int currentPage;
+    private final Map<SortType,MediaStream> pageMap;
 
 
     @Inject
-    public RemoteSource(@NonNull ISortConfiguration sortConfiguration,
-                        @NonNull MovieDatabaseAPI movieDatabaseAPI,
-                        @NonNull BaseSchedulerProvider schedulerProvider){
-        this.sortConfiguration=sortConfiguration;
+    public RemoteSourceMovie(@NonNull MovieDatabaseAPI movieDatabaseAPI,
+                             @NonNull BaseSchedulerProvider schedulerProvider){
         this.movieDatabaseAPI=movieDatabaseAPI;
         this.schedulerProvider=schedulerProvider;
+        this.pageMap=new HashMap<>();
 
     }
 
     @Override
-    public Observable<List<Movie>> getCovers() {
-        switch (sortConfiguration.getConfiguration()){
+    public Observable<List<Movie>> getCovers(@NonNull SortType sortType) {
+        switch (sortType){
             case TOP_RATED:
                 return movieDatabaseAPI.getTopRatedMovies(1)
-                        .map(this::convertToMovie);
+                        .map(wrapper->convertToMovie(sortType,wrapper));
             case POPULAR:
                 return movieDatabaseAPI.getPopularMovies(1)
-                        .map(this::convertToMovie);
+                        .map(wrapper->convertToMovie(sortType,wrapper));
             default:
                 return null;
         }
     }
 
 
-    private List<Movie> convertToMovie(MovieWrapper wrapper){
-        this.currentPage=wrapper.getPage();
-        this.totalPages=wrapper.getTotalPages();
+    private List<Movie> convertToMovie(SortType sortType,MovieWrapper wrapper){
+        int current=wrapper.getPage();
+        int total=wrapper.getTotalPages();
+        if(pageMap.containsKey(sortType)) pageMap.put(sortType,new MediaStream());
+        MediaStream stream=pageMap.get(sortType);
+        stream.currentPage=current;
+        stream.totalPages=total;
         return wrapper.getCoverList();
     }
 
@@ -114,9 +117,8 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
 
     }
 
-
     @Override
-    public boolean isFavorite(int movieId) {
+    public boolean isType(int movieId,SortType sortType) {
         return false;
     }
 
@@ -127,28 +129,29 @@ public class RemoteSource extends DataSource<Movie,MovieDetailEntity> {
     public void insertDetails(MovieDetailEntity details) {/*Nothing */}
 
     @Override
-    public void update(Movie item) {/* Nothing */}
+    public void update(Movie item, @NonNull SortType sortType) {/* Nothing */}
 
     @Override
-    public Observable<List<Movie>> requestMoreCovers() {
-        if(totalPages!=currentPage) {
-            currentPage++;
-            switch (sortConfiguration.getConfiguration()){
-                case POPULAR:
-                    return movieDatabaseAPI.getPopularMovies(currentPage)
-                            .map(this::convertToMovie);
-                case TOP_RATED:
-                    return movieDatabaseAPI.getTopRatedMovies(currentPage)
-                            .map(this::convertToMovie);
-
+    public Observable<List<Movie>> requestMoreCovers(@NonNull SortType sortType) {
+        MediaStream stream=pageMap.get(sortType);
+        if(stream!=null){
+            if(stream.currentPage!=stream.totalPages){
+                switch (sortType){
+                    case POPULAR:
+                        return movieDatabaseAPI.getPopularMovies(stream.currentPage)
+                                .map(movieWrapper -> convertToMovie(sortType,movieWrapper));
+                    case TOP_RATED:
+                        return movieDatabaseAPI.getTopRatedMovies(stream.currentPage)
+                                .map(movieWrapper -> convertToMovie(sortType,movieWrapper));
+                }
             }
         }
         return Observable.just(new ArrayList<>());
     }
 
-    @Override
-    public Observable<List<Movie>> sortBy(@NonNull ISortConfiguration.SortType type) {
-        this.sortConfiguration.saveConfiguration(type);
-        return getCovers();
+    private class MediaStream {
+        private int totalPages;
+        private int currentPage;
+
     }
 }

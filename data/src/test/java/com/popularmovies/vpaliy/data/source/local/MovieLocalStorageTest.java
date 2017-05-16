@@ -1,41 +1,18 @@
 package com.popularmovies.vpaliy.data.source.local;
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 
-import com.google.gson.reflect.TypeToken;
 import com.popularmovies.vpaliy.data.BuildConfig;
-import com.popularmovies.vpaliy.data.entity.BackdropImage;
-import com.popularmovies.vpaliy.data.entity.Genre;
-import com.popularmovies.vpaliy.data.entity.Movie;
-import com.popularmovies.vpaliy.data.source.DataSource;
-import com.popularmovies.vpaliy.data.source.DataSourceTestUtils;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class,
@@ -58,12 +35,12 @@ public class MovieLocalStorageTest {
     @Mock
     private ISortConfiguration configuration;
 
-    private MovieLocalSource localSource;
+    private MovieLocalSourceMovie localSource;
 
     @Before
     public void setUp(){
         when(context.getContentResolver()).thenReturn(contentResolver);
-        localSource=new MovieLocalSource(context,configuration);
+        localSource=new MovieLocalSourceMovie(context,configuration);
     }
 
     @Test

@@ -6,10 +6,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
-import com.popularmovies.vpaliy.data.source.DataSource;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+import com.popularmovies.vpaliy.data.source.MovieDataSource;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import java.util.List;
-import android.database.Cursor;
 import android.net.Uri;
 import rx.Observable;
 
@@ -24,21 +23,18 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MustWatc
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
-public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
+public class MovieLocalSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> {
 
     private final ContentResolver contentResolver;
-    private final ISortConfiguration sortConfiguration;
 
     @Inject
-    public MovieLocalSource(@NonNull Context context,
-                            @NonNull ISortConfiguration sortConfiguration){
+    public MovieLocalSourceMovie(@NonNull Context context){
         this.contentResolver=context.getContentResolver();
-        this.sortConfiguration=sortConfiguration;
     }
 
     /* No more movies */
     @Override
-    public Observable<List<Movie>> requestMoreCovers() { return null; }
+    public Observable<List<Movie>> requestMoreCovers(@NonNull SortType sortType) { return null; }
 
     @Override
     public Observable<MovieDetailEntity> getDetails(int ID) {
@@ -52,8 +48,8 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
     }
 
     @Override
-    public Observable<List<Movie>> getCovers() {
-        switch (sortConfiguration.getConfiguration()){
+    public Observable<List<Movie>> getCovers(@NonNull SortType sortType) {
+        switch (sortType){
             case TOP_RATED:
                 return Observable.fromCallable(()->
                         MoviesHandler.start(contentResolver)
@@ -90,9 +86,9 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
     }
 
     @Override
-    public void insert(Movie item) {
+    public void insert(Movie item, SortType sortType) {
         Uri collectionUri=PopularMedia.CONTENT_URI;
-        switch (sortConfiguration.getConfiguration()){
+        switch (sortType){
             case TOP_RATED:
                 collectionUri=TopRatedMedia.CONTENT_URI;
                 break;
@@ -129,21 +125,10 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
                     .build(ID));
     }
 
-    @Override
-    public Observable<List<Movie>> sortBy(@NonNull ISortConfiguration.SortType type) {
-        sortConfiguration.saveConfiguration(type);
-        return getCovers();
-    }
 
     @Override
-    public boolean isFavorite(int movieId) {
-        Uri uri=FavoriteMedia.buildFavoriteMediaUri(Integer.toString(movieId));
-        Cursor cursor=contentResolver.query(uri,null,null,null,null);
-        if(cursor==null||!cursor.moveToFirst()){
-            return false;
-        }
-        cursor.close();
-        return true;
+    public boolean isType(int movieId, SortType sortType) {
+        return false;
     }
 
     @Override
@@ -153,14 +138,17 @@ public class MovieLocalSource extends DataSource<Movie,MovieDetailEntity>{
     }
 
     @Override
-    public void update(Movie item) {
-        if(item.isFavorite()){
-            Uri uri=FavoriteMedia.buildFavoriteMediaUri(Integer.toString(item.getMovieId()));
-            contentResolver.delete(uri,null,null);
-        }else{
-            ContentValues values=new ContentValues();
-            values.put(FavoriteMedia.COLLECTION_MEDIA_ID,item.getMovieId());
-            contentResolver.insert(FavoriteMedia.CONTENT_URI,values);
+    public void update(Movie item, @NonNull SortType sortType) {
+        switch (sortType) {
+            case FAVORITE:
+                if (item.isFavorite()) {
+                    Uri uri = FavoriteMedia.buildFavoriteMediaUri(Integer.toString(item.getMovieId()));
+                    contentResolver.delete(uri, null, null);
+                } else {
+                    ContentValues values = new ContentValues();
+                    values.put(FavoriteMedia.COLLECTION_MEDIA_ID, item.getMovieId());
+                    contentResolver.insert(FavoriteMedia.CONTENT_URI, values);
+                }
         }
     }
 }

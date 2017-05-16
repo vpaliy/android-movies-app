@@ -5,7 +5,7 @@ import com.popularmovies.vpaliy.data.cache.CacheStore;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
-import com.popularmovies.vpaliy.data.source.DataSource;
+import com.popularmovies.vpaliy.data.source.MovieDataSource;
 import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
 import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
@@ -22,9 +22,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
-import android.util.Log;
-
 import rx.Observable;
+
+import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 
 @Singleton
 public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails> {
@@ -34,8 +34,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     private static final int COVERS_CACHE_SIZE=100;
     private static final int DETAILS_CACHE_SIZE=100;
 
-    private final DataSource<Movie, MovieDetailEntity> remoteDataSource;
-    private final DataSource<Movie,MovieDetailEntity> localDataSource;
+    private final MovieDataSource<Movie, MovieDetailEntity> remoteDataSource;
+    private final MovieDataSource<Movie,MovieDetailEntity> localDataSource;
     private final Mapper<MovieCover, Movie> entityMapper;
     private final Mapper<MovieDetails, MovieDetailEntity> detailsMapper;
 
@@ -45,8 +45,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     private final Context context;
 
     @Inject
-    public MovieRepository(@NonNull @MovieRemote DataSource<Movie, MovieDetailEntity> remoteDataSource,
-                           @NonNull @MovieLocal DataSource<Movie,MovieDetailEntity> localDataSource,
+    public MovieRepository(@NonNull @MovieRemote MovieDataSource<Movie, MovieDetailEntity> remoteDataSource,
+                           @NonNull @MovieLocal MovieDataSource<Movie,MovieDetailEntity> localDataSource,
                            @NonNull Mapper<MovieCover, Movie> entityMapper,
                            @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper,
                            @NonNull Context context) {
@@ -67,11 +67,11 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     }
 
     @Override
-    public Observable<List<MovieCover>> getCovers() {
+    public Observable<List<MovieCover>> getCovers(@NonNull SortType sortType) {
         if(isNetworkConnection()) {
-            Observable<List<Movie>> observable=remoteDataSource.getCovers();
+            Observable<List<Movie>> observable=remoteDataSource.getCovers(sortType);
             if(observable!=null) {
-                    return observable.doOnNext(this::saveMoviesToDisk)
+                    return observable.doOnNext(movies->saveMoviesToDisk(movies,sortType))
                         .map(entityMapper::map)
                         .doOnNext(movies -> Observable.from(movies)
                                 .map(this::isFavorite)
@@ -79,7 +79,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                                 .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
             }
         }
-        return localDataSource.getCovers()
+        return localDataSource.getCovers(sortType)
                 .map(entityMapper::map)
                 .doOnNext(movies -> Observable.from(movies)
                         .map(this::isFavorite)
@@ -87,12 +87,17 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
                         .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
     }
 
-    private void saveMoviesToDisk(List<Movie> movies){
+    private void saveMoviesToDisk(List<Movie> movies, SortType sortType){
         if(movies!=null){
             if(!movies.isEmpty()){
-                for(Movie movie:movies) localDataSource.insert(movie);
+                for(Movie movie:movies) localDataSource.insert(movie,sortType);
             }
         }
+    }
+
+    @Override
+    public boolean isType(int movieId, SortType sortType) {
+        return false;
     }
 
     private MovieCover isFavorite(MovieCover movie){
@@ -111,6 +116,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
             if(isNetworkConnection()) {
                 return remoteDataSource.getDetails(ID)
                         .map(this::isFavorite)
+                        .doOnNext(localDataSource::insertDetails)
                         .map(detailsMapper::map)
                         .doOnNext(details -> detailsCache.put(ID, details));
             }
@@ -140,10 +146,10 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
 
     @Override
-    public Observable<List<MovieCover>> requestMoreCovers() {
+    public Observable<List<MovieCover>> requestMoreCovers(@NonNull SortType sortType) {
         if(isNetworkConnection()) {
-            return remoteDataSource.requestMoreCovers()
-                    .doOnNext(this::saveMoviesToDisk)
+            return remoteDataSource.requestMoreCovers(sortType)
+                    .doOnNext(movies->saveMoviesToDisk(movies,sortType))
                     .map(entityMapper::map)
                     .doOnNext(movies -> Observable.from(movies)
                             .map(this::isFavorite)
@@ -156,33 +162,9 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
 
 
     @Override
-    public void update(MovieCover item) {
-        localDataSource.update(entityMapper.reverseMap(item));
-        item.setFavorite(!item.isFavorite());
-    }
-
-    @Override
-    public Observable<List<MovieCover>> sortBy(@NonNull ISortConfiguration.SortType type) {
-        switch (type){
-            case FAVORITE:
-                return localDataSource.sortBy(type)
-                        .map(entityMapper::map)
-                        .doOnNext(movies->Observable.from(movies)
-                                .map(movieCover -> {
-                                    movieCover.setFavorite(true);
-                                    return movieCover;
-                                })
-                                .filter(cover->!coversCache.isInCache(cover.getMovieId()))
-                                .subscribe(movieCover->coversCache.put(movieCover.getMovieId(),movieCover)));
-            default:
-                return remoteDataSource.sortBy(type)
-                        .map(entityMapper::map)
-                        .doOnNext(movies -> Observable.from(movies)
-                                .map(this::isFavorite)
-                                .filter(cover -> !coversCache.isInCache(cover.getMovieId()))
-                                .subscribe(movieCover -> coversCache.put(movieCover.getMovieId(), movieCover)));
-
-        }
+    public void update(MovieCover item, @NonNull SortType sortType) {
+        localDataSource.update(entityMapper.reverseMap(item),sortType);
+        if(sortType==SortType.FAVORITE) item.setFavorite(!item.isFavorite());
     }
 
     private boolean isNetworkConnection(){

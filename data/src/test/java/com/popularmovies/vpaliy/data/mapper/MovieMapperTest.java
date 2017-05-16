@@ -1,18 +1,15 @@
 package com.popularmovies.vpaliy.data.mapper;
 
 
-import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
-import com.popularmovies.vpaliy.data.source.DataSource;
 import com.popularmovies.vpaliy.data.source.DataSourceTestUtils;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
