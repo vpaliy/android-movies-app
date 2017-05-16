@@ -91,14 +91,12 @@ public class MoviesActivity extends BaseActivity
                 switch (item.getItemId()){
                     case R.id.favorites:
                         actionBar.setTitle(R.string.ByFavorite);
-                        moviesFragment.sort(ISortConfiguration.SortType.FAVORITE);
                         drawerLayout.closeDrawers();
                         isMenuVisible=false;
                         supportInvalidateOptionsMenu();
                         return true;
                     case R.id.movies:
                         actionBar.setTitle(R.string.ByPopularity);
-                        moviesFragment.sort(ISortConfiguration.SortType.POPULAR);
                         drawerLayout.closeDrawers();
                         isMenuVisible=true;
                         supportInvalidateOptionsMenu();
@@ -165,21 +163,6 @@ public class MoviesActivity extends BaseActivity
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-            switch (item.getItemId()) {
-                case R.id.sortAction:
-                    //expand the choices
-                    return true;
-                case R.id.byPopularity:
-                    actionBar.setTitle(R.string.ByPopularity);
-                    moviesFragment.sort(ISortConfiguration.SortType.POPULAR);
-                    return true;
-                case R.id.byLatest:
-                    actionBar.setTitle(R.string.ByTopRated);
-                    moviesFragment.sort(ISortConfiguration.SortType.TOP_RATED);
-                    return true;
-            }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -201,7 +184,6 @@ public class MoviesActivity extends BaseActivity
     }
 
     public interface IMoviesFragment {
-        void sort(ISortConfiguration.SortType sortType);
         void onConfigChanged();
     }
 

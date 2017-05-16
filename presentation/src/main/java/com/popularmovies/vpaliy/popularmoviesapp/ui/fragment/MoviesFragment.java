@@ -147,7 +147,7 @@ public class MoviesFragment extends Fragment
     @Override
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
-            swipeRefresher.setOnRefreshListener(presenter::requestDataRefresh);
+            swipeRefresher.setOnRefreshListener(()->presenter.requestDataRefresh(SortType.POPULAR));
             adapter=new MoviesAdapter(getContext(),eventBus,presentationConfiguration);
             adjustColumnWidth();
             recyclerView.setAdapter(adapter);
@@ -164,7 +164,7 @@ public class MoviesFragment extends Fragment
 
                     boolean endHasBeenReached = lastVisibleItemPosition + 5 >= totalItemCount;
                     if (totalItemCount > 0 && endHasBeenReached) {
-                        presenter.requestMoreData();
+                        presenter.requestMoreData(SortType.POPULAR);
                     }
                 }
             });
@@ -193,10 +193,6 @@ public class MoviesFragment extends Fragment
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void sort(SortType sortType){
-        presenter.sort(sortType);
-    }
 
     @Override
     public void onDestroy() {
@@ -220,19 +216,19 @@ public class MoviesFragment extends Fragment
     }
 
     @Override
-    public void showMovies(@NonNull List<MovieCover> movies) {
+    public void showMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies) {
         emptyBox.setVisibility(View.GONE);
         adapter.setData(movies);
     }
 
     @Override
-    public void appendMovies(@NonNull List<MovieCover> movies) {
+    public void appendMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies) {
         adapter.appendData(movies);
     }
 
     @Override
     public void onConfigChanged() {
-        presenter.requestDataRefresh();
+        presenter.requestDataRefresh(SortType.POPULAR);
     }
 
     @Override
@@ -250,7 +246,7 @@ public class MoviesFragment extends Fragment
     private void showMessage(@StringRes int resourceId){
         if(getView()!=null){
             Snackbar.make(getView(),resourceId,Snackbar.LENGTH_LONG)
-                    .setAction(R.string.refreshAction,v->presenter.requestDataRefresh())
+                    .setAction(R.string.refreshAction,v->presenter.requestDataRefresh(SortType.POPULAR))
                     .show();
         }
     }

@@ -17,6 +17,7 @@
             app:srcCompat="@drawable/empty_box"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/emptyBox"
+            android:visibility="gone"
             android:layout_centerInParent="true">
         </ImageView>
 
