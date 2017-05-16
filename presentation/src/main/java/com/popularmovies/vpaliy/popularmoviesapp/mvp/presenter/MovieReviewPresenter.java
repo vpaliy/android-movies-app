@@ -1,35 +1,31 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 
-import android.support.annotation.NonNull;
-
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.IRepository;
+import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.Review;
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
-
 import java.util.List;
+import rx.subscriptions.CompositeSubscription;
+import javax.inject.Inject;
+import android.support.annotation.NonNull;
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 
 import static com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract.View;
-import javax.inject.Inject;
-import rx.subscriptions.CompositeSubscription;
 
 @ViewScope
 public class MovieReviewPresenter
         implements MovieReviewContract.Presenter{
 
-    private static final String TAG=MovieReviewPresenter.class.getSimpleName();
-
     private View view;
-    private IRepository<MovieCover,MovieDetails> iRepository;
+    private final IMovieRepository<MovieCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
     private final BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public MovieReviewPresenter(@NonNull IRepository<MovieCover,MovieDetails> iRepository,
+    public MovieReviewPresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> iRepository,
                                 @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.schedulerProvider=schedulerProvider;

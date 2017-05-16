@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.contract;
 
 import android.support.annotation.NonNull;
 
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;
@@ -22,7 +23,7 @@ public interface DetailsMovieContract {
 
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
-        void makeFavorite();
+        void make(SortType sortType);
         void shareWithMovie();
         void start(int ID);
         void stop();

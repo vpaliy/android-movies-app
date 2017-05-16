@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.SettingsFragment;
 
 import butterknife.ButterKnife;
 

@@ -9,14 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import javax.inject.Inject;
 
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.CARD;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.EXTRA_DATA;

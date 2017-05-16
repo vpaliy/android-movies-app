@@ -9,13 +9,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.View;
 import java.util.List;
 
-import dagger.multibindings.IntoMap;
 import rx.subscriptions.CompositeSubscription;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 
@@ -24,14 +21,10 @@ import javax.inject.Inject;
 public class MoviesPresenter implements MoviesContract.Presenter{
 
 
-    private static final String TAG=MoviesPresenter.class.getSimpleName();
-
     private final IMovieRepository<MovieCover,MovieDetails> iRepository;
     private final BaseSchedulerProvider schedulerProvider;
     private final CompositeSubscription subscriptions;
     private View view;
-
-    private SortType sortType;
 
     @Inject
     public MoviesPresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> iRepository,
@@ -48,7 +41,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
 
     @Override
     public void start() {
-        startLoading();
+        for(SortType sortType:SortType.values()) startLoading(sortType);
     }
 
     @Override
@@ -60,39 +53,25 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     @Override
-    public void sort(@NonNull SortType sortType) {
-        this.sortType=sortType;
+    public void requestDataRefresh(@NonNull SortType sortType) {
+        startLoading(sortType);
+    }
+
+    private void startLoading(SortType sortType){
         subscriptions.clear();
         view.setLoadingIndicator(true);
-        subscriptions.add(iRepository.sortBy(sortType)
+        subscriptions.add(iRepository.getCovers(sortType)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe(this::processData,
+                .subscribe(movies->processData(sortType,movies),
                         this::handleErrorMessage,
                         this::completeLoading));
     }
 
-    @Override
-    public void requestDataRefresh() {
-        start();
-
-    }
-
-    private void startLoading(){
-        subscriptions.clear();
-        view.setLoadingIndicator(true);
-        subscriptions.add(iRepository.getCovers()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe(this::processData,
-                        this::handleErrorMessage,
-                        this::completeLoading));
-    }
-
-    private void processData(List<MovieCover> movieList){
+    private void processData(SortType sortType, List<MovieCover> movieList){
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
-                view.showMovies(movieList);
+                view.showMovies(sortType,movieList);
                 return;
             }
         }
@@ -100,27 +79,26 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     @Override
-    public void requestMoreData() {
-        if(sortType==null||sortType!=SortType.FAVORITE) {
+    public void requestMoreData(@NonNull SortType sortType) {
+        if(sortType!=SortType.FAVORITE) {
             subscriptions.clear();
             view.setLoadingIndicator(true);
-            subscriptions.add(iRepository.requestMoreCovers()
+            subscriptions.add(iRepository.requestMoreCovers(sortType)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
-                    .subscribe(this::appendData,
+                    .subscribe(movies->appendData(sortType,movies),
                             this::handleErrorMessage,
                             this::completeLoading));
         }
     }
 
-    private void appendData(@Nullable List<MovieCover> movieList){
+    private void appendData(SortType sortType,@Nullable List<MovieCover> movieList){
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
-                view.appendMovies(movieList);
+                view.appendMovies(sortType,movieList);
             }
         }
     }
-
 
     private void handleErrorMessage(Throwable throwable){
         throwable.printStackTrace();

@@ -9,7 +9,6 @@ import com.popularmovies.vpaliy.data.source.MovieDataSource;
 import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
 import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import java.util.List;

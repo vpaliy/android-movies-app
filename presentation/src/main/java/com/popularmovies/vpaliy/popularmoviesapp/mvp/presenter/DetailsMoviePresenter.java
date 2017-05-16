@@ -2,25 +2,19 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
-import com.popularmovies.vpaliy.domain.IRepository;
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.View;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 @ViewScope
 public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
-
-    private static final String TAG=DetailsMoviePresenter.class.getSimpleName();
 
     private View view;
     private final IMovieRepository<MovieCover,MovieDetails> repository;
@@ -49,7 +43,7 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::processData,
-                        this::handleErrorMessage,
+                           this::handleErrorMessage,
                         ()->{}));
     }
 
@@ -72,12 +66,10 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     private void processData(@NonNull MovieCover movie){
         view.showCover(movie);
-
     }
 
     private void handleErrorMessage(Throwable throwable){
         throwable.printStackTrace();
-
     }
 
     @Override
@@ -88,20 +80,18 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
         }
     }
 
-
     @Override
-    public void makeFavorite() {
+    public void make(SortType sortType) {
         subscriptions.add(repository.getCover(movieId)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe(repository::update));
+                .subscribe(movieCover ->repository.update(movieCover,sortType)));
     }
 
     @Override
     public void attachView(@NonNull View view) {
         this.view=view;
     }
-
 
     @Override
     public void shareWithMovie() {
@@ -112,8 +102,4 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
                            this::handleErrorMessage,
                            ()->{}));
     }
-
-
-
-
 }
