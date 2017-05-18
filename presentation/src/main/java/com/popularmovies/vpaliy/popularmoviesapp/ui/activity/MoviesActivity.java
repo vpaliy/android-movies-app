@@ -81,9 +81,8 @@ public class MoviesActivity extends BaseActivity
         int[] colors=getResources().getIntArray(R.array.movie_colors);
         AHBottomNavigationAdapter navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.movies_bottom_menu);
         navigationAdapter.setupWithBottomNavigation(bottomNavigation,colors);
-        bottomNavigation.setDefaultBackgroundColor(getColor(R.color.colorAccent));
         bottomNavigation.setForceTint(true);
-        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
         bottomNavigation.setColored(true);
 
 
