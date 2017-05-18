@@ -7,6 +7,7 @@ public class MovieInfo {
 
     private int movieId;
     private double averageRate;
+    private String name;
     private String director;
     private String budget;
     private String revenue;
