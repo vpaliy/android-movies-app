@@ -2,15 +2,20 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
-import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTypeAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+
 import android.preference.PreferenceManager;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -23,7 +28,6 @@ import android.view.MenuItem;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import javax.inject.Inject;
 import butterknife.BindView;
 
 import butterknife.ButterKnife;
@@ -36,8 +40,6 @@ public class MoviesActivity extends BaseActivity
     @BindView(R.id.actionBar)
     protected Toolbar actionBar;
 
-    @Inject
-    protected MoviesContract.Presenter presenter;
 
     @BindView(R.id.drawerLayout)
     protected DrawerLayout drawerLayout;
@@ -45,10 +47,13 @@ public class MoviesActivity extends BaseActivity
     @BindView(R.id.navigation)
     protected NavigationView navigationView;
 
-    @BindView(R.id.moviesTypePager)
+    @BindView(R.id.bottomNavigation)
+    protected AHBottomNavigation bottomNavigation;
+
+   // @BindView(R.id.moviesTypePager)
     protected ViewPager movieTypePager;
 
-    @BindView(R.id.tabLayout)
+  //  @BindView(R.id.tabLayout)
     protected TabLayout tabLayout;
 
     private IMoviesFragment moviesFragment;
@@ -69,17 +74,24 @@ public class MoviesActivity extends BaseActivity
 
     }
 
+    private void setBottomNavigation(){
+        if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
+            bottomNavigation.setTranslucentNavigationEnabled(true);
+        }
+        int[] colors=getResources().getIntArray(R.array.movie_colors);
+        AHBottomNavigationAdapter navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.movies_bottom_menu);
+        navigationAdapter.setupWithBottomNavigation(bottomNavigation,colors);
+        bottomNavigation.setDefaultBackgroundColor(getColor(R.color.colorAccent));
+        bottomNavigation.setForceTint(true);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        bottomNavigation.setColored(true);
+
+
+    }
     private void setMovieTypePager(){
         MovieTypeAdapter typeAdapter=new MovieTypeAdapter(getSupportFragmentManager(),this);
         movieTypePager.setAdapter(typeAdapter);
         tabLayout.setupWithViewPager(movieTypePager);
-        movieTypePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                presenter.attachView(typeAdapter.viewAt(position));
-            }
-        });
     }
 
     private void setActionBar(){
@@ -139,13 +151,13 @@ public class MoviesActivity extends BaseActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        moviesFragment.onConfigChanged();
+       // moviesFragment.onConfigChanged();
     }
 
     private void setUI(Bundle savedInstanceState){
         setDrawer();
         setActionBar();
-        setMovieTypePager();
+        setBottomNavigation();
     }
 
     @Override
@@ -183,10 +195,7 @@ public class MoviesActivity extends BaseActivity
 
     @Override
     void inject() {
-        DaggerViewComponent.builder()
-                .applicationComponent(App.appInstance().appComponent())
-                .presenterModule(new PresenterModule())
-                .build().inject(this);
+        App.appInstance().appComponent().inject(this);
     }
 
     @Override

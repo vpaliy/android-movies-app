@@ -115,7 +115,7 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
             if(isNetworkConnection()) {
                 return remoteDataSource.getDetails(ID)
                         .map(this::isFavorite)
-                        .doOnNext(localDataSource::insertDetails)
+                       // .doOnNext(localDataSource::insertDetails)
                         .map(detailsMapper::map)
                         .doOnNext(details -> detailsCache.put(ID, details));
             }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/upcoming"
+            android:title="@string/ByUpcoming"
+            android:icon="@drawable/ic_new_releases"/>
+        <item
+            android:id="@+id/now_playing"
+            android:title="@string/ByNowPlaying"
+            android:icon="@drawable/ic_now_playing"/>
+        <item
+            android:id="@+id/latest"
+            android:title="@string/ByLatest"
+            android:icon="@drawable/ic_time"/>
+
+        <item
+            android:id="@+id/top_rated"
+            android:title="@string/ByTopRated"
+            android:icon="@drawable/ic_top_rated"/>
+</menu>

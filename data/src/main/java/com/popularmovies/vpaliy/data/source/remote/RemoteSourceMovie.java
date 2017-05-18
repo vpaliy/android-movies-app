@@ -149,6 +149,7 @@ public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> 
         MediaStream stream=pageMap.get(sortType);
         if(stream!=null){
             if(stream.currentPage!=stream.totalPages){
+                stream.currentPage++;
                 switch (sortType){
                     case TOP_RATED:
                         return movieDatabaseAPI.getTopRatedMovies(stream.currentPage)

@@ -29,6 +29,8 @@
         <!-- Set up the transition mode -->
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:fitsSystemWindows">true</item>
 
         <item name="android:statusBarColor">#e0e0e0</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>

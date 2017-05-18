@@ -10,12 +10,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
@@ -24,7 +27,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponen
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Presenter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MoviesActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
@@ -48,8 +50,10 @@ import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.Present
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.GRID;
 
 public class MoviesFragment extends Fragment
-        implements MoviesContract.View, MoviesActivity.IMoviesFragment{
+        implements MoviesContract.View{
 
+
+    private static final String TAG=MoviesFragment.class.getSimpleName();
 
     private Presenter presenter;
     private MoviesAdapter adapter;
@@ -145,6 +149,7 @@ public class MoviesFragment extends Fragment
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.d(TAG,"onCreateView()");
         View root=inflater.inflate(R.layout.fragment_movies,container,false);
         unbinder=ButterKnife.bind(this,root);
         presenter.attachView(this);
@@ -152,10 +157,10 @@ public class MoviesFragment extends Fragment
         return root;
     }
 
-
     @Override
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
+            Log.d(TAG,"onViewCreated");
             swipeRefresher.setOnRefreshListener(()->presenter.requestDataRefresh(sortType));
             adapter=new MoviesAdapter(getContext(),eventBus,presentationConfiguration);
             adjustColumnWidth();
@@ -204,6 +209,7 @@ public class MoviesFragment extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG,"onDestroy()");
         presenter.stop();
         unbinder.unbind();
     }
@@ -211,8 +217,18 @@ public class MoviesFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG,"onResume()");
         if(adapter!=null){
             adapter.onResume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG,"onPause()");
+        if(swipeRefresher!=null){
+            if(swipeRefresher.isRefreshing()) swipeRefresher.setRefreshing(false);
         }
     }
 
@@ -224,19 +240,17 @@ public class MoviesFragment extends Fragment
 
     @Override
     public void showMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies) {
+        Log.d(TAG,"showMovies");
         emptyBox.setVisibility(View.GONE);
         adapter.setData(movies);
     }
 
     @Override
     public void appendMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies) {
+        Log.d(TAG,"appendMovies");
         adapter.appendData(movies);
     }
 
-    @Override
-    public void onConfigChanged() {
-        presenter.requestDataRefresh(SortType.POPULAR);
-    }
 
     @Override
     public void showEmptyMessage() {
@@ -260,6 +274,7 @@ public class MoviesFragment extends Fragment
 
     @Override
     public void setLoadingIndicator(boolean isLoading) {
+        Log.d(TAG,"setLoadingIndicator");
         swipeRefresher.setRefreshing(isLoading);
     }
 

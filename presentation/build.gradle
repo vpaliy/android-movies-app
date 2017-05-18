@@ -52,6 +52,7 @@ dependencies {
     compile project(":data")
     compile project(":domain")
 
+    compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     compile libs.constraintLayout
     compile libs.multiDex
     compile libs.materialIconLib
