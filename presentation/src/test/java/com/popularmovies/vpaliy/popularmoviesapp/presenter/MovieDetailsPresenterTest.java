@@ -31,7 +31,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class MovieDetailsPresenterTest extends BasePresenterTest {
 
-
+/*
     @Mock
     private DetailsMovieContract.View mockView;
 
@@ -85,6 +85,8 @@ public class MovieDetailsPresenterTest extends BasePresenterTest {
         verify(mockRepository).getDetails(anyInt());
         verify(mockView).shareWithMovie(FAKE_MOVIE_DETAILS);
     }
+
+    */
 
 
 }

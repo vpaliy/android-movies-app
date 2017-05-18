@@ -5,7 +5,6 @@ import android.content.Context;
 import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
-import com.popularmovies.vpaliy.domain.IRepository;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
@@ -17,7 +16,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.BaseActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
-import com.squareup.otto.Bus;
 
 import javax.inject.Singleton;
 import dagger.Component;
@@ -31,7 +29,6 @@ public interface ApplicationComponent {
     Context context();
     RxBus rxEventBus();
     Navigator navigator();
-    IRepository<MovieCover,MovieDetails> repository();
     IMovieRepository<MovieCover,MovieDetails> movieRepository();
     ISortConfiguration sortConfiguration();
     PresentationConfiguration presentationConfiguration();

@@ -387,7 +387,7 @@ public class MovieDetailsFragment extends Fragment
 
     @OnClick(R.id.favoriteButton)
     public void makeMovieFavorite(){
-        presenter.makeFavorite();
+       // presenter.makeFavorite();
         isFavorite=!isFavorite;
         changeFavoriteColor(favoriteColor);
 

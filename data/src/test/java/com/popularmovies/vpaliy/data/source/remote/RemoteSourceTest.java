@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class RemoteSourceTest {
 
-    private static final int FAKE_ID=123;
+    /*private static final int FAKE_ID=123;
 
     @Mock
     private ISortConfiguration mockSortConfiguration;
@@ -90,5 +90,6 @@ public class RemoteSourceTest {
         verify(mockMovieDataBaseAPI).getMovieDetails(Integer.toString(FAKE_ID));
     }
 
+        */
 
 }

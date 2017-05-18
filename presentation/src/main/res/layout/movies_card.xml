@@ -22,7 +22,7 @@
             android:layout_margin="16dp" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/movies"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/movies_type"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true" />

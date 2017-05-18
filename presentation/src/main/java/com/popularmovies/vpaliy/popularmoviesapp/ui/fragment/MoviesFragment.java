@@ -1,19 +1,12 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
-import android.transition.Transition;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
@@ -26,32 +19,27 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MoviesActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MarginDecoration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import android.support.annotation.StringRes;
 import javax.inject.Inject;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.TextView;
-
 
 public class MoviesFragment extends Fragment
         implements MoviesContract.View, MoviesActivity.IMoviesFragment{
 
 
     private Presenter presenter;
-
     private Map<SortType,MovieAdapter> adapterMap;
     private Map<SortType,CardView> cardViewMap;
 
@@ -65,8 +53,6 @@ public class MoviesFragment extends Fragment
     protected PresentationConfiguration presentationConfiguration;
 
     private Unbinder unbinder;
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +76,6 @@ public class MoviesFragment extends Fragment
         View root=inflater.inflate(R.layout.fragment_movies,container,false);
         unbinder=ButterKnife.bind(this,root);
         presenter.attachView(this);
-        presenter.start();
         adapterMap=new HashMap<>();
         return root;
     }
@@ -102,7 +87,9 @@ public class MoviesFragment extends Fragment
             initMaps(root);
             for(SortType sortType:SortType.values()){
                 CardView card=cardViewMap.get(sortType);
+                if(card==null) continue;
                 RecyclerView movieList=ButterKnife.findById(card,R.id.movies);
+                movieList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
                 TextView moviesTitle=ButterKnife.findById(card,R.id.movies_type);
                 moviesTitle.setText(getMovieString(sortType));
                 MovieAdapter adapter=adapterMap.get(sortType);
@@ -121,6 +108,7 @@ public class MoviesFragment extends Fragment
                     }
                 });
             }
+            presenter.start();
 
         }
     }
@@ -143,7 +131,7 @@ public class MoviesFragment extends Fragment
         card=ButterKnife.findById(root,R.id.top_rated_movies);
         cardViewMap.put(SortType.TOP_RATED,card);
 
-        //initialize adapters
+        //initialize the adapters
         for(SortType sortType:SortType.values()){
             MovieAdapter adapter=new MovieAdapter(getContext(),eventBus,sortType);
             adapterMap.put(sortType,adapter);

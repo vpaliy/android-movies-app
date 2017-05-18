@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
-
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -51,6 +50,15 @@ public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> 
                         .map(wrapper->convertToMovie(sortType,wrapper));
             case POPULAR:
                 return movieDatabaseAPI.getPopularMovies(1)
+                        .map(wrapper->convertToMovie(sortType,wrapper));
+            case LATEST:
+                return movieDatabaseAPI.getLatestMovies(1)
+                        .map(wrapper->convertToMovie(sortType,wrapper));
+            case UPCOMING:
+                return movieDatabaseAPI.getUpcomingMovies(1)
+                        .map(wrapper->convertToMovie(sortType,wrapper));
+            case NOW_PLAYING:
+                return movieDatabaseAPI.getNowPlayingMovies(1)
                         .map(wrapper->convertToMovie(sortType,wrapper));
             default:
                 return null;
@@ -123,7 +131,9 @@ public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> 
     }
 
     @Override
-    public void insert(Movie item) {/*Nothing */}
+    public void insert(Movie item, SortType sortType) {
+
+    }
 
     @Override
     public void insertDetails(MovieDetailEntity details) {/*Nothing */}
