@@ -15,9 +15,26 @@
     </ImageView>
 
     <LinearLayout
-        android:id="@+id/moviesContainer"
+        android:id="@+id/movies_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/popular_movies"
+            layout="@layout/movies_card"/>
+        <include
+            android:id="@+id/top_rated_movies"
+            layout="@layout/movies_card"/>
+        <include
+            android:id="@+id/latest_movies"
+            layout="@layout/movies_card"/>
+        <include
+            android:id="@+id/now_playing_movies"
+            layout="@layout/movies_card"/>
+        <include
+            android:id="@+id/upcoming_movies"
+            layout="@layout/movies_card"/>
+
     </LinearLayout>
 </RelativeLayout>
