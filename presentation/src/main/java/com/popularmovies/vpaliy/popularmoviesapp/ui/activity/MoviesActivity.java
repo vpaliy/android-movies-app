@@ -3,26 +3,30 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTypeAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
-
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import javax.inject.Inject;
 import butterknife.BindView;
 
 import butterknife.ButterKnife;
-import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.MOVIES_TAG;
 
 public class MoviesActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener{
@@ -32,11 +36,20 @@ public class MoviesActivity extends BaseActivity
     @BindView(R.id.actionBar)
     protected Toolbar actionBar;
 
+    @Inject
+    protected MoviesContract.Presenter presenter;
+
     @BindView(R.id.drawerLayout)
     protected DrawerLayout drawerLayout;
 
     @BindView(R.id.navigation)
     protected NavigationView navigationView;
+
+    @BindView(R.id.moviesTypePager)
+    protected ViewPager movieTypePager;
+
+    @BindView(R.id.tabLayout)
+    protected TabLayout tabLayout;
 
     private IMoviesFragment moviesFragment;
 
@@ -53,6 +66,20 @@ public class MoviesActivity extends BaseActivity
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
 
+
+    }
+
+    private void setMovieTypePager(){
+        MovieTypeAdapter typeAdapter=new MovieTypeAdapter(getSupportFragmentManager(),this);
+        movieTypePager.setAdapter(typeAdapter);
+        tabLayout.setupWithViewPager(movieTypePager);
+        movieTypePager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                presenter.attachView(typeAdapter.viewAt(position));
+            }
+        });
     }
 
     private void setActionBar(){
@@ -118,18 +145,7 @@ public class MoviesActivity extends BaseActivity
     private void setUI(Bundle savedInstanceState){
         setDrawer();
         setActionBar();
-        if(savedInstanceState==null) {
-            MoviesFragment fragment = new MoviesFragment();
-            moviesFragment = fragment;
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.movies, fragment, MOVIES_TAG)
-                    .commit();
-        }else{
-            moviesFragment=MoviesFragment.class
-                    .cast(getSupportFragmentManager().findFragmentByTag(MOVIES_TAG));
-        }
-
+        setMovieTypePager();
     }
 
     @Override
@@ -167,7 +183,10 @@ public class MoviesActivity extends BaseActivity
 
     @Override
     void inject() {
-        App.appInstance().appComponent().inject(this);
+        DaggerViewComponent.builder()
+                .applicationComponent(App.appInstance().appComponent())
+                .presenterModule(new PresenterModule())
+                .build().inject(this);
     }
 
     @Override

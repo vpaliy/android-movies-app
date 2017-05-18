@@ -15,20 +15,33 @@
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/actionBar"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:layout_scrollFlags="enterAlways|scroll|snap"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:layout_scrollFlags="enterAlways|snap|scroll"
+                app:tabMode="scrollable"
+                app:tabTextColor="@color/colorPrimaryDark"
+                app:tabSelectedTextColor="@color/colorAccent"
+                app:tabIndicatorColor="@color/colorPrimaryDark"
+                app:tabIndicatorHeight="6dp"/>
+
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/movies"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/moviesTypePager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
 
     </android.support.design.widget.CoordinatorLayout>
 

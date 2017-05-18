@@ -24,7 +24,7 @@ public interface MoviesContract {
         void attachView(@NonNull View view);
         void requestDataRefresh(@NonNull SortType sortType);
         void requestMoreData(@NonNull SortType sortType);
-        void start();
+        void start(SortType sortType);
         void stop();
 
     }

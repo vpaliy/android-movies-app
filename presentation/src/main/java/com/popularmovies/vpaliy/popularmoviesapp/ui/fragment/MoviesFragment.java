@@ -1,12 +1,19 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.CardView;
+import android.transition.Transition;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
@@ -18,16 +25,18 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MoviesActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
-import java.util.HashMap;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.AutofitRecyclerView;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MarginDecoration;
 import java.util.List;
-import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import android.support.annotation.StringRes;
 import javax.inject.Inject;
@@ -35,16 +44,24 @@ import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.CARD;
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.GRID;
+
 public class MoviesFragment extends Fragment
         implements MoviesContract.View, MoviesActivity.IMoviesFragment{
 
 
     private Presenter presenter;
-    private Map<SortType,MovieAdapter> adapterMap;
-    private Map<SortType,CardView> cardViewMap;
+    private MoviesAdapter adapter;
 
     @Inject
     protected RxBus eventBus;
+
+    @BindView(R.id.refresher)
+    protected SwipeRefreshLayout swipeRefresher;
+
+    @BindView(R.id.recycleView)
+    protected AutofitRecyclerView recyclerView;
 
     @BindView(R.id.emptyBox)
     protected ImageView emptyBox;
@@ -53,12 +70,28 @@ public class MoviesFragment extends Fragment
     protected PresentationConfiguration presentationConfiguration;
 
     private Unbinder unbinder;
+    private SortType sortType;
+
+    public static MoviesFragment newInstance(SortType sortType){
+        MoviesFragment fragment=new MoviesFragment();
+        Bundle args=new Bundle();
+        args.putString(Constants.EXTRA_DATA,sortType.name());
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         setRetainInstance(true);
         initializeDependencies();
+        if(savedInstanceState==null){
+            savedInstanceState=getArguments();
+        }
+        sortType=SortType.valueOf(savedInstanceState
+                .getString(Constants.EXTRA_DATA,SortType.POPULAR.name()));
 
     }
 
@@ -70,13 +103,52 @@ public class MoviesFragment extends Fragment
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_fragment_movies,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getGroupId()==R.id.changeViewChoice) {
+            switch (item.getItemId()) {
+                case R.id.asCard:
+                    if(presentationConfiguration.getPresentation()!= CARD){
+                        presentationConfiguration.savePresentation(CARD);
+                        adjustMoviesAdapter();
+                        adjustColumnWidth();
+                    }
+                    break;
+                case R.id.asGrid:
+                    if(presentationConfiguration.getPresentation()!= GRID){
+                        presentationConfiguration.savePresentation(GRID);
+                        adjustMoviesAdapter();
+                        adjustColumnWidth();
+                    }
+                    break;
+            }
+            return true;
+        }else {
+            switch (item.getItemId()) {
+                case R.id.changeView:
+                    //expand the choices
+                    return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View root=inflater.inflate(R.layout.fragment_movies,container,false);
         unbinder=ButterKnife.bind(this,root);
         presenter.attachView(this);
-        adapterMap=new HashMap<>();
+        presenter.start(sortType);
         return root;
     }
 
@@ -84,59 +156,48 @@ public class MoviesFragment extends Fragment
     @Override
     public void onViewCreated(View root, @Nullable Bundle savedInstanceState) {
         if(root!=null){
-            initMaps(root);
-            for(SortType sortType:SortType.values()){
-                CardView card=cardViewMap.get(sortType);
-                if(card==null) continue;
-                RecyclerView movieList=ButterKnife.findById(card,R.id.movies);
-                movieList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-                TextView moviesTitle=ButterKnife.findById(card,R.id.movies_type);
-                moviesTitle.setText(getMovieString(sortType));
-                MovieAdapter adapter=adapterMap.get(sortType);
-                movieList.setAdapter(adapter);
-                movieList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        LinearLayoutManager layoutManager=LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
-                        int totalItemCount = layoutManager.getItemCount();
-                        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+            swipeRefresher.setOnRefreshListener(()->presenter.requestDataRefresh(sortType));
+            adapter=new MoviesAdapter(getContext(),eventBus,presentationConfiguration);
+            adjustColumnWidth();
+            recyclerView.setAdapter(adapter);
+            recyclerView.addItemDecoration(new MarginDecoration(getContext()));
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    if (swipeRefresher.isRefreshing())
+                        return;
+                    LinearLayoutManager layoutManager=LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                    int totalItemCount = layoutManager.getItemCount();
+                    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                    boolean endHasBeenReached = lastVisibleItemPosition + 5 >= totalItemCount;
 
-                        boolean endHasBeenReached = lastVisibleItemPosition + 5 >= totalItemCount;
-                        if (totalItemCount > 0 && endHasBeenReached) {
-                            presenter.requestMoreData(sortType);
-                        }
+                    if (totalItemCount > 0 && endHasBeenReached) {
+                        presenter.requestMoreData(sortType);
                     }
-                });
-            }
-            presenter.start();
-
+                }
+            });
         }
     }
 
-    private int getMovieString(SortType sortType){
-        return R.string.sortByTopRated;
+
+    private void adjustColumnWidth(){
+        switch (presentationConfiguration.getPresentation()){
+            case CARD:
+                recyclerView.setColumnWidth((int)getResources().getDimension(R.dimen.item_card_width));
+                break;
+            case GRID:
+                recyclerView.setColumnWidth((int)getResources().getDimension(R.dimen.item_width));
+                break;
+        }
     }
 
-    private void initMaps(@NonNull View root){
-        if(cardViewMap==null) cardViewMap=new HashMap<>();
-        if(adapterMap==null) adapterMap=new HashMap<>();
-        CardView card=ButterKnife.findById(root,R.id.popular_movies);
-        cardViewMap.put(SortType.POPULAR,card);
-        card=ButterKnife.findById(root,R.id.latest_movies);
-        cardViewMap.put(SortType.LATEST,card);
-        card=ButterKnife.findById(root,R.id.now_playing_movies);
-        cardViewMap.put(SortType.NOW_PLAYING,card);
-        card=ButterKnife.findById(root,R.id.upcoming_movies);
-        cardViewMap.put(SortType.UPCOMING,card);
-        card=ButterKnife.findById(root,R.id.top_rated_movies);
-        cardViewMap.put(SortType.TOP_RATED,card);
-
-        //initialize the adapters
-        for(SortType sortType:SortType.values()){
-            MovieAdapter adapter=new MovieAdapter(getContext(),eventBus,sortType);
-            adapterMap.put(sortType,adapter);
+    private void adjustMoviesAdapter(){
+        if (Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
+            Transition transition = new Explode();
+            transition.setInterpolator(new AccelerateDecelerateInterpolator());
+            TransitionManager.beginDelayedTransition(recyclerView, transition);
         }
-
+        recyclerView.setAdapter(adapter);
     }
 
 
@@ -150,9 +211,9 @@ public class MoviesFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-     /*   if(adapter!=null){
+        if(adapter!=null){
             adapter.onResume();
-        }   */
+        }
     }
 
     @Inject
@@ -163,19 +224,13 @@ public class MoviesFragment extends Fragment
 
     @Override
     public void showMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies) {
-        if(!adapterMap.containsKey(sortType)){
-            //
-        }
-        adapterMap.get(sortType).setData(movies);
         emptyBox.setVisibility(View.GONE);
+        adapter.setData(movies);
     }
 
     @Override
     public void appendMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies) {
-        if(!adapterMap.containsKey(sortType)){
-            //
-        }
-        adapterMap.get(sortType).appendData(movies);
+        adapter.appendData(movies);
     }
 
     @Override
@@ -185,14 +240,14 @@ public class MoviesFragment extends Fragment
 
     @Override
     public void showEmptyMessage() {
-      //  adapter.clear();
+        adapter.clear();
         emptyBox.setVisibility(View.VISIBLE);
         showMessage(R.string.noDataMessage);
     }
 
     @Override
     public void showErrorMessage() {
-       showMessage(R.string.dataError);
+        showMessage(R.string.dataError);
     }
 
     private void showMessage(@StringRes int resourceId){
@@ -205,7 +260,12 @@ public class MoviesFragment extends Fragment
 
     @Override
     public void setLoadingIndicator(boolean isLoading) {
-       // swipeRefresher.setRefreshing(isLoading);
+        swipeRefresher.setRefreshing(isLoading);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.EXTRA_DATA,sortType.name());
+    }
 }

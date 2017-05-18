@@ -40,8 +40,8 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     @Override
-    public void start() {
-        for(SortType sortType:SortType.values()) startLoading(sortType);
+    public void start(SortType sortType) {
+       startLoading(sortType);
     }
 
     @Override

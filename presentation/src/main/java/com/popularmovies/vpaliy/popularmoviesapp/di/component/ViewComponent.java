@@ -14,6 +14,7 @@ import dagger.Component;
 @ViewScope
 @Component(dependencies = ApplicationComponent.class, modules = PresenterModule.class)
 public interface ViewComponent {
+    void inject(MoviesActivity activity);
     void inject(MoviesFragment fragment);
     void inject(MovieDetailsFragment fragment);
     void inject(MovieCastFragment fragment);

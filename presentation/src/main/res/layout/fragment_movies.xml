@@ -1,40 +1,33 @@
-<RelativeLayout
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/refresher"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:srcCompat="@drawable/empty_box"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/emptyBox"
-        android:visibility="gone"
-        android:layout_centerInParent="true">
-    </ImageView>
-
-    <LinearLayout
-        android:id="@+id/movies_container"
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/popular_movies"
-            layout="@layout/movies_card"/>
-        <include
-            android:id="@+id/top_rated_movies"
-            layout="@layout/movies_card"/>
-        <include
-            android:id="@+id/latest_movies"
-            layout="@layout/movies_card"/>
-        <include
-            android:id="@+id/now_playing_movies"
-            layout="@layout/movies_card"/>
-        <include
-            android:id="@+id/upcoming_movies"
-            layout="@layout/movies_card"/>
 
-    </LinearLayout>
-</RelativeLayout>
+        <ImageView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:srcCompat="@drawable/empty_box"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/emptyBox"
+            android:visibility="gone"
+            android:layout_centerInParent="true">
+        </ImageView>
+
+
+        <com.popularmovies.vpaliy.popularmoviesapp.ui.view.AutofitRecyclerView
+            android:id="@+id/recycleView"
+            android:clipToPadding="false"
+            android:padding="@dimen/item_padding"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

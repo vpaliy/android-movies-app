@@ -24,10 +24,12 @@ import rx.schedulers.Schedulers;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 @Singleton
 public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> {
 
+    private static final String TAG=RemoteSourceMovie.class.getSimpleName();
     private final MovieDatabaseAPI movieDatabaseAPI;
     private final BaseSchedulerProvider schedulerProvider;
     private final Map<SortType,MediaStream> pageMap;
@@ -44,6 +46,7 @@ public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> 
 
     @Override
     public Observable<List<Movie>> getCovers(@NonNull SortType sortType) {
+        Log.d(TAG,sortType.name());
         switch (sortType){
             case TOP_RATED:
                 return movieDatabaseAPI.getTopRatedMovies(1)
@@ -52,7 +55,7 @@ public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> 
                 return movieDatabaseAPI.getPopularMovies(1)
                         .map(wrapper->convertToMovie(sortType,wrapper));
             case LATEST:
-                return movieDatabaseAPI.getLatestMovies(1)
+                return movieDatabaseAPI.getLatestMovies()
                         .map(wrapper->convertToMovie(sortType,wrapper));
             case UPCOMING:
                 return movieDatabaseAPI.getUpcomingMovies(1)
@@ -69,7 +72,7 @@ public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> 
     private List<Movie> convertToMovie(SortType sortType,MovieWrapper wrapper){
         int current=wrapper.getPage();
         int total=wrapper.getTotalPages();
-        if(pageMap.containsKey(sortType)) pageMap.put(sortType,new MediaStream());
+        if(!pageMap.containsKey(sortType)) pageMap.put(sortType,new MediaStream());
         MediaStream stream=pageMap.get(sortType);
         stream.currentPage=current;
         stream.totalPages=total;
@@ -136,10 +139,10 @@ public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> 
     }
 
     @Override
-    public void insertDetails(MovieDetailEntity details) {/*Nothing */}
+    public void insertDetails(MovieDetailEntity details) { /*Nothing */ }
 
     @Override
-    public void update(Movie item, @NonNull SortType sortType) {/* Nothing */}
+    public void update(Movie item, @NonNull SortType sortType) { /* Nothing */ }
 
     @Override
     public Observable<List<Movie>> requestMoreCovers(@NonNull SortType sortType) {
@@ -147,12 +150,21 @@ public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> 
         if(stream!=null){
             if(stream.currentPage!=stream.totalPages){
                 switch (sortType){
-                    case POPULAR:
-                        return movieDatabaseAPI.getPopularMovies(stream.currentPage)
-                                .map(movieWrapper -> convertToMovie(sortType,movieWrapper));
                     case TOP_RATED:
                         return movieDatabaseAPI.getTopRatedMovies(stream.currentPage)
-                                .map(movieWrapper -> convertToMovie(sortType,movieWrapper));
+                                .map(wrapper->convertToMovie(sortType,wrapper));
+                    case POPULAR:
+                        return movieDatabaseAPI.getPopularMovies(stream.currentPage)
+                                .map(wrapper->convertToMovie(sortType,wrapper));
+                    case LATEST:
+                        return movieDatabaseAPI.getLatestMovies()
+                                .map(wrapper->convertToMovie(sortType,wrapper));
+                    case UPCOMING:
+                        return movieDatabaseAPI.getUpcomingMovies(stream.currentPage)
+                                .map(wrapper->convertToMovie(sortType,wrapper));
+                    case NOW_PLAYING:
+                        return movieDatabaseAPI.getNowPlayingMovies(stream.currentPage)
+                                .map(wrapper->convertToMovie(sortType,wrapper));
                 }
             }
         }

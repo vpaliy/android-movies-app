@@ -22,12 +22,12 @@ public interface MovieDatabaseAPI {
     Observable<MovieWrapper> getTopRatedMovies(@Query("page") int page);
 
     @GET("movie/latest")
-    Observable<MovieWrapper> getLatestMovies(@Query("page") int page);
+    Observable<MovieWrapper> getLatestMovies();
 
     @GET("movie/now_playing")
     Observable<MovieWrapper> getNowPlayingMovies(@Query("page") int page);
 
-    @GET("movie/top_rated")
+    @GET("movie/upcoming")
     Observable<MovieWrapper> getUpcomingMovies(@Query("page") int page);
 
     @GET("movie/{id}")

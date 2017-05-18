@@ -10,6 +10,9 @@
     <string name="ByPopularity">Popular</string>
     <string name="ByTopRated">Top Rated</string>
     <string name="ByFavorite">Favorite</string>
+    <string name="ByLatest">Latest</string>
+    <string name="ByUpcoming">Upcoming</string>
+    <string name="ByNowPlaying">Now Playing</string>
 
     <string name="presentation_key">Presentation Key</string>
     <string name="asGrid">Grid</string>
