@@ -11,9 +11,9 @@ import com.popularmovies.vpaliy.data.mapper.MovieDetailsMapper;
 import com.popularmovies.vpaliy.data.mapper.MovieInfoMapper;
 import com.popularmovies.vpaliy.data.mapper.MovieMapper;
 import com.popularmovies.vpaliy.data.repository.MovieRepository;
-import com.popularmovies.vpaliy.data.source.MovieDataSource;
+import com.popularmovies.vpaliy.data.source.MediaDataSource;
 import com.popularmovies.vpaliy.data.source.local.MovieLocalSourceMovie;
-import com.popularmovies.vpaliy.data.source.remote.RemoteSourceMovie;
+import com.popularmovies.vpaliy.data.source.remote.RemoteMovieSource;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
@@ -61,14 +61,14 @@ public class DataModule {
     @Singleton
     @MovieRemote
     @Provides
-    MovieDataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull RemoteSourceMovie remoteSource){
+    MediaDataSource<Movie,MovieDetailEntity> provideRemoteSource(@NonNull RemoteMovieSource remoteSource){
         return remoteSource;
     }
 
     @Singleton
     @MovieLocal
     @Provides
-    MovieDataSource<Movie,MovieDetailEntity> provideLocalSource(@NonNull MovieLocalSourceMovie localSource){
+    MediaDataSource<Movie,MovieDetailEntity> provideLocalSource(@NonNull MovieLocalSourceMovie localSource){
         return localSource;
     }
 

@@ -9,9 +9,9 @@ import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.S
 public interface IMovieRepository<T,D>  {
     Observable<List<T>> requestMoreCovers(@NonNull SortType type);
     Observable<List<T>> getCovers(@NonNull SortType type);
-    Observable<D> getDetails(int movieId);
-    Observable<T> getCover(int movieId);
+    Observable<D> getDetails(int id);
+    Observable<T> getCover(int id);
     void update(T item, @NonNull SortType sortType);
-    boolean isType(int movieId, SortType sortType);
+    boolean isType(int id, SortType sortType);
 
 }

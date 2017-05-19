@@ -1,23 +1,9 @@
 package com.popularmovies.vpaliy.data.repository;
 
-import com.popularmovies.vpaliy.data.entity.Movie;
-import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
-import com.popularmovies.vpaliy.data.mapper.Mapper;
-import com.popularmovies.vpaliy.data.source.MovieDataSource;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import java.util.Collections;
-import rx.Observable;
-import static org.mockito.BDDMockito.given;
+
 import static org.mockito.Mockito.verify;
 
 
@@ -34,10 +20,10 @@ public class MovieRepositoryTest {
     private Mapper<MovieDetails, MovieDetailEntity> mockMovieDetailsMapper;
 
     @Mock
-    private MovieDataSource<Movie, MovieDetailEntity> mockRemoteDataSource;
+    private MediaDataSource<Movie, MovieDetailEntity> mockRemoteDataSource;
 
     @Mock
-    private MovieDataSource<Movie,MovieDetailEntity> mockLocalDataSource;
+    private MediaDataSource<Movie,MovieDetailEntity> mockLocalDataSource;
 
     @InjectMocks
     private MovieRepository movieRepository;

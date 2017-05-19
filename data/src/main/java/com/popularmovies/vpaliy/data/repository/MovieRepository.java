@@ -5,7 +5,7 @@ import com.popularmovies.vpaliy.data.cache.CacheStore;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
-import com.popularmovies.vpaliy.data.source.MovieDataSource;
+import com.popularmovies.vpaliy.data.source.MediaDataSource;
 import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
 import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
 import com.popularmovies.vpaliy.domain.IMovieRepository;
@@ -33,8 +33,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     private static final int COVERS_CACHE_SIZE=100;
     private static final int DETAILS_CACHE_SIZE=100;
 
-    private final MovieDataSource<Movie, MovieDetailEntity> remoteDataSource;
-    private final MovieDataSource<Movie,MovieDetailEntity> localDataSource;
+    private final MediaDataSource<Movie, MovieDetailEntity> remoteDataSource;
+    private final MediaDataSource<Movie,MovieDetailEntity> localDataSource;
     private final Mapper<MovieCover, Movie> entityMapper;
     private final Mapper<MovieDetails, MovieDetailEntity> detailsMapper;
 
@@ -44,8 +44,8 @@ public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails
     private final Context context;
 
     @Inject
-    public MovieRepository(@NonNull @MovieRemote MovieDataSource<Movie, MovieDetailEntity> remoteDataSource,
-                           @NonNull @MovieLocal MovieDataSource<Movie,MovieDetailEntity> localDataSource,
+    public MovieRepository(@NonNull @MovieRemote MediaDataSource<Movie, MovieDetailEntity> remoteDataSource,
+                           @NonNull @MovieLocal MediaDataSource<Movie,MovieDetailEntity> localDataSource,
                            @NonNull Mapper<MovieCover, Movie> entityMapper,
                            @NonNull Mapper<MovieDetails, MovieDetailEntity> detailsMapper,
                            @NonNull Context context) {

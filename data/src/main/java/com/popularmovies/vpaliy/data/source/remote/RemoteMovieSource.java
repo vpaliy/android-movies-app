@@ -6,7 +6,7 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
-import com.popularmovies.vpaliy.data.source.MovieDataSource;
+import com.popularmovies.vpaliy.data.source.MediaDataSource;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
@@ -27,16 +27,16 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 @Singleton
-public class RemoteSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> {
+public class RemoteMovieSource extends MediaDataSource<Movie,MovieDetailEntity> {
 
-    private static final String TAG=RemoteSourceMovie.class.getSimpleName();
+    private static final String TAG=RemoteMovieSource.class.getSimpleName();
     private final MovieDatabaseAPI movieDatabaseAPI;
     private final BaseSchedulerProvider schedulerProvider;
     private final Map<SortType,MediaStream> pageMap;
 
 
     @Inject
-    public RemoteSourceMovie(@NonNull MovieDatabaseAPI movieDatabaseAPI,
+    public RemoteMovieSource(@NonNull MovieDatabaseAPI movieDatabaseAPI,
                              @NonNull BaseSchedulerProvider schedulerProvider){
         this.movieDatabaseAPI=movieDatabaseAPI;
         this.schedulerProvider=schedulerProvider;

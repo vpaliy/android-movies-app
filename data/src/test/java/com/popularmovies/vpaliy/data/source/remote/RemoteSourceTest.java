@@ -33,7 +33,7 @@ public class RemoteSourceTest {
 
 
     @InjectMocks
-    private RemoteSourceMovie remoteSource;
+    private RemoteMovieSource remoteSource;
 
     @Before
     public void setUp(){

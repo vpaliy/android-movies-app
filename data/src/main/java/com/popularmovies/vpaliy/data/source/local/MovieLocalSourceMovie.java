@@ -6,7 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
-import com.popularmovies.vpaliy.data.source.MovieDataSource;
+import com.popularmovies.vpaliy.data.source.MediaDataSource;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import java.util.List;
 import android.net.Uri;
@@ -23,7 +23,7 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MustWatc
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
 
-public class MovieLocalSourceMovie extends MovieDataSource<Movie,MovieDetailEntity> {
+public class MovieLocalSourceMovie extends MediaDataSource<Movie,MovieDetailEntity> {
 
     private final ContentResolver contentResolver;
 

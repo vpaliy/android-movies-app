@@ -11,11 +11,11 @@ public interface ISortConfiguration {
     enum SortType{
         POPULAR,
         TOP_RATED,
-        FAVORITE,
         RECOMMENDED,
         LATEST,
         UPCOMING,
         NOW_PLAYING,
+        FAVORITE,
         MUST_WATCH,
         WATCHED
     }
