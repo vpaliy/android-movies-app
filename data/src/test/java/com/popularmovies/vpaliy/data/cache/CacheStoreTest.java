@@ -1,8 +1,6 @@
 package com.popularmovies.vpaliy.data.cache;
 
 
-import com.google.common.cache.Cache;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class CacheStoreTest {
 
-    private static final int FAKE_KEY=123;
+   /* private static final int FAKE_KEY=123;
 
     @Mock
     private Cache<Integer,MovieCover> mockCache;
@@ -63,5 +61,5 @@ public class CacheStoreTest {
     public void testSize(){
         assertThat(cacheStore.size(),is(1L));
         verify(mockCache).size();
-    }
+    }   */
 }

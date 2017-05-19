@@ -1,13 +1,13 @@
 package com.popularmovies.vpaliy.data.mapper;
 
-import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
+
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import java.util.ArrayList;
@@ -19,12 +19,12 @@ import javax.inject.Singleton;
 @Singleton
 public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity> {
 
-    private final Mapper<MovieCover,Movie> movieCoverMapper;
+    private final Mapper<MediaCover,Movie> movieCoverMapper;
     private final Mapper<ActorCover,ActorEntity> actorEntityMapper;
     private final Mapper<MovieInfo,Movie> movieInfoMapper;
 
     @Inject
-    public MovieDetailsMapper(Mapper<MovieCover,Movie> movieCoverMapper,
+    public MovieDetailsMapper(Mapper<MediaCover,Movie> movieCoverMapper,
                               Mapper<ActorCover,ActorEntity> actorEntityMapper,
                               Mapper<MovieInfo,Movie> movieInfoMapper) {
         this.movieCoverMapper=movieCoverMapper;
@@ -91,7 +91,7 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
         }
 
         detailEntity.setReviews(ReviewEntity.convertBack(details.getReviews()));
-        List<MovieCover> similarMovies=details.getSimilarMovies();
+        List<MediaCover> similarMovies=details.getSimilarMovies();
         if(similarMovies!=null){
             List<Movie> movieList=new ArrayList<>(similarMovies.size());
             for(int index=0;index<movieList.size();index++){

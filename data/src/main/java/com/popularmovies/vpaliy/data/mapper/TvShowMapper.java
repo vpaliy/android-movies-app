@@ -6,8 +6,14 @@ import com.popularmovies.vpaliy.domain.model.MediaCover;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class TvShowMapper implements Mapper<MediaCover,TvShow> {
 
+    @Inject
+    public TvShowMapper(){}
 
     @Override
     public MediaCover map(TvShow tvShow) {

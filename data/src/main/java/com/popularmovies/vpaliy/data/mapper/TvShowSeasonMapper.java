@@ -11,7 +11,9 @@ import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class TvShowSeasonMapper implements Mapper<TVShowSeason,TvShowSeasonEntity>{
 
     private final Mapper<TVShowEpisode,TvShowEpisodeEntity> episodeMapper;

@@ -21,7 +21,9 @@ import com.popularmovies.vpaliy.data.mapper.TvShowSeasonMapper;
 import com.popularmovies.vpaliy.data.repository.MediaRepository;
 import com.popularmovies.vpaliy.data.source.MediaDataSource;
 import com.popularmovies.vpaliy.data.source.local.MovieLocalSourceMovie;
+import com.popularmovies.vpaliy.data.source.local.TVShowLocalSource;
 import com.popularmovies.vpaliy.data.source.remote.RemoteMovieSource;
+import com.popularmovies.vpaliy.data.source.remote.RemoteTvShowSource;
 import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
@@ -44,19 +46,19 @@ public class DataModule {
 
     @Singleton
     @Provides
-    Mapper<MediaCover,Movie> provideMediaMapper(MovieMapper mapper){
+    Mapper<MediaCover,Movie> provideMovieMediaMapper(MovieMapper mapper){
         return mapper;
     }
 
     @Singleton
     @Provides
-    Mapper<MediaCover,TvShow> provideMediaMapper(TvShowMapper mapper){
+    Mapper<MediaCover,TvShow> provideTvMediaMapper(TvShowMapper mapper){
         return mapper;
     }
 
     @Singleton
     @Provides
-    Mapper<TVShowDetails,TvShowDetailEntity> provideDetailsMapper(TvShowDetailsMapper mapper){
+    Mapper<TVShowDetails,TvShowDetailEntity> provideTvDetailsMapper(TvShowDetailsMapper mapper){
         return mapper;
     }
 
@@ -86,7 +88,7 @@ public class DataModule {
 
     @Singleton
     @Provides
-    Mapper<MovieDetails,MovieDetailEntity> provideDetailsMapper(MovieDetailsMapper mapper){
+    Mapper<MovieDetails,MovieDetailEntity> provideMovieDetailsMapper(MovieDetailsMapper mapper){
         return mapper;
     }
 
@@ -104,6 +106,19 @@ public class DataModule {
         return localSource;
     }
 
+    @Singleton
+    @MovieLocal
+    @Provides
+    MediaDataSource<TvShow,TvShowDetailEntity> provideTvLocalSource(TVShowLocalSource localSource){
+        return localSource;
+    }
+
+    @Singleton
+    @MovieRemote
+    @Provides
+    MediaDataSource<TvShow,TvShowDetailEntity> provideTvRemoteSource(RemoteTvShowSource remoteTvShowSource){
+        return remoteTvShowSource;
+    }
 
     @Singleton
     @Provides
@@ -128,5 +143,4 @@ public class DataModule {
     IImageQualityConfiguration provideImageQualityConfig(ImageQualityConfiguration qualityConfiguration){
         return qualityConfiguration;
     }
-
 }

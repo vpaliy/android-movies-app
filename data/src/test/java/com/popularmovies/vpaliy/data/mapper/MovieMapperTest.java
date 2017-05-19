@@ -5,7 +5,7 @@ import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.source.DataSourceTestUtils;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,22 +37,22 @@ public class MovieMapperTest extends MapperTest {
     @Test
     public void testMapToMovieCover(){
         Movie movie= DataSourceTestUtils.provideFakeMovie();
-        MovieCover movieCover=mapper.map(movie);
+        MediaCover movieCover=mapper.map(movie);
 
         assertThat(movieCover.getAverageRate(),is(movie.getVoteAverage()));
         assertThat(movieCover.getPosterPath(),is(convert(movie.getPosterPath())));
-        assertThat(movieCover.getMovieId(),is(movie.getMovieId()));
+        assertThat(movieCover.getMediaId(),is(movie.getMovieId()));
         assertThat(movieCover.getMovieTitle(),is(movie.getTitle()));
     }
 
     @Test
     public void testReverseMapping(){
-        MovieCover movieCover=mapper.map(DataSourceTestUtils.provideFakeMovie());
+        MediaCover movieCover=mapper.map(DataSourceTestUtils.provideFakeMovie());
         Movie movie=mapper.reverseMap(movieCover);
 
         assertThat(movieCover.getAverageRate(),is(movie.getVoteAverage()));
         assertThat(movieCover.getPosterPath(),is(convert(movie.getPosterPath())));
-        assertThat(movieCover.getMovieId(),is(movie.getMovieId()));
+        assertThat(movieCover.getMediaId(),is(movie.getMovieId()));
         assertThat(movieCover.getMovieTitle(),is(movie.getTitle()));
     }
 
@@ -109,5 +109,6 @@ public class MovieMapperTest extends MapperTest {
     private String convert(String path){
         return qualityConfiguration.convertBackdrop(path);
     }
+
 
 }

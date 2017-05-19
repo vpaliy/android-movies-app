@@ -22,7 +22,9 @@ import static com.popularmovies.vpaliy.data.source.local.MoviesContract.Watchedh
 import static com.popularmovies.vpaliy.data.source.local.MoviesContract.MustWatchMedia;
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class MovieLocalSourceMovie extends MediaDataSource<Movie,MovieDetailEntity> {
 
     private final ContentResolver contentResolver;

@@ -5,7 +5,7 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.data.utils.scheduler.ImmediateSchedulerProvider;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.domain.model.Review;
@@ -19,9 +19,9 @@ public class BasePresenterTest {
 
     static final BaseSchedulerProvider SCHEDULER_PROVIDER=new ImmediateSchedulerProvider();
     static final int FAKE_MOVIE_ID=123;
-    static final MovieCover FAKE_MOVIE_COVER=new MovieCover();
-    static final List<MovieCover> FAKE_EMPTY_COVER_LIST=new ArrayList<>();
-    static final List<MovieCover> FAKE_COVER_LIST=Arrays.asList(FAKE_MOVIE_COVER,FAKE_MOVIE_COVER,FAKE_MOVIE_COVER);
+    static final MediaCover FAKE_MOVIE_COVER=new MediaCover();
+    static final List<MediaCover> FAKE_EMPTY_COVER_LIST=new ArrayList<>();
+    static final List<MediaCover> FAKE_COVER_LIST=Arrays.asList(FAKE_MOVIE_COVER,FAKE_MOVIE_COVER,FAKE_MOVIE_COVER);
     static final MovieDetails FAKE_MOVIE_DETAILS=new MovieDetails(FAKE_MOVIE_ID);
     static final ActorCover FAKE_ACTOR=new ActorCover(-1,FAKE_MOVIE_ID);
     static final Trailer FAKE_TRAILER=new Trailer(FAKE_MOVIE_ID,null,null);

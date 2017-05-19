@@ -4,9 +4,8 @@ import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.source.DataSourceTestUtils;
-import com.popularmovies.vpaliy.data.source.local.MoviesContract;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 
@@ -61,8 +60,8 @@ public class MovieDetailsMapperTest {
     @Test
     public void testReverseMapping(){
         when(actorMapper.map(anyList())).thenReturn(Collections.singletonList(new ActorCover(0,0)));
-        when(movieMapper.map(anyList())).thenReturn(Collections.singletonList(new MovieCover()));
-        when(movieMapper.map(any(Movie.class))).thenReturn(new MovieCover());
+        when(movieMapper.map(anyList())).thenReturn(Collections.singletonList(new MediaCover()));
+        when(movieMapper.map(any(Movie.class))).thenReturn(new MediaCover());
         when(infoMapper.map(any(Movie.class))).thenReturn(new MovieInfo(0,null));
         MovieDetailEntity detailEntity=provideFakeDetailEntity();
         List<?> entityList=detailEntity.getSimilarMovies();
@@ -74,7 +73,7 @@ public class MovieDetailsMapperTest {
         mapper.reverseMap(movieDetails);
 
 
-        verify(movieMapper,times(movieMapperCalls)).reverseMap(any(MovieCover.class));
+        verify(movieMapper,times(movieMapperCalls)).reverseMap(any(MediaCover.class));
         verify(infoMapper).reverseMap(any(MovieInfo.class));
         verify(actorMapper,times(castMapperCalls)).reverseMap(any(ActorCover.class));
 

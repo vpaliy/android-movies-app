@@ -2,14 +2,11 @@ package com.popularmovies.vpaliy.data.source.remote;
 
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutCompat;
-
+import com.popularmovies.vpaliy.data.entity.TvShow;
+import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.source.MediaDataSource;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.IMediaRepository;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
-import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 
 import java.util.HashMap;
@@ -17,10 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Observable;
 
-public class RemoteTvShowSource extends MediaDataSource<MediaCover,TVShowDetails> {
+@Singleton
+public class RemoteTvShowSource extends MediaDataSource<TvShow,TvShowDetailEntity> {
 
     private final MovieDatabaseAPI movieDatabaseAPI;
     private final BaseSchedulerProvider schedulerProvider;
@@ -35,20 +34,27 @@ public class RemoteTvShowSource extends MediaDataSource<MediaCover,TVShowDetails
     }
 
     @Override
-    public Observable<List<MediaCover>> getCovers(@NonNull SortType type) {
+    public Observable<List<TvShow>> getCovers(@NonNull SortType type) {
         switch (type){
-
+            case POPULAR:
+                return null;
+            case TOP_RATED:
+                return null;
+            case UPCOMING:
+                return null;
+            case NOW_PLAYING:
+                return null;
         }
         return null;
     }
 
     @Override
-    public Observable<MediaCover> getCover(int id) {
+    public Observable<TvShow> getCover(int id) {
         return null;
     }
 
     @Override
-    public Observable<List<MediaCover>> requestMoreCovers(@NonNull SortType type) {
+    public Observable<List<TvShow>> requestMoreCovers(@NonNull SortType type) {
         return null;
     }
 
@@ -58,22 +64,22 @@ public class RemoteTvShowSource extends MediaDataSource<MediaCover,TVShowDetails
     }
 
     @Override
-    public void insert(MediaCover item, SortType sortType) {
+    public void insert(TvShow item, SortType sortType) {
 
     }
 
     @Override
-    public void insertDetails(TVShowDetails details) {
+    public void insertDetails(TvShowDetailEntity details) {
 
     }
 
     @Override
-    public Observable<TVShowDetails> getDetails(int id) {
+    public Observable<TvShowDetailEntity> getDetails(int id) {
         return null;
     }
 
     @Override
-    public void update(MediaCover item, @NonNull SortType sortType) {
+    public void update(TvShow item, @NonNull SortType sortType) {
 
     }
 

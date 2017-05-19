@@ -8,7 +8,7 @@ public class ActorDetails {
     private int actorId;
     private ActorCover actor;
     private ActorInfo actorInfo;
-    private List<MovieCover> movies;
+    private List<MediaCover> movies;
 
     public ActorDetails(int actorId){
         this.actorId=actorId;
@@ -26,7 +26,7 @@ public class ActorDetails {
         return actorId;
     }
 
-    public List<MovieCover> getMovies() {
+    public List<MediaCover> getMovies() {
         return movies;
     }
 
@@ -42,7 +42,7 @@ public class ActorDetails {
         this.actorInfo = actorInfo;
     }
 
-    public void setMovies(List<MovieCover> movies) {
+    public void setMovies(List<MediaCover> movies) {
         this.movies = movies;
     }
 }

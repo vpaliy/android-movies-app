@@ -6,7 +6,14 @@ import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class TvShowEpisodeMapper implements Mapper<TVShowEpisode,TvShowEpisodeEntity>{
+
+    @Inject
+    public TvShowEpisodeMapper(){}
 
     @Override
     public TVShowEpisode map(TvShowEpisodeEntity tvShowEpisodeEntity) {

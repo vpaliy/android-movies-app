@@ -1,7 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.presenter;
 
 import com.popularmovies.vpaliy.domain.IMediaRepository;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieCastPresenter;
@@ -25,7 +25,7 @@ public class MovieCastPresenterTest extends BasePresenterTest{
     private MovieCastContract.View mockView;
 
     @Mock
-    private IMediaRepository<MovieCover,MovieDetails> mockRepository;
+    private IMediaRepository<MediaCover,MovieDetails> mockRepository;
 
     private MovieCastPresenter presenter;
 

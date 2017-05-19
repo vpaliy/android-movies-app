@@ -1,31 +1,39 @@
 package com.popularmovies.vpaliy.data.source.local;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
-
+import com.popularmovies.vpaliy.data.entity.TvShow;
+import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.source.MediaDataSource;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
-import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.domain.model.TVShowDetails;
-
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Observable;
 
-public class TVShowLocalSource extends MediaDataSource<MediaCover,TVShowDetails> {
+@Singleton
+public class TVShowLocalSource extends MediaDataSource<TvShow,TvShowDetailEntity> {
+
+    @Inject
+    public TVShowLocalSource(@NonNull Context context){
+
+    }
 
     @Override
-    public Observable<List<MediaCover>> getCovers(@NonNull ISortConfiguration.SortType type) {
+    public Observable<List<TvShow>> getCovers(@NonNull ISortConfiguration.SortType type) {
         return null;
     }
 
     @Override
-    public Observable<MediaCover> getCover(int id) {
+    public Observable<TvShow> getCover(int id) {
         return null;
     }
 
     @Override
-    public Observable<List<MediaCover>> requestMoreCovers(@NonNull ISortConfiguration.SortType type) {
+    public Observable<List<TvShow>> requestMoreCovers(@NonNull ISortConfiguration.SortType type) {
         return null;
     }
 
@@ -35,22 +43,22 @@ public class TVShowLocalSource extends MediaDataSource<MediaCover,TVShowDetails>
     }
 
     @Override
-    public void insert(MediaCover item, ISortConfiguration.SortType sortType) {
+    public void insert(TvShow item, ISortConfiguration.SortType sortType) {
 
     }
 
     @Override
-    public void insertDetails(TVShowDetails details) {
+    public void insertDetails(TvShowDetailEntity details) {
 
     }
 
     @Override
-    public Observable<TVShowDetails> getDetails(int id) {
+    public Observable<TvShowDetailEntity> getDetails(int id) {
         return null;
     }
 
     @Override
-    public void update(MediaCover item, @NonNull ISortConfiguration.SortType sortType) {
+    public void update(TvShow item, @NonNull ISortConfiguration.SortType sortType) {
 
     }
 }
