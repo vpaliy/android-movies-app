@@ -133,9 +133,7 @@ public class RemoteMovieSource extends MediaDataSource<Movie,MovieDetailEntity> 
     }
 
     @Override
-    public void insert(Movie item, SortType sortType) {
-
-    }
+    public void insert(Movie item, SortType sortType) {/*Empty*/}
 
     @Override
     public void insertDetails(MovieDetailEntity details) { /*Nothing */ }

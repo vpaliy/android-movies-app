@@ -17,6 +17,7 @@ import rx.Observable;
 @Singleton
 public class TVShowLocalSource extends MediaDataSource<TvShow,TvShowDetailEntity> {
 
+
     @Inject
     public TVShowLocalSource(@NonNull Context context){
 

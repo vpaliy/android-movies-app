@@ -2,16 +2,19 @@ package com.popularmovies.vpaliy.data.source.remote;
 
 
 import com.popularmovies.vpaliy.data.entity.Movie;
+import com.popularmovies.vpaliy.data.entity.TvShow;
+import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
+import rx.Observable;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Observable;
 
 public interface MovieDatabaseAPI {
 
@@ -47,6 +50,30 @@ public interface MovieDatabaseAPI {
 
     @GET("movie/{id}/credits")
     Observable<CastWrapper> getMovieCast(@Path("id") String id);
+
+    @GET("tv/latest")
+    Observable<TvShowsWrapper> getLatestTv(@Query("page") int page);
+
+    @GET("tv/airing_today")
+    Observable<TvShowsWrapper> getUpcomingTv(@Query("page") int page);
+
+    @GET("tv/on_the_air")
+    Observable<TvShowsWrapper> getNowPlayingTv(@Query("page") int page);
+
+    @GET("tv/popular")
+    Observable<TvShowsWrapper> getPopularTv(@Query("page") int page);
+
+    @GET("tv/top_rated")
+    Observable<TvShowsWrapper> getTopRatedTv(@Query("page") int page);
+
+    @GET("tv/{tv_id}")
+    Observable<TvShow> getTvShow(@Query("id") int id);
+
+    @GET("tv/{tv_id}")
+    Observable<TvShowDetailEntity> getTvShowDetails(@Query("id") int id);
+
+    @GET("tv/{tv_id}/season/{season_number}")
+    Observable<TvShow> getTvSeason(@Path("id") int tvId, @Path("season_number") int seasonNumber);
 
     @GET("discover/movie")
     Observable<MovieWrapper> discoverMovies(@Query("sort_by") String sortBy, @Query("page") Integer page);

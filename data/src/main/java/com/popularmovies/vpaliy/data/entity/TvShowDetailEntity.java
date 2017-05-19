@@ -69,7 +69,6 @@ public class TvShowDetailEntity {
     @SerializedName("vote_count")
     private int voteCount;
 
-    @SerializedName("seasons")
     private List<TvShowSeasonEntity> seasons;
 
 
