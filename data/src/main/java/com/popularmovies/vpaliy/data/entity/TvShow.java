@@ -7,104 +7,53 @@ import java.util.List;
 
 public class TvShow {
 
-    @SerializedName("id")
-    private int tvShowId;
-
-    @SerializedName("backdrop_path")
-    private String backdrop_path;
-
-    @SerializedName("episode_run_time")
-    private int[] episodeRuntime;
-
-    @SerializedName("first_air_date")
-    private String firstAirDate;
-
-    @SerializedName("genres")
-    private List<Genre> genres;
-
-    @SerializedName("homepage")
-    private String homepage;
-
-    @SerializedName("languages")
-    private List<String> languages;
-
-    @SerializedName("last_air_date")
-    private String lastAirDate;
-
-    @SerializedName("name")
-    private String name;
-
-    @SerializedName("networks")
-    private List<Network> networks;
-
-    @SerializedName("number_of_episodes")
-    private int numberOfEpisodes;
-
-    @SerializedName("number_of_seasons")
-    private int numberOfSeasons;
-
-    @SerializedName("original_language")
-    private String originalLanguage;
-
-    @SerializedName("original_name")
-    private String originalName;
+    @SerializedName("poster_path")
+    private String posterPath;
 
     @SerializedName("popularity")
     private Number popularity;
 
-    @SerializedName("poster_path")
-    private String posterPath;
+    @SerializedName("id")
+    private int id;
 
-    @SerializedName("status")
-    private String status;
-
-    @SerializedName("type")
-    private String type;
+    @SerializedName("backdrop_path")
+    private String backdropPath;
 
     @SerializedName("vote_average")
     private Number voteAverage;
 
-    @SerializedName("vote_count")
+    @SerializedName("overview")
+    private String overview;
+
+    @SerializedName("first_air_date")
+    private String firstAirDate;
+
+    @SerializedName("genre_ids")
+    private int[] genres;
+
+    @SerializedName("original_language")
     private int voteCount;
 
-    public int[] getEpisodeRuntime() {
-        return episodeRuntime;
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("original_name")
+    private String originalName;
+
+    public String getPosterPath() {
+        return posterPath;
     }
 
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public int getNumberOfEpisodes() {
-        return numberOfEpisodes;
-    }
-
-    public int getNumberOfSeasons() {
-        return numberOfSeasons;
-    }
-
-    public int getTvShowId() {
-        return tvShowId;
+    public int getId() {
+        return id;
     }
 
     public int getVoteCount() {
         return voteCount;
     }
 
-    public List<Network> getNetworks() {
-        return networks;
-    }
-
-    public List<Genre> getGenres() {
+    public int[] getGenres() {
         return genres;
-    }
-
-    public List<String> getLanguages() {
-        return languages;
     }
 
     public Number getPopularity() {
@@ -115,20 +64,12 @@ public class TvShow {
         return voteAverage;
     }
 
-    public String getBackdrop_path() {
-        return backdrop_path;
+    public String getBackdropPath() {
+        return backdropPath;
     }
 
     public String getFirstAirDate() {
         return firstAirDate;
-    }
-
-    public String getHomepage() {
-        return homepage;
-    }
-
-    public String getLastAirDate() {
-        return lastAirDate;
     }
 
     public String getName() {
@@ -139,14 +80,53 @@ public class TvShow {
         return originalName;
     }
 
-    public String getPosterPath() {
-        return posterPath;
+    public String getOverview() {
+        return overview;
     }
 
-    public String getType() {
-        return type;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public void setFirstAirDate(String firstAirDate) {
+        this.firstAirDate = firstAirDate;
+    }
+
+    public void setGenres(int[] genres) {
+        this.genres = genres;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setPopularity(Number popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setVoteAverage(Number voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
 }
 
 
