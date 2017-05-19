@@ -41,7 +41,6 @@ public class RemoteMovieSource extends MediaDataSource<Movie,MovieDetailEntity> 
         this.movieDatabaseAPI=movieDatabaseAPI;
         this.schedulerProvider=schedulerProvider;
         this.pageMap=new HashMap<>();
-
     }
 
     @Override
