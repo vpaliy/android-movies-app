@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.data.source.remote;
 
 import android.support.annotation.NonNull;
 
-import com.popularmovies.vpaliy.domain.IMovieRepository;
+import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
@@ -12,7 +12,7 @@ import java.util.List;
 
 import rx.Observable;
 
-public class RemoteTvShowSource implements IMovieRepository<MediaCover,TVShowDetails>{
+public class RemoteTvShowSource implements IMediaRepository<MediaCover,TVShowDetails> {
 
 
     @Override

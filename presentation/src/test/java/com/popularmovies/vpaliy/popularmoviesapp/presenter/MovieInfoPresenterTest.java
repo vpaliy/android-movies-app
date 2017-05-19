@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.presenter;
 
-import com.popularmovies.vpaliy.domain.IMovieRepository;
+import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class MovieInfoPresenterTest extends BasePresenterTest {
 
     @Mock
-    private IMovieRepository<MovieCover,MovieDetails> mockRepository;
+    private IMediaRepository<MovieCover,MovieDetails> mockRepository;
 
     @Mock
     private MovieInfoContract.View mockView;

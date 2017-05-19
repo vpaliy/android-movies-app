@@ -4,6 +4,7 @@ package com.popularmovies.vpaliy.domain.model;
 import java.util.List;
 
 public class MediaCover {
+
     private int mediaId;
     private int releaseYear;
     private double averageRate;

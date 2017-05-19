@@ -14,7 +14,7 @@ import com.popularmovies.vpaliy.data.repository.MovieRepository;
 import com.popularmovies.vpaliy.data.source.MediaDataSource;
 import com.popularmovies.vpaliy.data.source.local.MovieLocalSourceMovie;
 import com.popularmovies.vpaliy.data.source.remote.RemoteMovieSource;
-import com.popularmovies.vpaliy.domain.IMovieRepository;
+import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
@@ -75,7 +75,7 @@ public class DataModule {
 
     @Singleton
     @Provides
-    IMovieRepository<MovieCover,MovieDetails> provideMovieRepository(MovieRepository repository){
+    IMediaRepository<MovieCover,MovieDetails> provideMovieRepository(MovieRepository repository){
         return repository;
     }
 

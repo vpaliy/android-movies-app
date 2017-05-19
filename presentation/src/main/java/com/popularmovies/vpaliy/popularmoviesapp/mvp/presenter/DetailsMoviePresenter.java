@@ -1,7 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.IMovieRepository;
+import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -17,13 +17,13 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
 
     private View view;
-    private final IMovieRepository<MovieCover,MovieDetails> repository;
+    private final IMediaRepository<MovieCover,MovieDetails> repository;
     private final CompositeSubscription subscriptions;
     private final BaseSchedulerProvider schedulerProvider;
     private int movieId;
 
     @Inject
-    public DetailsMoviePresenter(@NonNull IMovieRepository<MovieCover,MovieDetails> repository,
+    public DetailsMoviePresenter(@NonNull IMediaRepository<MovieCover,MovieDetails> repository,
                                  @NonNull BaseSchedulerProvider schedulerProvider){
         this.repository=repository;
         this.schedulerProvider=schedulerProvider;

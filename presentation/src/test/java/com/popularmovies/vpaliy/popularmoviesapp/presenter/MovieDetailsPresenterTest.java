@@ -1,32 +1,11 @@
 package com.popularmovies.vpaliy.popularmoviesapp.presenter;
 
-import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.data.utils.scheduler.ImmediateSchedulerProvider;
-import com.popularmovies.vpaliy.domain.IMovieRepository;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.DetailsMoviePresenter;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import dalvik.annotation.TestTargetClass;
-import rx.Observable;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieDetailsPresenterTest extends BasePresenterTest {
@@ -36,7 +15,7 @@ public class MovieDetailsPresenterTest extends BasePresenterTest {
     private DetailsMovieContract.View mockView;
 
     @Mock
-    private IMovieRepository<MovieCover,MovieDetails> mockRepository;
+    private IMediaRepository<MovieCover,MovieDetails> mockRepository;
 
     private DetailsMoviePresenter presenter;
 

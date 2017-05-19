@@ -6,27 +6,26 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.MediaDataSource;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
-import com.popularmovies.vpaliy.domain.IMovieRepository;
+import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.model.MovieCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 import rx.Observable;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
+import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
+import android.support.annotation.NonNull;
 
 import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 
 @Singleton
-public class MovieRepository implements IMovieRepository<MovieCover,MovieDetails> {
+public class MovieRepository implements IMediaRepository<MovieCover,MovieDetails> {
 
     private static final String TAG=MovieRepository.class.getSimpleName();
 
