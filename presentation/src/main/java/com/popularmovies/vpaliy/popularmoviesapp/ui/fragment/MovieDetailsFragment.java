@@ -31,7 +31,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.ImageViewTarget;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -182,7 +182,7 @@ public class MovieDetailsFragment extends Fragment
 
     @Override
     public void shareWithMovie(MovieDetails details) {
-        MovieCover cover=details.getMovieCover();
+        MediaCover cover=details.getMovieCover();
         String message=getContext().getString(R.string.checkOutMovie);
         message+=cover.getMovieTitle()+'\n';
         message+=Constants.MOVIE_URL_BASE+Integer.toString(details.getMovieId())+'\n';
@@ -255,7 +255,7 @@ public class MovieDetailsFragment extends Fragment
     }
 
     @Override
-    public void showCover(@NonNull MovieCover movieCover) {
+    public void showCover(@NonNull MediaCover movieCover) {
         collapsingToolbarLayout.setTitle(movieCover.getMovieTitle());
         favoriteButton.setScaleX(0);
         favoriteButton.setScaleY(0);
@@ -285,7 +285,7 @@ public class MovieDetailsFragment extends Fragment
 
 
 
-    private void showCoverDetails(@NonNull MovieCover movieCover){
+    private void showCoverDetails(@NonNull MediaCover movieCover){
         if(getView()!=null) {
             TextView year = ButterKnife.findById(getView(),R.id.year);
             TextView duration=ButterKnife.findById(getView(),R.id.duration);

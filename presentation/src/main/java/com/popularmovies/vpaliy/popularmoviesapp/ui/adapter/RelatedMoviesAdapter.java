@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
@@ -29,12 +29,12 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
     private static final String TAG=RelatedMoviesAdapter.class.getSimpleName();
 
     private final RxBus eventBus;
-    private final List<MovieCover> data;
+    private final List<MediaCover> data;
     private final LayoutInflater inflater;
     private boolean hasBeenClicked;
 
     public RelatedMoviesAdapter(@NonNull Context context,
-                                @NonNull List<MovieCover> data,
+                                @NonNull List<MediaCover> data,
                                 @NonNull RxBus eventBus){
         this.eventBus=eventBus;
         this.data=data;
@@ -65,19 +65,19 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
         public void onClick(View v) {
             if(!hasBeenClicked) {
                 hasBeenClicked=true;
-                MovieCover victim=data.get(getAdapterPosition());
+                MediaCover victim=data.get(getAdapterPosition());
                 if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
                     image.setTransitionName(image.getContext().getString(R.string.movieImage)
-                            +Integer.toString(victim.getMovieId()));
+                            +Integer.toString(victim.getMediaId()));
                 }
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constants.EXTRA_ID, victim.getMovieId());
+                bundle.putInt(Constants.EXTRA_ID, victim.getMediaId());
                 eventBus.send(new ExposeDetailsEvent(TransitionWrapper.wrap(image, bundle)));
             }
         }
 
         void bindData(){
-            MovieCover movieCover=data.get(getAdapterPosition());
+            MediaCover movieCover=data.get(getAdapterPosition());
             Glide.with(inflater.getContext())
                     .load(movieCover.getPosterPath())
                     .centerCrop()

@@ -7,11 +7,11 @@ public class MovieDetails {
 
     private int movieId;
     private MovieInfo movieInfo;
-    private MovieCover movieCover;
+    private MediaCover movieCover;
     private List<Review> reviews;
     private List<Trailer> trailers;
     private List<ActorCover> cast;
-    private List<MovieCover> similarMovies;
+    private List<MediaCover> similarMovies;
 
     public MovieDetails(int movieId){
         this.movieId=movieId;
@@ -33,7 +33,7 @@ public class MovieDetails {
         return trailers;
     }
 
-    public MovieCover getMovieCover() {
+    public MediaCover getMovieCover() {
         return movieCover;
     }
 
@@ -41,7 +41,7 @@ public class MovieDetails {
         return movieInfo;
     }
 
-    public List<MovieCover> getSimilarMovies() {
+    public List<MediaCover> getSimilarMovies() {
         return similarMovies;
     }
 
@@ -53,7 +53,7 @@ public class MovieDetails {
         this.cast = cast;
     }
 
-    public void setMovieCover(MovieCover movieCover) {
+    public void setMovieCover(MediaCover movieCover) {
         this.movieCover = movieCover;
     }
 
@@ -69,7 +69,7 @@ public class MovieDetails {
         this.trailers = trailers;
     }
 
-    public void setSimilarMovies(List<MovieCover> similarMovies) {
+    public void setSimilarMovies(List<MediaCover> similarMovies) {
         this.similarMovies = similarMovies;
     }
 }

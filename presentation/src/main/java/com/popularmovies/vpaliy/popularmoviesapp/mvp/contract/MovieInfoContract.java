@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.contract;
 
 import android.support.annotation.NonNull;
 
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;
@@ -17,7 +17,7 @@ public interface MovieInfoContract {
         void attachPresenter(@NonNull Presenter presenter);
         void showTrailers(@NonNull List<Trailer> trailers);
         void showGeneralInfo(@NonNull MovieInfo movieInfo);
-        void showSimilarMovies(@NonNull List<MovieCover> similarMovies);
+        void showSimilarMovies(@NonNull List<MediaCover> similarMovies);
         void showNoInfoMessage();
     }
 

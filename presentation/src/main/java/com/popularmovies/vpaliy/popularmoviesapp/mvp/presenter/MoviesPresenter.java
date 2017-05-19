@@ -3,17 +3,18 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.View;
-import java.util.List;
-
 import rx.subscriptions.CompositeSubscription;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 
@@ -21,13 +22,13 @@ import javax.inject.Inject;
 public class MoviesPresenter implements MoviesContract.Presenter{
 
 
-    private final IMediaRepository<MovieCover,MovieDetails> iRepository;
+    private final IMediaRepository<MediaCover,MovieDetails> iRepository;
     private final BaseSchedulerProvider schedulerProvider;
     private final CompositeSubscription subscriptions;
     private View view;
 
     @Inject
-    public MoviesPresenter(@NonNull IMediaRepository<MovieCover,MovieDetails> iRepository,
+    public MoviesPresenter(@NonNull IMediaRepository<MediaCover,MovieDetails> iRepository,
                            @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.schedulerProvider=schedulerProvider;
@@ -68,7 +69,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
                         this::completeLoading));
     }
 
-    private void processData(SortType sortType, List<MovieCover> movieList){
+    private void processData(SortType sortType, List<MediaCover> movieList){
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
                 view.showMovies(sortType,movieList);
@@ -92,7 +93,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
         }
     }
 
-    private void appendData(SortType sortType,@Nullable List<MovieCover> movieList){
+    private void appendData(SortType sortType,@Nullable List<MediaCover> movieList){
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
                 view.appendMovies(sortType,movieList);

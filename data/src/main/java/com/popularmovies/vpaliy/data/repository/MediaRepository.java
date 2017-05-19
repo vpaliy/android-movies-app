@@ -104,6 +104,7 @@ public class MediaRepository<T,D1,D2> implements IMediaRepository<MediaCover,D1>
         return mediaCover;
     }
 
+
     @Override
     public Observable<List<MediaCover>> requestMoreCovers(@NonNull SortType sortType) {
         if(isNetworkConnection()) {
@@ -125,7 +126,17 @@ public class MediaRepository<T,D1,D2> implements IMediaRepository<MediaCover,D1>
 
     @Override
     public Observable<D1> getDetails(int id) {
-        return null;
+        if(!detailsCache.isInCache(id)) {
+            if(isNetworkConnection()) {
+                return remoteDataSource.getDetails(id)
+                        // .doOnNext(localDataSource::insertDetails)
+                        .map(detailsMapper::map)
+                        .doOnNext(details -> detailsCache.put(id, details));
+            }
+            return localDataSource.getDetails(id)
+                    .map(detailsMapper::map);
+        }
+        return detailsCache.getStream(id);
     }
 
     @Override

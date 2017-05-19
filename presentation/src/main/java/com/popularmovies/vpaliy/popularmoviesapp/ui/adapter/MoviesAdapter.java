@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
@@ -35,7 +35,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     private final LayoutInflater inflater;
     private final PresentationConfiguration presentationConfig;
     private boolean hasBeenClicked;
-    private  List<MovieCover> data;
+    private  List<MediaCover> data;
 
     public MoviesAdapter(@NonNull Context context,
                          @NonNull RxBus eventBus,
@@ -68,13 +68,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             if(!hasBeenClicked) {
                 hasBeenClicked=true;
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constants.EXTRA_ID, data.get(getAdapterPosition()).getMovieId());
+                bundle.putInt(Constants.EXTRA_ID, data.get(getAdapterPosition()).getMediaId());
                 eventBus.send(new ExposeDetailsEvent(TransitionWrapper.wrap(image, bundle)));
             }
         }
 
         private String provideImageUrl(){
-            MovieCover cover=data.get(getAdapterPosition());
+            MediaCover cover=data.get(getAdapterPosition());
             switch (presentationConfig.getPresentation()){
                 case CARD:
                     List<String> backdrop=cover.getBackdrops();
@@ -86,7 +86,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
 
         void bindData(){
-            MovieCover cover=data.get(getAdapterPosition());
+            MediaCover cover=data.get(getAdapterPosition());
             Glide.with(itemView.getContext())
                     .load(provideImageUrl())
                     .priority(Priority.HIGH)
@@ -98,7 +98,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         }
     }
 
-    public void appendData(@NonNull List<MovieCover> movies){
+    public void appendData(@NonNull List<MediaCover> movies){
         int size=getItemCount();
         data.addAll(movies);
         notifyItemRangeInserted(size,getItemCount());
@@ -109,7 +109,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         notifyDataSetChanged();
     }
 
-    public void setData(@NonNull List<MovieCover> movies){
+    public void setData(@NonNull List<MediaCover> movies){
         this.data=movies;
         notifyDataSetChanged();
     }

@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.contract;
 import android.support.annotation.NonNull;
 
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BaseView;
 
@@ -13,8 +13,8 @@ public interface MoviesContract {
 
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
-        void showMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies);
-        void appendMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies);
+        void showMovies(@NonNull SortType sortType, @NonNull List<MediaCover> movies);
+        void appendMovies(@NonNull SortType sortType, @NonNull List<MediaCover> movies);
         void setLoadingIndicator(boolean isLoading);
         void showErrorMessage();
         void showEmptyMessage();

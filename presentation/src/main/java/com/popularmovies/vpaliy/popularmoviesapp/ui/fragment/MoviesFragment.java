@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
@@ -239,14 +239,14 @@ public class MoviesFragment extends Fragment
     }
 
     @Override
-    public void showMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies) {
+    public void showMovies(@NonNull SortType sortType, @NonNull List<MediaCover> movies) {
         Log.d(TAG,"showMovies");
         emptyBox.setVisibility(View.GONE);
         adapter.setData(movies);
     }
 
     @Override
-    public void appendMovies(@NonNull SortType sortType, @NonNull List<MovieCover> movies) {
+    public void appendMovies(@NonNull SortType sortType, @NonNull List<MediaCover> movies) {
         Log.d(TAG,"appendMovies");
         adapter.appendData(movies);
     }

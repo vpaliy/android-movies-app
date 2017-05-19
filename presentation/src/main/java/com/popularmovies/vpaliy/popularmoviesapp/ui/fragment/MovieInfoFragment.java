@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -137,7 +137,7 @@ public class  MovieInfoFragment extends Fragment
 
 
     @Override
-    public void showSimilarMovies(@NonNull List<MovieCover> similarMovies) {
+    public void showSimilarMovies(@NonNull List<MediaCover> similarMovies) {
         RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),similarMovies,eventBus);
         this.adapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.movieSimilarMovies)));
     }

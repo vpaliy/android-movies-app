@@ -5,8 +5,7 @@ import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
-
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +17,7 @@ import javax.inject.Singleton;
 
 
 @Singleton
-public class MovieMapper implements Mapper<MovieCover,Movie> {
+public class MovieMapper implements Mapper<MediaCover,Movie> {
 
     private final ImageQualityConfiguration qualityConfiguration;
 
@@ -28,9 +27,9 @@ public class MovieMapper implements Mapper<MovieCover,Movie> {
     }
 
     @Override
-    public MovieCover map(Movie movieEntity) {
-        MovieCover cover=new MovieCover();
-        cover.setMovieId(movieEntity.getMovieId());
+    public MediaCover map(Movie movieEntity) {
+        MediaCover cover=new MediaCover();
+        cover.setMediaId(movieEntity.getMovieId());
         cover.setPosterPath(qualityConfiguration.convertCover(movieEntity.getPosterPath()));
         cover.setGenres(Genre.convert(movieEntity.getGenres()));
         cover.setMovieTitle(movieEntity.getTitle());
@@ -54,9 +53,9 @@ public class MovieMapper implements Mapper<MovieCover,Movie> {
     }
 
     @Override
-    public List<MovieCover> map(List<Movie> from) {
+    public List<MediaCover> map(List<Movie> from) {
         if(from!=null) {
-            List<MovieCover> coverList = new ArrayList<>(from.size());
+            List<MediaCover> coverList = new ArrayList<>(from.size());
             for (int index = 0; index < from.size(); index++) {
                 coverList.add(map(from.get(index)));
             }
@@ -66,9 +65,9 @@ public class MovieMapper implements Mapper<MovieCover,Movie> {
     }
 
     @Override
-    public Movie reverseMap(MovieCover movieCover) {
+    public Movie reverseMap(MediaCover movieCover) {
         Movie result=new Movie();
-        result.setMovieId(movieCover.getMovieId());
+        result.setMovieId(movieCover.getMediaId());
         result.setPosterPath(qualityConfiguration.extractPath(movieCover.getPosterPath()));
         result.setGenres(Genre.convertToGenres(movieCover.getGenres()));
         result.setTitle(movieCover.getMovieTitle());

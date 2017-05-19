@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMediaRepository;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.Review;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
@@ -20,12 +20,12 @@ public class MovieReviewPresenter
         implements MovieReviewContract.Presenter{
 
     private View view;
-    private final IMediaRepository<MovieCover,MovieDetails> iRepository;
+    private final IMediaRepository<MediaCover,MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
     private final BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public MovieReviewPresenter(@NonNull IMediaRepository<MovieCover,MovieDetails> iRepository,
+    public MovieReviewPresenter(@NonNull IMediaRepository<MediaCover,MovieDetails> iRepository,
                                 @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.schedulerProvider=schedulerProvider;

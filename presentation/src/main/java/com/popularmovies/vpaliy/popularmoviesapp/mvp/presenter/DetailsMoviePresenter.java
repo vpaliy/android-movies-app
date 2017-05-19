@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
-import com.popularmovies.vpaliy.domain.model.MovieCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
 import rx.subscriptions.CompositeSubscription;
@@ -17,13 +17,13 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
 
     private View view;
-    private final IMediaRepository<MovieCover,MovieDetails> repository;
+    private final IMediaRepository<MediaCover,MovieDetails> repository;
     private final CompositeSubscription subscriptions;
     private final BaseSchedulerProvider schedulerProvider;
     private int movieId;
 
     @Inject
-    public DetailsMoviePresenter(@NonNull IMediaRepository<MovieCover,MovieDetails> repository,
+    public DetailsMoviePresenter(@NonNull IMediaRepository<MediaCover,MovieDetails> repository,
                                  @NonNull BaseSchedulerProvider schedulerProvider){
         this.repository=repository;
         this.schedulerProvider=schedulerProvider;
@@ -57,14 +57,14 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void processData(@NonNull MovieDetails details){
-        MovieCover cover=details.getMovieCover();
+        MediaCover cover=details.getMovieCover();
         if(cover.getBackdrops()!=null){
             view.showBackdrops(cover.getBackdrops());
         }
         view.showDetails(details);
     }
 
-    private void processData(@NonNull MovieCover movie){
+    private void processData(@NonNull MediaCover movie){
         view.showCover(movie);
     }
 
