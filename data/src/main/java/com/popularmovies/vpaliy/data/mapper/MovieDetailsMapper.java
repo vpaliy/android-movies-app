@@ -49,11 +49,9 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
     @Override
     public List<MovieDetails> map(List<MovieDetailEntity> from) {
         if(from!=null) {
-            List<MovieDetails> coverList = new ArrayList<>(from.size());
-            for (int index = 0; index < from.size(); index++) {
-                coverList.add(map(from.get(index)));
-            }
-            return coverList;
+            List<MovieDetails> result = new ArrayList<>(from.size());
+            from.forEach(detailEntity ->result.add(map(detailEntity)));
+            return result;
         }
         return null;
     }
@@ -84,9 +82,7 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
         List<ActorCover> actorCovers=details.getCast();
         if(actorCovers!=null) {
             List<ActorEntity> actorEntities = new ArrayList<>(actorCovers.size());
-            for (int index = 0; index <actorCovers.size();index++) {
-                actorEntities.add(actorEntityMapper.reverseMap(actorCovers.get(index)));
-            }
+            actorCovers.forEach(actorCover -> actorEntities.add(actorEntityMapper.reverseMap(actorCover)));
             detailEntity.setCast(actorEntities);
         }
 
@@ -94,9 +90,7 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
         List<MediaCover> similarMovies=details.getSimilarMovies();
         if(similarMovies!=null){
             List<Movie> movieList=new ArrayList<>(similarMovies.size());
-            for(int index=0;index<movieList.size();index++){
-                movieList.add(movieCoverMapper.reverseMap(similarMovies.get(index)));
-            }
+            similarMovies.forEach(mediaCover ->movieList.add(movieCoverMapper.reverseMap(mediaCover)));
             detailEntity.setSimilarMovies(movieList);
         }
         detailEntity.setTrailers(TrailerEntity.convertBack(details.getTrailers()));

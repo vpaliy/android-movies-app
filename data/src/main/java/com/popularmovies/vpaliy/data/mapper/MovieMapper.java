@@ -56,9 +56,7 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
     public List<MediaCover> map(List<Movie> from) {
         if(from!=null) {
             List<MediaCover> coverList = new ArrayList<>(from.size());
-            for (int index = 0; index < from.size(); index++) {
-                coverList.add(map(from.get(index)));
-            }
+            from.forEach(movie->coverList.add(map(movie)));
             return coverList;
         }
         return null;
