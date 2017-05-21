@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.data.entity;
 
 
 import com.google.gson.annotations.SerializedName;
-
+import java.util.Collections;
 import java.util.List;
 
 public class TvShow {
@@ -31,7 +31,7 @@ public class TvShow {
     @SerializedName("genre_ids")
     private int[] genres;
 
-    @SerializedName("original_language")
+    @SerializedName("vote_count")
     private int voteCount;
 
     @SerializedName("name")
@@ -40,8 +40,50 @@ public class TvShow {
     @SerializedName("original_name")
     private String originalName;
 
+    @SerializedName("backdrops")
+    private List<BackdropImage> backdrops;
+
+    @SerializedName("genres")
+    private List<Genre> genreList;
+
+    private boolean isFavorite;
+    private boolean isWatched;
+    private boolean isMustWatch;
+
+    public boolean isWatched() {
+        return isWatched;
+    }
+
+    public boolean isMustWatch() {
+        return isMustWatch;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    public void setMustWatch(boolean mustWatch) {
+        isMustWatch = mustWatch;
+    }
+
+    public void setWatched(boolean watched) {
+        isWatched = watched;
+    }
+
     public String getPosterPath() {
         return posterPath;
+    }
+
+    public List<Genre> getGenreList() {
+        return genreList;
+    }
+
+    public void setGenreList(List<Genre> genreList) {
+        this.genreList = genreList;
     }
 
     public int getId() {
@@ -62,6 +104,19 @@ public class TvShow {
 
     public Number getVoteAverage() {
         return voteAverage;
+    }
+
+    public List<BackdropImage> getBackdrops() {
+        if(backdrops==null||!backdrops.isEmpty()){
+            if(backdropPath!=null){
+                backdrops= Collections.singletonList(new BackdropImage(backdropPath));
+            }
+        }
+        return backdrops;
+    }
+
+    public void setBackdrops(List<BackdropImage> backdrops) {
+        this.backdrops = backdrops;
     }
 
     public String getBackdropPath() {

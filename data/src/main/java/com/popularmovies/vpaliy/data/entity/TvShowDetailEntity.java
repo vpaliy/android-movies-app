@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.data.entity;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class TvShowDetailEntity {

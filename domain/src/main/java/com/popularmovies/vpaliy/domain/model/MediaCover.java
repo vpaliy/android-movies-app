@@ -6,7 +6,6 @@ import java.util.List;
 public class MediaCover {
 
     private int mediaId;
-    private int releaseYear;
     private double averageRate;
     private boolean isFavorite;
     private boolean isWatched;
@@ -14,6 +13,7 @@ public class MediaCover {
     private String movieTitle;
     private String posterPath;
     private String duration;
+    private String releaseDate;
     private List<String> genres;
     private List<String> backdrops;
     private boolean isTvShow;
@@ -26,8 +26,8 @@ public class MediaCover {
         return mediaId;
     }
 
-    public int getReleaseYear() {
-        return releaseYear;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
     public List<String> getBackdrops() {
@@ -110,7 +110,7 @@ public class MediaCover {
         this.posterPath = posterPath;
     }
 
-    public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

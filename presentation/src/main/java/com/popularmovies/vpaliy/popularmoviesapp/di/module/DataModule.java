@@ -36,8 +36,8 @@ import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 
 import javax.inject.Singleton;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
+import com.popularmovies.vpaliy.data.source.qualifier.MediaLocal;
+import com.popularmovies.vpaliy.data.source.qualifier.MediaRemote;
 import dagger.Module;
 import dagger.Provides;
 
@@ -93,28 +93,28 @@ public class DataModule {
     }
 
     @Singleton
-    @MovieRemote
+    @MediaRemote
     @Provides
     MediaDataSource<Movie,MovieDetailEntity> provideMovieRemoteSource(RemoteMovieSource remoteSource){
         return remoteSource;
     }
 
     @Singleton
-    @MovieLocal
+    @MediaLocal
     @Provides
     MediaDataSource<Movie,MovieDetailEntity> provideMovieLocalSource(MovieLocalSourceMovie localSource){
         return localSource;
     }
 
     @Singleton
-    @MovieLocal
+    @MediaLocal
     @Provides
     MediaDataSource<TvShow,TvShowDetailEntity> provideTvLocalSource(TVShowLocalSource localSource){
         return localSource;
     }
 
     @Singleton
-    @MovieRemote
+    @MediaRemote
     @Provides
     MediaDataSource<TvShow,TvShowDetailEntity> provideTvRemoteSource(RemoteTvShowSource remoteTvShowSource){
         return remoteTvShowSource;

@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieLocal;
-import com.popularmovies.vpaliy.data.source.qualifier.MovieRemote;
+import com.popularmovies.vpaliy.data.source.qualifier.MediaLocal;
+import com.popularmovies.vpaliy.data.source.qualifier.MediaRemote;
 import rx.Observable;
 
 public class MediaRepository<T,D1,D2> implements IMediaRepository<MediaCover,D1> {
@@ -36,8 +36,8 @@ public class MediaRepository<T,D1,D2> implements IMediaRepository<MediaCover,D1>
     private Context context;
 
     @Inject
-    public MediaRepository(@NonNull @MovieRemote MediaDataSource<T, D2> remoteDataSource,
-                           @NonNull @MovieLocal MediaDataSource<T,D2> localDataSource,
+    public MediaRepository(@NonNull @MediaRemote MediaDataSource<T, D2> remoteDataSource,
+                           @NonNull @MediaLocal MediaDataSource<T,D2> localDataSource,
                            @NonNull Mapper<MediaCover, T> coverMapper,
                            @NonNull Mapper<D1, D2> detailsMapper,
                            @NonNull Context context) {
