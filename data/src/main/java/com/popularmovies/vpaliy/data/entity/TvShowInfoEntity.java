@@ -57,6 +57,9 @@ public class TvShowInfoEntity {
     @SerializedName("poster_path")
     private String posterPath;
 
+    @SerializedName("seasons")
+    private List<TvShowSeasonEntity> seasonEntities;
+
     @SerializedName("status")
     private String status;
 
@@ -71,6 +74,10 @@ public class TvShowInfoEntity {
 
     @SerializedName("genres")
     private List<Genre> genreList;
+
+    public void setSeasonEntities(List<TvShowSeasonEntity> seasonEntities) {
+        this.seasonEntities = seasonEntities;
+    }
 
     public void setGenreList(List<Genre> genreList) {
         this.genreList = genreList;
@@ -170,6 +177,10 @@ public class TvShowInfoEntity {
 
     public int getNumberOfEpisodes() {
         return numberOfEpisodes;
+    }
+
+    public List<TvShowSeasonEntity> getSeasonEntities() {
+        return seasonEntities;
     }
 
     public int getNumberOfSeasons() {

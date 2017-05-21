@@ -3,7 +3,8 @@ package com.popularmovies.vpaliy.data.source.remote;
 
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.TvShow;
-import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
+import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
+import com.popularmovies.vpaliy.data.mapper.ActorMapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
@@ -67,10 +68,16 @@ public interface MovieDatabaseAPI {
     Observable<TvShowsWrapper> getTopRatedTv(@Query("page") int page);
 
     @GET("tv/{tv_id}")
-    Observable<TvShow> getTvShow(@Query("id") int id);
+    Observable<TvShow> getTvShow(@Path("id") int id);
 
     @GET("tv/{tv_id}")
-    Observable<TvShowDetailEntity> getTvShowDetails(@Query("id") int id);
+    Observable<TvShowInfoEntity> getTvShowDetails(@Path("id") int id);
+
+    @GET("tv/{tv_id}/images")
+    Observable<BackdropsWrapper> getBackdropsForTvShow(@Path("id") int id);
+
+    @GET("tv/{tv_id}/credits")
+    Observable<CastWrapper> getTvShowCast(@Path("id") int id);
 
     @GET("tv/{tv_id}/season/{season_number}")
     Observable<TvShow> getTvSeason(@Path("id") int tvId, @Path("season_number") int seasonNumber);

@@ -1,15 +1,22 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
 
+import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
+import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.data.source.MediaDataSource;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -20,11 +27,14 @@ public class RemoteTvShowSource extends MediaDataSource<TvShow,TvShowDetailEntit
 
     private final MovieDatabaseAPI databaseAPI;
     private final Map<SortType,MediaStream> pageMap;
+    private final BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public RemoteTvShowSource(@NonNull MovieDatabaseAPI databaseAPI){
+    public RemoteTvShowSource(@NonNull MovieDatabaseAPI databaseAPI,
+                              @NonNull BaseSchedulerProvider schedulerProvider){
         this.databaseAPI=databaseAPI;
         this.pageMap=new HashMap<>();
+        this.schedulerProvider=schedulerProvider;
     }
 
     @Override
@@ -97,7 +107,28 @@ public class RemoteTvShowSource extends MediaDataSource<TvShow,TvShowDetailEntit
 
     @Override
     public Observable<TvShowDetailEntity> getDetails(int id) {
-        return databaseAPI.getTvShowDetails(id);
+        Observable<TvShowInfoEntity> infoObservable=databaseAPI.getTvShowDetails(id)
+                .subscribeOn(schedulerProvider.multi());
+
+        Observable<List<BackdropImage>> backdropsObservable = databaseAPI.getBackdropsForTvShow(id)
+                .subscribeOn(Schedulers.newThread())
+                .map(BackdropsWrapper::getBackdropImages);
+
+        Observable<List<ActorEntity>> actorsObservable = databaseAPI.getTvShowCast(id)
+                .subscribeOn(schedulerProvider.multi())
+                .map(CastWrapper::getCast);
+
+        return Observable.zip(infoObservable,backdropsObservable,actorsObservable,
+                (infoEntity, backdropImages, actorEntities) -> {
+                    TvShow tvShow=TvShowInfoEntity.createTvShowCover(infoEntity);
+                    tvShow.setBackdrops(backdropImages);
+                    TvShowDetailEntity detailEntity=new TvShowDetailEntity();
+                    detailEntity.setCast(actorEntities);
+                    detailEntity.setInfoEntity(infoEntity);
+                    detailEntity.setSeasons(infoEntity.getSeasonEntities());
+                    detailEntity.setTvShowCover(tvShow);
+                    return detailEntity;
+                });
     }
 
     @Override

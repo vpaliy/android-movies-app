@@ -8,6 +8,7 @@ import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
+import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
 import com.popularmovies.vpaliy.data.mapper.ActorMapper;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
@@ -16,6 +17,7 @@ import com.popularmovies.vpaliy.data.mapper.MovieInfoMapper;
 import com.popularmovies.vpaliy.data.mapper.MovieMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowDetailsMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowEpisodeMapper;
+import com.popularmovies.vpaliy.data.mapper.TvShowInfoMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowSeasonMapper;
 import com.popularmovies.vpaliy.data.repository.MediaRepository;
@@ -33,6 +35,7 @@ import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
+import com.popularmovies.vpaliy.domain.model.TVShowInfo;
 import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 
 import javax.inject.Singleton;
@@ -65,6 +68,12 @@ public class DataModule {
     @Singleton
     @Provides
     Mapper<TVShowEpisode,TvShowEpisodeEntity> provideEpisodeMapper(TvShowEpisodeMapper mapper){
+        return mapper;
+    }
+
+    @Singleton
+    @Provides
+    Mapper<TVShowInfo,TvShowInfoEntity> provideTvShowInfoMapper(TvShowInfoMapper mapper){
         return mapper;
     }
 
