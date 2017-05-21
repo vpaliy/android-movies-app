@@ -10,6 +10,7 @@ import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Network;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
+import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
@@ -27,93 +28,59 @@ import javax.inject.Singleton;
 public class TvShowDetailsMapper implements Mapper<TVShowDetails,TvShowDetailEntity> {
 
     private final Mapper<TVShowSeason,TvShowSeasonEntity> seasonMapper;
+    private final Mapper<MediaCover,TvShow> coverMapper;
     private final Mapper<ActorCover,ActorEntity> actorMapper;
-    private ImageQualityConfiguration qualityConfiguration;
+    private final Mapper<TVShowInfo,TvShowInfoEntity> infoMapper;
 
     @Inject
     public TvShowDetailsMapper(@NonNull Mapper<TVShowSeason,TvShowSeasonEntity> seasonMapper,
                                @NonNull Mapper<ActorCover,ActorEntity> actorMapper,
-                               @NonNull ImageQualityConfiguration qualityConfiguration){
+                               @NonNull Mapper<TVShowInfo,TvShowInfoEntity> infoMapper,
+                               @NonNull Mapper<MediaCover,TvShow> coverMapper){
         this.seasonMapper=seasonMapper;
         this.actorMapper=actorMapper;
-        this.qualityConfiguration=qualityConfiguration;
+        this.infoMapper=infoMapper;
+        this.coverMapper=coverMapper;
     }
 
     @Override
     public TVShowDetails map(TvShowDetailEntity tvShowDetailEntity) {
-        if(tvShowDetailEntity==null) return null;
         TVShowDetails details=new TVShowDetails();
-        details.setCast(actorMapper.map(tvShowDetailEntity.getCast()));
-        details.setSeasons(seasonMapper.map(tvShowDetailEntity.getSeasons()));
-        //TODO set duration
-        MediaCover cover=new MediaCover();
-        cover.setMediaId(tvShowDetailEntity.getTvShowId());
-        cover.setAverageRate(tvShowDetailEntity.getVoteAverage().doubleValue());
-        cover.setBackdrops(BackdropImage.convert(tvShowDetailEntity.getBackdropImages(),qualityConfiguration));
-        cover.setGenres(Genre.convert(tvShowDetailEntity.getGenres()));
-        cover.setMovieTitle(tvShowDetailEntity.getName());
-        cover.setPosterPath(tvShowDetailEntity.getPosterPath());
-        if(tvShowDetailEntity.getFirstAirDate()!=null) {
-            cover.setReleaseYear(Integer.parseInt(tvShowDetailEntity.getFirstAirDate().substring(0,4)));
+        details.setTvShowCover(coverMapper.map(tvShowDetailEntity.getTvShowCover()));
+        details.setTvShowInfo(infoMapper.map(tvShowDetailEntity.getInfoEntity()));
+        if(tvShowDetailEntity.getCast()!=null){
+            List<ActorCover> cast=new ArrayList<>(tvShowDetailEntity.getCast().size());
+            tvShowDetailEntity.getCast().forEach(actorEntity -> cast.add(actorMapper.map(actorEntity)));
+            details.setCast(cast);
         }
-        cover.setTvShow(true);
         //
-        details.setTvShowCover(cover);
-        TVShowInfo info=new TVShowInfo();
-        info.setAverageRate(tvShowDetailEntity.getVoteAverage().doubleValue());
-        info.setEpisodeRuntime(tvShowDetailEntity.getEpisodeRuntime());
-        info.setFirstAirDate(tvShowDetailEntity.getFirstAirDate());
-        info.setLastAirDate(tvShowDetailEntity.getLastAirDate());
-        info.setName(tvShowDetailEntity.getName());
-        info.setNetworks(Network.convertToString(tvShowDetailEntity.getNetworks()));
-        info.setNumberOfEpisodes(tvShowDetailEntity.getNumberOfEpisodes());
-        info.setNumberOfSeasons(tvShowDetailEntity.getNumberOfSeasons());
-        info.setOriginalLanguage(tvShowDetailEntity.getOriginalLanguage());
-        info.setOverview(tvShowDetailEntity.getOverview());
-        info.setStatus(tvShowDetailEntity.getStatus());
-        info.setVoteCount(tvShowDetailEntity.getVoteCount());
-        info.setPopularity(tvShowDetailEntity.getPopularity().doubleValue());
-        info.setTvShowId(tvShowDetailEntity.getTvShowId());
-        //
-        details.setTvShowInfo(info);
-        return null;
+        if(tvShowDetailEntity.getSeasons()!=null){
+            List<TVShowSeason> seasons=new ArrayList<>(tvShowDetailEntity.getSeasons().size());
+            tvShowDetailEntity.getSeasons().forEach(seasonEntity->seasons.add(seasonMapper.map(seasonEntity)));
+            details.setSeasons(seasons);
+        }
+        details.setTvShowId(tvShowDetailEntity.getTvShowCover().getId());
+        return details;
     }
 
     @Override
     public TvShowDetailEntity reverseMap(TVShowDetails tvShowDetails) {
-        if(tvShowDetails==null) return null;
         TvShowDetailEntity entity=new TvShowDetailEntity();
-        TVShowInfo info=tvShowDetails.getTvShowInfo();
-        //
-        entity.setTvShowId(tvShowDetails.getTvShowId());
-        entity.setVoteCount(info.getVoteCount());
-        entity.setStatus(info.getStatus());
+        entity.setTvShowCover(coverMapper.reverseMap(tvShowDetails.getTvShowCover()));
+        entity.setInfoEntity(infoMapper.reverseMap(tvShowDetails.getTvShowInfo()));
         if(tvShowDetails.getCast()!=null){
-            List<ActorEntity> actorEntities=new ArrayList<>(tvShowDetails.getCast().size());
-            tvShowDetails.getCast().forEach(actor->actorEntities.add(actorMapper.reverseMap(actor)));
-            entity.setCast(actorEntities);
+            List<ActorEntity> cast=new ArrayList<>(tvShowDetails.getCast().size());
+            tvShowDetails.getCast().forEach(actorCover -> cast.add(actorMapper.reverseMap(actorCover)));
+            entity.setCast(cast);
         }
-        entity.setEpisodeRuntime(info.getEpisodeRuntime());
-        entity.setFirstAirDate(info.getFirstAirDate());
-        entity.setLastAirDate(info.getLastAirDate());
-        entity.setNumberOfEpisodes(info.getNumberOfEpisodes());
-        entity.setNumberOfSeasons(info.getNumberOfSeasons());
-        entity.setNetworks(Network.convertToNetworks(info.getNetworks()));
-        entity.setOverview(info.getOverview());
-        entity.setOriginalLanguage(info.getOriginalLanguage());
-        entity.setPopularity(info.getPopularity());
-        entity.setVoteAverage(info.getAverageRate());
         //
-        MediaCover cover=tvShowDetails.getTvShowCover();
-        entity.setPosterPath(cover.getPosterPath());
-        entity.setGenres(Genre.convertToGenres(cover.getGenres()));
-        entity.setBackdropImages(BackdropImage.convertToBackdrops(cover.getGenres(),qualityConfiguration));
         if(tvShowDetails.getSeasons()!=null){
-            List<TvShowSeasonEntity> seasonEntities=new ArrayList<>(tvShowDetails.getSeasons().size());
-            tvShowDetails.getSeasons().forEach(season->seasonEntities.add(seasonMapper.reverseMap(season)));
-            entity.setSeasons(seasonEntities);
+            List<TvShowSeasonEntity> seasons=new ArrayList<>(tvShowDetails.getSeasons().size());
+            tvShowDetails.getSeasons().forEach(season->seasons.add(seasonMapper.reverseMap(season)));
+            entity.setSeasons(seasons);
         }
         return entity;
+
     }
 
     @Override

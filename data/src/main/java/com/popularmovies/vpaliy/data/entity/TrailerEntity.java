@@ -80,13 +80,13 @@ public class TrailerEntity {
     public static List<TrailerEntity> convertBack(List<Trailer> list){
         if(list==null)return null;
         List<TrailerEntity> result=new ArrayList<>(list.size());
-        for(Trailer trailer:list){
+        list.forEach(trailer->{
             TrailerEntity trailerEntity=new TrailerEntity();
             trailerEntity.setMovieId(trailer.getMovieId());
             trailerEntity.setTrailerTitle(trailer.getTrailerTitle());
             trailerEntity.setTrailerUrl(trailer.getTrailerUrl());
             result.add(trailerEntity);
-        }
+        });
         return result;
     }
 

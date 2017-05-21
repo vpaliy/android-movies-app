@@ -35,19 +35,8 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         cover.setMovieTitle(movieEntity.getTitle());
         cover.setAverageRate(movieEntity.getVoteAverage());
         cover.setFavorite(movieEntity.isFavorite());
-        List<BackdropImage> backdropImages=movieEntity.getBackdropImages();
-        if(backdropImages==null){
-            if(movieEntity.getBackdrop_path()!=null) {
-                cover.setBackdrops(Collections.singletonList(qualityConfiguration.convertBackdrop(movieEntity.getBackdrop_path())));
-            }
-        }else {
-            cover.setBackdrops(BackdropImage.convert(backdropImages, qualityConfiguration));
-        }
-
-        if (movieEntity.getReleaseDate() != null){
-            cover.setReleaseYear(Integer.parseInt(movieEntity.getReleaseDate().substring(0,4)));
-        }
-
+        cover.setBackdrops(BackdropImage.convert(movieEntity.getBackdropImages(),qualityConfiguration));
+        cover.setReleaseDate(movieEntity.getReleaseDate());
         cover.setDuration(convertToDuration(movieEntity.getRuntime()));
         return cover;
     }
@@ -73,7 +62,7 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         result.setFavorite(movieCover.isFavorite());
         result.setRuntime(convertToRuntime(movieCover.getDuration()));
         result.setBackdropImages(BackdropImage.convertToBackdrops(movieCover.getBackdrops(), qualityConfiguration));
-        result.setReleaseDate(Integer.toString(movieCover.getReleaseYear()));
+        result.setReleaseDate(movieCover.getReleaseDate());
         return result;
     }
 
