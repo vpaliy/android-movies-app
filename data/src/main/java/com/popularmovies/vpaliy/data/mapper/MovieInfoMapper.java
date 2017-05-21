@@ -21,9 +21,7 @@ public class MovieInfoMapper implements Mapper<MovieInfo,Movie> {
     public List<MovieInfo> map(List<Movie> from) {
         if(from==null) return null;
         List<MovieInfo> result=new ArrayList<>(from.size());
-        for(int index=0;index<from.size();index++){
-            result.add(map(from.get(index)));
-        }
+        from.forEach(movie ->result.add(map(movie)));
         return result;
     }
 

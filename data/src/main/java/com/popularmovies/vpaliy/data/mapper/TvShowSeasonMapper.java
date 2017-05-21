@@ -8,6 +8,7 @@ import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
 import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,17 +26,38 @@ public class TvShowSeasonMapper implements Mapper<TVShowSeason,TvShowSeasonEntit
 
     @Override
     public TVShowSeason map(TvShowSeasonEntity tvShowSeasonEntity) {
-        return null;
+        TVShowSeason season=new TVShowSeason();
+        season.setPosterPath(tvShowSeasonEntity.getPosterPath());
+        season.setAirDate(tvShowSeasonEntity.getAirDate());
+        season.setEpisodeList(episodeMapper.map(tvShowSeasonEntity.getEpisodes()));
+        season.setSeasonId(tvShowSeasonEntity.getId());
+        season.setSeasonName(tvShowSeasonEntity.getName());
+        season.setSeasonNumber(tvShowSeasonEntity.getSeasonNumber());
+        return season;
     }
 
     @Override
     public TvShowSeasonEntity reverseMap(TVShowSeason tvShowSeason) {
-        return null;
+        TvShowSeasonEntity entity=new TvShowSeasonEntity();
+        entity.setPosterPath(tvShowSeason.getPosterPath());
+        entity.setSeasonNumber(tvShowSeason.getSeasonNumber());
+        entity.setAirDate(tvShowSeason.getAirDate());
+        if(tvShowSeason.getEpisodeList()!=null){
+            List<TvShowEpisodeEntity> episodeEntities=new ArrayList<>(tvShowSeason.getEpisodeList().size());
+            tvShowSeason.getEpisodeList().forEach(tvShowEpisode -> episodeEntities.add(episodeMapper.reverseMap(tvShowEpisode)));
+            entity.setEpisodes(episodeEntities);
+        }
+        entity.setName(tvShowSeason.getSeasonName());
+        entity.setId(tvShowSeason.getSeasonId());
+        return entity;
     }
 
     @Override
     public List<TVShowSeason> map(List<TvShowSeasonEntity> from) {
-        return null;
+        if(from==null) return null;
+        List<TVShowSeason> seasons=new ArrayList<>(from.size());
+        from.forEach(tvShowSeasonEntity -> seasons.add(map(tvShowSeasonEntity)));
+        return seasons;
     }
 
 }

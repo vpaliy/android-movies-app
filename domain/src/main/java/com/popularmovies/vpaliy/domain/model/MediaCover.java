@@ -16,6 +16,7 @@ public class MediaCover {
     private String duration;
     private List<String> genres;
     private List<String> backdrops;
+    private boolean isTvShow;
 
     public double getAverageRate() {
         return averageRate;
@@ -67,6 +68,14 @@ public class MediaCover {
 
     public String getPosterPath() {
         return posterPath;
+    }
+
+    public void setTvShow(boolean tvShow) {
+        isTvShow = tvShow;
+    }
+
+    public boolean isTvShow() {
+        return isTvShow;
     }
 
     public void setAverageRate(double averageRate) {

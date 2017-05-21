@@ -69,8 +69,14 @@ public class TvShowDetailEntity {
     @SerializedName("vote_count")
     private int voteCount;
 
+    private List<BackdropImage> backdropImages;
     private List<TvShowSeasonEntity> seasons;
+    private List<ActorEntity> cast;
 
+
+    public List<ActorEntity> getCast() {
+        return cast;
+    }
 
     public int[] getEpisodeRuntime() {
         return episodeRuntime;
@@ -98,6 +104,10 @@ public class TvShowDetailEntity {
 
     public int getVoteCount() {
         return voteCount;
+    }
+
+    public void setCast(List<ActorEntity> cast) {
+        this.cast = cast;
     }
 
     public List<Network> getNetworks() {
@@ -130,6 +140,14 @@ public class TvShowDetailEntity {
 
     public String getHomepage() {
         return homepage;
+    }
+
+    public List<BackdropImage> getBackdropImages() {
+        return backdropImages;
+    }
+
+    public void setBackdropImages(List<BackdropImage> backdropImages) {
+        this.backdropImages = backdropImages;
     }
 
     public String getLastAirDate() {

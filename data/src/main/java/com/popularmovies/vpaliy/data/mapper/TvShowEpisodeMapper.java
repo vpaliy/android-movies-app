@@ -4,6 +4,7 @@ package com.popularmovies.vpaliy.data.mapper;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
 import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,16 +18,36 @@ public class TvShowEpisodeMapper implements Mapper<TVShowEpisode,TvShowEpisodeEn
 
     @Override
     public TVShowEpisode map(TvShowEpisodeEntity tvShowEpisodeEntity) {
-        return null;
+        if(tvShowEpisodeEntity==null) return null;
+        TVShowEpisode episode=new TVShowEpisode();
+        episode.setEpisodeId(tvShowEpisodeEntity.getId());
+        episode.setEpisodeName(tvShowEpisodeEntity.getName());
+        episode.setEpisodeNumber(tvShowEpisodeEntity.getEpisodeNumber());
+        episode.setEpisodeOverview(tvShowEpisodeEntity.getOverview());
+        episode.setVoteAverage(tvShowEpisodeEntity.getVoteAverage().doubleValue());
+        episode.setVoteCount(tvShowEpisodeEntity.getVoteCount());
+        return episode;
     }
 
     @Override
     public List<TVShowEpisode> map(List<TvShowEpisodeEntity> from) {
-        return null;
+        if(from==null) return null;
+        List<TVShowEpisode> episodes=new ArrayList<>(from.size());
+        from.forEach(tvShowEpisodeEntity -> episodes.add(map(tvShowEpisodeEntity)));
+        return episodes;
     }
 
     @Override
     public TvShowEpisodeEntity reverseMap(TVShowEpisode tvShowEpisode) {
-        return null;
+        if(tvShowEpisode==null) return null;
+        TvShowEpisodeEntity episodeEntity=new TvShowEpisodeEntity();
+        episodeEntity.setEpisodeNumber(tvShowEpisode.getEpisodeNumber());
+        episodeEntity.setId(tvShowEpisode.getEpisodeId());
+        episodeEntity.setName(tvShowEpisode.getEpisodeName());
+        episodeEntity.setOverview(tvShowEpisode.getEpisodeOverview());
+        episodeEntity.setEpisodeNumber(tvShowEpisode.getEpisodeNumber());
+        episodeEntity.setVoteAverage(tvShowEpisode.getVoteAverage());
+        episodeEntity.setVoteCount(tvShowEpisode.getVoteCount());
+        return episodeEntity;
     }
 }

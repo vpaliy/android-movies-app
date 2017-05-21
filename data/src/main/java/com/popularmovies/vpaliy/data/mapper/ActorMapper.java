@@ -32,9 +32,7 @@ public class ActorMapper implements Mapper<ActorCover,ActorEntity> {
     public List<ActorCover> map(List<ActorEntity> from) {
         if(from!=null) {
             List<ActorCover> coverList = new ArrayList<>(from.size());
-            for (int index = 0; index < from.size(); index++) {
-                coverList.add(map(from.get(index)));
-            }
+            from.forEach(actorEntity -> coverList.add(map(actorEntity)));
             return coverList;
         }
         return null;

@@ -7,7 +7,7 @@ public class TVShowEpisode {
     private String episodeOverview;
     private String episodeName;
     private double voteAverage;
-    private double voteCount;
+    private int voteCount;
 
     public void setEpisodeId(int episodeId) {
         this.episodeId = episodeId;
@@ -29,15 +29,16 @@ public class TVShowEpisode {
         this.voteAverage = voteAverage;
     }
 
-    public void setVoteCount(double voteCount) {
-        this.voteCount = voteCount;
-    }
 
     public double getVoteAverage() {
         return voteAverage;
     }
 
-    public double getVoteCount() {
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public int getVoteCount() {
         return voteCount;
     }
 
