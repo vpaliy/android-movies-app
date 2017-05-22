@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.data.entity;
 
 import java.util.List;
 
-public class TvShowDetailEntity {
+public class TvShowDetailEntity implements HasId {
 
     private TvShow tvShowCover;
     private TvShowInfoEntity infoEntity;
@@ -11,6 +11,11 @@ public class TvShowDetailEntity {
 
     public List<TvShowSeasonEntity> getSeasons() {
         return seasons;
+    }
+
+    @Override
+    public int id() {
+        return tvShowCover.id();
     }
 
     public TvShow getTvShowCover() {

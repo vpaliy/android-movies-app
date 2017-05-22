@@ -21,6 +21,7 @@ import com.popularmovies.vpaliy.data.mapper.TvShowInfoMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowSeasonMapper;
 import com.popularmovies.vpaliy.data.repository.CoverRepository;
+import com.popularmovies.vpaliy.data.repository.DetailsRepository;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 import com.popularmovies.vpaliy.data.source.local.LocalMovieCovers;
@@ -50,6 +51,7 @@ import com.popularmovies.vpaliy.data.source.qualifier.Movies;
 import com.popularmovies.vpaliy.data.source.qualifier.TV;
 import com.popularmovies.vpaliy.data.source.qualifier.Local;
 import com.popularmovies.vpaliy.data.source.qualifier.Remote;
+import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 
 @Module
 public class DataModule {
@@ -188,5 +190,19 @@ public class DataModule {
     @TV
     ICoverRepository<MediaCover> provideTvCovers(CoverRepository<MediaCover,TvShow> repository){
         return repository;
+    }
+
+    @Singleton
+    @Provides
+    @Movies
+    IDetailsRepository<MovieDetails> provideMovieDetails(DetailsRepository<MovieDetails,MovieDetailEntity> detailsRepository){
+        return detailsRepository;
+    }
+
+    @Singleton
+    @Provides
+    @TV
+    IDetailsRepository<TVShowDetails> provideTvDetails(DetailsRepository<TVShowDetails,TvShowDetailEntity> detailsRepository){
+        return detailsRepository;
     }
 }

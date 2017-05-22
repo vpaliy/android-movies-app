@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.data.entity;
 
 import java.util.List;
 
-public class MovieDetailEntity {
+public class MovieDetailEntity implements HasId{
 
     private Movie movie;
     private List<ReviewEntity> reviews;
@@ -12,6 +12,11 @@ public class MovieDetailEntity {
     private List<Movie> similarMovies;
     private List<BackdropImage> backdropImages;
     private List<Genre> genres;
+
+    @Override
+    public int id() {
+        return movie.id();
+    }
 
     public int getMovieId() {
         return movie.getMovieId();
