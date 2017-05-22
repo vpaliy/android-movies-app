@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Collections;
 import java.util.List;
 
-public class TvShow {
+public class TvShow implements HasId {
 
     @SerializedName("poster_path")
     private String posterPath;
@@ -49,6 +49,11 @@ public class TvShow {
     private boolean isFavorite;
     private boolean isWatched;
     private boolean isMustWatch;
+
+    @Override
+    public int id() {
+        return id;
+    }
 
     public boolean isWatched() {
         return isWatched;

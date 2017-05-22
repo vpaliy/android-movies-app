@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ActorEntity {
+public class ActorEntity implements HasId {
 
 
     @SerializedName("cast_id")
@@ -20,6 +20,11 @@ public class ActorEntity {
 
     @SerializedName("character")
     private String role;
+
+    @Override
+    public int id() {
+        return actorId;
+    }
 
     public int getActorId() {
         return actorId;

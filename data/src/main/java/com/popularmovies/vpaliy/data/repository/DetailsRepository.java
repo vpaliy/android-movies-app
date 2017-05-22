@@ -2,33 +2,62 @@ package com.popularmovies.vpaliy.data.repository;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
+import com.popularmovies.vpaliy.data.entity.HasId;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
+import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 import com.popularmovies.vpaliy.domain.IDetailsRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
-
-import javax.inject.Inject;
-
 import rx.Observable;
 
-public class DetailsRepository<T,F> extends AbstractRepository<T>
+import javax.inject.Inject;
+import android.support.annotation.NonNull;
+
+public class DetailsRepository<T,F extends HasId> extends AbstractRepository<F>
         implements IDetailsRepository<T> {
 
-    private final Mapper<T,F> detailsMapper;
+    private final Mapper<T,F> mapper;
+    private final DetailsDataSource<F> localSource;
+    private final DetailsDataSource<F> remoteSource;
 
     @Inject
     public DetailsRepository(@NonNull Context context,
-                             @NonNull Mapper<T,F> detailsMapper){
-        super(context);
-        this.detailsMapper=detailsMapper;
+                             @NonNull DetailsDataSource<F> localSource,
+                             @NonNull DetailsDataSource<F> remoteSource,
+                             @NonNull Mapper<T,F> mapper){
+        super(context,50);
+        this.localSource=localSource;
+        this.remoteSource=remoteSource;
+        this.mapper=mapper;
     }
 
     @Override
     public Observable<T> get(int id) {
-        return null;
+        if(!isCached(id)){
+            if(isNetworkConnection()){
+                return remoteSource.get(id)
+                        .doOnNext(this::saveToDisk)
+                        .doOnNext(this::cache)
+                        .map(mapper::map);
+            }
+            return localSource.get(id)
+                    .doOnNext(this::cache)
+                    .map(mapper::map);
+        }
+        return fromCache(id).map(mapper::map);
     }
 
+    private void saveToDisk(F fakeDetails){
+        if(fakeDetails!=null){
+            localSource.insert(fakeDetails);
+        }
+    }
+
+    private void cache(F fakeDetails){
+        if (fakeDetails != null) {
+            cache(fakeDetails.id(),fakeDetails);
+        }
+    }
     @Override
     public void update(T item) {
 

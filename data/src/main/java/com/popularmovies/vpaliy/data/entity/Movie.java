@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Movie {
+public class Movie implements HasId {
 
 
     @SerializedName("id")
@@ -66,6 +66,10 @@ public class Movie {
 
     private boolean isFavorite;
 
+    @Override
+    public int id() {
+        return movieId;
+    }
 
     public int getMovieId() {
         return movieId;
