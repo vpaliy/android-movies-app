@@ -46,7 +46,7 @@ public class DatabaseUtilsTest {
 
     @Test
     public void testConvertToValues(){
-        Movie movie= DataSourceTestUtils.provideFakeMovie();
+        Movies movie= DataSourceTestUtils.provideFakeMovie();
         ContentValues contentValues=DatabaseUtils.convertToValues(movie);
 
 
@@ -88,7 +88,7 @@ public class DatabaseUtilsTest {
 
     @Test
     public void testToJsonAndFrom(){
-        Movie movie= DataSourceTestUtils.provideFakeMovie();
+        Movies movie= DataSourceTestUtils.provideFakeMovie();
         Type type = new TypeToken<ArrayList<BackdropImage>>() {}.getType();
 
         String jsonString=DatabaseUtils.convertToJsonString(movie.getBackdropImages(),type);
@@ -111,10 +111,10 @@ public class DatabaseUtilsTest {
 
     @Test
     public void testConvertToMovies(){
-        Movie inputMovie=DataSourceTestUtils.provideFakeMovie();
+        Movies inputMovie=DataSourceTestUtils.provideFakeMovie();
         Cursor cursor=movieToMockCursor(inputMovie);
 
-        Movie outputMovie=DatabaseUtils.convertToMovie(cursor);
+        Movies outputMovie=DatabaseUtils.convertToMovie(cursor);
 
         assertThat(outputMovie.getMovieId(),is(inputMovie.getMovieId()));
         assertThat(outputMovie.getOriginalTitle(),is(inputMovie.getOriginalTitle()));
@@ -138,7 +138,7 @@ public class DatabaseUtilsTest {
     }
 
 
-    private Cursor movieToMockCursor(Movie movie){
+    private Cursor movieToMockCursor(Movies movie){
 
         Cursor cursor= Mockito.mock(Cursor.class);
 

@@ -1,10 +1,10 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
 import rx.subscriptions.CompositeSubscription;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.View;
@@ -17,13 +17,13 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
 
     private View view;
-    private final IMediaRepository<MediaCover,MovieDetails> repository;
+    private final IDetailsRepository<MovieDetails> repository;
     private final CompositeSubscription subscriptions;
     private final BaseSchedulerProvider schedulerProvider;
     private int movieId;
 
     @Inject
-    public DetailsMoviePresenter(@NonNull IMediaRepository<MediaCover,MovieDetails> repository,
+    public DetailsMoviePresenter(@NonNull IDetailsRepository<MovieDetails> repository,
                                  @NonNull BaseSchedulerProvider schedulerProvider){
         this.repository=repository;
         this.schedulerProvider=schedulerProvider;
@@ -39,16 +39,10 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     }
 
     private void retrieveCover(int ID){
-        subscriptions.add(repository.getCover(ID)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe(this::processData,
-                           this::handleErrorMessage,
-                        ()->{}));
     }
 
-    private void retrieveDetails(int ID){
-        subscriptions.add(repository.getDetails(ID)
+    private void retrieveDetails(int id){
+        subscriptions.add(repository.get(id)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::processData,
@@ -82,10 +76,6 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     @Override
     public void make(SortType sortType) {
-        subscriptions.add(repository.getCover(movieId)
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe(movieCover ->repository.update(movieCover,sortType)));
     }
 
     @Override
@@ -95,7 +85,7 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
 
     @Override
     public void shareWithMovie() {
-        subscriptions.add(repository.getDetails(movieId)
+        subscriptions.add(repository.get(movieId)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(view::shareWithMovie,

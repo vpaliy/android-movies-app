@@ -3,12 +3,9 @@ package com.popularmovies.vpaliy.data.repository;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
 import com.google.common.cache.CacheBuilder;
 import com.popularmovies.vpaliy.data.cache.CacheStore;
-
 import java.util.concurrent.TimeUnit;
-
 import rx.Observable;
 
 abstract class AbstractRepository<T> {
@@ -27,8 +24,7 @@ abstract class AbstractRepository<T> {
         this(context,cacheSize,DEFAULT_CACHE_DURATION);
     }
 
-    @SuppressWarnings("WeakerAccess")
-    AbstractRepository(Context context,int cacheSize, int expiresAfter){
+   private AbstractRepository(Context context,int cacheSize, int expiresAfter){
         this.context=context;
         this.cacheStore=new CacheStore<>(CacheBuilder.newBuilder()
                 .maximumSize(cacheSize)
@@ -36,15 +32,15 @@ abstract class AbstractRepository<T> {
                 .build());
     }
 
-    public boolean isCached(int key){
+    boolean isCached(int key){
         return cacheStore.isInCache(key);
     }
 
-    public void cache(int key, T data){
+    void cache(int key, T data){
         cacheStore.put(key,data);
     }
 
-    public Observable<T> fromCache(int id){
+    Observable<T> fromCache(int id){
         return cacheStore.getStream(id);
     }
 

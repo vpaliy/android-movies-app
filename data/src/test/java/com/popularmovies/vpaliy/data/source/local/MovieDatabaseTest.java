@@ -84,8 +84,8 @@ public class MovieDatabaseTest {
     public void testMovieQuery(){
         SQLiteDatabase database=sqlHelper.getWritableDatabase();
 
-        final Movie movie=DataSourceTestUtils.provideFakeMovie();
-        final Movie secondMovie=DataSourceTestUtils.provideFakeMovie();
+        final Movies movie=DataSourceTestUtils.provideFakeMovie();
+        final Movies secondMovie=DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,
                 DataSourceTestUtils.provideFakeValues(movie));
         secondMovie.setMovieId(1234);
@@ -115,8 +115,8 @@ public class MovieDatabaseTest {
     @Test
     public void testTopRatedMoviesQuery(){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        final Movie movie= DataSourceTestUtils.provideFakeMovie();
-        final Movie secondMovie=DataSourceTestUtils.provideFakeMovie();
+        final Movies movie= DataSourceTestUtils.provideFakeMovie();
+        final Movies secondMovie=DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
 
 
@@ -157,8 +157,8 @@ public class MovieDatabaseTest {
     @Test
     public void testMostPopularMoviesQuery(){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        final Movie movie= DataSourceTestUtils.provideFakeMovie();
-        final Movie secondMovie=DataSourceTestUtils.provideFakeMovie();
+        final Movies movie= DataSourceTestUtils.provideFakeMovie();
+        final Movies secondMovie=DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
 
 
@@ -197,14 +197,14 @@ public class MovieDatabaseTest {
     @Test
     public void testFavoriteQuery(){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        final Movie firstMovie=DataSourceTestUtils.provideFakeMovie();
-        final Movie secondMovie=DataSourceTestUtils.provideFakeMovie();
+        final Movies firstMovie=DataSourceTestUtils.provideFakeMovie();
+        final Movies secondMovie=DataSourceTestUtils.provideFakeMovie();
         secondMovie.setMovieId(1);
-        final Movie thirdMovie=DataSourceTestUtils.provideFakeMovie();
+        final Movies thirdMovie=DataSourceTestUtils.provideFakeMovie();
         thirdMovie.setMovieId(0);
 
-        final Movie[] movies={firstMovie,secondMovie,thirdMovie};
-        for(Movie movie:movies) {
+        final Movies[] movies={firstMovie,secondMovie,thirdMovie};
+        for(Movies movie:movies) {
             database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,
                     DataSourceTestUtils.provideFakeValues(movie));
 
@@ -243,7 +243,7 @@ public class MovieDatabaseTest {
     @Test
     public void testMovieInsertAndReplace(){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        final Movies movie= DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
         Cursor cursor=database.query(MoviesContract.MovieEntry.TABLE_NAME,null,null,null,null,null,null);
         assertThat(cursor.moveToFirst(),is(true));
@@ -272,7 +272,7 @@ public class MovieDatabaseTest {
     }
 
 
-    private void assertThatMovieIsEqualToCursor(Cursor cursor, Movie movie, int count, boolean close){
+    private void assertThatMovieIsEqualToCursor(Cursor cursor, Movies movie, int count, boolean close){
         assertThat(cursor.getCount(), is(count));
         assertThat(cursor.getInt(cursor.getColumnIndex(_ID)), is(movie.getMovieId()));
         assertThat(cursor.getString(cursor.getColumnIndex(COLUMN_ORIGINAL_TITLE)),is(movie.getOriginalTitle()));
@@ -318,7 +318,7 @@ public class MovieDatabaseTest {
     @Test
     public void testMovieUpdate(){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        final Movies movie= DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
         movie.setTitle(FAKE_TITLE+FAKE_TITLE);
         movie.setReleaseDate(FAKE_RELEASE_DATE+FAKE_RELEASE_DATE);
@@ -341,7 +341,7 @@ public class MovieDatabaseTest {
     @Test
     public void testMovieDelete(){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        final Movies movie= DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
 
         String[] selectionArgs = new String[]{Long.toString(movie.getMovieId())};
@@ -374,7 +374,7 @@ public class MovieDatabaseTest {
 
     private void testDeleteInAdditionalTable(String tableName, String selectionById){
         final SQLiteDatabase database=sqlHelper.getWritableDatabase();
-        final Movie movie= DataSourceTestUtils.provideFakeMovie();
+        final Movies movie= DataSourceTestUtils.provideFakeMovie();
         database.insert(MoviesContract.MovieEntry.TABLE_NAME,null,DataSourceTestUtils.provideFakeValues(movie));
         String[] selectionArgs = new String[]{Long.toString(movie.getMovieId())};
 

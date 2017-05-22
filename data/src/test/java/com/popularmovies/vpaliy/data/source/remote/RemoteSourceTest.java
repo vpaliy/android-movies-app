@@ -42,7 +42,7 @@ public class RemoteSourceTest {
         given(mockMovieDataBaseAPI.getTopRatedMovies(1))
                 .willReturn(Observable.just(Mockito.mock(MovieWrapper.class)));
         given(mockMovieDataBaseAPI.getMovieDetails(Integer.toString(FAKE_ID)))
-                .willReturn(Observable.just(Mockito.mock(Movie.class)));
+                .willReturn(Observable.just(Mockito.mock(Movies.class)));
         given(mockMovieDataBaseAPI.getBackdrops(Integer.toString(FAKE_ID)))
                 .willReturn(Observable.just(Mockito.mock(BackdropsWrapper.class)));
         given(mockMovieDataBaseAPI.getMovieCast(Integer.toString(FAKE_ID)))

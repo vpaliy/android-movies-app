@@ -108,7 +108,7 @@ public class MovieLocalStorageTest {
 
     @Test
     public void testUpdateMovie(){
-        Movie movie=DataSourceTestUtils.provideFakeMovie();
+        Movies movie=DataSourceTestUtils.provideFakeMovie();
         movie.setFavorite(true);
         localSource.update(movie);
         movie.setFavorite(false);
@@ -119,7 +119,7 @@ public class MovieLocalStorageTest {
 
     @Test
     public void testInsertMovie(){
-        Movie movie= DataSourceTestUtils.provideFakeMovie();
+        Movies movie= DataSourceTestUtils.provideFakeMovie();
         when(configuration.getConfiguration()).thenReturn(ISortConfiguration.SortType.POPULAR);
         localSource.insert(movie);
 
@@ -137,7 +137,7 @@ public class MovieLocalStorageTest {
 
     @Test
     public void testIfFavorite(){
-        Movie movie= DataSourceTestUtils.provideFakeMovie();
+        Movies movie= DataSourceTestUtils.provideFakeMovie();
         movie.setFavorite(false);
         localSource.update(movie);
         localSource.isFavorite(movie.getMovieId());
@@ -158,7 +158,7 @@ public class MovieLocalStorageTest {
                 .subscribeOn(UI)
                 .observeOn(UI)
                 .subscribe(list->assertThat(list==null,is(true)));
-        Movie movie=DataSourceTestUtils.provideFakeMovie();
+        Movies movie=DataSourceTestUtils.provideFakeMovie();
         when(configuration.getConfiguration()).thenReturn(ISortConfiguration.SortType.POPULAR);
         localSource.insert(movie);
         localSource.getDetails(movie.getMovieId())

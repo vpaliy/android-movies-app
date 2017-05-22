@@ -1,34 +1,30 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.View;
 import rx.subscriptions.CompositeSubscription;
+import java.util.List;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
-
-import java.util.List;
-
 import javax.inject.Inject;
-
 
 @ViewScope
 public class MoviesPresenter implements MoviesContract.Presenter{
 
 
-    private final IMediaRepository<MediaCover,MovieDetails> iRepository;
+    private final ICoverRepository<MediaCover> iRepository;
     private final BaseSchedulerProvider schedulerProvider;
     private final CompositeSubscription subscriptions;
     private View view;
 
     @Inject
-    public MoviesPresenter(@NonNull IMediaRepository<MediaCover,MovieDetails> iRepository,
+    public MoviesPresenter(@NonNull ICoverRepository<MediaCover> iRepository,
                            @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.schedulerProvider=schedulerProvider;
@@ -61,7 +57,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private void startLoading(SortType sortType){
         subscriptions.clear();
         view.setLoadingIndicator(true);
-        subscriptions.add(iRepository.getCovers(sortType)
+        subscriptions.add(iRepository.get(sortType)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(movies->processData(sortType,movies),
@@ -84,7 +80,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
         if(sortType!=SortType.FAVORITE) {
             subscriptions.clear();
             view.setLoadingIndicator(true);
-            subscriptions.add(iRepository.requestMoreCovers(sortType)
+            subscriptions.add(iRepository.requestMore(sortType)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
                     .subscribe(movies->appendData(sortType,movies),

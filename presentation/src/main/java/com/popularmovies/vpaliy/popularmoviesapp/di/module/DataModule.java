@@ -20,13 +20,18 @@ import com.popularmovies.vpaliy.data.mapper.TvShowEpisodeMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowInfoMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowSeasonMapper;
-import com.popularmovies.vpaliy.data.repository.MediaRepository;
-import com.popularmovies.vpaliy.data.source.MediaDataSource;
-import com.popularmovies.vpaliy.data.source.local.MovieLocalSourceMovie;
-import com.popularmovies.vpaliy.data.source.local.TVShowLocalSource;
-import com.popularmovies.vpaliy.data.source.remote.RemoteMovieSource;
-import com.popularmovies.vpaliy.data.source.remote.RemoteTvShowSource;
-import com.popularmovies.vpaliy.domain.IMediaRepository;
+import com.popularmovies.vpaliy.data.repository.CoverRepository;
+import com.popularmovies.vpaliy.data.source.CoverDataSource;
+import com.popularmovies.vpaliy.data.source.DetailsDataSource;
+import com.popularmovies.vpaliy.data.source.local.LocalMovieCovers;
+import com.popularmovies.vpaliy.data.source.local.LocalMovieDetails;
+import com.popularmovies.vpaliy.data.source.local.LocalTvShowCovers;
+import com.popularmovies.vpaliy.data.source.local.LocalTvShowDetails;
+import com.popularmovies.vpaliy.data.source.remote.RemoteMovieCovers;
+import com.popularmovies.vpaliy.data.source.remote.RemoteMovieDetails;
+import com.popularmovies.vpaliy.data.source.remote.RemoteTvShowCovers;
+import com.popularmovies.vpaliy.data.source.remote.RemoteTvShowDetails;
+import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
@@ -39,10 +44,12 @@ import com.popularmovies.vpaliy.domain.model.TVShowInfo;
 import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 
 import javax.inject.Singleton;
-import com.popularmovies.vpaliy.data.source.qualifier.MediaLocal;
-import com.popularmovies.vpaliy.data.source.qualifier.MediaRemote;
 import dagger.Module;
 import dagger.Provides;
+import com.popularmovies.vpaliy.data.source.qualifier.Movies;
+import com.popularmovies.vpaliy.data.source.qualifier.TV;
+import com.popularmovies.vpaliy.data.source.qualifier.Local;
+import com.popularmovies.vpaliy.data.source.qualifier.Remote;
 
 @Module
 public class DataModule {
@@ -102,46 +109,6 @@ public class DataModule {
     }
 
     @Singleton
-    @MediaRemote
-    @Provides
-    MediaDataSource<Movie,MovieDetailEntity> provideMovieRemoteSource(RemoteMovieSource remoteSource){
-        return remoteSource;
-    }
-
-    @Singleton
-    @MediaLocal
-    @Provides
-    MediaDataSource<Movie,MovieDetailEntity> provideMovieLocalSource(MovieLocalSourceMovie localSource){
-        return localSource;
-    }
-
-    @Singleton
-    @MediaLocal
-    @Provides
-    MediaDataSource<TvShow,TvShowDetailEntity> provideTvLocalSource(TVShowLocalSource localSource){
-        return localSource;
-    }
-
-    @Singleton
-    @MediaRemote
-    @Provides
-    MediaDataSource<TvShow,TvShowDetailEntity> provideTvRemoteSource(RemoteTvShowSource remoteTvShowSource){
-        return remoteTvShowSource;
-    }
-
-    @Singleton
-    @Provides
-    IMediaRepository<MediaCover,MovieDetails> provideMovieRepository(MediaRepository<Movie,MovieDetails,MovieDetailEntity> repository){
-        return repository;
-    }
-
-    @Singleton
-    @Provides
-    IMediaRepository<MediaCover,TVShowDetails> provideTvRepository(MediaRepository<TvShow,TVShowDetails,TvShowDetailEntity> repository){
-        return repository;
-    }
-
-    @Singleton
     @Provides
     ISortConfiguration provideSortConfiguration(SortConfiguration configuration){
         return configuration;
@@ -151,5 +118,75 @@ public class DataModule {
     @Provides
     IImageQualityConfiguration provideImageQualityConfig(ImageQualityConfiguration qualityConfiguration){
         return qualityConfiguration;
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    DetailsDataSource<MovieDetailEntity> provideMovieDetailsRemote(RemoteMovieDetails remoteMovieDetails){
+        return remoteMovieDetails;
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    DetailsDataSource<TvShowDetailEntity> provideTvDetailsRemote(RemoteTvShowDetails remoteTvShowDetails){
+        return remoteTvShowDetails;
+    }
+
+    @Singleton
+    @Provides
+    @Local
+    DetailsDataSource<TvShowDetailEntity> provideTvDetailsLocal(LocalTvShowDetails localTvShowDetails){
+        return localTvShowDetails;
+    }
+
+    @Singleton
+    @Provides
+    @Local
+    DetailsDataSource<MovieDetailEntity> provideMovieDetailsLocal(LocalMovieDetails localMovieDetails){
+        return localMovieDetails;
+    }
+
+    @Singleton
+    @Provides
+    @Local
+    CoverDataSource<Movie> provideMovieCoverLocalSource(LocalMovieCovers localMovieCovers){
+        return localMovieCovers;
+    }
+
+    @Singleton
+    @Provides
+    @Local
+    CoverDataSource<TvShow> provideTvShowCoverLocalSource(LocalTvShowCovers localTvShowCovers){
+        return localTvShowCovers;
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    CoverDataSource<Movie> provideMovieCoverRemoteSource(RemoteMovieCovers remoteMovieCovers){
+        return remoteMovieCovers;
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    CoverDataSource<TvShow> provideTvShowDataSource(RemoteTvShowCovers remoteTvShowCovers){
+        return remoteTvShowCovers;
+    }
+
+    @Singleton
+    @Provides
+    @Movies
+    ICoverRepository<MediaCover> provideMovieCovers(CoverRepository<MediaCover,Movie> repository){
+        return repository;
+    }
+
+    @Singleton
+    @Provides
+    @TV
+    ICoverRepository<MediaCover> provideTvCovers(CoverRepository<MediaCover,TvShow> repository){
+        return repository;
     }
 }

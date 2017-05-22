@@ -1,10 +1,9 @@
-package com.popularmovies.vpaliy.domain;
+package com.popularmovies.vpaliy.domain.repository;
 
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
-
 import java.util.List;
-
 import rx.Observable;
+
 
 public interface ICoverRepository<T> {
 

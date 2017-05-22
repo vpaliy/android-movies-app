@@ -7,9 +7,9 @@ import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.entity.HasId;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
-import com.popularmovies.vpaliy.data.source.qualifier.MediaLocal;
-import com.popularmovies.vpaliy.data.source.qualifier.MediaRemote;
-import com.popularmovies.vpaliy.domain.ICoverRepository;
+import com.popularmovies.vpaliy.data.source.qualifier.Local;
+import com.popularmovies.vpaliy.data.source.qualifier.Remote;
+import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 
 import java.util.List;
@@ -34,8 +34,8 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
 
     @Inject
     public CoverRepository(@NonNull Context context,
-                           @NonNull @MediaLocal CoverDataSource<F> localSource,
-                           @NonNull @MediaRemote CoverDataSource<F> remoteSource,
+                           @NonNull @Local CoverDataSource<F> localSource,
+                           @NonNull @Remote CoverDataSource<F> remoteSource,
                            @NonNull Mapper<T, F> coverMapper){
         super(context);
         this.mapper=coverMapper;

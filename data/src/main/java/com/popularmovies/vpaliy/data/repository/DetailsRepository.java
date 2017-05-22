@@ -6,8 +6,8 @@ import android.content.Context;
 import com.popularmovies.vpaliy.data.entity.HasId;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
-import com.popularmovies.vpaliy.domain.IDetailsRepository;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
+
 import rx.Observable;
 
 import javax.inject.Inject;
@@ -57,14 +57,5 @@ public class DetailsRepository<T,F extends HasId> extends AbstractRepository<F>
         if (fakeDetails != null) {
             cache(fakeDetails.id(),fakeDetails);
         }
-    }
-    @Override
-    public void update(T item) {
-
-    }
-
-    @Override
-    public boolean isType(SortType sortType) {
-        return false;
     }
 }

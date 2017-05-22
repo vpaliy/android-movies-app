@@ -296,7 +296,7 @@ public class MovieDetailsFragment extends Fragment
 
             String bullet="\u25CF";
             String titleText=movieCover.getMovieTitle();
-            String yearText=bullet+" "+Integer.toString(movieCover.getReleaseYear());
+            String yearText=bullet+" "+movieCover.getReleaseDate();
             String durationText=bullet+" "+movieCover.getDuration();
             String ratingsText=Double.toString(movieCover.getAverageRate());
 

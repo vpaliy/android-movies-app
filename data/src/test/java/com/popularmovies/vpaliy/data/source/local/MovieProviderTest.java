@@ -34,7 +34,7 @@ import static org.mockito.Mockito.when;
 public class MovieProviderTest  {
 
 /*
-    private static final Movie FAKE_MOVIE=DataSourceTestUtils.provideFakeMovie();
+    private static final Movies FAKE_MOVIE=DataSourceTestUtils.provideFakeMovie();
     private static final Uri MOVIE_URI= MoviesContract.MovieEntry.CONTENT_URI;
     private static final Uri MOST_POPULAR_URI=MoviesContract.MostPopularEntry.CONTENT_URI;
     private static final Uri MOST_RATED_URI=MoviesContract.MostRatedEntry.CONTENT_URI;
@@ -58,7 +58,7 @@ public class MovieProviderTest  {
 
     @Test
     public void testProviderInsertMovie(){
-        final Movie movie=DataSourceTestUtils.provideFakeMovie();
+        final Movies movie=DataSourceTestUtils.provideFakeMovie();
         when(sqlHelper.getWritableDatabase()).thenReturn(mockDatabase);
         ContentValues values=DataSourceTestUtils.provideFakeValues(movie);
         movieProvider.insert(MOVIE_URI,values);
@@ -76,7 +76,7 @@ public class MovieProviderTest  {
 
     @Test
     public void testProviderUpdateMovie(){
-        final Movie movie=DataSourceTestUtils.provideFakeMovie();
+        final Movies movie=DataSourceTestUtils.provideFakeMovie();
         ContentValues values=DataSourceTestUtils.provideFakeValues(movie);
         when(sqlHelper.getWritableDatabase()).thenReturn(mockDatabase);
         movieProvider.update(MOVIE_URI,values,null,null);

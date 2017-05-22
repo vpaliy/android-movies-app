@@ -4,12 +4,8 @@ import android.content.Context;
 
 import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
-import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.NetworkModule;
@@ -30,8 +26,6 @@ public interface ApplicationComponent {
     Context context();
     RxBus rxEventBus();
     Navigator navigator();
-    IMediaRepository<MediaCover,MovieDetails> movieRepository();
-    IMediaRepository<MediaCover,TVShowDetails> tvShowRepository();
     ISortConfiguration sortConfiguration();
     PresentationConfiguration presentationConfiguration();
     IImageQualityConfiguration imageQualityConfiguration();

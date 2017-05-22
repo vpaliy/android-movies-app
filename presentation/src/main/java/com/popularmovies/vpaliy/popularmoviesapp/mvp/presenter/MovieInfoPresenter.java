@@ -1,9 +1,8 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.IMediaRepository;
-import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.View;
 import rx.subscriptions.CompositeSubscription;
@@ -19,12 +18,12 @@ public class MovieInfoPresenter
 
 
     private View view;
-    private final IMediaRepository<MediaCover,MovieDetails> iRepository;
+    private final IDetailsRepository<MovieDetails> iRepository;
     private final CompositeSubscription subscriptions;
     private final BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public MovieInfoPresenter(@NonNull IMediaRepository<MediaCover,MovieDetails> iRepository,
+    public MovieInfoPresenter(@NonNull IDetailsRepository<MovieDetails> iRepository,
                               @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.schedulerProvider=schedulerProvider;
@@ -33,7 +32,7 @@ public class MovieInfoPresenter
 
     @Override
     public void start(int movieID) {
-        subscriptions.add(iRepository.getDetails(movieID)
+        subscriptions.add(iRepository.get(movieID)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
                     .subscribe(this::processData,

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +18,9 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import java.util.List;
+import butterknife.ButterKnife;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
-import butterknife.ButterKnife;
 
 public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdapter.MovieViewHolder>{
 
@@ -83,7 +82,7 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
                     .centerCrop()
                     .into(image);
             title.setText(data.get(getAdapterPosition()).getMovieTitle());
-            String date= Integer.toString(data.get(getAdapterPosition()).getReleaseYear());
+            String date= movieCover.getReleaseDate();
             year.setText(date);
         }
     }
