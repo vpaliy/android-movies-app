@@ -1,15 +1,12 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -22,15 +19,20 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter.MediaTypeWrapper;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.RequestMoreEvent;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import javax.inject.Inject;
+import butterknife.BindView;
+import io.reactivex.disposables.CompositeDisposable;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public abstract class MediaFragment extends Fragment
         implements MediaContract.View{
@@ -38,6 +40,7 @@ public abstract class MediaFragment extends Fragment
     protected Presenter presenter;
     private Map<SortType,MediaAdapter> mediaAdapters;
     private MediaTypeAdapter mediaTypeAdapter;
+    private CompositeDisposable disposables;
 
     @Inject
     protected RxBus rxBus;
@@ -52,6 +55,7 @@ public abstract class MediaFragment extends Fragment
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         initializeDependencies();
+        disposables=new CompositeDisposable();
 
     }
 
@@ -75,9 +79,34 @@ public abstract class MediaFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
+            mediaAdapters=new LinkedHashMap<>();
+            mediaTypeAdapter=new MediaTypeAdapter(getContext(),rxBus);
             mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             mediaList.setAdapter(mediaTypeAdapter);
+            getSortTypes().forEach(presenter::start);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        disposables.add(rxBus.asFlowable()
+                .subscribe(this::processEvent));
+    }
+
+    private void processEvent(Object event){
+        if(event!=null) {
+            if (event instanceof RequestMoreEvent) {
+                RequestMoreEvent requestMoreEvent=RequestMoreEvent.class.cast(event);
+                presenter.requestMore(requestMoreEvent.sortType());
+            }
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(disposables!=null) disposables.clear();
     }
 
     @Override
@@ -101,13 +130,16 @@ public abstract class MediaFragment extends Fragment
         if(!mediaAdapters.containsKey(sortType)) mediaAdapters.put(sortType,new MediaAdapter(getContext(),rxBus));
         MediaAdapter adapter=mediaAdapters.get(sortType);
         adapter.setData(media);
-        mediaTypeAdapter.addWrapper(MediaTypeWrapper.wrap(getTitle(sortType),adapter));
+        mediaTypeAdapter.addWrapper(MediaTypeWrapper.wrap(getTitle(sortType),sortType,adapter));
     }
 
 
     @Override
     public void appendMedia(@NonNull SortType sortType, @NonNull List<MediaCover> movies) {
-
+        if(!mediaAdapters.containsKey(sortType)){
+            throw new IllegalArgumentException("Map does not contain this sort type"+sortType.name());
+        }
+        mediaAdapters.get(sortType).appendData(movies);
     }
 
 

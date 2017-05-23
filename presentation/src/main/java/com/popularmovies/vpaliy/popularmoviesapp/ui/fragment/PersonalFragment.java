@@ -1,27 +1,22 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
-import com.google.common.collect.Lists;
+
+import android.support.annotation.NonNull;
+
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 
 import java.util.Arrays;
 import java.util.List;
-import android.support.annotation.NonNull;
-import com.popularmovies.vpaliy.data.source.qualifier.Movies;
-import javax.inject.Inject;
 
-public class MoviesFragment extends MediaFragment{
+public class PersonalFragment extends MediaFragment{
 
 
     @Override
-    @Inject
-    @Movies
-    public void attachPresenter(@NonNull @Movies Presenter presenter) {
-        this.presenter=presenter;
-        this.presenter.attachView(this);
-    }
+    public void attachPresenter(@NonNull MediaContract.Presenter presenter) {
 
+    }
 
     @Override
     List<SortType> getSortTypes() {

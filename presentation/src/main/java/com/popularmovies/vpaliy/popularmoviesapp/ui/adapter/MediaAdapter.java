@@ -2,23 +2,21 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import android.support.annotation.NonNull;
+import butterknife.BindView;
 
 public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHolder>{
 
@@ -58,8 +56,20 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
         }
 
         void onBindData(){
-
+            MediaCover cover=at(getAdapterPosition());
+            releaseYear.setText(cover.getReleaseDate());
+            mediaTitle.setText(cover.getMovieTitle());
         }
+    }
+
+    private MediaCover at(int index){
+        return data.get(index);
+    }
+
+    public void appendData(@NonNull List<MediaCover> movies){
+        int size=getItemCount();
+        data.addAll(movies);
+        notifyItemRangeInserted(size,getItemCount());
     }
 
 
@@ -70,7 +80,8 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
     @Override
     public MediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View root=inflater.inflate(R.layout.adapter_media_item,parent,false);
+        return new MediaViewHolder(root);
     }
 
     @Override
