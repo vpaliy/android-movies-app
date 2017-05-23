@@ -6,10 +6,16 @@ import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.Observable;
 
-
+@Singleton
 public class LocalTvShowCovers implements CoverDataSource<TvShow> {
+
+    @Inject
+    public LocalTvShowCovers(){}
 
     @Override
     public Observable<TvShow> get(int id) {

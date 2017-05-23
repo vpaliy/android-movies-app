@@ -6,9 +6,16 @@ import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.Observable;
 
+@Singleton
 public class LocalMovieCovers implements CoverDataSource<Movie> {
+
+    @Inject
+    public LocalMovieCovers(){}
 
     @Override
     public Observable<List<Movie>> get(ISortConfiguration.SortType type) {

@@ -3,24 +3,16 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,21 +29,18 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieDetailsContract;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieDetailsContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieBackdropsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindDrawable;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Optional;
 import butterknife.Unbinder;
 import me.relex.circleindicator.CircleIndicator;
 import android.support.v7.graphics.Palette.Swatch;
@@ -63,7 +52,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
-import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import butterknife.BindView;
 
@@ -71,7 +59,7 @@ import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.Present
 
 
 public class MovieDetailsFragment extends Fragment
-        implements DetailsMovieContract.View{
+        implements MovieDetailsContract.View{
 
     private Presenter presenter;
     private Unbinder unbinder;

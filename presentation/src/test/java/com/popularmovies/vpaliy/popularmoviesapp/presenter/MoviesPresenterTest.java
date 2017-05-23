@@ -16,12 +16,12 @@ public class MoviesPresenterTest extends BasePresenterTest {
     @Mock
     private IMediaRepository<MovieCover,MovieDetails> mockRepository;
 
-    private MoviesPresenter presenter;
+    private MediaPresenter presenter;
 
 
     @Before
     public void setUp(){
-        presenter=new MoviesPresenter(mockRepository, SCHEDULER_PROVIDER);
+        presenter=new MediaPresenter(mockRepository, SCHEDULER_PROVIDER);
         presenter.attachView(mockView);
         init();
 
@@ -33,7 +33,7 @@ public class MoviesPresenterTest extends BasePresenterTest {
         presenter.start();
 
         verify(mockRepository).getCovers();
-        verify(mockView).showMovies(FAKE_COVER_LIST);
+        verify(mockView).showMedia(FAKE_COVER_LIST);
         verify(mockView).setLoadingIndicator(true);
         verify(mockView).setLoadingIndicator(false);
     }
@@ -63,10 +63,10 @@ public class MoviesPresenterTest extends BasePresenterTest {
     @Test
     public void testRequestMoreData(){
         when(mockRepository.requestMoreCovers()).thenReturn(Observable.just(FAKE_COVER_LIST));
-        presenter.requestMoreData();
+        presenter.requestMore();
 
         verify(mockRepository).requestMoreCovers();
-        verify(mockView).appendMovies(FAKE_COVER_LIST);
+        verify(mockView).appendMedia(FAKE_COVER_LIST);
         verify(mockView).setLoadingIndicator(false);
         verify(mockView).setLoadingIndicator(true);
 
@@ -75,11 +75,11 @@ public class MoviesPresenterTest extends BasePresenterTest {
     @Test
     public void testRequestEmptyData(){
         when(mockRepository.requestMoreCovers()).thenReturn(Observable.just(FAKE_EMPTY_COVER_LIST));
-        presenter.requestMoreData();
+        presenter.requestMore();
 
         verify(mockRepository).requestMoreCovers();
-        verify(mockView,times(0)).appendMovies(FAKE_COVER_LIST);
-        verify(mockView,times(0)).appendMovies(FAKE_EMPTY_COVER_LIST);
+        verify(mockView,times(0)).appendMedia(FAKE_COVER_LIST);
+        verify(mockView,times(0)).appendMedia(FAKE_EMPTY_COVER_LIST);
         verify(mockView).setLoadingIndicator(false);
         verify(mockView).setLoadingIndicator(true);
     }
@@ -87,11 +87,11 @@ public class MoviesPresenterTest extends BasePresenterTest {
     @Test
     public void testRequestDataWithException(){
         when(mockRepository.requestMoreCovers()).thenReturn(Observable.error(new Exception()));
-        presenter.requestMoreData();
+        presenter.requestMore();
 
         verify(mockRepository).requestMoreCovers();
-        verify(mockView,times(0)).appendMovies(FAKE_COVER_LIST);
-        verify(mockView,times(0)).appendMovies(FAKE_EMPTY_COVER_LIST);
+        verify(mockView,times(0)).appendMedia(FAKE_COVER_LIST);
+        verify(mockView,times(0)).appendMedia(FAKE_EMPTY_COVER_LIST);
         verify(mockView).showErrorMessage();
         verify(mockView).setLoadingIndicator(false);
         verify(mockView).setLoadingIndicator(true);
@@ -110,7 +110,7 @@ public class MoviesPresenterTest extends BasePresenterTest {
         verify(mockRepository).sortBy(ISortConfiguration.SortType.FAVORITE);
         verify(mockView,times(3)).setLoadingIndicator(false);
         verify(mockView,times(3)).setLoadingIndicator(true);
-        verify(mockView,times(3)).showMovies(FAKE_COVER_LIST);
+        verify(mockView,times(3)).showMedia(FAKE_COVER_LIST);
     }
 
     @Test

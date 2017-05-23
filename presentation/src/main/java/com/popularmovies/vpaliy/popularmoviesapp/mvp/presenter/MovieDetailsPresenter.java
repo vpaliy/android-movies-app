@@ -5,15 +5,16 @@ import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieDetailsContract;
 import rx.subscriptions.CompositeSubscription;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract.View;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieDetailsContract.View;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 
 @ViewScope
-public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
+public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
 
     private View view;
@@ -23,7 +24,7 @@ public class DetailsMoviePresenter implements DetailsMovieContract.Presenter {
     private int movieId;
 
     @Inject
-    public DetailsMoviePresenter(@NonNull IDetailsRepository<MovieDetails> repository,
+    public MovieDetailsPresenter(@NonNull IDetailsRepository<MovieDetails> repository,
                                  @NonNull BaseSchedulerProvider schedulerProvider){
         this.repository=repository;
         this.schedulerProvider=schedulerProvider;

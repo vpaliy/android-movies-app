@@ -125,13 +125,6 @@ public class DataModule {
     @Singleton
     @Provides
     @Remote
-    DetailsDataSource<MovieDetailEntity> provideMovieDetailsRemote(RemoteMovieDetails remoteMovieDetails){
-        return remoteMovieDetails;
-    }
-
-    @Singleton
-    @Provides
-    @Remote
     DetailsDataSource<TvShowDetailEntity> provideTvDetailsRemote(RemoteTvShowDetails remoteTvShowDetails){
         return remoteTvShowDetails;
     }
@@ -148,6 +141,13 @@ public class DataModule {
     @Local
     DetailsDataSource<MovieDetailEntity> provideMovieDetailsLocal(LocalMovieDetails localMovieDetails){
         return localMovieDetails;
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    DetailsDataSource<MovieDetailEntity> provideMovieDetailsRemote(RemoteMovieDetails remoteMovieDetails){
+        return remoteMovieDetails;
     }
 
     @Singleton
@@ -194,15 +194,14 @@ public class DataModule {
 
     @Singleton
     @Provides
-    @Movies
     IDetailsRepository<MovieDetails> provideMovieDetails(DetailsRepository<MovieDetails,MovieDetailEntity> detailsRepository){
         return detailsRepository;
     }
 
     @Singleton
     @Provides
-    @TV
-    IDetailsRepository<TVShowDetails> provideTvDetails(DetailsRepository<TVShowDetails,TvShowDetailEntity> detailsRepository){
+    IDetailsRepository<TVShowDetails> provideTVShowDetails(DetailsRepository<TVShowDetails,TvShowDetailEntity> detailsRepository){
         return detailsRepository;
     }
+
 }

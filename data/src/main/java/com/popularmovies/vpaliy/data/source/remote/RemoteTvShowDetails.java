@@ -15,8 +15,11 @@ import rx.Observable;
 import rx.schedulers.Schedulers;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import android.support.annotation.NonNull;
 
+@Singleton
 public class RemoteTvShowDetails implements DetailsDataSource<TvShowDetailEntity>{
 
     private MovieDatabaseAPI databaseAPI;

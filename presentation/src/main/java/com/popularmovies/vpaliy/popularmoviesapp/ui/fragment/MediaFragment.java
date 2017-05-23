@@ -16,8 +16,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
@@ -33,9 +33,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class MediaFragment extends Fragment
-        implements MoviesContract.View{
+        implements MediaContract.View{
 
-    private Presenter presenter;
+    protected Presenter presenter;
     private Map<SortType,MediaAdapter> mediaAdapters;
     private MediaTypeAdapter mediaTypeAdapter;
 
@@ -97,7 +97,7 @@ public abstract class MediaFragment extends Fragment
     }
 
     @Override
-    public void showMovies(@NonNull SortType sortType, @NonNull List<MediaCover> media) {
+    public void showMedia(@NonNull SortType sortType, @NonNull List<MediaCover> media) {
         if(!mediaAdapters.containsKey(sortType)) mediaAdapters.put(sortType,new MediaAdapter(getContext(),rxBus));
         MediaAdapter adapter=mediaAdapters.get(sortType);
         adapter.setData(media);
@@ -106,15 +106,10 @@ public abstract class MediaFragment extends Fragment
 
 
     @Override
-    public void appendMovies(@NonNull SortType sortType, @NonNull List<MediaCover> movies) {
+    public void appendMedia(@NonNull SortType sortType, @NonNull List<MediaCover> movies) {
 
     }
 
-    @Override
-    public void attachPresenter(@NonNull Presenter presenter) {
-        this.presenter=presenter;
-        this.presenter.attachView(this);
-    }
 
     @Override
     public void setLoadingIndicator(boolean isLoading) {

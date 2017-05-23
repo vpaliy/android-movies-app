@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import android.support.annotation.NonNull;
 
-
+@Singleton
 public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
 
 

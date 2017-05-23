@@ -4,8 +4,8 @@ import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract.View;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.View;
 import rx.subscriptions.CompositeSubscription;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 
 @ViewScope
-public class MoviesPresenter implements MoviesContract.Presenter{
+public class MediaPresenter implements MediaContract.Presenter{
 
 
     private final ICoverRepository<MediaCover> iRepository;
@@ -24,8 +24,8 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private View view;
 
     @Inject
-    public MoviesPresenter(@NonNull ICoverRepository<MediaCover> iRepository,
-                           @NonNull BaseSchedulerProvider schedulerProvider){
+    public MediaPresenter(@NonNull ICoverRepository<MediaCover> iRepository,
+                          @NonNull BaseSchedulerProvider schedulerProvider){
         this.iRepository=iRepository;
         this.schedulerProvider=schedulerProvider;
         this.subscriptions=new CompositeSubscription();
@@ -68,7 +68,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private void processData(SortType sortType, List<MediaCover> movieList){
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
-                view.showMovies(sortType,movieList);
+                view.showMedia(sortType,movieList);
                 return;
             }
         }
@@ -76,7 +76,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     }
 
     @Override
-    public void requestMoreData(@NonNull SortType sortType) {
+    public void requestMore(@NonNull SortType sortType) {
         if(sortType!=SortType.FAVORITE) {
             subscriptions.clear();
             view.setLoadingIndicator(true);
@@ -92,7 +92,7 @@ public class MoviesPresenter implements MoviesContract.Presenter{
     private void appendData(SortType sortType,@Nullable List<MediaCover> movieList){
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
-                view.appendMovies(sortType,movieList);
+                view.appendMedia(sortType,movieList);
             }
         }
     }

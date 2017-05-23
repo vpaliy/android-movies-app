@@ -1,16 +1,21 @@
 package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.DetailsMovieContract;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieDetailsContract;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.DetailsMoviePresenter;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieDetailsPresenter;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MediaPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieCastPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieInfoPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieReviewPresenter;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MoviesPresenter;
 
+import com.popularmovies.vpaliy.data.source.qualifier.Movies;
+import com.popularmovies.vpaliy.data.source.qualifier.TV;
 import dagger.Module;
 import dagger.Provides;
 import android.support.annotation.NonNull;
@@ -21,13 +26,23 @@ public class PresenterModule {
 
     @ViewScope
     @Provides
-    MoviesContract.Presenter provideMoviePresenter(@NonNull MoviesPresenter presenter){
-        return presenter;
+    @TV
+    MediaContract.Presenter provideTvShowPresenter(@TV ICoverRepository<MediaCover> iCoverRepository,
+                                                  BaseSchedulerProvider schedulerProvider){
+        return new MediaPresenter(iCoverRepository,schedulerProvider);
     }
 
     @ViewScope
     @Provides
-    DetailsMovieContract.Presenter provideMovieDetailsPresenter(@NonNull DetailsMoviePresenter presenter){
+    @Movies
+    MediaContract.Presenter provideMoviesPresenter(@Movies ICoverRepository<MediaCover> iCoverRepository,
+                                                   BaseSchedulerProvider schedulerProvider){
+        return new MediaPresenter(iCoverRepository,schedulerProvider);
+    }
+
+    @ViewScope
+    @Provides
+    MovieDetailsContract.Presenter provideMovieDetailsPresenter(@NonNull MovieDetailsPresenter presenter){
         return presenter;
     }
 
@@ -48,6 +63,7 @@ public class PresenterModule {
     MovieReviewContract.Presenter provideMovieReviewPresenter(@NonNull MovieReviewPresenter presenter){
         return presenter;
     }
+
 
 
 }

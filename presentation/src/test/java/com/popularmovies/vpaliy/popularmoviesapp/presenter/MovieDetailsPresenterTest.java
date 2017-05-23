@@ -12,16 +12,16 @@ public class MovieDetailsPresenterTest extends BasePresenterTest {
 
 /*
     @Mock
-    private DetailsMovieContract.View mockView;
+    private MovieDetailsContract.View mockView;
 
     @Mock
     private IMediaRepository<MovieCover,MovieDetails> mockRepository;
 
-    private DetailsMoviePresenter presenter;
+    private MovieDetailsPresenter presenter;
 
     @Before
     public void setUp(){
-        presenter=new DetailsMoviePresenter(mockRepository,SCHEDULER_PROVIDER);
+        presenter=new MovieDetailsPresenter(mockRepository,SCHEDULER_PROVIDER);
         presenter.attachView(mockView);
         init();
     }

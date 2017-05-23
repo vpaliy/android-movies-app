@@ -1,31 +1,30 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.contract;
 
-import android.support.annotation.NonNull;
-
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BaseView;
-
 import java.util.List;
 
-public interface DetailsMovieContract {
+import android.support.annotation.NonNull;
+
+public interface MediaContract {
 
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
-        void showBackdrops(@NonNull List<String> backdrops);
-        void showCover(@NonNull MediaCover movieCover);
-        void showDetails(@NonNull MovieDetails movieDetails);
-        void shareWithMovie(MovieDetails details);
-
+        void showMedia(@NonNull SortType sortType, @NonNull List<MediaCover> movies);
+        void appendMedia(@NonNull SortType sortType, @NonNull List<MediaCover> movies);
+        void setLoadingIndicator(boolean isLoading);
+        void showErrorMessage();
+        void showEmptyMessage();
     }
 
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
-        void make(SortType sortType);
-        void shareWithMovie();
-        void start(int ID);
+        void requestDataRefresh(@NonNull SortType sortType);
+        void requestMore(@NonNull SortType sortType);
+        void start(SortType sortType);
         void stop();
+
     }
 }

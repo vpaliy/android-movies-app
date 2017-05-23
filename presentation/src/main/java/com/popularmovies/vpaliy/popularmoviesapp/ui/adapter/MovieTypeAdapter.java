@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,12 +8,12 @@ import android.util.SparseArray;
 
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MoviesContract;
+import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
 
 public class MovieTypeAdapter extends FragmentStatePagerAdapter {
 
-    private SparseArray<MoviesContract.View> views;
+    private SparseArray<MediaContract.View> views;
     private Context context;
 
     public MovieTypeAdapter(FragmentManager manager, Context context){
@@ -47,29 +46,11 @@ public class MovieTypeAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        MoviesFragment moviesFragment;
-        switch (position){
-            default:
-                moviesFragment=MoviesFragment.newInstance(SortType.POPULAR);
-                break;
-            case 1:
-                moviesFragment= MoviesFragment.newInstance(SortType.TOP_RATED);
-                break;
-            case 2:
-                moviesFragment= MoviesFragment.newInstance(SortType.UPCOMING);
-                break;
-            case 3:
-                moviesFragment=MoviesFragment.newInstance(SortType.NOW_PLAYING);
-                break;
-            case 4:
-                moviesFragment=MoviesFragment.newInstance(SortType.UPCOMING);
-                break;
-        }
-        views.put(position,moviesFragment);
+        MoviesFragment moviesFragment=null;
         return moviesFragment;
     }
 
-    public MoviesContract.View viewAt(int index){
+    public MediaContract.View viewAt(int index){
         return views.get(index);
     }
 }

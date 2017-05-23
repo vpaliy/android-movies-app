@@ -6,13 +6,18 @@ import android.content.Context;
 import com.popularmovies.vpaliy.data.entity.HasId;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
+import com.popularmovies.vpaliy.data.source.qualifier.Local;
+import com.popularmovies.vpaliy.data.source.qualifier.Remote;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 
 import rx.Observable;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import android.support.annotation.NonNull;
 
+@Singleton
 public class DetailsRepository<T,F extends HasId> extends AbstractRepository<F>
         implements IDetailsRepository<T> {
 
@@ -21,9 +26,9 @@ public class DetailsRepository<T,F extends HasId> extends AbstractRepository<F>
     private final DetailsDataSource<F> remoteSource;
 
     @Inject
-    public DetailsRepository(@NonNull Context context,
-                             @NonNull DetailsDataSource<F> localSource,
-                             @NonNull DetailsDataSource<F> remoteSource,
+    public DetailsRepository(@NonNull @Local DetailsDataSource<F> localSource,
+                             @NonNull @Remote DetailsDataSource<F> remoteSource,
+                             @NonNull Context context,
                              @NonNull Mapper<T,F> mapper){
         super(context,50);
         this.localSource=localSource;

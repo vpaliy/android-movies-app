@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.presenter;
 
-import com.popularmovies.vpaliy.domain.IMediaRepository;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieReviewPresenterTest extends BasePresenterTest {
-
+/*
     @Mock
     private IMediaRepository<MediaCover,MovieDetails> mockRepository;
 
@@ -55,6 +54,6 @@ public class MovieReviewPresenterTest extends BasePresenterTest {
         verify(mockView).showNoReviewMessage();
 
     }
-
+*/
 
 }

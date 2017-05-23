@@ -15,6 +15,7 @@ import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Observable;
 
@@ -24,6 +25,7 @@ import rx.Observable;
  * @param <F> fake data
  */
 
+@Singleton
 public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
         implements ICoverRepository<T>{
 
