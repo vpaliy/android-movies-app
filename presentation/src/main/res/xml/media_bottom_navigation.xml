@@ -1,0 +1,20 @@
+<tabs>
+    <tab
+        id="@+id/movies"
+        icon="@drawable/ic_now_playing"
+        barColorWhenSelected="#4db6ac"
+        badgeHidesWhenActive="true"
+        title="Movies" />
+    <tab
+        id="@+id/tv_shows"
+        icon="@drawable/movies"
+        barColorWhenSelected="#4db6f1"
+        badgeHidesWhenActive="true"
+        title="TV" />
+    <tab
+        id="@+id/personal"
+        icon="@drawable/ic_time"
+        barColorWhenSelected="#9999cc"
+        badgeHidesWhenActive="true"
+        title="Personal" />
+</tabs>

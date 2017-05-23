@@ -40,15 +40,15 @@ public class PersonalFragment extends MediaFragment{
     String getTitle(SortType sortType) {
         switch (sortType){
             case POPULAR:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByPopularity);
             case LATEST:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByLatest);
             case NOW_PLAYING:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByNowPlaying);
             case UPCOMING:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByUpcoming);
             case TOP_RATED:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByTopRated);
             default:
                 throw new IllegalArgumentException();
         }

@@ -1,15 +1,15 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
-import com.google.common.collect.Lists;
+
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
-
 import java.util.Arrays;
 import java.util.List;
+
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
 import javax.inject.Inject;
@@ -45,15 +45,15 @@ public class MoviesFragment extends MediaFragment{
     String getTitle(SortType sortType) {
         switch (sortType){
             case POPULAR:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByPopularity);
             case LATEST:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByLatest);
             case NOW_PLAYING:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByNowPlaying);
             case UPCOMING:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByUpcoming);
             case TOP_RATED:
-                return getString(R.string.sortByPopularity);
+                return getString(R.string.ByTopRated);
             default:
                 throw new IllegalArgumentException();
         }

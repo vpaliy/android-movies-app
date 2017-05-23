@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTypeAdapter;
@@ -14,20 +11,27 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetail
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.TvShowsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
+import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.FrameLayout;
+
 import butterknife.BindView;
 
 import butterknife.ButterKnife;
@@ -46,16 +50,13 @@ public class MediaActivity extends BaseActivity
     @BindView(R.id.navigation)
     protected NavigationView navigationView;
 
-    @BindView(R.id.bottomNavigation)
-    protected AHBottomNavigation bottomNavigation;
+    @BindView(R.id.bottom_navigation)
+    protected BottomBar bottomNavigation;
 
-   // @BindView(R.id.moviesTypePager)
+    @BindView(R.id.media_frame)
+    protected FrameLayout mediaFrame;
+
     protected ViewPager movieTypePager;
-
-  //  @BindView(R.id.tabLayout)
-    protected TabLayout tabLayout;
-
-    private IMoviesFragment moviesFragment;
 
     private ActionBarDrawerToggle drawerToggle;
 
@@ -74,31 +75,28 @@ public class MediaActivity extends BaseActivity
     }
 
     private void setBottomNavigation(){
-        if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
-            bottomNavigation.setTranslucentNavigationEnabled(true);
-        }
-        int[] colors=getResources().getIntArray(R.array.movie_colors);
-        AHBottomNavigationAdapter navigationAdapter = new AHBottomNavigationAdapter(this, R.menu.movies_bottom_menu);
-        navigationAdapter.setupWithBottomNavigation(bottomNavigation,colors);
-        bottomNavigation.setForceTint(true);
-        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
-        bottomNavigation.setColored(true);
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.media_frame,new TvShowsFragment())
-                        .commit();
-                return true;
+        bottomNavigation.setOnTabSelectListener((tabId -> {
+            final Fragment fragment;
+            switch (tabId) {
+                case R.id.movies:
+                    fragment = new MoviesFragment();
+                    break;
+                default:
+                    fragment = new TvShowsFragment();
+                    break;
             }
-        });
-
-
+            if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
+                TransitionManager.beginDelayedTransition(mediaFrame,new Fade());
+            }
+            new Handler().post(()->getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.media_frame,fragment)
+                    .commitNow());
+        }));
     }
+
     private void setMovieTypePager(){
         MovieTypeAdapter typeAdapter=new MovieTypeAdapter(getSupportFragmentManager(),this);
         movieTypePager.setAdapter(typeAdapter);
-        tabLayout.setupWithViewPager(movieTypePager);
     }
 
     private void setActionBar(){
@@ -132,33 +130,33 @@ public class MediaActivity extends BaseActivity
         this.drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,actionBar,0,0);
         drawerLayout.setDrawerListener(drawerToggle);
         navigationView.setNavigationItemSelectedListener(item -> {
-                item.setChecked(true);
-                switch (item.getItemId()){
-                    case R.id.favorites:
-                        actionBar.setTitle(R.string.ByFavorite);
-                        drawerLayout.closeDrawers();
-                        isMenuVisible=false;
-                        supportInvalidateOptionsMenu();
-                        return true;
-                    case R.id.movies:
-                        actionBar.setTitle(R.string.ByPopularity);
-                        drawerLayout.closeDrawers();
-                        isMenuVisible=true;
-                        supportInvalidateOptionsMenu();
-                        return true;
-                    case R.id.settings:
-                        startActivity(new Intent(this,SettingsActivity.class));
-                        return true;
+            item.setChecked(true);
+            switch (item.getItemId()){
+                case R.id.favorites:
+                    actionBar.setTitle(R.string.ByFavorite);
+                    drawerLayout.closeDrawers();
+                    isMenuVisible=false;
+                    supportInvalidateOptionsMenu();
+                    return true;
+                case R.id.movies:
+                    actionBar.setTitle(R.string.ByPopularity);
+                    drawerLayout.closeDrawers();
+                    isMenuVisible=true;
+                    supportInvalidateOptionsMenu();
+                    return true;
+                case R.id.settings:
+                    startActivity(new Intent(this,SettingsActivity.class));
+                    return true;
 
-                }
-                return false;
+            }
+            return false;
         });
     }
 
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-       // moviesFragment.onConfigChanged();
+        // moviesFragment.onConfigChanged();
     }
 
     private void setUI(Bundle savedInstanceState){
@@ -194,10 +192,8 @@ public class MediaActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item)
+                ||super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -216,9 +212,4 @@ public class MediaActivity extends BaseActivity
         navigator.showDetails(this,event);
 
     }
-
-    public interface IMoviesFragment {
-        void onConfigChanged();
-    }
-
 }

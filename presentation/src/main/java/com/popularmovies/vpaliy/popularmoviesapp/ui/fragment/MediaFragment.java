@@ -71,9 +71,8 @@ public abstract class MediaFragment extends Fragment
             mediaTypeAdapter=new MediaTypeAdapter(getContext(),rxBus);
             mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             mediaList.setAdapter(mediaTypeAdapter);
-            for(SortType sortType:getSortTypes())
-                presenter.start(sortType);
-            //getSortTypes().forEach(presenter::start);
+            mediaList.setNestedScrollingEnabled(false);
+            getSortTypes().forEach(presenter::start);
         }
     }
 

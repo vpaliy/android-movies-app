@@ -54,8 +54,8 @@ public class MediaPresenter implements MediaContract.Presenter{
         startLoading(sortType);
     }
 
-    private void startLoading(SortType sortType){
-        subscriptions.clear();
+    private synchronized void startLoading(SortType sortType){
+        //subscriptions.clear();
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.get(sortType)
                 .subscribeOn(schedulerProvider.io())
@@ -78,7 +78,7 @@ public class MediaPresenter implements MediaContract.Presenter{
     @Override
     public void requestMore(@NonNull SortType sortType) {
         if(sortType!=SortType.FAVORITE) {
-            subscriptions.clear();
+           // subscriptions.clear();
             view.setLoadingIndicator(true);
             subscriptions.add(iRepository.requestMore(sortType)
                     .subscribeOn(schedulerProvider.io())
