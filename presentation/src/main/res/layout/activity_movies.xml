@@ -24,12 +24,19 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/moviesFrame"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="match_parent">
-        </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/media_frame"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </FrameLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
         <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
             android:id="@+id/bottomNavigation"

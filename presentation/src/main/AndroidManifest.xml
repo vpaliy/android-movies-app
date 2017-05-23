@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.MoviesActivity"
+            android:name=".ui.activity.MediaActivity"
             android:theme="@style/AppTheme">
         </activity>
 
@@ -38,10 +38,10 @@
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:theme="@style/AppTheme"
-            android:parentActivityName=".ui.activity.MoviesActivity">
+            android:parentActivityName=".ui.activity.MediaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MoviesActivity"/>
+                android:value=".ui.activity.MediaActivity"/>
 
         </activity>
 

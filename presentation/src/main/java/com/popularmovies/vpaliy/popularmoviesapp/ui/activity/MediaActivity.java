@@ -2,7 +2,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -12,10 +11,11 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTypeAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.TvShowsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 
 import android.preference.PreferenceManager;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -32,14 +32,13 @@ import butterknife.BindView;
 
 import butterknife.ButterKnife;
 
-public class MoviesActivity extends BaseActivity
+public class MediaActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener{
 
-    private static final String TAG=MoviesActivity.class.getSimpleName();
+    private static final String TAG=MediaActivity.class.getSimpleName();
 
     @BindView(R.id.actionBar)
     protected Toolbar actionBar;
-
 
     @BindView(R.id.drawerLayout)
     protected DrawerLayout drawerLayout;
@@ -84,6 +83,15 @@ public class MoviesActivity extends BaseActivity
         bottomNavigation.setForceTint(true);
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
         bottomNavigation.setColored(true);
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.media_frame,new TvShowsFragment())
+                        .commit();
+                return true;
+            }
+        });
 
 
     }

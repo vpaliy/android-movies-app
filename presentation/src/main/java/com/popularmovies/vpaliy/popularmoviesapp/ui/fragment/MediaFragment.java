@@ -9,10 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
-import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaAdapter;
@@ -20,17 +17,15 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter.MediaTypeWrapper;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.RequestMoreEvent;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.disposables.CompositeDisposable;
 
 import javax.inject.Inject;
 import butterknife.BindView;
-import io.reactivex.disposables.CompositeDisposable;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -59,13 +54,6 @@ public abstract class MediaFragment extends Fragment
 
     }
 
-    private void initializeDependencies(){
-        DaggerViewComponent.builder()
-                .applicationComponent(App.appInstance().appComponent())
-                .presenterModule(new PresenterModule())
-                .build().inject(this);
-    }
-
 
     @Nullable
     @Override
@@ -83,7 +71,9 @@ public abstract class MediaFragment extends Fragment
             mediaTypeAdapter=new MediaTypeAdapter(getContext(),rxBus);
             mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             mediaList.setAdapter(mediaTypeAdapter);
-            getSortTypes().forEach(presenter::start);
+            for(SortType sortType:getSortTypes())
+                presenter.start(sortType);
+            //getSortTypes().forEach(presenter::start);
         }
     }
 
@@ -148,6 +138,7 @@ public abstract class MediaFragment extends Fragment
 
     }
 
+    abstract void initializeDependencies();
     abstract String getTitle(SortType sortType);
     abstract List<SortType> getSortTypes();
 }

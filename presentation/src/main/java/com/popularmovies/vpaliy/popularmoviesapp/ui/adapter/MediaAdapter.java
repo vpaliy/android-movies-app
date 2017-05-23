@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
@@ -59,6 +63,13 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
             MediaCover cover=at(getAdapterPosition());
             releaseYear.setText(cover.getReleaseDate());
             mediaTitle.setText(cover.getMovieTitle());
+            Glide.with(itemView.getContext())
+                    .load(cover.getPosterPath())
+                    .priority(Priority.HIGH)
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .placeholder(R.drawable.placeholder)
+                    .animate(R.anim.fade_in)
+                    .into(posterImage);
         }
     }
 

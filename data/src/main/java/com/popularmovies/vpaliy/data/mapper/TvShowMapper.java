@@ -29,14 +29,14 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         cover.setAverageRate(tvShow.getVoteAverage().doubleValue());
         cover.setBackdrops(BackdropImage.convert(tvShow.getBackdrops(),qualityConfiguration));
         cover.setMovieTitle(tvShow.getName());
-        cover.setPosterPath(tvShow.getPosterPath());
+        cover.setPosterPath(qualityConfiguration.convertCover(tvShow.getPosterPath()));
         cover.setReleaseDate(tvShow.getFirstAirDate());
         cover.setGenres(Genre.convert(tvShow.getGenreList()));
         cover.setMustWatch(tvShow.isMustWatch());
         cover.setWatched(tvShow.isWatched());
         cover.setFavorite(tvShow.isFavorite());
         cover.setTvShow(true);
-        return null;
+        return cover;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         tvShow.setVoteAverage(mediaCover.getAverageRate());
         tvShow.setId(mediaCover.getMediaId());
         tvShow.setFirstAirDate(mediaCover.getReleaseDate());
-        tvShow.setPosterPath(mediaCover.getPosterPath());
+        tvShow.setPosterPath(qualityConfiguration.extractPath(mediaCover.getPosterPath()));
         tvShow.setBackdrops(BackdropImage.convertToBackdrops(mediaCover.getBackdrops(),qualityConfiguration));
         tvShow.setGenreList(Genre.convertToGenres(mediaCover.getGenres()));
         tvShow.setFavorite(mediaCover.isFavorite());

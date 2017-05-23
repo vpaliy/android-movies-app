@@ -2,7 +2,10 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import com.google.common.collect.Lists;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
 
 import java.util.Arrays;
@@ -22,6 +25,15 @@ public class MoviesFragment extends MediaFragment{
         this.presenter.attachView(this);
     }
 
+
+    @Override
+    void initializeDependencies() {
+        DaggerViewComponent.builder()
+                .applicationComponent(App.appInstance().appComponent())
+                .presenterModule(new PresenterModule())
+                .build().inject(this);
+
+    }
 
     @Override
     List<SortType> getSortTypes() {

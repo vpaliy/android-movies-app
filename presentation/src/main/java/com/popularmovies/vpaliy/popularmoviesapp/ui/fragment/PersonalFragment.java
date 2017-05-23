@@ -4,7 +4,10 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 import android.support.annotation.NonNull;
 
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 
 import java.util.Arrays;
@@ -15,6 +18,15 @@ public class PersonalFragment extends MediaFragment{
 
     @Override
     public void attachPresenter(@NonNull MediaContract.Presenter presenter) {
+
+    }
+
+    @Override
+    void initializeDependencies() {
+        DaggerViewComponent.builder()
+                .applicationComponent(App.appInstance().appComponent())
+                .presenterModule(new PresenterModule())
+                .build().inject(this);
 
     }
 

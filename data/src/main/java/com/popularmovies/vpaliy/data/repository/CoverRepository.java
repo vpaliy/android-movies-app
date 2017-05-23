@@ -48,7 +48,7 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
     @Override
     public Observable<List<T>> get(SortType type) {
         if(isNetworkConnection()){
-            remoteSource.get(type)
+            return remoteSource.get(type)
                     .doOnNext(list->save(list,type))
                     .doOnNext(this::cacheData)
                     .map(mapper::map);
