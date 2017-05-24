@@ -2,28 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
         <item
-            android:id="@+id/popular"
-            android:title="@string/ByPopularity"
-            android:icon="@drawable/ic_top_rated"/>
-
-        <item
-            android:id="@+id/now_playing"
-            android:title="@string/ByNowPlaying"
+            android:id="@+id/movies"
+            android:title="Movies"
             android:icon="@drawable/ic_now_playing"/>
 
         <item
-            android:id="@+id/top_rated"
-            android:title="@string/ByTopRated"
-            android:icon="@drawable/ic_top_rated"/>
+            android:id="@+id/tv"
+            android:title="TV"
+            android:icon="@drawable/ic_tv_shows"/>
 
         <item
-            android:id="@+id/upcoming"
-            android:title="@string/ByUpcoming"
-            android:icon="@drawable/ic_new_releases"/>
-
-        <item
-            android:id="@+id/latest"
-            android:title="@string/ByLatest"
+            android:id="@+id/personal"
+            android:title="Personal"
             android:icon="@drawable/ic_time"/>
-
 </menu>

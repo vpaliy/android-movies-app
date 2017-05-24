@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -70,6 +72,7 @@ public class MediaActivity extends BaseActivity
 
 
     }
+
 
     private void setBottomNavigation(){
         bottomNavigation.setOnTabSelectListener((tabId -> {
