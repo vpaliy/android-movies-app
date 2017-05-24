@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/sortAction"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
-
-        android:title="@string/menu_sort_action">
-        <menu
-            xmlns:HTMLCode="http://schemas.android.com/apk/res-auto" >
-            <item
-                android:id="@+id/byPopularity"
-                HTMLCode:showAsAction="ifRoom|withText"
-                android:title="@string/sortByPopularity">
-            </item>
-            <item
-                android:id="@+id/byLatest"
-                HTMLCode:showAsAction="ifRoom|withText"
-                android:title="@string/sortByTopRated">
-            </item>
-        </menu>
-    </item>
-
-
-
 </menu>

@@ -20,14 +20,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import butterknife.ButterKnife;
+import android.view.ViewGroup;
+import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.ViewGroup;
-
-import butterknife.BindView;
-
-import butterknife.ButterKnife;
 
 public class MediaActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener{
@@ -59,10 +56,7 @@ public class MediaActivity extends BaseActivity
         setUI(savedInstanceState);
         PreferenceManager.getDefaultSharedPreferences(this)
                 .registerOnSharedPreferenceChangeListener(this);
-
-
     }
-
 
     private void setBottomNavigation(){
         bottomNavigation.setOnTabSelectListener((tabId -> {
@@ -79,9 +73,11 @@ public class MediaActivity extends BaseActivity
                                     mediaPager.setCurrentItem(0,false);
                                     break;
                                 case R.id.tv_shows:
+                                    actionBar.setTitle(R.string.tv_shows);
                                     mediaPager.setCurrentItem(1,false);
                                     break;
                                 case R.id.personal:
+                                    actionBar.setTitle(R.string.personal);
                                     mediaPager.setCurrentItem(2,false);
                             }
                             mediaPager.animate()
@@ -119,18 +115,6 @@ public class MediaActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(item -> {
             item.setChecked(true);
             switch (item.getItemId()){
-                case R.id.favorites:
-                    actionBar.setTitle(R.string.favorite_media);
-                    drawerLayout.closeDrawers();
-                    isMenuVisible=false;
-                    supportInvalidateOptionsMenu();
-                    return true;
-                case R.id.movies:
-                    actionBar.setTitle(R.string.popular_media);
-                    drawerLayout.closeDrawers();
-                    isMenuVisible=true;
-                    supportInvalidateOptionsMenu();
-                    return true;
                 case R.id.settings:
                     startActivity(new Intent(this,SettingsActivity.class));
                     return true;
@@ -166,18 +150,7 @@ public class MediaActivity extends BaseActivity
         getMenuInflater().inflate(R.menu.menu_movies,menu);
         return true;
     }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        if(menu!=null){
-            MenuItem item=menu.findItem(R.id.sortAction);
-            if(item!=null) item.setVisible(isMenuVisible);
-            return true;
-        }
-        return false;
-    }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return drawerToggle.onOptionsItemSelected(item)

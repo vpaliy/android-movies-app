@@ -70,6 +70,7 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
                     }
                 }
             });
+            list.setNestedScrollingEnabled(false);
         }
 
         void bindData(){

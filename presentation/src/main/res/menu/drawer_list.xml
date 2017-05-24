@@ -1,29 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
-        android:id="@+id/first"
-        android:checkableBehavior="single">
-
-        <item
-            android:title="@string/movies"
-            android:icon="@drawable/movies"
-            android:id="@+id/movies">
-        </item>
-
-        <item
-            android:title="@string/favoriteItem"
-            android:icon="@drawable/star"
-            android:id="@+id/favorites">
-        </item>
-
-
-    </group>
-
-    <group
         android:id="@+id/second"
         android:checkableBehavior="single">
-
-
         <item
             android:title="@string/settings_item"
             android:icon="@drawable/settings"

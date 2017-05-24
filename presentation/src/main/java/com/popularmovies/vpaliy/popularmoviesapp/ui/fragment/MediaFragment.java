@@ -118,11 +118,9 @@ public abstract class MediaFragment extends Fragment
     @Override
     public void showMedia(@NonNull SortType sortType, @NonNull List<MediaCover> media) {
         if(!mediaAdapters.containsKey(sortType)) mediaAdapters.put(sortType,new MediaAdapter(getContext(),rxBus));
-        new Handler().post(()-> {
-            MediaAdapter adapter = mediaAdapters.get(sortType);
-            adapter.setData(media);
-            mediaTypeAdapter.addWrapper(MediaTypeWrapper.wrap(getTitle(sortType), sortType, adapter));
-        });
+        MediaAdapter adapter = mediaAdapters.get(sortType);
+        adapter.setData(media);
+        mediaTypeAdapter.addWrapper(MediaTypeWrapper.wrap(getTitle(sortType), sortType, adapter));
     }
 
 

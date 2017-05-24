@@ -26,6 +26,7 @@
     <string name="sortByTopRated">By Top Rated</string>
     <string name="favoriteItem">Favorite</string>
     <string name="movies">Movies</string>
+    <string name="personal">Personal</string>
     <string name="tv_shows">TV shows</string>
     <string name="settings_item">Settings</string>
     <string name="help_item">Help</string>
