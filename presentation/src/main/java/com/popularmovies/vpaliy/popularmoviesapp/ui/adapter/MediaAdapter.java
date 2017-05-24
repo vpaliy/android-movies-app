@@ -63,7 +63,9 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
         void onBindData(){
             MediaCover cover=at(getAdapterPosition());
             releaseYear.setText(convertToYear(cover.getReleaseDate()));
-            mediaTitle.setText(cover.getMovieTitle());
+            String bullet="\u25CF"+" ";
+            String titleText=bullet+cover.getMovieTitle();
+            mediaTitle.setText(titleText);
             ratings.setText(Double.toString(cover.getAverageRate()));
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())

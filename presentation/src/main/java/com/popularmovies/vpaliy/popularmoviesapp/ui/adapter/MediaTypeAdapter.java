@@ -77,7 +77,7 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
         void bindData(){
             MediaTypeWrapper wrapper=at(getAdapterPosition());
             list.setAdapter(wrapper.adapter);
-            title.setText(wrapper.text);
+            title.setText("\u25CF"+" "+wrapper.text);
         }
     }
 

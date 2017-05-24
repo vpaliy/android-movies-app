@@ -34,6 +34,7 @@
 
     <TextView
         android:id="@+id/media_rating"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="TextView"
@@ -47,6 +48,7 @@
     <TextView
         android:id="@+id/media_release_year"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:maxLength="4"
         android:layout_marginBottom="7dp"

@@ -13,13 +13,12 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/actionBar"
-                app:layout_scrollFlags="enterAlways|scroll"
+                app:layout_scrollFlags="scroll"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
 
@@ -38,10 +37,9 @@
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            app:bb_showShadow="true"
             android:layout_height="56dp"
             android:fitsSystemWindows="false"
-            app:bb_behavior="shy|shifting|underNavbar"
+            app:bb_behavior="shy|underNavbar"
             android:layout_gravity="bottom"
             app:bb_tabXmlResource="@xml/media_bottom_navigation"/>
 
