@@ -13,12 +13,13 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/actionBar"
-                app:layout_scrollFlags="enterAlways|scroll|snap"
+                app:layout_scrollFlags="enterAlways|scroll"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
 
@@ -40,7 +41,7 @@
             app:bb_showShadow="true"
             android:layout_height="56dp"
             android:fitsSystemWindows="false"
-            app:bb_behavior="shifting|underNavbar"
+            app:bb_behavior="shy|shifting|underNavbar"
             android:layout_gravity="bottom"
             app:bb_tabXmlResource="@xml/media_bottom_navigation"/>
 

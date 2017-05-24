@@ -56,6 +56,7 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
             ButterKnife.bind(this,itemView);
             list.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
                     LinearLayoutManager.HORIZONTAL,false));
+            
             list.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

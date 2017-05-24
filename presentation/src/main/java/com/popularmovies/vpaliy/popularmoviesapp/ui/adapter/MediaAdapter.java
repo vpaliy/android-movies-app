@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +62,9 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
         void onBindData(){
             MediaCover cover=at(getAdapterPosition());
-            releaseYear.setText(cover.getReleaseDate());
+            releaseYear.setText(convertToYear(cover.getReleaseDate()));
             mediaTitle.setText(cover.getMovieTitle());
+            ratings.setText(Double.toString(cover.getAverageRate()));
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)
@@ -70,6 +72,10 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
                     .placeholder(R.drawable.placeholder)
                     .animate(R.anim.fade_in)
                     .into(posterImage);
+        }
+
+        private String convertToYear(String date){
+            return date.substring(0,4);
         }
     }
 

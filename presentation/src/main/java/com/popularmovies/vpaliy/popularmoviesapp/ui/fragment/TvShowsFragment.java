@@ -1,19 +1,18 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 
-import android.support.annotation.NonNull;
-
-import com.popularmovies.vpaliy.data.source.qualifier.TV;
-import javax.inject.Inject;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
-
 import java.util.Arrays;
 import java.util.List;
+
+import android.support.annotation.NonNull;
+import com.popularmovies.vpaliy.data.source.qualifier.TV;
+import javax.inject.Inject;
 
 public class TvShowsFragment extends MediaFragment{
 
@@ -49,9 +48,9 @@ public class TvShowsFragment extends MediaFragment{
             case LATEST:
                 return getString(R.string.latest_media);
             case NOW_PLAYING:
-                return getString(R.string.now_playing_media);
+                return getString(R.string.on_the_air_tv);
             case UPCOMING:
-                return getString(R.string.upcoming_media);
+                return getString(R.string.today_airing_tv);
             case TOP_RATED:
                 return getString(R.string.top_rated_media);
             default:
