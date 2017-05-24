@@ -139,14 +139,14 @@ public class  MovieInfoFragment extends Fragment
     @Override
     public void showSimilarMovies(@NonNull List<MediaCover> similarMovies) {
         RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),similarMovies,eventBus);
-        this.adapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.movieSimilarMovies)));
+        this.adapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_similar_content)));
     }
 
     @Override
     public void showTrailers(@NonNull List<Trailer> trailers) {
         MovieTrailersAdapter adapter=new MovieTrailersAdapter(getContext());
         adapter.setData(trailers);
-        this.adapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.movieTrailers)));
+        this.adapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_trailers)));
 
     }
 

@@ -11,7 +11,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:layout_alignParentTop="true"
-        android:text="@string/reviewAuthor"
+        android:text="@string/media_review_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -23,7 +23,7 @@
         android:layout_toEndOf="@+id/authorLabel"
         android:layout_toRightOf="@+id/authorLabel"
         android:layout_alignParentTop="true"
-        android:text="@string/reviewAuthor"
+        android:text="@string/media_review_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

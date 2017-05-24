@@ -4,17 +4,17 @@
     <item
         android:id="@+id/changeView"
         android:icon="@android:drawable/ic_menu_help"
-        android:title="@string/changeViewAction">
+        android:title="@string/change_view_action">
         <menu>
             <group
                 android:id="@+id/changeViewChoice">
                 <item
                     android:id="@+id/asCard"
-                    android:title="@string/asCards">
+                    android:title="@string/as_cards">
                 </item>
                 <item
                     android:id="@+id/asGrid"
-                    android:title="@string/asGrid">
+                    android:title="@string/as_grid">
                 </item>
             </group>
         </menu>

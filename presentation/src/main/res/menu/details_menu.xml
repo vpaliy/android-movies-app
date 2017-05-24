@@ -5,6 +5,6 @@
         android:id="@+id/shareAction"
         android:icon="@drawable/share_item"
         app:showAsAction="ifRoom"
-        android:title="@string/shareMenuAction">
+        android:title="@string/menu_share_action">
     </item>
 </menu>

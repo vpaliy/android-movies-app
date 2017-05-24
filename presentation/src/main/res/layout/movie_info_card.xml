@@ -31,7 +31,7 @@
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/materialIconView"
             android:layout_toRightOf="@+id/materialIconView"
-            android:text="@string/synopsisTitle" />
+            android:text="@string/synopsis_title" />
 
         <at.blogc.android.views.ExpandableTextView
             android:id="@+id/movieDescription"
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/releaseDate"
             android:layout_marginTop="32dp"
-            android:text="@string/movieBudget"
+            android:text="@string/media_budget"
             android:textStyle="bold" />
 
         <TextView
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/budgetLabel"
             android:layout_marginTop="16dp"
-            android:text="@string/movieRevenue"
+            android:text="@string/media_revenue"
             android:textStyle="bold" />
 
         <TextView

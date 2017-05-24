@@ -2,37 +2,27 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypePagerAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.TvShowsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager;
 import com.roughike.bottombar.BottomBar;
 
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.transition.Fade;
-import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.BindView;
@@ -85,6 +75,7 @@ public class MediaActivity extends BaseActivity
                             super.onAnimationEnd(animation);
                             switch (tabId){
                                 case R.id.movies:
+                                    actionBar.setTitle(R.string.movies);
                                     mediaPager.setCurrentItem(0,false);
                                     break;
                                 case R.id.tv_shows:
@@ -114,20 +105,6 @@ public class MediaActivity extends BaseActivity
         ActionBar actionBar=getSupportActionBar();
         navigationView.setCheckedItem(R.id.movies);
         isMenuVisible=true;
-        if(actionBar!=null) {
-            switch (iSortConfiguration.getConfiguration()) {
-                case POPULAR:
-                    actionBar.setTitle(R.string.ByPopularity);
-                    break;
-                case TOP_RATED:
-                    actionBar.setTitle(R.string.ByTopRated);
-                    break;
-                case FAVORITE:
-                    navigationView.setCheckedItem(R.id.favorites);
-                    isMenuVisible=false;
-                    actionBar.setTitle(R.string.ByFavorite);
-            }
-        }
     }
 
     @Override
@@ -143,13 +120,13 @@ public class MediaActivity extends BaseActivity
             item.setChecked(true);
             switch (item.getItemId()){
                 case R.id.favorites:
-                    actionBar.setTitle(R.string.ByFavorite);
+                    actionBar.setTitle(R.string.favorite_media);
                     drawerLayout.closeDrawers();
                     isMenuVisible=false;
                     supportInvalidateOptionsMenu();
                     return true;
                 case R.id.movies:
-                    actionBar.setTitle(R.string.ByPopularity);
+                    actionBar.setTitle(R.string.popular_media);
                     drawerLayout.closeDrawers();
                     isMenuVisible=true;
                     supportInvalidateOptionsMenu();

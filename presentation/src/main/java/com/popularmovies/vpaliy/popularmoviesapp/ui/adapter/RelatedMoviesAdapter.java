@@ -66,7 +66,7 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
                 hasBeenClicked=true;
                 MediaCover victim=data.get(getAdapterPosition());
                 if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-                    image.setTransitionName(image.getContext().getString(R.string.movieImage)
+                    image.setTransitionName(image.getContext().getString(R.string.movie_image)
                             +Integer.toString(victim.getMediaId()));
                 }
                 Bundle bundle = new Bundle();

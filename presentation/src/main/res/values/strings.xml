@@ -1,56 +1,57 @@
 <resources>
     <string name="app_name">PopularMoviesApp</string>
-    <string name="dataError">Data cannot be fetched</string>
-    <string name="refreshAction">Try again</string>
-    <string name="noDataMessage">No data has been found</string>
-    <string name="movieImage">MovieImage</string>
-    <string name="relatedMovieImage">RelatedMovieImage</string>
-    <string name="addToFavoriteMessage">Movie has been marked as favorite</string>
+    <string name="data_error">Data cannot be fetched</string>
+    <string name="refresh_action">Try again</string>
+    <string name="no_data_message">No data has been found</string>
+    <string name="movie_image">MovieImage</string>
+    <string name="related_movie_image">RelatedMovieImage</string>
+    <string name="mark_as_favorite_message">Movie has been marked as favorite</string>
 
-    <string name="ByPopularity">Popular</string>
-    <string name="ByTopRated">Top Rated</string>
-    <string name="ByFavorite">Favorite</string>
-    <string name="ByLatest">Latest</string>
-    <string name="ByUpcoming">Upcoming</string>
-    <string name="ByNowPlaying">Now Playing</string>
+    <string name="popular_media">Popular</string>
+    <string name="top_rated_media">Top Rated</string>
+    <string name="favorite_media">Favorite</string>
+    <string name="latest_media">Latest</string>
+    <string name="upcoming_media">Upcoming</string>
+    <string name="now_playing_media">Now Playing</string>
 
     <string name="presentation_key">Presentation Key</string>
-    <string name="asGrid">Grid</string>
-    <string name="asCards">Cards</string>
-    <string name="synopsisTitle">Synopsis</string>
+    <string name="as_grid">Grid</string>
+    <string name="as_cards">Cards</string>
+    <string name="synopsis_title">Synopsis</string>
 
 
     <!-- Menu -->
-    <string name="sortMenuAction">Sort By</string>
+    <string name="menu_sort_action">Sort By</string>
     <string name="sortByPopularity">By Popularity</string>
     <string name="sortByTopRated">By Top Rated</string>
     <string name="favoriteItem">Favorite</string>
-    <string name="moviesItem">Movies</string>
-    <string name="settingsItem">Settings</string>
-    <string name="helpItem">Help</string>
-    <string name="shareMenuAction">Share</string>
-    <string name="changeViewAction">Change View</string>
+    <string name="movies">Movies</string>
+    <string name="tv_shows">TV shows</string>
+    <string name="settings_item">Settings</string>
+    <string name="help_item">Help</string>
+    <string name="menu_share_action">Share</string>
+    <string name="change_view_action">Change View</string>
     <string name="settingsActivity">Settings</string>
 
 
     <string name="checkOutMovie">Check out movie:</string>
     <string name="chooseToWhomToSend">Send to</string>
-    <string name="movieDescription">Plot</string>
-    <string name="movieReleaseDate">Release Date:</string>
-    <string name="movieDuration">Duration</string>
-    <string name="movieDirector">Directed By:</string>
-    <string name="movieBudget">Budget:</string>
-    <string name="movieRevenue">Revenue:</string>
-    <string name="movieSimilarMovies">Similar Movies</string>
-    <string name="movieTrailers">Trailers</string>
-    <string name="movieGenres">Genres</string>
-    <string name="reviewAuthor">Author</string>
-    <string name="noReviewMessage">No reviews</string>
-    <string name="noCastMessage">No cast</string>
+    <string name="media_synopsis">Plot</string>
+    <string name="media_release_date">Release Date:</string>
+    <string name="media_duration">Duration</string>
+    <string name="media_director">Directed By:</string>
+    <string name="media_budget">Budget:</string>
+    <string name="media_revenue">Revenue:</string>
+    <string name="media_similar_content">Similar Content</string>
+    <string name="media_trailers">Trailers</string>
+    <string name="media_genres">Genres</string>
+    <string name="media_review_author">Author</string>
+    <string name="no_reviews_message">No reviews</string>
+    <string name="no_cast_message">No cast</string>
 
-    <string name="intoTitle">Info</string>
-    <string name="castTitle">Cast</string>
-    <string name="reviewTitle">Review</string>
+    <string name="info_title">Info</string>
+    <string name="cast_title">Cast</string>
+    <string name="review_title">Review</string>
 
     <string name="NA">N/A</string>
 

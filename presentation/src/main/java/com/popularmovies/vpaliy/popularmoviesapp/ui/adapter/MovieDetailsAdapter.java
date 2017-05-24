@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
+
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieCastFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieInfoFragment;
@@ -54,11 +54,11 @@ public class MovieDetailsAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case INFO:
-                return context.getString(R.string.intoTitle);
+                return context.getString(R.string.info_title);
             case CAST:
-                return context.getString(R.string.castTitle);
+                return context.getString(R.string.cast_title);
             case REVIEW:
-                return context.getString(R.string.reviewTitle);
+                return context.getString(R.string.review_title);
         }
         return super.getPageTitle(position);
     }

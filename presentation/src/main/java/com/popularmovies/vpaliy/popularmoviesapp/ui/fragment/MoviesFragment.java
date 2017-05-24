@@ -45,15 +45,15 @@ public class MoviesFragment extends MediaFragment{
     String getTitle(SortType sortType) {
         switch (sortType){
             case POPULAR:
-                return getString(R.string.ByPopularity);
+                return getString(R.string.popular_media);
             case LATEST:
-                return getString(R.string.ByLatest);
+                return getString(R.string.latest_media);
             case NOW_PLAYING:
-                return getString(R.string.ByNowPlaying);
+                return getString(R.string.now_playing_media);
             case UPCOMING:
-                return getString(R.string.ByUpcoming);
+                return getString(R.string.upcoming_media);
             case TOP_RATED:
-                return getString(R.string.ByTopRated);
+                return getString(R.string.top_rated_media);
             default:
                 throw new IllegalArgumentException();
         }

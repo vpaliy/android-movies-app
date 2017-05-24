@@ -5,7 +5,7 @@
         android:checkableBehavior="single">
 
         <item
-            android:title="@string/moviesItem"
+            android:title="@string/movies"
             android:icon="@drawable/movies"
             android:id="@+id/movies">
         </item>
@@ -25,13 +25,13 @@
 
 
         <item
-            android:title="@string/settingsItem"
+            android:title="@string/settings_item"
             android:icon="@drawable/settings"
             android:id="@+id/settings">
         </item>
 
         <item
-            android:title="@string/helpItem"
+            android:title="@string/help_item"
             android:icon="@android:drawable/ic_menu_help"
             android:id="@+id/help"/>
     </group>

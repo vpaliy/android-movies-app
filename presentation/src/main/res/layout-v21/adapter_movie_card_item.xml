@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/movieImage"
-            android:transitionName="@string/movieImage"
+            android:transitionName="@string/movie_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
