@@ -9,7 +9,6 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rootView"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -25,19 +24,15 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
+
+        <com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager
+            android:id="@+id/media_pager"
+            android:layout_marginBottom="128dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
             android:layout_height="match_parent">
+        </com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager>
 
-            <FrameLayout
-                android:id="@+id/media_frame"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
-
-        </android.support.v4.widget.NestedScrollView>
 
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottom_navigation"
@@ -45,7 +40,7 @@
             app:bb_showShadow="true"
             android:layout_height="56dp"
             android:fitsSystemWindows="false"
-            app:bb_behavior="shifting"
+            app:bb_behavior="shifting|underNavbar"
             android:layout_gravity="bottom"
             app:bb_tabXmlResource="@xml/media_bottom_navigation"/>
 

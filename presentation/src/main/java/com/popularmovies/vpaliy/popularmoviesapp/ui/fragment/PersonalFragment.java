@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.support.annotation.NonNull;
 
+import com.popularmovies.vpaliy.data.source.qualifier.Movies;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
@@ -13,12 +14,17 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class PersonalFragment extends MediaFragment{
 
 
+    @Inject
     @Override
-    public void attachPresenter(@NonNull MediaContract.Presenter presenter) {
-
+    @Movies
+    public void attachPresenter(@NonNull @Movies MediaContract.Presenter presenter) {
+        this.presenter=presenter;
+        this.presenter.attachView(this);
     }
 
     @Override

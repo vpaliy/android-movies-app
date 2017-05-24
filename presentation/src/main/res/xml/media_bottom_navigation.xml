@@ -2,19 +2,19 @@
     <tab
         id="@+id/movies"
         icon="@drawable/ic_now_playing"
-        barColorWhenSelected="#4db6ac"
+        barColorWhenSelected="#ff6f00"
         badgeHidesWhenActive="true"
         title="Movies" />
     <tab
         id="@+id/tv_shows"
-        icon="@drawable/movies"
+        icon="@drawable/ic_tv_shows"
         barColorWhenSelected="#4db6f1"
         badgeHidesWhenActive="true"
         title="TV" />
     <tab
         id="@+id/personal"
         icon="@drawable/ic_time"
-        barColorWhenSelected="#9999cc"
+        barColorWhenSelected="#00695c"
         badgeHidesWhenActive="true"
         title="Personal" />
 </tabs>

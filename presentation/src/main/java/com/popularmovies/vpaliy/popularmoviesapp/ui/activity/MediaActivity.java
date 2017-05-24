@@ -1,20 +1,20 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTypeAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypePagerAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.TvShowsFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
 
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -30,7 +30,8 @@ import android.view.MenuItem;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.FrameLayout;
+import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.BindView;
 
@@ -39,7 +40,6 @@ import butterknife.ButterKnife;
 public class MediaActivity extends BaseActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener{
 
-    private static final String TAG=MediaActivity.class.getSimpleName();
 
     @BindView(R.id.actionBar)
     protected Toolbar actionBar;
@@ -53,13 +53,10 @@ public class MediaActivity extends BaseActivity
     @BindView(R.id.bottom_navigation)
     protected BottomBar bottomNavigation;
 
-    @BindView(R.id.media_frame)
-    protected FrameLayout mediaFrame;
-
-    protected ViewPager movieTypePager;
+    @BindView(R.id.media_pager)
+    protected MediaPager mediaPager;
 
     private ActionBarDrawerToggle drawerToggle;
-
     private boolean isMenuVisible;
 
     @Override
@@ -76,30 +73,40 @@ public class MediaActivity extends BaseActivity
 
     private void setBottomNavigation(){
         bottomNavigation.setOnTabSelectListener((tabId -> {
-            final Fragment fragment;
-            switch (tabId) {
-                case R.id.movies:
-                    fragment = new MoviesFragment();
-                    break;
-                default:
-                    fragment = new TvShowsFragment();
-                    break;
-            }
-            if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
-                TransitionManager.beginDelayedTransition(mediaFrame,new Fade());
-            }
-            new Handler().post(()->getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.media_frame,fragment)
-                    .commitNow());
+            mediaPager.animate()
+                    .alpha(0)
+                    .setDuration(200)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            switch (tabId){
+                                case R.id.movies:
+                                    mediaPager.setCurrentItem(0,false);
+                                    break;
+                                case R.id.tv_shows:
+                                    mediaPager.setCurrentItem(1,false);
+                                    break;
+                                case R.id.personal:
+                                    mediaPager.setCurrentItem(2,false);
+                            }
+                            mediaPager.animate()
+                                    .alpha(1.f)
+                                    .setDuration(200)
+                                    .setListener(null).start();
+                        }
+                    }).start();
         }));
     }
 
     private void setMovieTypePager(){
-        MovieTypeAdapter typeAdapter=new MovieTypeAdapter(getSupportFragmentManager(),this);
-        movieTypePager.setAdapter(typeAdapter);
+        mediaPager.setAdapter(new MediaTypePagerAdapter(getSupportFragmentManager(),this));
+        mediaPager.setOffscreenPageLimit(10);
     }
 
     private void setActionBar(){
+        ViewGroup.MarginLayoutParams params= ViewGroup.MarginLayoutParams.class.cast(actionBar.getLayoutParams());
+        params.topMargin=getStatusBarHeight();
         setSupportActionBar(actionBar);
         ActionBar actionBar=getSupportActionBar();
         navigationView.setCheckedItem(R.id.movies);
@@ -162,6 +169,7 @@ public class MediaActivity extends BaseActivity
     private void setUI(Bundle savedInstanceState){
         setDrawer();
         setActionBar();
+        setMovieTypePager();
         setBottomNavigation();
     }
 
@@ -210,6 +218,14 @@ public class MediaActivity extends BaseActivity
 
     private void showDetails(@NonNull ExposeDetailsEvent event){
         navigator.showDetails(this,event);
+    }
 
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 }

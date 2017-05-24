@@ -8,10 +8,10 @@
     </string-array>
 
     <array name="movie_colors">
-        <item>#90caf9</item>
-        <item>#42a5f5</item>
-        <item>#4db6ac</item>
         <item>#00695c</item>
         <item>#ff6f00</item>
+        <item>#42a5f5</item>
+        <item>#4db6ac</item>
+        <item>#90caf9</item>
     </array>
 </resources>

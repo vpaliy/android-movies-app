@@ -38,8 +38,9 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
     }
 
     public void addWrapper(@NonNull MediaTypeWrapper wrapper){
+        int size=data.size();
         data.add(wrapper);
-        notifyItemInserted(data.size()-1);
+        notifyItemRangeInserted(size,getItemCount());
     }
 
     public class TypeViewHolder extends RecyclerView.ViewHolder {

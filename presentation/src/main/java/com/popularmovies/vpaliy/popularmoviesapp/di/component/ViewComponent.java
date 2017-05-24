@@ -9,6 +9,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragmen
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieInfoFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieReviewFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.PersonalFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.TvShowsFragment;
 
 import dagger.Component;
@@ -19,6 +20,7 @@ public interface ViewComponent {
     void inject(MediaFragment mediaFragment);
     void inject(TvShowsFragment tvShowsFragment);
     void inject(MediaActivity activity);
+    void inject(PersonalFragment personalFragment);
     void inject(MoviesFragment fragment);
     void inject(MovieDetailsFragment fragment);
     void inject(MovieCastFragment fragment);
