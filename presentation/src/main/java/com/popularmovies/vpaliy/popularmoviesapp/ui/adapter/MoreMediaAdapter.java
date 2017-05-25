@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -22,14 +21,14 @@ import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
-public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHolder>{
+public class MoreMediaAdapter extends RecyclerView.Adapter<MoreMediaAdapter.MediaViewHolder>{
 
     private List<MediaCover> data;
     private LayoutInflater inflater;
     private RxBus rxBus;
     private boolean hasBeenClicked;
 
-    public MediaAdapter(@NonNull Context context,
+    public MoreMediaAdapter(@NonNull Context context,
                         @NonNull RxBus rxBus){
         this.inflater=LayoutInflater.from(context);
         this.rxBus=rxBus;
@@ -65,7 +64,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
             String bullet="\u25CF"+" ";
             String titleText=bullet+cover.getMovieTitle();
             mediaTitle.setText(titleText);
-            ratings.setText(Double.toString(cover.getAverageRate()));
+
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)
@@ -98,7 +97,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
     @Override
     public MediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root=inflater.inflate(R.layout.adapter_media_item,parent,false);
+        View root=inflater.inflate(R.layout.adapter_more_media_item,parent,false);
         return new MediaViewHolder(root);
     }
 

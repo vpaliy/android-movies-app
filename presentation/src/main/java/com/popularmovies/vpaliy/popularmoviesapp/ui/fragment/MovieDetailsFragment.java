@@ -40,12 +40,11 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import me.relex.circleindicator.CircleIndicator;
 import android.support.v7.graphics.Palette.Swatch;
 import android.widget.TextView;
-
+import butterknife.OnClick;
 import android.annotation.TargetApi;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;

@@ -51,7 +51,6 @@ public abstract class MediaFragment extends Fragment
         setRetainInstance(true);
         initializeDependencies();
         disposables=new CompositeDisposable();
-
     }
 
 
