@@ -1,4 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
+import android.animation.Animator;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -36,6 +38,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieDetailsAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
+import com.vpaliy.library.revealingAnimator.RevealAnimator;
+import com.vpaliy.library.revealingAnimator.RevealingAdapterListener;
 
 import java.util.List;
 
@@ -49,20 +53,19 @@ import android.annotation.TargetApi;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import butterknife.BindView;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
-import butterknife.BindView;
-
-import static com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration.Presentation.CARD;
 
 
 public class MovieDetailsFragment extends Fragment
         implements MovieDetailsContract.View{
 
+    private static final String TAG=MovieDetails.class.getSimpleName();
+
     private Presenter presenter;
     private Unbinder unbinder;
-
     private MovieDetailsAdapter adapter;
     private MovieBackdropsAdapter backdropsAdapter;
 
@@ -97,6 +100,8 @@ public class MovieDetailsFragment extends Fragment
 
     @BindView(R.id.favoriteButton)
     protected FloatingActionButton favoriteButton;
+
+    private RevealAnimator revealAnimator;
 
     private int favoriteColor;
     private int ID;
@@ -156,7 +161,7 @@ public class MovieDetailsFragment extends Fragment
         super.onViewCreated(root, savedInstanceState);
         if(root!=null){
             initActionBar();
-
+            initRevealingAnimation(ViewGroup.class.cast(root));
             adapter=new MovieDetailsAdapter(getContext(),getFragmentManager(),ID);
             backdropsAdapter=new MovieBackdropsAdapter(getContext());
             detailsPager.setAdapter(adapter);
@@ -218,6 +223,41 @@ public class MovieDetailsFragment extends Fragment
         return result;
     }
 
+
+    private void initRevealingAnimation(ViewGroup root){
+        revealAnimator=RevealAnimator.withRoot(root,favoriteButton);
+        revealAnimator.setIcon(android.R.drawable.ic_menu_share);
+        revealAnimator.reverseWay(true);
+        revealAnimator.setResultViewLayout(R.layout.sheet_movie_details);
+        CoordinatorLayout.LayoutParams params=new CoordinatorLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        revealAnimator.setResultViewParams(params);
+        revealAnimator.addListener(new RevealingAdapterListener() {
+            @Override
+            public void onResultViewAttached(FloatingActionButton fab, View resultView, Animator animator) {
+                super.onResultViewAttached(fab, resultView, animator);
+                fab.setVisibility(View.INVISIBLE);
+                collapsingToolbarLayout.setVisibility(View.GONE);
+                resultView.setOnClickListener(v->{
+                    collapsingToolbarLayout.setVisibility(View.VISIBLE);
+                    root.setBackgroundColor(Color.WHITE);
+                    revealAnimator.setRevealingDuration(0);
+                    favoriteButton.setVisibility(View.VISIBLE);
+                    revealAnimator.hide();
+                });
+                ViewGroup group=ViewGroup.class.cast(resultView);
+                group.setBackgroundColor(revealAnimator.getColor());
+                for(int index=0;index<group.getChildCount();index++){
+                    View child=group.getChildAt(index);
+                    child.setScaleX(0f);child.setScaleY(0f);
+                    child.animate().scaleX(1f).scaleY(1f)
+                            .setStartDelay(index*100).start();
+                }
+            }
+        });
+
+    }
+
     @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
@@ -260,12 +300,10 @@ public class MovieDetailsFragment extends Fragment
                         movieImage.setImageBitmap(resource);
                         new Palette.Builder(resource)
                                 .generate(MovieDetailsFragment.this::applyPalette);
-                        //if(presentationConfigs.getPresentation()!=CARD) {
                             if (Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
                                 movieImage.setTransitionName(imageTransitionName);
                                 startTransition();
                             }
-                       // }
                     }
                 });
     }
@@ -279,7 +317,6 @@ public class MovieDetailsFragment extends Fragment
             TextView title=ButterKnife.findById(getView(),R.id.title);
             TextView genres=ButterKnife.findById(getView(),R.id.genres);
             TextView ratings=ButterKnife.findById(getView(),R.id.ratings);
-
 
             String bullet="\u25CF";
             String titleText=movieCover.getMovieTitle();
@@ -344,7 +381,7 @@ public class MovieDetailsFragment extends Fragment
             favoriteButton.setBackgroundTintList(ColorStateList.valueOf(swatch.getRgb()));
             this.favoriteColor=swatch.getBodyTextColor();
             changeFavoriteColor(swatch.getBodyTextColor());
-
+            revealAnimator.setColor(getResources().getColor(R.color.colorRevealLight));
             favoriteButton.setVisibility(View.VISIBLE);
             favoriteButton.animate()
                     .scaleX(1).scaleY(1)
@@ -377,6 +414,9 @@ public class MovieDetailsFragment extends Fragment
        // presenter.makeFavorite();
         isFavorite=!isFavorite;
         changeFavoriteColor(favoriteColor);
+        revealAnimator.setRevealingDuration(150);
+        revealAnimator.setTranslationDuration(200);
+        revealAnimator.start();
 
     }
 

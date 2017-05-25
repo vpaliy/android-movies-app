@@ -5,4 +5,9 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorFavorite">#ffeb3b</color>
     <color name="colorGray">#f5f5f5</color>
+
+    <color name="colorTvShows">#00695c</color>
+    <color name="colorMovies">#ff6f00</color>
+    <color name="colorReveal">#42a5f5</color>
+    <color name="colorRevealLight">#90caf9</color>
 </resources>
