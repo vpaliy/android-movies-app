@@ -10,7 +10,7 @@ import com.popularmovies.vpaliy.data.source.CoverDataSource;
 import com.popularmovies.vpaliy.data.source.qualifier.Local;
 import com.popularmovies.vpaliy.data.source.qualifier.Remote;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 
 import java.util.List;
 

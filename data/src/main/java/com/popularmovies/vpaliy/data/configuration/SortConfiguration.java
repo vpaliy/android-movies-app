@@ -4,18 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType.FAVORITE;
-import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType.LATEST;
-import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType.MUST_WATCH;
-import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType.NOW_PLAYING;
-import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType.POPULAR;
-import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType.TOP_RATED;
-import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType.UPCOMING;
-import static com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType.WATCHED;
+import static com.popularmovies.vpaliy.domain.configuration.SortType.FAVORITE;
+import static com.popularmovies.vpaliy.domain.configuration.SortType.LATEST;
+import static com.popularmovies.vpaliy.domain.configuration.SortType.MUST_WATCH;
+import static com.popularmovies.vpaliy.domain.configuration.SortType.NOW_PLAYING;
+import static com.popularmovies.vpaliy.domain.configuration.SortType.POPULAR;
+import static com.popularmovies.vpaliy.domain.configuration.SortType.TOP_RATED;
+import static com.popularmovies.vpaliy.domain.configuration.SortType.UPCOMING;
+import static com.popularmovies.vpaliy.domain.configuration.SortType.WATCHED;
 
 @Singleton
 public class SortConfiguration implements ISortConfiguration {

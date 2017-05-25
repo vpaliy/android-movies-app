@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.mvp.contract;
 
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BaseView;

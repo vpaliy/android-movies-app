@@ -4,7 +4,7 @@ import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.PageWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import rx.Observable;
 import java.util.HashMap;
 import java.util.List;

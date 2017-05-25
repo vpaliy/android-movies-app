@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.data.source.local;
 
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 
 import java.util.List;
 
@@ -23,22 +23,22 @@ public class LocalTvShowCovers implements CoverDataSource<TvShow> {
     }
 
     @Override
-    public Observable<List<TvShow>> requestMore(ISortConfiguration.SortType type) {
+    public Observable<List<TvShow>> requestMore(SortType type) {
         return null;
     }
 
     @Override
-    public Observable<List<TvShow>> get(ISortConfiguration.SortType type) {
+    public Observable<List<TvShow>> get(SortType type) {
         return null;
     }
 
     @Override
-    public void update(TvShow item, ISortConfiguration.SortType type) {
+    public void update(TvShow item, SortType type) {
 
     }
 
     @Override
-    public void insert(TvShow item, ISortConfiguration.SortType sortType) {
+    public void insert(TvShow item, SortType sortType) {
 
     }
 }

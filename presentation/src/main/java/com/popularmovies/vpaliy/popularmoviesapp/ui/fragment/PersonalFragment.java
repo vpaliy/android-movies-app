@@ -5,12 +5,13 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,11 @@ public class PersonalFragment extends MediaFragment{
     List<SortType> getSortTypes() {
         return Arrays.asList(SortType.POPULAR, SortType.LATEST,
                 SortType.NOW_PLAYING, SortType.UPCOMING,SortType.TOP_RATED);
+    }
+
+    @Override
+    MediaType getMediaType() {
+        return MediaType.PERSONAL;
     }
 
     @Override

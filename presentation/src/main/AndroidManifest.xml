@@ -30,6 +30,10 @@
             android:theme="@style/AppTheme">
         </activity>
 
+        <activity
+            android:name=".ui.activity.MoreMediaActivity"
+            android:theme="@style/AppTheme">
+        </activity>
 
         <activity android:name=".ui.activity.DetailsActivity"
                   android:theme="@style/DetailsTheme">

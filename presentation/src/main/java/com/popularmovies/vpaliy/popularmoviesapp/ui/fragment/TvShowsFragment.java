@@ -1,7 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
@@ -13,6 +13,8 @@ import java.util.List;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.TV;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
+
 import javax.inject.Inject;
 
 public class TvShowsFragment extends MediaFragment{
@@ -39,6 +41,11 @@ public class TvShowsFragment extends MediaFragment{
     List<SortType> getSortTypes() {
         return Arrays.asList(SortType.POPULAR, SortType.LATEST,
                 SortType.NOW_PLAYING, SortType.UPCOMING,SortType.TOP_RATED);
+    }
+
+    @Override
+    MediaType getMediaType() {
+        return MediaType.TV_SHOWS;
     }
 
     @Override

@@ -2,11 +2,13 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.AbstractMediaAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoreMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import java.util.List;
@@ -27,7 +29,6 @@ import android.support.annotation.Nullable;
 public abstract class MoreMediaFragment  extends Fragment
         implements MediaContract.View {
 
-
     protected Presenter presenter;
 
     @Inject
@@ -41,6 +42,8 @@ public abstract class MoreMediaFragment  extends Fragment
 
     private Unbinder unbinder;
     private SortType sortType;
+
+    private AbstractMediaAdapter adapter;
 
     public static MoreMediaFragment create(SortType sortType, boolean isTvShow){
         Bundle args=new Bundle();
@@ -66,7 +69,9 @@ public abstract class MoreMediaFragment  extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
+            adapter=new MoreMediaAdapter(getContext(),rxBus);
             refreshLayout.setOnRefreshListener(()->presenter.requestDataRefresh(sortType));
+            mediaList.setAdapter(adapter);
             mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             mediaList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -101,18 +106,20 @@ public abstract class MoreMediaFragment  extends Fragment
     }
 
     @Override
-    public void appendMedia(@NonNull SortType sortType, @NonNull List<MediaCover> covers) {
-
+    public void appendMedia(@NonNull SortType sortType,
+                            @NonNull List<MediaCover> covers) {
+        adapter.appendData(covers);
     }
 
     @Override
-    public void showMedia(@NonNull SortType sortType, @NonNull List<MediaCover> covers) {
-
+    public void showMedia(@NonNull SortType sortType,
+                          @NonNull List<MediaCover> covers) {
+        adapter.setData(covers);
     }
 
     @Override
     public void setLoadingIndicator(boolean isLoading) {
-
+        refreshLayout.setRefreshing(isLoading);
     }
 
     @Override

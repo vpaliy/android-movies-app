@@ -1,7 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events;
 
 
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 
 public class RequestMoreEvent {
 

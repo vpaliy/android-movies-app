@@ -1,9 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
-
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,32 +11,24 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
-import java.util.ArrayList;
 import java.util.List;
 import butterknife.ButterKnife;
 
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
-public class MoreMediaAdapter extends RecyclerView.Adapter<MoreMediaAdapter.MediaViewHolder>{
-
-    private List<MediaCover> data;
-    private LayoutInflater inflater;
-    private RxBus rxBus;
-    private boolean hasBeenClicked;
+public class MoreMediaAdapter extends AbstractMediaAdapter{
 
     public MoreMediaAdapter(@NonNull Context context,
-                        @NonNull RxBus rxBus){
-        this.inflater=LayoutInflater.from(context);
-        this.rxBus=rxBus;
-        this.data=new ArrayList<>();
+                            @NonNull RxBus rxBus){
+        super(context,rxBus);
     }
 
     public void setData(List<MediaCover> data) {
         this.data = data;
     }
 
-    public class MediaViewHolder extends RecyclerView.ViewHolder {
+    public class MediaViewHolder extends AbstractMediaAdapter.GenericViewHolder {
 
         @BindView(R.id.media_release_year)
         TextView releaseYear;
@@ -79,30 +68,10 @@ public class MoreMediaAdapter extends RecyclerView.Adapter<MoreMediaAdapter.Medi
         }
     }
 
-    private MediaCover at(int index){
-        return data.get(index);
-    }
-
-    public void appendData(@NonNull List<MediaCover> movies){
-        int size=getItemCount();
-        data.addAll(movies);
-        notifyItemRangeInserted(size,getItemCount());
-    }
-
-
-    @Override
-    public int getItemCount() {
-        return data.size();
-    }
-
     @Override
     public MediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root=inflater.inflate(R.layout.adapter_more_media_item,parent,false);
         return new MediaViewHolder(root);
     }
 
-    @Override
-    public void onBindViewHolder(MediaViewHolder holder, int position) {
-        holder.onBindData();
-    }
 }

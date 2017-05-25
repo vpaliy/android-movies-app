@@ -5,10 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypePagerAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager;
 import com.roughike.bottombar.BottomBar;
 
@@ -46,7 +49,6 @@ public class MediaActivity extends BaseActivity
     protected MediaPager mediaPager;
 
     private ActionBarDrawerToggle drawerToggle;
-    private boolean isMenuVisible;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +102,6 @@ public class MediaActivity extends BaseActivity
         setSupportActionBar(actionBar);
         ActionBar actionBar=getSupportActionBar();
         navigationView.setCheckedItem(R.id.movies);
-        isMenuVisible=true;
     }
 
     @Override
@@ -166,11 +167,17 @@ public class MediaActivity extends BaseActivity
     void handleEvent(@NonNull Object event) {
         if(event instanceof  ExposeDetailsEvent){
             showDetails(ExposeDetailsEvent.class.cast(event));
+        }else if(event instanceof ViewAllEvent){
+            viewAll(ViewAllEvent.class.cast(event));
         }
     }
 
     private void showDetails(@NonNull ExposeDetailsEvent event){
         navigator.showDetails(this,event);
+    }
+
+    private void viewAll(@NonNull ViewAllEvent event){
+        navigator.viewAll(this,event);
     }
 
     private int getStatusBarHeight() {

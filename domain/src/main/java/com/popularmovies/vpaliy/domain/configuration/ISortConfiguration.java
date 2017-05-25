@@ -8,15 +8,4 @@ public interface ISortConfiguration {
     void saveConfiguration(@NonNull SortType sortType);
     SortType getConfiguration();
 
-    enum SortType{
-        POPULAR,
-        TOP_RATED,
-        RECOMMENDED,
-        LATEST,
-        UPCOMING,
-        NOW_PLAYING,
-        FAVORITE,
-        MUST_WATCH,
-        WATCHED
-    }
 }

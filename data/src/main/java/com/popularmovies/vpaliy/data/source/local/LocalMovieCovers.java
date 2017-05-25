@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.data.source.local;
 
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class LocalMovieCovers implements CoverDataSource<Movie> {
     public LocalMovieCovers(){}
 
     @Override
-    public Observable<List<Movie>> get(ISortConfiguration.SortType type) {
+    public Observable<List<Movie>> get(SortType type) {
         return null;
     }
 
@@ -28,17 +28,17 @@ public class LocalMovieCovers implements CoverDataSource<Movie> {
     }
 
     @Override
-    public void insert(Movie item, ISortConfiguration.SortType sortType) {
+    public void insert(Movie item, SortType sortType) {
 
     }
 
     @Override
-    public void update(Movie item, ISortConfiguration.SortType type) {
+    public void update(Movie item, SortType type) {
 
     }
 
     @Override
-    public Observable<List<Movie>> requestMore(ISortConfiguration.SortType type) {
+    public Observable<List<Movie>> requestMore(SortType type) {
         return null;
     }
 }

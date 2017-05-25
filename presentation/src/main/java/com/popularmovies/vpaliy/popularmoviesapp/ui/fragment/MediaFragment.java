@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
@@ -17,6 +17,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter.MediaTypeWrapper;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.RequestMoreEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,7 +117,8 @@ public abstract class MediaFragment extends Fragment
         if(!mediaAdapters.containsKey(sortType)) mediaAdapters.put(sortType,new MediaAdapter(getContext(),rxBus));
         MediaAdapter adapter = mediaAdapters.get(sortType);
         adapter.setData(media);
-        mediaTypeAdapter.addWrapper(MediaTypeWrapper.wrap(getTitle(sortType), sortType, adapter,getColor(sortType)));
+        MediaTypeWrapper wrapper=MediaTypeWrapper.wrap(getTitle(sortType),sortType,adapter,getMediaType(),getColor(sortType));
+        mediaTypeAdapter.addWrapper(wrapper);
     }
 
 
@@ -136,5 +138,6 @@ public abstract class MediaFragment extends Fragment
     abstract void initializeDependencies();
     abstract String getTitle(SortType sortType);
     abstract int getColor(SortType sortType);
+    abstract MediaType getMediaType();
     abstract List<SortType> getSortTypes();
 }

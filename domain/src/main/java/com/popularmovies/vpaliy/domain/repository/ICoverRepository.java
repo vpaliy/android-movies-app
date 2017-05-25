@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.domain.repository;
 
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import java.util.List;
 import rx.Observable;
 

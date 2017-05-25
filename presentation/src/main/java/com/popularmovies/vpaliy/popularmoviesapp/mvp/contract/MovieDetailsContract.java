@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.mvp.contract;
 
 import android.support.annotation.NonNull;
 
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;

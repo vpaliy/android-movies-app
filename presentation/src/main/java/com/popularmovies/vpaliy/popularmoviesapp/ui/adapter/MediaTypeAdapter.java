@@ -8,13 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration.SortType;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.RequestMoreEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ViewAllEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.ViewAllWrapper;
+
 import butterknife.ButterKnife;
 import java.util.ArrayList;
 import java.util.List;
+
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
@@ -42,7 +47,8 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
         notifyItemRangeInserted(size,getItemCount());
     }
 
-    public class TypeViewHolder extends RecyclerView.ViewHolder {
+    public class TypeViewHolder extends RecyclerView.ViewHolder
+                implements View.OnClickListener{
 
         @BindView(R.id.media_list)
         RecyclerView list;
@@ -76,6 +82,13 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
             list.setNestedScrollingEnabled(false);
         }
 
+        @Override
+        public void onClick(View v) {
+            MediaTypeWrapper typeWrapper=at(getAdapterPosition());
+            ViewAllWrapper wrapper=ViewAllWrapper.wrap(typeWrapper.sortType,typeWrapper.mediaType);
+            rxBus.send(new ViewAllEvent(wrapper));
+        }
+
         void bindData(){
             MediaTypeWrapper wrapper=at(getAdapterPosition());
             list.setAdapter(wrapper.adapter);
@@ -105,26 +118,30 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
     }
 
     public static class MediaTypeWrapper {
-        private String text;
-        private int color;
-        private SortType sortType;
-        private RecyclerView.Adapter<?> adapter;
+        private final String text;
+        private final int color;
+        private final SortType sortType;
+        private final MediaType mediaType;
+        private final RecyclerView.Adapter<?> adapter;
 
         private MediaTypeWrapper(@NonNull String text,
                                  @NonNull RecyclerView.Adapter<?> adapter,
                                  @NonNull SortType sortType,
+                                 @NonNull MediaType mediaType,
                                  int color){
             this.text=text;
             this.adapter=adapter;
             this.sortType=sortType;
             this.color=color;
+            this.mediaType=mediaType;
         }
 
         public static MediaTypeWrapper wrap(@NonNull String text,
                                             @NonNull SortType sortType,
                                             @NonNull RecyclerView.Adapter<?> adapter,
+                                            @NonNull MediaType mediaType,
                                             int color){
-            return new MediaTypeWrapper(text,adapter,sortType,color);
+            return new MediaTypeWrapper(text,adapter,sortType,mediaType,color);
         }
     }
 }
