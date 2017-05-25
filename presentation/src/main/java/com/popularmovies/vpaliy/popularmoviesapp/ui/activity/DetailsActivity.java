@@ -40,9 +40,7 @@ public class DetailsActivity extends BaseActivity {
     private void initTransition(){
 
         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-            if(isNetworkConnection() && presentationConfigs.getPresentation()!=CARD) {
-                postponeEnterTransition();
-            }
+            postponeEnterTransition();
         }
 
         if(Permission.checkForVersion(Build.VERSION_CODES.JELLY_BEAN)){

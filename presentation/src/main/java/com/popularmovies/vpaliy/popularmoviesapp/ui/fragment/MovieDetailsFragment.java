@@ -260,12 +260,12 @@ public class MovieDetailsFragment extends Fragment
                         movieImage.setImageBitmap(resource);
                         new Palette.Builder(resource)
                                 .generate(MovieDetailsFragment.this::applyPalette);
-                        if(presentationConfigs.getPresentation()!=CARD) {
+                        //if(presentationConfigs.getPresentation()!=CARD) {
                             if (Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)) {
                                 movieImage.setTransitionName(imageTransitionName);
                                 startTransition();
                             }
-                        }
+                       // }
                     }
                 });
     }

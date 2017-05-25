@@ -9,6 +9,7 @@
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
         android:id="@+id/media_poster"
         android:scaleType="centerCrop"
+        android:transitionName="@string/movie_image"
         tools:src="@drawable/kong_poster"
         android:layout_width="140dp"
         android:layout_height="180dp"

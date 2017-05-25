@@ -53,6 +53,7 @@ public class MovieDetailsPresenter implements MovieDetailsContract.Presenter {
 
     private void processData(@NonNull MovieDetails details){
         MediaCover cover=details.getMovieCover();
+        view.showCover(cover);
         if(cover.getBackdrops()!=null){
             view.showBackdrops(cover.getBackdrops());
         }

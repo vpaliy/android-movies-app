@@ -13,8 +13,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import java.util.List;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,8 @@ import android.support.annotation.Nullable;
 
 public abstract class MoreMediaFragment  extends Fragment
         implements MediaContract.View {
+
+    private static final String TAG=MoreMediaFragment.class.getSimpleName();
 
     protected Presenter presenter;
 
@@ -69,9 +73,11 @@ public abstract class MoreMediaFragment  extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
+            Log.d(TAG,"onViewCreated()");
             adapter=new MoreMediaAdapter(getContext(),rxBus);
             refreshLayout.setOnRefreshListener(()->presenter.requestDataRefresh(sortType));
             mediaList.setAdapter(adapter);
+            mediaList.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
             mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             mediaList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
@@ -88,6 +94,7 @@ public abstract class MoreMediaFragment  extends Fragment
                     }
                 }
             });
+            presenter.start(sortType);
         }
     }
 
@@ -114,6 +121,7 @@ public abstract class MoreMediaFragment  extends Fragment
     @Override
     public void showMedia(@NonNull SortType sortType,
                           @NonNull List<MediaCover> covers) {
+        Log.d(TAG,"showMedia()");
         adapter.setData(covers);
     }
 
@@ -124,12 +132,12 @@ public abstract class MoreMediaFragment  extends Fragment
 
     @Override
     public void showErrorMessage() {
-
+        Log.d(TAG,"error");
     }
 
     @Override
     public void showEmptyMessage() {
-
+        Log.d(TAG,"EmptyMessage");
     }
 
     @Override

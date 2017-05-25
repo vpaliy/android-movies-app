@@ -1,6 +1,9 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,20 +14,28 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
-import java.util.List;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
+
 import butterknife.ButterKnife;
 
 import android.support.annotation.NonNull;
+
+import java.util.Locale;
+
 import butterknife.BindView;
 
 public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
+
+    private static final String TAG=MoreMediaAdapter.class.getSimpleName();
 
     public MoreMediaAdapter(@NonNull Context context,
                             @NonNull RxBus rxBus){
         super(context,rxBus);
     }
 
-    public class MediaViewHolder extends AbstractMediaAdapter.GenericViewHolder {
+    public class MediaViewHolder extends AbstractMediaAdapter<MediaCover>.GenericViewHolder {
 
         @BindView(R.id.media_release_year)
         TextView releaseYear;
@@ -32,7 +43,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         @BindView(R.id.media_poster)
         ImageView posterImage;
 
-        @BindView(R.id.media_rating)
+        @BindView(R.id.media_ratings)
         TextView ratings;
 
         @BindView(R.id.media_title)
@@ -41,6 +52,15 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         public MediaViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
+            posterImage.setOnClickListener(v -> {
+                if(!isLocked()) {
+                    lock();
+                    Bundle args = new Bundle();
+                    args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
+                    TransitionWrapper wrapper = TransitionWrapper.wrap(posterImage, args);
+                    rxBus.send(new ExposeDetailsEvent(wrapper));
+                }
+            });
         }
 
         void onBindData(){
@@ -49,7 +69,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
             String bullet="\u25CF"+" ";
             String titleText=bullet+cover.getMovieTitle();
             mediaTitle.setText(titleText);
-
+            ratings.setText(String.format(Locale.US,"%f",cover.getAverageRate()));
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)

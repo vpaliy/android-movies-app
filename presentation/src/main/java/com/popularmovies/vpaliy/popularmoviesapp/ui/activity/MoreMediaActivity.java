@@ -5,6 +5,8 @@ import android.os.Bundle;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoreMediaFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 import butterknife.ButterKnife;
@@ -35,12 +37,17 @@ public class MoreMediaActivity extends BaseActivity {
 
 
     private void setUI(){
+        MoreMediaFragment fragment;
         switch (mediaType){
             case MOVIES:
+                fragment=MoreMediaFragment.create(sortType,false);
                 break;
-            case TV_SHOWS:
+            default:
+                fragment=MoreMediaFragment.create(sortType,true);
                 break;
         }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.media_frame,fragment).commit();
     }
 
     @Override
@@ -52,6 +59,12 @@ public class MoreMediaActivity extends BaseActivity {
 
     @Override
     void handleEvent(@NonNull Object event) {
+        if(event instanceof ExposeDetailsEvent) {
+            showDetails(ExposeDetailsEvent.class.cast(event));
+        }
+    }
 
+    private void showDetails(@NonNull ExposeDetailsEvent event){
+        navigator.showDetails(this,event);
     }
 }

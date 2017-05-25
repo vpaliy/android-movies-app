@@ -27,16 +27,14 @@ public abstract class AbstractMediaAdapter<T> extends
 
     public void setData(List<T> data) {
         this.data = data;
+        notifyDataSetChanged();
     }
 
     public abstract class GenericViewHolder extends RecyclerView.ViewHolder{
-
         public GenericViewHolder(View itemView){
             super(itemView);
         }
-
         abstract void onBindData();
-
     }
 
     public boolean isLocked(){

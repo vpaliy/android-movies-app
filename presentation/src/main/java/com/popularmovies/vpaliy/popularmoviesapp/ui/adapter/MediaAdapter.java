@@ -15,6 +15,7 @@ import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 
 import java.util.List;
@@ -52,9 +53,13 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
             super(itemView);
             ButterKnife.bind(this,itemView);
             posterImage.setOnClickListener(v -> {
-                Bundle args=new Bundle();
-                TransitionWrapper wrapper=TransitionWrapper.wrap(posterImage,args);
-                rxBus.send(new ExposeDetailsEvent(wrapper));
+                if(!isLocked()) {
+                    lock();
+                    Bundle args = new Bundle();
+                    args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
+                    TransitionWrapper wrapper = TransitionWrapper.wrap(posterImage, args);
+                    rxBus.send(new ExposeDetailsEvent(wrapper));
+                }
             });
 
 

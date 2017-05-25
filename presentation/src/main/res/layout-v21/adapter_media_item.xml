@@ -1,0 +1,67 @@
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
+        android:id="@+id/media_poster"
+        android:layout_width="140dp"
+        android:layout_height="200dp"
+        app:radius="18"
+        android:transitionName="@string/movie_image"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/kong_poster"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/media_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:visibility="gone"
+        android:textAlignment="center"
+        style="@style/TextAppearance.AppCompat.Headline"
+        tools:text="The Hobbit and its very long text "
+        android:layout_marginTop="9dp"
+        android:maxLines="2"
+        android:maxWidth="115dp"
+        app:layout_constraintTop_toBottomOf="@+id/media_poster"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/media_rating"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="TextView"
+        android:drawableStart="@drawable/favorite_star"
+        android:drawableLeft="@drawable/favorite_star"
+        android:layout_marginTop="9dp"
+        app:layout_constraintTop_toBottomOf="@+id/media_poster"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/media_poster" />
+
+    <TextView
+        android:id="@+id/media_release_year"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:maxLength="4"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="104dp"
+        android:layout_marginRight="8dp"
+        tools:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/media_rating"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintLeft_toRightOf="@+id/media_rating"
+        app:layout_constraintRight_toRightOf="@+id/media_poster"
+        app:layout_constraintTop_toTopOf="@+id/media_rating"
+        android:layout_marginTop="0dp"
+        app:layout_constraintVertical_bias="0.0" />
+
+</android.support.constraint.ConstraintLayout>
