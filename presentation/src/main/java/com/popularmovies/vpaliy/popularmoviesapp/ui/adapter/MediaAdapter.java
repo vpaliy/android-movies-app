@@ -23,8 +23,7 @@ import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
-public class MediaAdapter extends AbstractMediaAdapter {
-
+public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
 
     public MediaAdapter(@NonNull Context context,
                         @NonNull RxBus rxBus){
@@ -83,6 +82,11 @@ public class MediaAdapter extends AbstractMediaAdapter {
         }
     }
 
+
+    @Override
+    public void onBindViewHolder(GenericViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+    }
 
     @Override
     public MediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

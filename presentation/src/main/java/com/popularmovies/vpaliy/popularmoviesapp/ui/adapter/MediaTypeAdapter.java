@@ -4,7 +4,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,40 +14,23 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.RequestMoreE
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.ViewAllWrapper;
-
 import butterknife.ButterKnife;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
-public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.TypeViewHolder>{
+public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.MediaTypeWrapper>{
 
-    private List<MediaTypeWrapper> data;
-    private LayoutInflater inflater;
-    private RxBus rxBus;
+    private static final String TAG=MediaTypeAdapter.class.getSimpleName();
 
     public MediaTypeAdapter(@NonNull Context context,
                             @NonNull RxBus rxBus){
-        this.inflater=LayoutInflater.from(context);
-        this.data=new ArrayList<>();
-        this.rxBus=rxBus;
+        super(context,rxBus);
     }
 
-    public void setData(@NonNull List<MediaTypeWrapper> wrappers){
-        this.data=wrappers;
-        notifyDataSetChanged();
-    }
 
-    public void addWrapper(@NonNull MediaTypeWrapper wrapper){
-        int size=data.size();
-        data.add(wrapper);
-        notifyItemRangeInserted(size,getItemCount());
-    }
-
-    public class TypeViewHolder extends RecyclerView.ViewHolder
-                implements View.OnClickListener{
+    public class TypeViewHolder extends GenericViewHolder
+            implements View.OnClickListener{
 
         @BindView(R.id.media_list)
         RecyclerView list;
@@ -64,7 +46,6 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
             ButterKnife.bind(this,itemView);
             list.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
                     LinearLayoutManager.HORIZONTAL,false));
-            
             list.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -80,25 +61,27 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
                 }
             });
             list.setNestedScrollingEnabled(false);
+            title.setOnClickListener(this);
+            more.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            MediaTypeWrapper typeWrapper=at(getAdapterPosition());
-            ViewAllWrapper wrapper=ViewAllWrapper.wrap(typeWrapper.sortType,typeWrapper.mediaType);
-            rxBus.send(new ViewAllEvent(wrapper));
+            if(!isLocked()) {
+                lock();
+                MediaTypeWrapper typeWrapper = at(getAdapterPosition());
+                ViewAllWrapper wrapper = ViewAllWrapper.wrap(typeWrapper.sortType, typeWrapper.mediaType);
+                rxBus.send(new ViewAllEvent(wrapper));
+            }
         }
 
-        void bindData(){
+        @Override
+        void onBindData(){
             MediaTypeWrapper wrapper=at(getAdapterPosition());
             list.setAdapter(wrapper.adapter);
             title.setText(wrapper.text);
             more.setTextColor(wrapper.color);
         }
-    }
-
-    private MediaTypeWrapper at(int index){
-        return data.get(index);
     }
 
     @Override
@@ -107,15 +90,6 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
         return new TypeViewHolder(root);
     }
 
-    @Override
-    public void onBindViewHolder(TypeViewHolder holder, int position) {
-        holder.bindData();
-    }
-
-    @Override
-    public int getItemCount() {
-        return data.size();
-    }
 
     public static class MediaTypeWrapper {
         private final String text;

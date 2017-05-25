@@ -17,15 +17,11 @@ import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
-public class MoreMediaAdapter extends AbstractMediaAdapter{
+public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
 
     public MoreMediaAdapter(@NonNull Context context,
                             @NonNull RxBus rxBus){
         super(context,rxBus);
-    }
-
-    public void setData(List<MediaCover> data) {
-        this.data = data;
     }
 
     public class MediaViewHolder extends AbstractMediaAdapter.GenericViewHolder {

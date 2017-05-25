@@ -43,7 +43,7 @@ public abstract class MoreMediaFragment  extends Fragment
     private Unbinder unbinder;
     private SortType sortType;
 
-    private AbstractMediaAdapter adapter;
+    private AbstractMediaAdapter<MediaCover> adapter;
 
     public static MoreMediaFragment create(SortType sortType, boolean isTvShow){
         Bundle args=new Bundle();

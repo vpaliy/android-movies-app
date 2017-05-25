@@ -12,6 +12,7 @@ import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
@@ -35,7 +36,7 @@ public abstract class MediaFragment extends Fragment
 
     protected Presenter presenter;
     private Map<SortType,MediaAdapter> mediaAdapters;
-    private MediaTypeAdapter mediaTypeAdapter;
+    private AbstractMediaAdapter<MediaTypeWrapper> mediaTypeAdapter;
     private CompositeDisposable disposables;
 
     @Inject
@@ -118,7 +119,7 @@ public abstract class MediaFragment extends Fragment
         MediaAdapter adapter = mediaAdapters.get(sortType);
         adapter.setData(media);
         MediaTypeWrapper wrapper=MediaTypeWrapper.wrap(getTitle(sortType),sortType,adapter,getMediaType(),getColor(sortType));
-        mediaTypeAdapter.addWrapper(wrapper);
+        mediaTypeAdapter.addItem(wrapper);
     }
 
 
