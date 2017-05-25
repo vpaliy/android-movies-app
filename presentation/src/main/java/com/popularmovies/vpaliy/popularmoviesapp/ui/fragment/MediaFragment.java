@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -107,12 +106,10 @@ public abstract class MediaFragment extends Fragment
 
     @Override
     public void showEmptyMessage() {
-
     }
 
     @Override
     public void showErrorMessage() {
-
     }
 
     @Override
@@ -120,7 +117,7 @@ public abstract class MediaFragment extends Fragment
         if(!mediaAdapters.containsKey(sortType)) mediaAdapters.put(sortType,new MediaAdapter(getContext(),rxBus));
         MediaAdapter adapter = mediaAdapters.get(sortType);
         adapter.setData(media);
-        mediaTypeAdapter.addWrapper(MediaTypeWrapper.wrap(getTitle(sortType), sortType, adapter));
+        mediaTypeAdapter.addWrapper(MediaTypeWrapper.wrap(getTitle(sortType), sortType, adapter,getColor(sortType)));
     }
 
 
@@ -135,10 +132,10 @@ public abstract class MediaFragment extends Fragment
 
     @Override
     public void setLoadingIndicator(boolean isLoading) {
-
     }
 
     abstract void initializeDependencies();
     abstract String getTitle(SortType sortType);
+    abstract int getColor(SortType sortType);
     abstract List<SortType> getSortTypes();
 }

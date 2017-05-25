@@ -50,7 +50,7 @@ public class MediaTypePagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return new TvShowsFragment();
             case 2:
-                return new MoviesFragment();
+                return new PersonalFragment();
             case 3:
                 return new TvShowsFragment();
         }

@@ -16,6 +16,8 @@
     <string name="today_airing_tv">TV Airing Today</string>
     <string name="on_the_air_tv">TV On The Air</string>
 
+    <string name="more_label">View All</string>
+
     <string name="presentation_key">Presentation Key</string>
     <string name="as_grid">Grid</string>
     <string name="as_cards">Cards</string>

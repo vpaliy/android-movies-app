@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
@@ -40,6 +41,11 @@ public class PersonalFragment extends MediaFragment{
     List<SortType> getSortTypes() {
         return Arrays.asList(SortType.POPULAR, SortType.LATEST,
                 SortType.NOW_PLAYING, SortType.UPCOMING,SortType.TOP_RATED);
+    }
+
+    @Override
+    int getColor(SortType sortType) {
+        return Color.parseColor("#00695c");
     }
 
     @Override

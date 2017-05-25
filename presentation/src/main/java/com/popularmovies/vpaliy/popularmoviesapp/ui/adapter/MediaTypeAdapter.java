@@ -15,7 +15,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.RequestMoreE
 import butterknife.ButterKnife;
 import java.util.ArrayList;
 import java.util.List;
-
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
@@ -51,6 +50,9 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
         @BindView(R.id.title)
         TextView title;
 
+        @BindView(R.id.more)
+        TextView more;
+
         public TypeViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -77,7 +79,8 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
         void bindData(){
             MediaTypeWrapper wrapper=at(getAdapterPosition());
             list.setAdapter(wrapper.adapter);
-            title.setText("\u25CF"+" "+wrapper.text);
+            title.setText(wrapper.text);
+            more.setTextColor(wrapper.color);
         }
     }
 
@@ -103,21 +106,25 @@ public class MediaTypeAdapter extends RecyclerView.Adapter<MediaTypeAdapter.Type
 
     public static class MediaTypeWrapper {
         private String text;
+        private int color;
         private SortType sortType;
         private RecyclerView.Adapter<?> adapter;
 
         private MediaTypeWrapper(@NonNull String text,
-                                @NonNull RecyclerView.Adapter<?> adapter,
-                                 @NonNull SortType sortType){
+                                 @NonNull RecyclerView.Adapter<?> adapter,
+                                 @NonNull SortType sortType,
+                                 int color){
             this.text=text;
             this.adapter=adapter;
             this.sortType=sortType;
+            this.color=color;
         }
 
         public static MediaTypeWrapper wrap(@NonNull String text,
                                             @NonNull SortType sortType,
-                                            @NonNull RecyclerView.Adapter<?> adapter){
-            return new MediaTypeWrapper(text,adapter,sortType);
+                                            @NonNull RecyclerView.Adapter<?> adapter,
+                                            int color){
+            return new MediaTypeWrapper(text,adapter,sortType,color);
         }
     }
 }

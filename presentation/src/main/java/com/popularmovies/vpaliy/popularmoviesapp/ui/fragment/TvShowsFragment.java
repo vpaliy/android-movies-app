@@ -10,6 +10,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import java.util.Arrays;
 import java.util.List;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.TV;
 import javax.inject.Inject;
@@ -38,6 +39,11 @@ public class TvShowsFragment extends MediaFragment{
     List<SortType> getSortTypes() {
         return Arrays.asList(SortType.POPULAR, SortType.LATEST,
                 SortType.NOW_PLAYING, SortType.UPCOMING,SortType.TOP_RATED);
+    }
+
+    @Override
+    int getColor(SortType sortType) {
+        return Color.parseColor("#42a5f5");
     }
 
     @Override

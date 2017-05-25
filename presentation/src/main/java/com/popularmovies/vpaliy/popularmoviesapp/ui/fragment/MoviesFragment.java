@@ -10,6 +10,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Pres
 import java.util.Arrays;
 import java.util.List;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
 import javax.inject.Inject;
@@ -34,6 +35,12 @@ public class MoviesFragment extends MediaFragment{
                 .build().inject(this);
 
     }
+
+    @Override
+    int getColor(SortType sortType) {
+        return Color.parseColor("#ff6f00");
+    }
+
 
     @Override
     List<SortType> getSortTypes() {
