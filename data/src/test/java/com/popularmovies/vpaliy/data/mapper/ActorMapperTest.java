@@ -15,9 +15,7 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(MockitoJUnitRunner.class)
 public class ActorMapperTest extends MapperTest {
 
-
     private Mapper<ActorCover,ActorEntity> mapper;
-
 
     @Before
     public void setUp(){

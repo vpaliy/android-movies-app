@@ -5,7 +5,6 @@ import org.mockito.Mock;
 
 public class MapperTest {
 
-
     static final String FAKE_PATH="path";
 
     @Mock
