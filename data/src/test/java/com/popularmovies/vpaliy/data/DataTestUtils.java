@@ -15,15 +15,15 @@ public class DataTestUtils {
 
     public static final int FAKE_ID=123;
     public static final int FAKER_ID=1234;
-    public static final String FAKE_ROLE="fake_role";
-    public static final String FAKE_AVATAR="fake_avatar";
-    public static final String FAKE_NAME="fake_name";
     public static final int FAKE_RUNTIME=120;
     public static final long FAKE_VOTE_COUNT=1000L;
     public static final long FAKE_BUDGET=1000000;
     public static final long FAKE_REVENUE=100000;
     public static final double FAKE_POPULARITY=10;
     public static final double FAKE_VOTE_AVERAGE=7.5d;
+    public static final String FAKE_ROLE="fake_role";
+    public static final String FAKE_AVATAR="fake_avatar";
+    public static final String FAKE_NAME="fake_name";
     public static final String FAKE_TITLE="fake_title";
     public static final String FAKE_STATUS="fake_status";
     public static final String FAKE_OVERVIEW="fake_overview";
@@ -33,6 +33,8 @@ public class DataTestUtils {
     public static final String FAKE_RELEASE_DATE="fake_date";
     public static final String FAKE_ORIGINAL_TITLE="fake_original_title";
     public static final String FAKE_ORIGINAL_LANGUAGE="fake_language";
+    public static final String FAKE_TRAILER_URL="fake_trailer_url";
+    public static final String FAKE_SITE="fake_site";
 
     public static ActorEntity provideActorEntity(){
         ActorEntity actorEntity=new ActorEntity();
@@ -95,7 +97,11 @@ public class DataTestUtils {
 
     public static TrailerEntity provideTrailerEntity(){
         TrailerEntity trailerEntity=new TrailerEntity();
-
+        trailerEntity.setMovieId(FAKER_ID);
+        trailerEntity.setTrailerUrl(FAKE_TRAILER_URL);
+        trailerEntity.setSite(FAKE_SITE);
+        trailerEntity.setTrailerId(FAKE_ID);
+        trailerEntity.setTrailerTitle(FAKE_TITLE);
         return trailerEntity;
     }
 
