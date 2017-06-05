@@ -2,8 +2,14 @@ package com.popularmovies.vpaliy.data;
 
 
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.BackdropImage;
+import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
-import com.popularmovies.vpaliy.data.source.local.MoviesContract;
+import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
+import com.popularmovies.vpaliy.data.entity.TrailerEntity;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class DataTestUtils {
 
@@ -38,6 +44,27 @@ public class DataTestUtils {
         return actorEntity;
     }
 
+    public static BackdropImage provideBackdropImage(){
+        return new BackdropImage(FAKE_BACKDROP_PATH);
+    }
+
+    public static List<BackdropImage> provideBackdrops(){
+        return Arrays.asList(provideBackdropImage(),provideBackdropImage(),
+                provideBackdropImage(),provideBackdropImage());
+    }
+
+    public static Genre provideGenre(){
+        Genre genre=new Genre();
+        genre.setId(FAKE_ID);
+        genre.setName(FAKE_NAME);
+        return genre;
+    }
+
+    public static List<Genre> provideGenres(){
+        return Arrays.asList(provideGenre(),provideGenre(),provideGenre(),
+                provideGenre(),provideGenre(),provideGenre());
+    }
+
     public static Movie provideMovieEntity(){
         Movie movie=new Movie();
         movie.setPosterPath(FAKE_POSTER_PATH);
@@ -56,6 +83,31 @@ public class DataTestUtils {
         movie.setOriginalLanguage(FAKE_ORIGINAL_LANGUAGE);
         movie.setRevenue(FAKE_REVENUE);
         movie.setPopularity(FAKE_POPULARITY);
+        movie.setBackdropImages(provideBackdrops());
+        movie.setGenres(provideGenres());
         return movie;
     }
+
+    public static List<Movie> provideMovieList(){
+        return Arrays.asList(provideMovieEntity(),provideMovieEntity(),
+                provideMovieEntity(),provideMovieEntity(),provideMovieEntity());
+    }
+
+    public static TrailerEntity provideTrailerEntity(){
+        TrailerEntity trailerEntity=new TrailerEntity();
+
+        return trailerEntity;
+    }
+
+    public static MovieDetailEntity provideMovieDetailsEntity(){
+        MovieDetailEntity detailEntity=new MovieDetailEntity();
+        detailEntity.setGenres(provideGenres());
+        detailEntity.setBackdropImages(provideBackdrops());
+        detailEntity.setMovie(provideMovieEntity());
+        detailEntity.setSimilarMovies(provideMovieList());
+
+        return detailEntity;
+    }
+
+
 }

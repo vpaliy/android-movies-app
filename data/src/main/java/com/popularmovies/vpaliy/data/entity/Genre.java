@@ -27,6 +27,14 @@ public class Genre {
         return name;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public static List<String> convert(List<Genre> genres){
         if(genres==null) return null;
         List<String> result=new LinkedList<>();
