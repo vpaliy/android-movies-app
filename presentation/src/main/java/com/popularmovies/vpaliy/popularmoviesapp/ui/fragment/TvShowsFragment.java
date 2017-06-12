@@ -9,7 +9,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import java.util.Arrays;
 import java.util.List;
-
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.TV;
@@ -27,14 +26,12 @@ public class TvShowsFragment extends MediaFragment{
         this.presenter.attachView(this);
     }
 
-
     @Override
     void initializeDependencies() {
         DaggerViewComponent.builder()
                 .applicationComponent(App.appInstance().appComponent())
                 .presenterModule(new PresenterModule())
                 .build().inject(this);
-
     }
 
     @Override

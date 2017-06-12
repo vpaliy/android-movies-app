@@ -13,6 +13,10 @@ import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
+import com.popularmovies.vpaliy.domain.model.ActorCover;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
+import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +30,7 @@ public class FakeDataProvider {
     public static final int FAKE_EPISODE_NUMBER=12;
     public static final int FAKE_NUMBER_OF_SEASONS=14;
     public static final int FAKE_NUMBER_OF_EPISODES=14;
+    public static final int FAKE_SEASON_NUMBER=16;
     public static final long FAKE_BUDGET=1000000;
     public static final long FAKE_REVENUE=100000;
     public static final double FAKE_POPULARITY=10;
@@ -52,6 +57,7 @@ public class FakeDataProvider {
     public static final String FAKE_LAST_AIR_DATE="fake_last_air_date";
     public static final String FAKE_STILL_PATH="fake_still_path";
     public static final String FAKE_TYPE="fake_type";
+    public static final String FAKE_DURATION="fake_duration";
 
     public static ActorEntity provideActorEntity(){
         ActorEntity actorEntity=new ActorEntity();
@@ -61,6 +67,59 @@ public class FakeDataProvider {
         actorEntity.setActorAvatar(FAKE_AVATAR);
         actorEntity.setName(FAKE_NAME);
         return actorEntity;
+    }
+
+    public static ActorCover provideActorCover(){
+        ActorCover actorCover=new ActorCover(FAKE_ID,FAKER_ID);
+        actorCover.setRole(FAKE_ROLE);
+        actorCover.setActorAvatar(FAKE_AVATAR);
+        actorCover.setName(FAKE_NAME);
+        return actorCover;
+    }
+
+    public static List<String> provideBackdropStrings(){
+        return Arrays.asList(FAKE_BACKDROP_PATH,FAKE_BACKDROP_PATH,FAKE_BACKDROP_PATH,
+                FAKE_BACKDROP_PATH,FAKE_BACKDROP_PATH,FAKE_BACKDROP_PATH);
+    }
+
+    public static List<String> provideGenreStrings(){
+        return Arrays.asList(FAKE_NAME,FAKE_NAME,FAKE_NAME,FAKE_NAME);
+    }
+
+    public static MediaCover provideMediaCover(boolean isTvShow){
+        MediaCover mediaCover=new MediaCover();
+        mediaCover.setBackdrops(provideBackdropStrings());
+        mediaCover.setTvShow(isTvShow);
+        mediaCover.setPosterPath(FAKE_POSTER_PATH);
+        mediaCover.setMovieTitle(FAKE_TITLE);
+        mediaCover.setAverageRate(FAKE_VOTE_AVERAGE);
+        mediaCover.setPosterPath(FAKE_POSTER_PATH);
+        mediaCover.setDuration(FAKE_DURATION);
+        mediaCover.setGenres(provideGenreStrings());
+        mediaCover.setMediaId(FAKE_ID);
+        mediaCover.setReleaseDate(FAKE_RELEASE_DATE);
+        return mediaCover;
+    }
+
+    public static List<MediaCover> provideMediaCoverList(boolean isTvShow){
+        return Arrays.asList(provideMediaCover(isTvShow),provideMediaCover(isTvShow),
+                provideMediaCover(isTvShow),provideMediaCover(isTvShow),provideMediaCover(isTvShow));
+    }
+
+    public static TVShowEpisode provideTvShowEpisode(){
+        TVShowEpisode episode=new TVShowEpisode();
+        episode.setVoteAverage(FAKE_VOTE_AVERAGE);
+        episode.setEpisodeOverview(FAKE_OVERVIEW);
+        episode.setEpisodeNumber(FAKE_EPISODE_NUMBER);
+        episode.setEpisodeName(FAKE_NAME);
+        episode.setEpisodeId(FAKE_ID);
+        episode.setVoteCount(FAKE_VOTE_COUNT);
+        return episode;
+    }
+
+    public static List<TVShowEpisode> provideTvShowEpisodeList(){
+        return Arrays.asList(provideTvShowEpisode(),provideTvShowEpisode(),
+                provideTvShowEpisode(),provideTvShowEpisode(),provideTvShowEpisode());
     }
 
     public static TvShowEpisodeEntity provideTvEpisodeEntity(){
@@ -76,11 +135,21 @@ public class FakeDataProvider {
         return entity;
     }
 
-    public static TvShowSeasonEntity provideTvShowSeason(){
+    public static TVShowSeason provideTvShowSeason(){
+        TVShowSeason season=new TVShowSeason();
+        season.setSeasonName(FAKE_NAME);
+        season.setSeasonId(FAKE_ID);
+        season.setAirDate(FAKE_FIRST_AIR_DATE);
+        season.setPosterPath(FAKE_POSTER_PATH);
+        season.setSeasonNumber(FAKE_SEASON_NUMBER);
+        season.setEpisodeList(provideTvShowEpisodeList());
+        return season;
+    }
+    public static TvShowSeasonEntity provideTvShowSeasonEntity(){
         TvShowSeasonEntity entity=new TvShowSeasonEntity();
         entity.setId(FAKE_ID);
-        entity.setEpisodes(provideTvShowEpisodeList());
-        entity.setSeasonNumber(FAKE_NUMBER_OF_SEASONS);
+        entity.setEpisodes(provideTvShowEpisodeEntityList());
+        entity.setSeasonNumber(FAKE_SEASON_NUMBER);
         entity.setName(FAKE_NAME);
         entity.setPosterPath(FAKE_POSTER_PATH);
         entity.setOverview(FAKE_OVERVIEW);
@@ -89,8 +158,8 @@ public class FakeDataProvider {
     }
 
     public static List<TvShowSeasonEntity> provideTvShowSeasonEntityList(){
-        return Arrays.asList(provideTvShowSeason(),provideTvShowSeason(),provideTvShowSeason(),
-                    provideTvShowSeason(),provideTvShowSeason(),provideTvShowSeason());
+        return Arrays.asList(provideTvShowSeasonEntity(),provideTvShowSeasonEntity(),provideTvShowSeasonEntity(),
+                    provideTvShowSeasonEntity(),provideTvShowSeasonEntity(),provideTvShowSeasonEntity());
     }
 
     public static TvShowInfoEntity provideTvShowInfoEntity(){
@@ -115,7 +184,7 @@ public class FakeDataProvider {
         return entity;
     }
 
-    public static List<TvShowEpisodeEntity> provideTvShowEpisodeList(){
+    public static List<TvShowEpisodeEntity> provideTvShowEpisodeEntityList(){
         return Arrays.asList(provideTvEpisodeEntity(),provideTvEpisodeEntity(),provideTvEpisodeEntity(),
                     provideTvEpisodeEntity(),provideTvEpisodeEntity(),provideTvEpisodeEntity());
     }

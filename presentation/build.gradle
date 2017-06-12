@@ -52,6 +52,7 @@ dependencies {
     compile project(':domain')
     compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     compile 'com.roughike:bottom-bar:2.3.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile libs.constraintLayout
     compile libs.multiDex
     compile libs.materialIconLib
@@ -77,6 +78,7 @@ dependencies {
     annotationProcessor libs.Dagger2Compiler
     annotationProcessor libs.butterKnifeCompiler
     provided libs.javaxAnnotation
+
     /* Testing Libraries */
     testCompile testLibs.mockito
     testCompile testLibs.espresso

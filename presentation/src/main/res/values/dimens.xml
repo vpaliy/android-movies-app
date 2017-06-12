@@ -5,4 +5,10 @@
     <dimen name="item_card_width">0dp</dimen>
     <dimen name="item_padding">8dp</dimen>
 
+    <!-- Spacing -->
+    <dimen name="spacing_small">4dp</dimen>
+    <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="spacing_large">16dp</dimen>
+    <dimen name="spacing_big">24dp</dimen>
+    <dimen name="spacing_huge">32dp</dimen>
 </resources>

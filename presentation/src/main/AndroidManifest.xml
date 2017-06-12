@@ -32,7 +32,7 @@
 
         <activity
             android:name=".ui.activity.MoreMediaActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/SimpleAppTheme">
         </activity>
 
         <activity android:name=".ui.activity.DetailsActivity"

@@ -9,7 +9,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rootView"
-        android:background="@color/colorGray"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -43,7 +43,6 @@
             app:bb_behavior="shy|underNavbar"
             android:layout_gravity="bottom"
             app:bb_tabXmlResource="@xml/media_bottom_navigation"/>
-
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

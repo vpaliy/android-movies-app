@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
@@ -22,13 +24,12 @@ import butterknife.ButterKnife;
 
 import android.support.annotation.NonNull;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 import butterknife.BindView;
 
 public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
-
-    private static final String TAG=MoreMediaAdapter.class.getSimpleName();
 
     public MoreMediaAdapter(@NonNull Context context,
                             @NonNull RxBus rxBus){
@@ -49,6 +50,9 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         @BindView(R.id.media_title)
         TextView mediaTitle;
 
+        @BindView(R.id.media_genres)
+        TextView genres;
+
         public MediaViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -66,10 +70,9 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         void onBindData(){
             MediaCover cover=at(getAdapterPosition());
             releaseYear.setText(convertToYear(cover.getReleaseDate()));
-            String bullet="\u25CF"+" ";
-            String titleText=bullet+cover.getMovieTitle();
-            mediaTitle.setText(titleText);
-            ratings.setText(String.format(Locale.US,"%f",cover.getAverageRate()));
+            mediaTitle.setText(cover.getMovieTitle());
+            ratings.setText(String.format(Locale.US,"%.1f",cover.getAverageRate()));
+            if(cover.getGenres()!=null) genres.setText(cover.getGenres().toString());
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)

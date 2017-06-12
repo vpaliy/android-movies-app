@@ -19,6 +19,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 
 import java.util.List;
+import java.util.Locale;
+
 import butterknife.ButterKnife;
 
 import android.support.annotation.NonNull;
@@ -61,9 +63,6 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     rxBus.send(new ExposeDetailsEvent(wrapper));
                 }
             });
-
-
-
         }
 
         void onBindData(){
@@ -72,7 +71,7 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
             String bullet="\u25CF"+" ";
             String titleText=bullet+cover.getMovieTitle();
             mediaTitle.setText(titleText);
-            ratings.setText(Double.toString(cover.getAverageRate()));
+            ratings.setText(String.format(Locale.US,"%.1f",cover.getAverageRate()));
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)

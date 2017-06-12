@@ -24,6 +24,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SimpleAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/blue_grey_400</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+
+
     <!-- Main theme which supports a shared element transitions feature. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Set up the transition mode -->

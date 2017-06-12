@@ -10,7 +10,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoreMediaFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 import butterknife.ButterKnife;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -18,7 +17,6 @@ public class MoreMediaActivity extends BaseActivity {
 
     private SortType sortType;
     private MediaType mediaType;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

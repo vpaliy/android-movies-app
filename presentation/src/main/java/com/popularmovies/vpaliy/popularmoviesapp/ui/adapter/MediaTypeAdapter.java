@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
-
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,19 +14,15 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ViewAllEvent
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.ViewAllWrapper;
 import butterknife.ButterKnife;
-
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
 public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.MediaTypeWrapper>{
 
-    private static final String TAG=MediaTypeAdapter.class.getSimpleName();
-
     public MediaTypeAdapter(@NonNull Context context,
                             @NonNull RxBus rxBus){
         super(context,rxBus);
     }
-
 
     public class TypeViewHolder extends GenericViewHolder
             implements View.OnClickListener{
@@ -89,7 +84,6 @@ public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.Medi
         View root=inflater.inflate(R.layout.adapter_media_type_item,parent,false);
         return new TypeViewHolder(root);
     }
-
 
     public static class MediaTypeWrapper {
         private final String text;
