@@ -14,6 +14,8 @@ import android.support.annotation.Nullable;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 @ViewScope
 public class MediaPresenter implements MediaContract.Presenter{
 
@@ -33,6 +35,7 @@ public class MediaPresenter implements MediaContract.Presenter{
 
     @Override
     public void attachView(@NonNull View view) {
+        checkNotNull(view);
         this.view=view;
     }
 
@@ -50,11 +53,11 @@ public class MediaPresenter implements MediaContract.Presenter{
     }
 
     @Override
-    public void requestDataRefresh(@NonNull SortType sortType) {
+    public void requestRefresh(@NonNull SortType sortType) {
         startLoading(sortType);
     }
 
-    private synchronized void startLoading(SortType sortType){
+    private void startLoading(SortType sortType){
         view.setLoadingIndicator(true);
         subscriptions.add(iRepository.get(sortType)
                 .subscribeOn(schedulerProvider.io())
@@ -76,7 +79,6 @@ public class MediaPresenter implements MediaContract.Presenter{
 
     @Override
     public void requestMore(@NonNull SortType sortType) {
-        if(sortType!=SortType.FAVORITE) {
             view.setLoadingIndicator(true);
             subscriptions.add(iRepository.requestMore(sortType)
                     .subscribeOn(schedulerProvider.io())
@@ -84,7 +86,6 @@ public class MediaPresenter implements MediaContract.Presenter{
                     .subscribe(movies->appendData(sortType,movies),
                             this::handleErrorMessage,
                             this::completeLoading));
-        }
     }
 
     private void appendData(SortType sortType,@Nullable List<MediaCover> movieList){

@@ -73,9 +73,8 @@ public abstract class MoreMediaFragment  extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
-            Log.d(TAG,"onViewCreated()");
             adapter=new MoreMediaAdapter(getContext(),rxBus);
-            refreshLayout.setOnRefreshListener(()->presenter.requestDataRefresh(sortType));
+            refreshLayout.setOnRefreshListener(()->presenter.requestRefresh(sortType));
             mediaList.setAdapter(adapter);
             mediaList.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
             mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
@@ -121,7 +120,6 @@ public abstract class MoreMediaFragment  extends Fragment
     @Override
     public void showMedia(@NonNull SortType sortType,
                           @NonNull List<MediaCover> covers) {
-        Log.d(TAG,"showMedia()");
         adapter.setData(covers);
     }
 
@@ -132,12 +130,10 @@ public abstract class MoreMediaFragment  extends Fragment
 
     @Override
     public void showErrorMessage() {
-        Log.d(TAG,"error");
     }
 
     @Override
     public void showEmptyMessage() {
-        Log.d(TAG,"EmptyMessage");
     }
 
     @Override

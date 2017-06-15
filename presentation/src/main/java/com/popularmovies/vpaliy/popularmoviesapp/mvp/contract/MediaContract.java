@@ -21,10 +21,9 @@ public interface MediaContract {
 
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
-        void requestDataRefresh(@NonNull SortType sortType);
+        void requestRefresh(@NonNull SortType sortType);
         void requestMore(@NonNull SortType sortType);
         void start(SortType sortType);
         void stop();
-
     }
 }

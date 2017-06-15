@@ -3,12 +3,10 @@ package com.popularmovies.vpaliy.popularmoviesapp;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
-
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.ApplicationComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
@@ -44,6 +42,9 @@ public class App extends Application {
                 .build();
     }
 
+    public void setApplicationComponent(ApplicationComponent applicationComponent) {
+        this.applicationComponent = applicationComponent;
+    }
 
     @NonNull
     public static App appInstance(){

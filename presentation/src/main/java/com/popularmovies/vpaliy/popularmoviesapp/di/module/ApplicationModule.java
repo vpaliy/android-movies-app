@@ -41,7 +41,6 @@ public class ApplicationModule {
         return new RxBus();
     }
 
-
     @Singleton
     @Provides
     BaseSchedulerProvider provideSchedulers(){
