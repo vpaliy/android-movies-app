@@ -50,7 +50,6 @@ public abstract class BaseActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
     }
 
-
     @CallSuper
     @Override
     protected void onStart() {
@@ -64,8 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity{
             handleEvent(object);
         }
     }
-
-
 
     @CallSuper
     @Override

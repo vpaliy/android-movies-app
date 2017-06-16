@@ -2,8 +2,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,22 +9,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
-
 import butterknife.ButterKnife;
-
 import android.support.annotation.NonNull;
-
-import java.util.Arrays;
 import java.util.Locale;
-
 import butterknife.BindView;
 
 public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
@@ -53,7 +44,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         @BindView(R.id.media_genres)
         TextView genres;
 
-        public MediaViewHolder(View itemView){
+        MediaViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
             posterImage.setOnClickListener(v -> {
@@ -63,6 +54,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
                     args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
                     TransitionWrapper wrapper = TransitionWrapper.wrap(posterImage, args);
                     rxBus.send(new ExposeDetailsEvent(wrapper));
+                    unlockAfter(UNLOCK_TIMEOUT);
                 }
             });
         }

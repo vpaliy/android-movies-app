@@ -20,10 +20,7 @@ import javax.inject.Inject;
 
 public class PersonalFragment extends MediaFragment{
 
-
-    @Inject
-    @Override
-    @Movies
+    @Inject @Override @Movies
     public void attachPresenter(@NonNull @Movies MediaContract.Presenter presenter) {
         this.presenter=presenter;
         this.presenter.attachView(this);
@@ -35,7 +32,6 @@ public class PersonalFragment extends MediaFragment{
                 .applicationComponent(App.appInstance().appComponent())
                 .presenterModule(new PresenterModule())
                 .build().inject(this);
-
     }
 
     @Override
@@ -70,6 +66,5 @@ public class PersonalFragment extends MediaFragment{
             default:
                 throw new IllegalArgumentException();
         }
-
     }
 }

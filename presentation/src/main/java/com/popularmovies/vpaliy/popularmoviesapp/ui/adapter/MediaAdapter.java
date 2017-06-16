@@ -61,6 +61,7 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
                     TransitionWrapper wrapper = TransitionWrapper.wrap(posterImage, args);
                     rxBus.send(new ExposeDetailsEvent(wrapper));
+                    unlockAfter(UNLOCK_TIMEOUT);
                 }
             });
         }

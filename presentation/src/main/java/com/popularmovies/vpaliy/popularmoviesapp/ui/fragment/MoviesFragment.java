@@ -19,15 +19,11 @@ import javax.inject.Inject;
 
 public class MoviesFragment extends MediaFragment{
 
-
-    @Override
-    @Inject
-    @Movies
+    @Override @Inject @Movies
     public void attachPresenter(@NonNull @Movies Presenter presenter) {
         this.presenter=presenter;
         this.presenter.attachView(this);
     }
-
 
     @Override
     void initializeDependencies() {

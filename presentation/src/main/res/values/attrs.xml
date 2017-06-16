@@ -5,6 +5,22 @@
     </declare-styleable>
 
     <declare-styleable name="RoundedImageView">
-    <attr name="radius" format="float" />
-</declare-styleable>
+        <attr name="radius" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="RatingsView">
+        <attr name="wheel_size" format="integer" />
+        <attr name="pointer_size" format="dimension" />
+        <attr name="max" format="integer"/>
+        <attr name="show_text" format="boolean"/>
+        <attr name="start_angle" format="integer"/>
+        <attr name="end_angle" format="integer"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="init_position" format="float"/>
+        <attr name="wheel_active_color" format="string"/>
+        <attr name="wheel_unactive_color" format="string"/>
+        <attr name="pointer_color" format="string"/>
+        <attr name="pointer_halo_color" format="string"/>
+        <attr name="text_color" format="string"/>
+    </declare-styleable>
 </resources>

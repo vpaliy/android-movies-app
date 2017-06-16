@@ -8,13 +8,12 @@ import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 import com.popularmovies.vpaliy.data.source.qualifier.Local;
 import com.popularmovies.vpaliy.data.source.qualifier.Remote;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
-
+import rx.Completable;
 import rx.Observable;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import android.support.annotation.NonNull;
 
 @Singleton
@@ -24,16 +23,18 @@ public class DetailsRepository<T,F extends HasId> extends AbstractRepository<F>
     private final Mapper<T,F> mapper;
     private final DetailsDataSource<F> localSource;
     private final DetailsDataSource<F> remoteSource;
-
+    private final BaseSchedulerProvider schedulerProvider;
     @Inject
     public DetailsRepository(@NonNull @Local DetailsDataSource<F> localSource,
                              @NonNull @Remote DetailsDataSource<F> remoteSource,
                              @NonNull Context context,
-                             @NonNull Mapper<T,F> mapper){
+                             @NonNull Mapper<T,F> mapper,
+                             @NonNull BaseSchedulerProvider schedulerProvider){
         super(context,50);
         this.localSource=localSource;
         this.remoteSource=remoteSource;
         this.mapper=mapper;
+        this.schedulerProvider=schedulerProvider;
     }
 
     @Override
@@ -54,7 +55,9 @@ public class DetailsRepository<T,F extends HasId> extends AbstractRepository<F>
 
     private void saveToDisk(F fakeDetails){
         if(fakeDetails!=null){
-            localSource.insert(fakeDetails);
+            Completable.fromAction(()->localSource.insert(fakeDetails))
+                    .subscribeOn(schedulerProvider.multi())
+                    .subscribe();
         }
     }
 

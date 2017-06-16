@@ -12,7 +12,6 @@ import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;

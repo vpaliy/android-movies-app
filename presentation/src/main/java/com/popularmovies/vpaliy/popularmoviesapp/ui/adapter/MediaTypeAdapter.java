@@ -67,6 +67,7 @@ public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.Medi
                 MediaTypeWrapper typeWrapper = at(getAdapterPosition());
                 ViewAllWrapper wrapper = ViewAllWrapper.wrap(typeWrapper.sortType, typeWrapper.mediaType);
                 rxBus.send(new ViewAllEvent(wrapper));
+                unlockAfter(UNLOCK_TIMEOUT);
             }
         }
 

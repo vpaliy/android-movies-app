@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,10 @@ public abstract class AbstractMediaAdapter<T> extends
     protected List<T> data;
     protected LayoutInflater inflater;
     protected RxBus rxBus;
+    private Handler handler=new Handler();
     private volatile boolean lock;
+
+    protected final static long UNLOCK_TIMEOUT=500;
 
     public AbstractMediaAdapter(@NonNull Context context,
                                 @NonNull RxBus rxBus){
@@ -39,6 +43,10 @@ public abstract class AbstractMediaAdapter<T> extends
 
     public boolean isLocked(){
         return lock;
+    }
+
+    protected void unlockAfter(long milliSec){
+        handler.postDelayed(this::unlock,milliSec);
     }
 
     public void unlock(){

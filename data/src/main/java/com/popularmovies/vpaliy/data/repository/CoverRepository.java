@@ -9,6 +9,7 @@ import com.popularmovies.vpaliy.data.mapper.Mapper;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
 import com.popularmovies.vpaliy.data.source.qualifier.Local;
 import com.popularmovies.vpaliy.data.source.qualifier.Remote;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import rx.Completable;
 import rx.Observable;
 
 /**
@@ -33,23 +35,26 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
 
     private final CoverDataSource<F> localSource;
     private final CoverDataSource<F> remoteSource;
+    private final BaseSchedulerProvider schedulerProvider;
 
     @Inject
     public CoverRepository(@NonNull Context context,
                            @NonNull @Local CoverDataSource<F> localSource,
                            @NonNull @Remote CoverDataSource<F> remoteSource,
-                           @NonNull Mapper<T, F> coverMapper){
+                           @NonNull Mapper<T, F> coverMapper,
+                           @NonNull BaseSchedulerProvider schedulerProvider){
         super(context);
         this.mapper=coverMapper;
         this.localSource=localSource;
         this.remoteSource=remoteSource;
+        this.schedulerProvider=schedulerProvider;
     }
 
     @Override
     public Observable<List<T>> get(SortType type) {
         if(isNetworkConnection()){
             return remoteSource.get(type)
-                    .doOnNext(list->save(list,type))
+                    .doOnNext(list->inDisk(list,type))
                     .doOnNext(this::cacheData)
                     .map(mapper::map);
         }
@@ -64,11 +69,18 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
         }
     }
 
+    private void inDisk(List<F> list, SortType type){
+        Completable.fromCallable(()->save(list,type))
+                .subscribeOn(schedulerProvider.multi())
+                .subscribe();
+    }
 
-    private void save(List<F> covers, SortType type){
+    private boolean save(List<F> covers, SortType type){
         if(covers!=null){
             covers.forEach(cover->localSource.insert(cover,type));
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -96,7 +108,7 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
         if(isNetworkConnection()){
             return remoteSource.requestMore(type)
                     .doOnNext(this::cacheData)
-                    .doOnNext(list->save(list,type))
+                    .doOnNext(list->inDisk(list,type))
                     .map(mapper::map);
         }
         return localSource.requestMore(type)

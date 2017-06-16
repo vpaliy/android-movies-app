@@ -32,7 +32,6 @@ import butterknife.BindView;
 public class  MovieInfoFragment extends Fragment
         implements MovieInfoContract.View{
 
-
     private Presenter presenter;
     private Unbinder unbinder;
     private int movieId;
@@ -65,18 +64,6 @@ public class  MovieInfoFragment extends Fragment
         }
         this.movieId=savedInstanceState.getInt(Constants.EXTRA_ID);
         initializeDependencies();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     private void initializeDependencies(){

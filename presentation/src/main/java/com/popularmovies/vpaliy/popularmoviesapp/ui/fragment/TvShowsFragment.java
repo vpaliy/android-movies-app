@@ -13,14 +13,11 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.TV;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
-
 import javax.inject.Inject;
 
 public class TvShowsFragment extends MediaFragment{
 
-    @Override
-    @Inject
-    @TV
+    @Override @Inject @TV
     public void attachPresenter(@NonNull @TV MediaContract.Presenter presenter) {
         this.presenter=presenter;
         this.presenter.attachView(this);
@@ -66,6 +63,5 @@ public class TvShowsFragment extends MediaFragment{
             default:
                 throw new IllegalArgumentException();
         }
-
     }
 }

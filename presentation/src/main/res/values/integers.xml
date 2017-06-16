@@ -3,4 +3,5 @@
     <integer name="moviesSpanCount">2</integer>
     <integer name="transitionDuration">200</integer>
     <integer name="splashDuration">300</integer>
+    <integer name="page_fade_duration">200</integer>
 </resources>

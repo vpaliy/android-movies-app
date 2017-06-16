@@ -391,9 +391,6 @@ public class MovieDetailsFragment extends Fragment
             duration.setTextColor(swatch.getTitleTextColor());
             title.setTextColor(swatch.getTitleTextColor());
             genres.setTextColor(swatch.getTitleTextColor());
-
-
-
         }
     }
 
@@ -417,7 +414,6 @@ public class MovieDetailsFragment extends Fragment
         revealAnimator.setRevealingDuration(150);
         revealAnimator.setTranslationDuration(200);
         revealAnimator.start();
-
     }
 
     private void changeFavoriteColor(int color){
@@ -427,7 +423,6 @@ public class MovieDetailsFragment extends Fragment
                 .build();
         ratingStar.setImageDrawable(starDrawable);
         favoriteButton.setImageDrawable(starDrawable);
-
     }
 
     @Override

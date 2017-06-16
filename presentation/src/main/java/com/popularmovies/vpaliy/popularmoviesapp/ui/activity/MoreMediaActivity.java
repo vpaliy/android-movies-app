@@ -50,8 +50,7 @@ public class MoreMediaActivity extends BaseActivity {
 
     @Override
     void inject() {
-        App.appInstance()
-                .appComponent()
+        App.appInstance().appComponent()
                 .inject(this);
     }
 
