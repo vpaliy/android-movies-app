@@ -45,7 +45,6 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         @BindView(R.id.media_title)
         TextView mediaTitle;
 
-
         @BindView(R.id.chipsContainer)
         ChipsContainerView chipsContainer;
         //@BindView(R.id.media_genres)
@@ -72,8 +71,6 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
             mediaTitle.setText(cover.getMovieTitle());
             ratings.setText(String.format(Locale.US,"%.1f",cover.getAverageRate()));
             chipsContainer.setTags(cover.getGenres());
-               // chipsContainer.setTags(Arrays.asList("Comedy","Drama","Adventure", "Comedy","Drama","Adventure"));
-           // if(cover.getGenres()!=null) genres.setText(cover.getGenres().toString());
 
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())

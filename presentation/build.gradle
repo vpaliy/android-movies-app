@@ -55,7 +55,7 @@ dependencies {
     compile 'com.roughike:bottom-bar:2.3.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
-
+    compile 'me.gujun.android.taggroup:library:1.4@aar'
     compile libs.constraintLayout
     compile libs.multiDex
     compile libs.materialIconLib

@@ -8,31 +8,12 @@
         <attr name="radius" format="float" />
     </declare-styleable>
 
-    <declare-styleable name="RatingsView">
-        <attr name="wheel_size" format="integer" />
-        <attr name="max" format="integer"/>
-        <attr name="init_position" format="float"/>
-        <attr name="wheel_active_color" format="color"/>
-        <attr name="wheel_unactive_color" format="color"/>
-    </declare-styleable>
-
-    <declare-styleable name="Ratings">
-        <attr name="ratings_wheel_size" format="dimension" />
-        <attr name="ratings_max" format="integer"/>
-        <attr name="ratings_text_size" format="dimension"/>
-        <attr name="ratings_init_position" format="float"/>
-        <attr name="ratings_wheel_active_color" format="color"/>
-        <attr name="ratings_wheel_unactive_color" format="color"/>
-        <attr name="ratings_text_color" format="color"/>
-        <attr name="ratings_text_style" format="reference"/>
-    </declare-styleable>
-
     <declare-styleable name="TicketImageView">
         <attr name="ticket_radius" format="float"/>
         <attr name="ticket_gap" format="float"/>
     </declare-styleable>
 
-    <declare-styleable name="ChipView">
+    <declare-styleable name="ChipsContainerView">
         <attr name="chip_style" format="reference"/>
         <attr name="chip_text" format="string" />
         <attr name="chip_background" format="color" />
