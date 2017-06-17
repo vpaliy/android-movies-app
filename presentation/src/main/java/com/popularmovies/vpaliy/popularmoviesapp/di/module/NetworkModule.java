@@ -2,7 +2,9 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
 
 import android.content.Context;
-import com.popularmovies.vpaliy.data.source.remote.MovieDatabaseAPI;
+import com.popularmovies.vpaliy.data.source.remote.service.GenresService;
+import com.popularmovies.vpaliy.data.source.remote.service.MoviesService;
+import com.popularmovies.vpaliy.data.source.remote.service.TvShowService;
 import com.popularmovies.vpaliy.popularmoviesapp.BuildConfig;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
@@ -75,8 +77,19 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    MovieDatabaseAPI provideMovieDataBaseAPI(@NonNull Retrofit retrofit){
-        return retrofit.create(MovieDatabaseAPI.class);
+    MoviesService provideMoviesService(@NonNull Retrofit retrofit){
+        return retrofit.create(MoviesService.class);
     }
 
+    @Provides
+    @Singleton
+    TvShowService provideTvShowService(@NonNull Retrofit retrofit){
+        return retrofit.create(TvShowService.class);
+    }
+
+    @Provides
+    @Singleton
+    GenresService provideGenresService(@NonNull Retrofit retrofit){
+        return retrofit.create(GenresService.class);
+    }
 }

@@ -7,6 +7,7 @@ import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
+import com.popularmovies.vpaliy.data.source.remote.service.MoviesService;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
@@ -24,40 +25,38 @@ import javax.inject.Singleton;
 @Singleton
 public class RemoteMovieDetails implements DetailsDataSource<MovieDetailEntity> {
 
-    private MovieDatabaseAPI databaseAPI;
+    private MoviesService moviesService;
     private BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public RemoteMovieDetails(@NonNull MovieDatabaseAPI databaseAPI,
+    public RemoteMovieDetails(@NonNull MoviesService moviesService,
                               @NonNull BaseSchedulerProvider provider){
-        this.databaseAPI=databaseAPI;
+        this.moviesService=moviesService;
         this.schedulerProvider=provider;
     }
 
     @Override
     public Observable<MovieDetailEntity> get(int id) {
-        Observable<List<Movie>> similarObservable = databaseAPI.getSimilarMovies(Integer.toString(id))
+        Observable<List<Movie>> similarObservable = moviesService.querySimilarMovies(Integer.toString(id))
                 .subscribeOn(schedulerProvider.multi())
                 .map(MovieWrapper::getCoverList);
 
-        Observable<Movie> movieObservable = databaseAPI
-                .getMovieDetails(Integer.toString(id))
+        Observable<Movie> movieObservable = moviesService.queryDetails(Integer.toString(id))
                 .subscribeOn(schedulerProvider.multi());
 
-
-        Observable<List<BackdropImage>> backdropsObservable = databaseAPI.getBackdrops(Integer.toString(id))
+        Observable<List<BackdropImage>> backdropsObservable = moviesService.queryBackdrops(Integer.toString(id))
                 .subscribeOn(Schedulers.newThread())
                 .map(BackdropsWrapper::getBackdropImages);
 
-        Observable<List<ActorEntity>> actorsObservable = databaseAPI.getMovieCast(Integer.toString(id))
+        Observable<List<ActorEntity>> actorsObservable = moviesService.queryCast(Integer.toString(id))
                 .subscribeOn(schedulerProvider.multi())
                 .map(CastWrapper::getCast);
 
-        Observable<List<TrailerEntity>> trailersObservable=databaseAPI.getVideos(Integer.toString(id))
+        Observable<List<TrailerEntity>> trailersObservable=moviesService.queryVideos(Integer.toString(id))
                 .subscribeOn(schedulerProvider.multi())
                 .map(TrailerWrapper::getTrailers);
 
-        Observable<List<ReviewEntity>> reviewsObservable=databaseAPI.getReviews(Integer.toString(id))
+        Observable<List<ReviewEntity>> reviewsObservable=moviesService.queryReviews(Integer.toString(id))
                 .subscribeOn(schedulerProvider.multi())
                 .map(ReviewWrapper::getReviewList);
 

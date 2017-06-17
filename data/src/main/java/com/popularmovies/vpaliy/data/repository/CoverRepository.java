@@ -32,10 +32,8 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
         implements ICoverRepository<T>{
 
     private final Mapper<T,F> mapper;
-
     private final CoverDataSource<F> localSource;
     private final CoverDataSource<F> remoteSource;
-    private final BaseSchedulerProvider schedulerProvider;
 
     @Inject
     public CoverRepository(@NonNull Context context,
@@ -43,11 +41,10 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
                            @NonNull @Remote CoverDataSource<F> remoteSource,
                            @NonNull Mapper<T, F> coverMapper,
                            @NonNull BaseSchedulerProvider schedulerProvider){
-        super(context);
+        super(context,schedulerProvider);
         this.mapper=coverMapper;
         this.localSource=localSource;
         this.remoteSource=remoteSource;
-        this.schedulerProvider=schedulerProvider;
     }
 
     @Override

@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.google.common.cache.CacheBuilder;
 import com.popularmovies.vpaliy.data.cache.CacheStore;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
+
 import java.util.concurrent.TimeUnit;
 import rx.Observable;
 
@@ -15,17 +17,16 @@ abstract class AbstractRepository<T> {
 
     private Context context;
     private final CacheStore<Integer,T> cacheStore;
+    protected final BaseSchedulerProvider schedulerProvider;
 
-    AbstractRepository(Context context){
-        this(context,DEFAULT_CACHE_SIZE,DEFAULT_CACHE_DURATION);
+    AbstractRepository(Context context,BaseSchedulerProvider schedulerProvider){
+        this(context,schedulerProvider,DEFAULT_CACHE_SIZE,DEFAULT_CACHE_DURATION);
     }
 
-    AbstractRepository(Context context,int cacheSize){
-        this(context,cacheSize,DEFAULT_CACHE_DURATION);
-    }
-
-   private AbstractRepository(Context context,int cacheSize, int expiresAfter){
+   private AbstractRepository(Context context,BaseSchedulerProvider schedulerProvider,
+                              int cacheSize, int expiresAfter){
         this.context=context;
+        this.schedulerProvider=schedulerProvider;
         this.cacheStore=new CacheStore<>(CacheBuilder.newBuilder()
                 .maximumSize(cacheSize)
                 .expireAfterAccess(expiresAfter,TimeUnit.MINUTES)

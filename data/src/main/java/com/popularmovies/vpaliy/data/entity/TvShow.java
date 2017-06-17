@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.data.entity;
 
 
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -118,6 +120,13 @@ public class TvShow implements HasId {
             }
         }
         return backdrops;
+    }
+
+    public void addGenre(Genre genre){
+        if(genre!=null){
+            if(genreList==null) genreList=new ArrayList<>();
+            genreList.add(genre);
+        }
     }
 
     public void setBackdrops(List<BackdropImage> backdrops) {

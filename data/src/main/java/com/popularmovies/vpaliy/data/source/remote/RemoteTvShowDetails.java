@@ -7,6 +7,7 @@ import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
+import com.popularmovies.vpaliy.data.source.remote.service.TvShowService;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
@@ -22,26 +23,26 @@ import android.support.annotation.NonNull;
 @Singleton
 public class RemoteTvShowDetails implements DetailsDataSource<TvShowDetailEntity>{
 
-    private MovieDatabaseAPI databaseAPI;
+    private TvShowService tvShowService;
     private BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public RemoteTvShowDetails(@NonNull MovieDatabaseAPI databaseAPI,
+    public RemoteTvShowDetails(@NonNull TvShowService tvShowService,
                                @NonNull BaseSchedulerProvider schedulerProvider){
-        this.databaseAPI=databaseAPI;
+        this.tvShowService=tvShowService;
         this.schedulerProvider=schedulerProvider;
     }
 
     @Override
     public Observable<TvShowDetailEntity> get(int id) {
-        Observable<TvShowInfoEntity> infoObservable=databaseAPI.getTvShowDetails(id)
+        Observable<TvShowInfoEntity> infoObservable=tvShowService.queryTvShowInfo(id)
                 .subscribeOn(schedulerProvider.multi());
 
-        Observable<List<BackdropImage>> backdropsObservable = databaseAPI.getBackdropsForTvShow(id)
+        Observable<List<BackdropImage>> backdropsObservable = tvShowService.queryBackdrops(id)
                 .subscribeOn(Schedulers.newThread())
                 .map(BackdropsWrapper::getBackdropImages);
 
-        Observable<List<ActorEntity>> actorsObservable = databaseAPI.getTvShowCast(id)
+        Observable<List<ActorEntity>> actorsObservable = tvShowService.queryCast(id)
                 .subscribeOn(schedulerProvider.multi())
                 .map(CastWrapper::getCast);
 

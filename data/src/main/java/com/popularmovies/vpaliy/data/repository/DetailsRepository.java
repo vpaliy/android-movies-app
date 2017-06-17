@@ -23,18 +23,17 @@ public class DetailsRepository<T,F extends HasId> extends AbstractRepository<F>
     private final Mapper<T,F> mapper;
     private final DetailsDataSource<F> localSource;
     private final DetailsDataSource<F> remoteSource;
-    private final BaseSchedulerProvider schedulerProvider;
+
     @Inject
     public DetailsRepository(@NonNull @Local DetailsDataSource<F> localSource,
                              @NonNull @Remote DetailsDataSource<F> remoteSource,
                              @NonNull Context context,
                              @NonNull Mapper<T,F> mapper,
                              @NonNull BaseSchedulerProvider schedulerProvider){
-        super(context,50);
+        super(context,schedulerProvider);
         this.localSource=localSource;
         this.remoteSource=remoteSource;
         this.mapper=mapper;
-        this.schedulerProvider=schedulerProvider;
     }
 
     @Override

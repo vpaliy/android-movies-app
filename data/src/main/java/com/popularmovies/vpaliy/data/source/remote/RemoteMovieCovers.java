@@ -3,6 +3,8 @@ package com.popularmovies.vpaliy.data.source.remote;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
+import com.popularmovies.vpaliy.data.source.remote.service.GenresService;
+import com.popularmovies.vpaliy.data.source.remote.service.MoviesService;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.PageWrapper;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
@@ -19,15 +21,18 @@ import android.support.annotation.NonNull;
 @Singleton
 public class RemoteMovieCovers implements CoverDataSource<Movie> {
 
-    private MovieDatabaseAPI databaseAPI;
     private Map<SortType,PageWrapper> pageMap;
     private SparseArray<Genre> genres;
-    private BaseSchedulerProvider schedulerProvider;
+    private final BaseSchedulerProvider schedulerProvider;
+    private final MoviesService moviesService;
+    private final GenresService genresService;
 
     @Inject
-    public RemoteMovieCovers(@NonNull MovieDatabaseAPI databaseAPI,
+    public RemoteMovieCovers(@NonNull MoviesService moviesService,
+                             @NonNull GenresService genresService,
                              BaseSchedulerProvider schedulerProvider){
-        this.databaseAPI=databaseAPI;
+        this.moviesService=moviesService;
+        this.genresService=genresService;
         this.pageMap=new HashMap<>();
         this.schedulerProvider=schedulerProvider;
     }
@@ -46,23 +51,23 @@ public class RemoteMovieCovers implements CoverDataSource<Movie> {
         Observable<List<Movie>> movieObservable;
         switch (sortType) {
             case TOP_RATED:
-                movieObservable=databaseAPI.getTopRatedMovies(pageWrapper.currentPage)
+                movieObservable=moviesService.queryTopRated(pageWrapper.currentPage)
                         .map(wrapper -> convertToMovie(sortType,wrapper));
                 break;
             case POPULAR:
-                movieObservable=databaseAPI.getPopularMovies(pageWrapper.currentPage)
+                movieObservable=moviesService.queryPopular(pageWrapper.currentPage)
                         .map(wrapper -> convertToMovie(sortType,wrapper));
                 break;
             case LATEST:
-                movieObservable=databaseAPI.getLatestMovies()
+                movieObservable=moviesService.queryLatest()
                         .map(wrapper -> convertToMovie(sortType,wrapper));
                 break;
             case UPCOMING:
-                movieObservable=databaseAPI.getUpcomingMovies(pageWrapper.currentPage)
+                movieObservable=moviesService.queryUpcoming(pageWrapper.currentPage)
                         .map(wrapper -> convertToMovie(sortType,wrapper));
                 break;
             default:
-                movieObservable=databaseAPI.getNowPlayingMovies(pageWrapper.currentPage)
+                movieObservable=moviesService.queryNowPlaying(pageWrapper.currentPage)
                         .map(wrapper -> convertToMovie(sortType,wrapper));
         }
         return Observable.zip(movieObservable,queryGenres(), (list, genres)->{
@@ -84,7 +89,7 @@ public class RemoteMovieCovers implements CoverDataSource<Movie> {
 
     private Observable<SparseArray<Genre>> queryGenres(){
         if(genres==null){
-            return databaseAPI.getMovieGenres()
+            return genresService.queryMovieGenres()
                     .subscribeOn(schedulerProvider.multi())
                     .map(genreWrapper -> {
                         genres=genreWrapper.convert();
@@ -104,7 +109,7 @@ public class RemoteMovieCovers implements CoverDataSource<Movie> {
 
     @Override
     public Observable<Movie> get(int id) {
-        return databaseAPI.getMovieDetails(Integer.toString(id));
+        return moviesService.queryDetails(Integer.toString(id));
     }
 
     @Override

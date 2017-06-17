@@ -1,9 +1,13 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
+import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
+import com.popularmovies.vpaliy.data.source.remote.service.GenresService;
+import com.popularmovies.vpaliy.data.source.remote.service.TvShowService;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.PageWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import rx.Observable;
 import java.util.HashMap;
@@ -14,17 +18,24 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import android.support.annotation.NonNull;
+import android.util.SparseArray;
 
 @Singleton
 public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
 
-
-    private MovieDatabaseAPI databaseAPI;
+    private TvShowService tvShowService;
     private Map<SortType,PageWrapper> pageMap;
+    private SparseArray<Genre> genres;
+    private GenresService genresService;
+    private BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public RemoteTvShowCovers(@NonNull MovieDatabaseAPI databaseAPI){
-        this.databaseAPI=databaseAPI;
+    public RemoteTvShowCovers(@NonNull TvShowService tvShowService,
+                              @NonNull GenresService genresService,
+                              @NonNull BaseSchedulerProvider schedulerProvider){
+        this.tvShowService=tvShowService;
+        this.schedulerProvider=schedulerProvider;
+        this.genresService=genresService;
         this.pageMap=new HashMap<>();
     }
 
@@ -45,26 +56,60 @@ public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
         pageWrapper.totalPages=total;
         return wrapper.getTvShows();
     }
+
     private Observable<List<TvShow>> query(SortType sortType,PageWrapper pageWrapper) {
+        Observable<List<TvShow>> tvObservable;
         switch (sortType){
             case TOP_RATED:
-                return databaseAPI.getTopRatedTv(pageWrapper.currentPage)
+                tvObservable=tvShowService.queryTopRated(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
+                break;
             case POPULAR:
-                return databaseAPI.getPopularTv(pageWrapper.currentPage)
+                tvObservable=tvShowService.queryPopular(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
+                break;
             case LATEST:
-                return databaseAPI.getLatestTv(pageWrapper.currentPage)
+                tvObservable=tvShowService.queryLatest(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
+                break;
             case UPCOMING:
-                return databaseAPI.getUpcomingTv(pageWrapper.currentPage)
+                tvObservable=tvShowService.queryAiringToday(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
-            case NOW_PLAYING:
-                return databaseAPI.getNowPlayingTv(pageWrapper.currentPage)
+                break;
+            default:
+                tvObservable=tvShowService.queryOnAir(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
+                break;
         }
-        return null;
+        return Observable.zip(tvObservable,queryGenres(),(list,genres)->{
+            list.forEach(this::mergeGenres);
+            return list;
+        });
     }
+
+    private void mergeGenres(TvShow tvShow){
+        if(tvShow.getGenres()!=null){
+            for(int genreId:tvShow.getGenres()){
+                Genre genre=genres.get(genreId);
+                if(genre!=null){
+                    tvShow.addGenre(genre);
+                }
+            }
+        }
+    }
+
+    private Observable<SparseArray<Genre>> queryGenres(){
+        if(genres==null){
+            return genresService.queryMovieGenres()
+                    .subscribeOn(schedulerProvider.multi())
+                    .map(genreWrapper -> {
+                        genres=genreWrapper.convert();
+                        return genres;
+                    });
+        }
+        return Observable.just(genres);
+    }
+
 
     @Override
     public Observable<List<TvShow>> requestMore(SortType type) {
@@ -79,7 +124,7 @@ public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
 
     @Override
     public Observable<TvShow> get(int id) {
-        return databaseAPI.getTvShow(id);
+        return tvShowService.queryTvShow(id);
     }
 
     @Override
