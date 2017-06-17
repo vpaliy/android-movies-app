@@ -19,4 +19,5 @@
     <color name="blue_grey_900">#37474F</color>
     <color name="red_color">#ff5722</color>
 
+    <color name="colorChipBackground">#e0e0e0</color>
 </resources>

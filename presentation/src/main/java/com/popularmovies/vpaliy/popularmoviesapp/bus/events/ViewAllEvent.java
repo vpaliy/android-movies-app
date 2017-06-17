@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events;
+package com.popularmovies.vpaliy.popularmoviesapp.bus.events;
 
 
 import android.os.Bundle;

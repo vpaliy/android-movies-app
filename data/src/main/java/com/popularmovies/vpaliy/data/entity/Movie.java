@@ -3,10 +3,10 @@ package com.popularmovies.vpaliy.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie implements HasId {
-
 
     @SerializedName("id")
     private int movieId;
@@ -21,6 +21,9 @@ public class Movie implements HasId {
 
     @SerializedName("homepage")
     private String homepage;
+
+    @SerializedName("genre_ids")
+    private int[] genresId;
 
     @SerializedName("original_language")
     private String originalLanguage;
@@ -109,7 +112,14 @@ public class Movie implements HasId {
 
     public void setBackdropImages(List<BackdropImage> backdropImages) {
         this.backdropImages = backdropImages;
+    }
 
+    public Movie addGenre(Genre genre){
+        if(genre!=null){
+            if(genres==null) genres=new ArrayList<>();
+            genres.add(genre);
+        }
+        return this;
     }
 
     public String getBackdrop_path() {
@@ -178,6 +188,14 @@ public class Movie implements HasId {
 
     public void setOriginalLanguage(String originalLanguage) {
         this.originalLanguage = originalLanguage;
+    }
+
+    public void setGenresId(int[] genresId) {
+        this.genresId = genresId;
+    }
+
+    public int[] getGenresId() {
+        return genresId;
     }
 
     public void setOverview(String overview) {

@@ -6,18 +6,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 
-import com.popularmovies.vpaliy.data.entity.ActorEntity;
-import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.DetailsActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MoreMediaActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ViewAllEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import android.support.annotation.NonNull;
-
-import javax.inject.Inject;
 
 public class Navigator {
 

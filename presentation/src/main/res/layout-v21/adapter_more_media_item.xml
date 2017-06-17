@@ -63,24 +63,19 @@
         app:layout_constraintTop_toBottomOf="@+id/media_title"
         tools:text="2016" />
 
-
-    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RatingsView
-        android:id="@+id/ratings"
-        app:pointer_size="1.5dp"
-        app:pointer_color="@android:color/transparent"
-        app:text_color="#b71c1c"
-        app:text_size="15dp"
-        app:max="10"
-        app:init_position="7.5"
-        app:wheel_active_color="#c62828"
-        app:wheel_unactive_color="#ef9a9a"
-        app:wheel_size="10"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="24dp" />
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipsContainerView
+        android:id="@+id/chipsContainer"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintWidth_default="wrap"
+        app:layout_constraintLeft_toLeftOf="@+id/media_release_year"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/media_release_year"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

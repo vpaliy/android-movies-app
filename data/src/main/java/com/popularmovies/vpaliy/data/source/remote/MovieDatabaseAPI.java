@@ -1,16 +1,21 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
 
+import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
-import com.popularmovies.vpaliy.data.mapper.ActorMapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.GenreWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
+
+import java.util.List;
+import java.util.Set;
+
 import rx.Observable;
 
 import retrofit2.http.GET;
@@ -18,6 +23,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MovieDatabaseAPI {
+
+    @GET("genre/movie/list")
+    Observable<GenreWrapper> getMovieGenres();
+
+    @GET("genre/tv/list")
+    Observable<GenreWrapper> getTvShowGenres();
 
     @GET("movie/popular")
     Observable<MovieWrapper> getPopularMovies(@Query("page") int page);

@@ -15,9 +15,9 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Pres
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypeAdapter.MediaTypeWrapper;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.RequestMoreEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.events.RequestMoreEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 import java.util.LinkedHashMap;
 import java.util.List;

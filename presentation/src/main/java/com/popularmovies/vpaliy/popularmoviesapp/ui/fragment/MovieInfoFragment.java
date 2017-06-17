@@ -19,7 +19,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieInfoContract.
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.InfoAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MovieTrailersAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.RelatedMoviesAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import java.util.List;
 import butterknife.ButterKnife;

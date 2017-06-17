@@ -12,9 +12,10 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.StringUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -57,9 +58,7 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
 
         void onBindData(){
             MediaCover cover=at(getAdapterPosition());
-            String bullet="\u25CF"+" ";
-            String titleText=bullet+cover.getMovieTitle();
-            mediaTitle.setText(titleText);
+            mediaTitle.setText(StringUtils.appendBullet(cover.getMovieTitle()));
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)

@@ -14,7 +14,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.NetworkModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.BaseActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;

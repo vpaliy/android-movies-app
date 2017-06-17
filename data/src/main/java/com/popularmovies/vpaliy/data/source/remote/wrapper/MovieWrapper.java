@@ -11,7 +11,7 @@ public class MovieWrapper {
     private int page;
 
     @SerializedName("results")
-    private List<Movie> movies;
+    public List<Movie> movies;
 
     @SerializedName("total_pages")
     private int totalPages;

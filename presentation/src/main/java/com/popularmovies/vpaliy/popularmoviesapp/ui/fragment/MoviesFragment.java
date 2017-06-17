@@ -39,7 +39,6 @@ public class MoviesFragment extends MediaFragment{
         return Color.parseColor("#ff6f00");
     }
 
-
     @Override
     List<SortType> getSortTypes() {
         return Arrays.asList(SortType.POPULAR, SortType.LATEST,
@@ -67,6 +66,5 @@ public class MoviesFragment extends MediaFragment{
             default:
                 throw new IllegalArgumentException();
         }
-
     }
 }

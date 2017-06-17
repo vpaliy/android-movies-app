@@ -1,31 +1,35 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
+import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.PageWrapper;
+import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import rx.Observable;
-
+import android.util.SparseArray;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import android.support.annotation.NonNull;
-
 
 @Singleton
 public class RemoteMovieCovers implements CoverDataSource<Movie> {
 
     private MovieDatabaseAPI databaseAPI;
     private Map<SortType,PageWrapper> pageMap;
+    private SparseArray<Genre> genres;
+    private BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public RemoteMovieCovers(@NonNull MovieDatabaseAPI databaseAPI){
+    public RemoteMovieCovers(@NonNull MovieDatabaseAPI databaseAPI,
+                             BaseSchedulerProvider schedulerProvider){
         this.databaseAPI=databaseAPI;
         this.pageMap=new HashMap<>();
+        this.schedulerProvider=schedulerProvider;
     }
 
     private List<Movie> convertToMovie(SortType sortType,MovieWrapper wrapper){
@@ -39,25 +43,55 @@ public class RemoteMovieCovers implements CoverDataSource<Movie> {
     }
 
     private Observable<List<Movie>> query(SortType sortType,PageWrapper pageWrapper) {
+        Observable<List<Movie>> movieObservable;
         switch (sortType) {
             case TOP_RATED:
-                return databaseAPI.getTopRatedMovies(pageWrapper.currentPage)
-                        .map(wrapper -> convertToMovie(sortType, wrapper));
+                movieObservable=databaseAPI.getTopRatedMovies(pageWrapper.currentPage)
+                        .map(wrapper -> convertToMovie(sortType,wrapper));
+                break;
             case POPULAR:
-                return databaseAPI.getPopularMovies(pageWrapper.currentPage)
-                        .map(wrapper -> convertToMovie(sortType, wrapper));
+                movieObservable=databaseAPI.getPopularMovies(pageWrapper.currentPage)
+                        .map(wrapper -> convertToMovie(sortType,wrapper));
+                break;
             case LATEST:
-                return databaseAPI.getLatestMovies()
-                        .map(wrapper -> convertToMovie(sortType, wrapper));
+                movieObservable=databaseAPI.getLatestMovies()
+                        .map(wrapper -> convertToMovie(sortType,wrapper));
+                break;
             case UPCOMING:
-                return databaseAPI.getUpcomingMovies(pageWrapper.currentPage)
-                        .map(wrapper -> convertToMovie(sortType, wrapper));
-            case NOW_PLAYING:
-                return databaseAPI.getNowPlayingMovies(pageWrapper.currentPage)
-                        .map(wrapper -> convertToMovie(sortType, wrapper));
+                movieObservable=databaseAPI.getUpcomingMovies(pageWrapper.currentPage)
+                        .map(wrapper -> convertToMovie(sortType,wrapper));
+                break;
             default:
-                return null;
+                movieObservable=databaseAPI.getNowPlayingMovies(pageWrapper.currentPage)
+                        .map(wrapper -> convertToMovie(sortType,wrapper));
         }
+        return Observable.zip(movieObservable,queryGenres(), (list, genres)->{
+            list.forEach(this::mergeGenres);
+            return list;
+        });
+    }
+
+    private void mergeGenres(Movie movie){
+        if(movie.getGenresId()!=null){
+            for(int genreId:movie.getGenresId()){
+                Genre genre=genres.get(genreId);
+                if(genre!=null){
+                    movie.addGenre(genre);
+                }
+            }
+        }
+    }
+
+    private Observable<SparseArray<Genre>> queryGenres(){
+        if(genres==null){
+            return databaseAPI.getMovieGenres()
+                    .subscribeOn(schedulerProvider.multi())
+                    .map(genreWrapper -> {
+                        genres=genreWrapper.convert();
+                        return genres;
+                    });
+        }
+        return Observable.just(genres);
     }
 
     @Override

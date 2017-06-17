@@ -11,12 +11,16 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.RxBus;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.eventBus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipsContainerView;
+
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
+
+import java.util.Arrays;
 import java.util.Locale;
 import butterknife.BindView;
 
@@ -41,6 +45,9 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         @BindView(R.id.media_title)
         TextView mediaTitle;
 
+
+        @BindView(R.id.chipsContainer)
+        ChipsContainerView chipsContainer;
         //@BindView(R.id.media_genres)
         TextView genres;
 
@@ -64,7 +71,10 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
             releaseYear.setText(convertToYear(cover.getReleaseDate()));
             mediaTitle.setText(cover.getMovieTitle());
             ratings.setText(String.format(Locale.US,"%.1f",cover.getAverageRate()));
+            chipsContainer.setTags(cover.getGenres());
+               // chipsContainer.setTags(Arrays.asList("Comedy","Drama","Adventure", "Comedy","Drama","Adventure"));
            // if(cover.getGenres()!=null) genres.setText(cover.getGenres().toString());
+
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)

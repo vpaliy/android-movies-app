@@ -5,16 +5,12 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 
@@ -22,43 +18,21 @@ public class RatingsView extends View {
 
     private static final String STATE_PARENT = "parent";
     private static final String STATE_ANGLE = "angle";
-    private static final int TEXT_SIZE_DEFAULT_VALUE = 25;
-    private static final int END_WHEEL_DEFAULT_VALUE = 360;
-    public static final int COLOR_WHEEL_STROKE_WIDTH_DEF_VALUE = 16;
-    public static final float POINTER_RADIUS_DEF_VALUE = 8;
-    public static final int MAX_POINT_DEF_VALUE = 100;
-    public static final int START_ANGLE_DEF_VALUE = 0;
 
     private Paint colorWheelPaint;
-    private Paint pointerPaint;
-    private Paint pointerColor;
-    private int wheelStrokeWidth;
-    private float pointerRadius;
+    private float wheelStrokeWidth;
     private RectF colorWheelRectangle = new RectF();
     private float translationOffset;
-    private float colorWheelRadius;
     private float angle;
-    private Paint textPaint;
-    private String text;
     private int max = 100;
-
+    private float endWheel=360;
     private Paint mArcColor;
     private int wheelColor;
     private int unactiveWheelColor;
-    private int pointerColorX;
-    private int pointerHaloColor;
-    private int text_size;
-    private int text_color;
-    private float initPosition = -1;
-    private int lastRadians = 0;
-    private int arcFinishRadians = 360;
-    private int startArc = 270;
-    private float[] pointerPosition;
+    private float position = -1;
+    private float arcFinishRadians = 360;
+    private int startArc = 0;
     private RectF colorCenterHaloRectangle = new RectF();
-    private int endWheel;
-    private boolean showText = true;
-    private Rect bounds = new Rect();
-
     private OnChangedListener listener;
 
     public RatingsView(Context context) {
@@ -78,168 +52,79 @@ public class RatingsView extends View {
 
     private void init(AttributeSet attrs, int defStyle) {
         final TypedArray a = getContext().obtainStyledAttributes(attrs,
-                R.styleable.RatingsView, defStyle, 0);
+                R.styleable.Ratings);
         initAttributes(a);
-        a.recycle();
+
+        //a.recycle();
 
         colorWheelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         colorWheelPaint.setColor(unactiveWheelColor);
         colorWheelPaint.setStyle(Style.STROKE);
         colorWheelPaint.setStrokeWidth(wheelStrokeWidth);
 
-        Paint mColorCenterHalo = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mColorCenterHalo.setColor(Color.CYAN);
-        mColorCenterHalo.setAlpha(0xCC);
-
-        pointerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        pointerPaint.setColor(pointerHaloColor);
-        pointerPaint.setStrokeWidth(pointerRadius + 10);
-
-        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.LINEAR_TEXT_FLAG);
-        textPaint.setColor(text_color);
-        textPaint.setStyle(Style.FILL_AND_STROKE);
-        textPaint.setTextAlign(Align.LEFT);
-        textPaint.setTextSize(text_size);
-
-        pointerColor = new Paint(Paint.ANTI_ALIAS_FLAG);
-        pointerColor.setStrokeWidth(pointerRadius);
-        pointerColor.setColor(pointerColorX);
-
         mArcColor = new Paint(Paint.ANTI_ALIAS_FLAG);
         mArcColor.setColor(wheelColor);
         mArcColor.setStyle(Style.STROKE);
         mArcColor.setStrokeWidth(wheelStrokeWidth);
 
-        Paint circleTextColor = new Paint(Paint.ANTI_ALIAS_FLAG);
-        circleTextColor.setColor(Color.WHITE);
-        circleTextColor.setStyle(Style.FILL);
-
-        arcFinishRadians = (int) calculateAngleFromText(initPosition) - 90;
+        arcFinishRadians = calculateAngleFromText(position) - 90;
 
         if (arcFinishRadians > endWheel)
             arcFinishRadians = endWheel;
         angle = calculateAngleFromRadians(arcFinishRadians > endWheel ? endWheel
                 : arcFinishRadians);
-        setTextFromAngle(calculateValueFromAngle(arcFinishRadians));
         invalidate();
     }
 
-    private void setTextFromAngle(float angleValue) {
-        this.text = String.valueOf(angleValue);
+    public void setWheelStrokeWidth(int wheelStrokeWidth) {
+        this.wheelStrokeWidth = wheelStrokeWidth;
     }
 
-    private void initAttributes(TypedArray a) {
-        wheelStrokeWidth = a.getInteger(
-                R.styleable.RatingsView_wheel_size, COLOR_WHEEL_STROKE_WIDTH_DEF_VALUE);
-        pointerRadius = a.getDimension(
-                R.styleable.RatingsView_pointer_size, POINTER_RADIUS_DEF_VALUE);
-        max = a.getInteger(R.styleable.RatingsView_max, MAX_POINT_DEF_VALUE);
+    private void setText(float angleValue) {
+        if(listener!=null) listener.onChanged(angleValue);
+    }
 
-        String wheel_color_attr = a
-                .getString(R.styleable.RatingsView_wheel_active_color);
-        String wheel_unactive_color_attr = a
-                .getString(R.styleable.RatingsView_wheel_unactive_color);
-        String pointer_color_attr = a
-                .getString(R.styleable.RatingsView_pointer_color);
-        String pointer_halo_color_attr = a
-                .getString(R.styleable.RatingsView_pointer_halo_color);
-
-        String text_color_attr = a.getString(R.styleable.RatingsView_text_color);
-
-        text_size = a.getDimensionPixelSize(R.styleable.RatingsView_text_size, TEXT_SIZE_DEFAULT_VALUE);
-
-        initPosition = a.getFloat(R.styleable.RatingsView_init_position, 0);
-
-        startArc = a.getInteger(R.styleable.RatingsView_start_angle, START_ANGLE_DEF_VALUE);
-        endWheel = a.getInteger(R.styleable.RatingsView_end_angle, END_WHEEL_DEFAULT_VALUE);
-
-        showText = a.getBoolean(R.styleable.RatingsView_show_text, true);
-
-        lastRadians = endWheel;
-
-        if (initPosition < startArc)
-            initPosition = calculateTextFromStartAngle(startArc);
-
-        if (wheel_color_attr != null) {
-            try {
-                wheelColor = Color.parseColor(wheel_color_attr);
-            } catch (IllegalArgumentException e) {
-                wheelColor = Color.DKGRAY;
+    private void initAttributes(TypedArray array) {
+        final int N = array.getIndexCount();
+        for (int i = 0; i < N; ++i) {
+            int attr = array.getIndex(i);
+            if(attr==R.styleable.Ratings_ratings_wheel_active_color){
+                this.wheelColor=array.getColor(R.styleable.Ratings_ratings_wheel_active_color,Color.BLACK);
+            }else if(attr==R.styleable.Ratings_ratings_wheel_unactive_color){
+                this.unactiveWheelColor=array.getColor(R.styleable.Ratings_ratings_wheel_unactive_color,Color.BLACK);
+            }else if(attr==R.styleable.Ratings_ratings_wheel_size){
+                this.wheelStrokeWidth=array.getDimension(R.styleable.Ratings_ratings_wheel_size,-1);
+            }else if(attr==R.styleable.Ratings_ratings_max){
+                this.max=array.getInteger(R.styleable.Ratings_ratings_max,-1);
+            }else if(attr==R.styleable.Ratings_ratings_init_position){
+                this.position =array.getFloat(R.styleable.Ratings_ratings_init_position,-1);
             }
-
-        } else {
-            wheelColor = Color.DKGRAY;
         }
-        if (wheel_unactive_color_attr != null) {
-            try {
-                unactiveWheelColor = Color
-                        .parseColor(wheel_unactive_color_attr);
-            } catch (IllegalArgumentException e) {
-                unactiveWheelColor = Color.CYAN;
-            }
+        array.recycle();
+        setText(position);
+    }
 
-        } else {
-            unactiveWheelColor = Color.CYAN;
-        }
+    public void setWheelColor(int wheelColor) {
+        this.wheelColor = wheelColor;
+    }
 
-        if (pointer_color_attr != null) {
-            try {
-                pointerColorX = Color.parseColor(pointer_color_attr);
-            } catch (IllegalArgumentException e) {
-                pointerColorX = Color.CYAN;
-            }
-
-        } else {
-            pointerColorX = Color.CYAN;
-        }
-
-        if (pointer_halo_color_attr != null) {
-            try {
-                pointerHaloColor = Color.parseColor(pointer_halo_color_attr);
-            } catch (IllegalArgumentException e) {
-                pointerHaloColor = Color.CYAN;
-            }
-
-        } else {
-            pointerHaloColor = Color.DKGRAY;
-        }
-
-        if (text_color_attr != null) {
-            try {
-                text_color = Color.parseColor(text_color_attr);
-            } catch (IllegalArgumentException e) {
-                text_color = Color.CYAN;
-            }
-        } else {
-            text_color = Color.CYAN;
-        }
-
+    public void setUnactiveWheelColor(int unactiveWheelColor) {
+        this.unactiveWheelColor = unactiveWheelColor;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.translate(translationOffset, translationOffset);
 
-        canvas.drawArc(colorWheelRectangle, startArc + 270, endWheel
+        canvas.drawArc(colorWheelRectangle, 0, endWheel
                 - (startArc), false, colorWheelPaint);
-
         canvas.drawArc(colorWheelRectangle, startArc + 270,
                 (arcFinishRadians) > (endWheel) ? endWheel - (startArc)
                         : arcFinishRadians - startArc, false, mArcColor);
+    }
 
-        canvas.drawCircle(pointerPosition[0], pointerPosition[1],
-                pointerRadius, pointerPaint);
-
-        canvas.drawCircle(pointerPosition[0], pointerPosition[1],
-                (float) (pointerRadius / 1.2), pointerColor);
-        textPaint.getTextBounds(text, 0, text.length(), bounds);
-        if (showText)
-            canvas.drawText(
-                    text,
-                    (colorWheelRectangle.centerX())
-                            - (textPaint.measureText(text) / 2),
-                    colorWheelRectangle.centerY() + bounds.height() / 2,
-                    textPaint);
+    public void setUnactiveColor(int color){
+        this.unactiveWheelColor=color;
     }
 
     @Override
@@ -251,7 +136,7 @@ public class RatingsView extends View {
         setMeasuredDimension(min, min);
 
         translationOffset = min * 0.5f;
-        colorWheelRadius = translationOffset - pointerRadius;
+        final float colorWheelRadius = translationOffset-wheelStrokeWidth;
 
         colorWheelRectangle.set(-colorWheelRadius, -colorWheelRadius,
                 colorWheelRadius, colorWheelRadius);
@@ -259,33 +144,19 @@ public class RatingsView extends View {
         colorCenterHaloRectangle.set(-colorWheelRadius / 2,
                 -colorWheelRadius / 2, colorWheelRadius / 2,
                 colorWheelRadius / 2);
-
-        updatePointerPosition();
-
     }
 
-    private int calculateValueFromAngle(float angle) {
+    private float calculateValueFromAngle(float angle) {
         float m = angle - startArc;
-
         float f = (endWheel - startArc) / m;
-
-        return (int) (max / f);
+        return  (max / f);
     }
 
-    private int calculateTextFromStartAngle(float angle) {
-        float f = (endWheel - startArc) / angle;
-
-        return (int) (max / f);
-    }
-
-    private double calculateAngleFromText(double position) {
+    private float calculateAngleFromText(double position) {
         if (position == 0 || position >= max)
-            return (float) 90;
-
-        double f = (double) max /  position;
-
-        double f_r = 360 / f;
-
+            return 90;
+        float f =  (float)(max/ position);
+        float f_r = 360 / f;
         return f_r + 90;
     }
 
@@ -304,11 +175,6 @@ public class RatingsView extends View {
         return (float) (((radians + 270) * (2 * Math.PI)) / 360);
     }
 
-
-    public int getValue() {
-        return Integer.valueOf(text);
-    }
-
     public void setValue(float newValue) {
         if (newValue == 0) {
             arcFinishRadians = startArc;
@@ -320,20 +186,8 @@ public class RatingsView extends View {
         }
 
         angle = calculateAngleFromRadians(arcFinishRadians);
-        setTextFromAngle(calculateValueFromAngle(arcFinishRadians));
-        updatePointerPosition();
+        setText(newValue);
         invalidate();
-        if(listener!=null) listener.onChanged(newValue);
-    }
-
-    private void updatePointerPosition() {
-        pointerPosition = calculatePointerPosition(angle);
-    }
-
-    private float[] calculatePointerPosition(float angle) {
-        float x = (float) (colorWheelRadius * Math.cos(angle));
-        float y = (float) (colorWheelRadius * Math.sin(angle));
-        return new float[]{x, y};
     }
 
     @Override
@@ -347,6 +201,7 @@ public class RatingsView extends View {
 
     public void setListener(OnChangedListener listener) {
         this.listener = listener;
+        setText(calculateValueFromAngle(arcFinishRadians));
     }
 
     @Override
@@ -358,11 +213,10 @@ public class RatingsView extends View {
 
         angle = savedState.getFloat(STATE_ANGLE);
         arcFinishRadians = calculateRadiansFromAngle(angle);
-        setTextFromAngle(calculateValueFromAngle(arcFinishRadians));
-        updatePointerPosition();
+        setText(calculateValueFromAngle(arcFinishRadians));
     }
 
-    public interface OnChangedListener{
+    interface OnChangedListener{
         void onChanged(float position);
     }
 }
