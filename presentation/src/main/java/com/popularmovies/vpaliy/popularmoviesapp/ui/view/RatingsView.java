@@ -14,11 +14,11 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 
-public class RatingsView extends RelativeLayout {
+public class RatingsView extends View {
 
     private static final String STATE_PARENT = "parent";
     private static final String STATE_ANGLE = "angle";
@@ -28,9 +28,6 @@ public class RatingsView extends RelativeLayout {
     public static final float POINTER_RADIUS_DEF_VALUE = 8;
     public static final int MAX_POINT_DEF_VALUE = 100;
     public static final int START_ANGLE_DEF_VALUE = 0;
-
-    private OnStartTracking onStartTrackingTouch;
-    private OnStopTracking onStopTrackingTouch;
 
     private Paint colorWheelPaint;
     private Paint pointerPaint;
@@ -61,6 +58,8 @@ public class RatingsView extends RelativeLayout {
     private int endWheel;
     private boolean showText = true;
     private Rect bounds = new Rect();
+
+    private OnChangedListener listener;
 
     public RatingsView(Context context) {
         super(context);
@@ -122,7 +121,6 @@ public class RatingsView extends RelativeLayout {
         angle = calculateAngleFromRadians(arcFinishRadians > endWheel ? endWheel
                 : arcFinishRadians);
         setTextFromAngle(calculateValueFromAngle(arcFinishRadians));
-
         invalidate();
     }
 
@@ -311,13 +309,6 @@ public class RatingsView extends RelativeLayout {
         return Integer.valueOf(text);
     }
 
-    public void setMax(int max) {
-        this.max = max;
-        setTextFromAngle(calculateValueFromAngle(arcFinishRadians));
-        updatePointerPosition();
-        invalidate();
-    }
-
     public void setValue(float newValue) {
         if (newValue == 0) {
             arcFinishRadians = startArc;
@@ -331,19 +322,13 @@ public class RatingsView extends RelativeLayout {
         angle = calculateAngleFromRadians(arcFinishRadians);
         setTextFromAngle(calculateValueFromAngle(arcFinishRadians));
         updatePointerPosition();
-        if(onStartTrackingTouch!=null){
-            onStartTrackingTouch.onStart(this);
-        }
-        if(onStopTrackingTouch!=null){
-            onStopTrackingTouch.onStop(this);
-        }
         invalidate();
+        if(listener!=null) listener.onChanged(newValue);
     }
 
     private void updatePointerPosition() {
         pointerPosition = calculatePointerPosition(angle);
     }
-
 
     private float[] calculatePointerPosition(float angle) {
         float x = (float) (colorWheelRadius * Math.cos(angle));
@@ -360,6 +345,10 @@ public class RatingsView extends RelativeLayout {
         return state;
     }
 
+    public void setListener(OnChangedListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         Bundle savedState = (Bundle) state;
@@ -373,34 +362,7 @@ public class RatingsView extends RelativeLayout {
         updatePointerPosition();
     }
 
-    public void setInitPosition(float init) {
-        initPosition = init;
-        setTextFromAngle(initPosition);
-        angle = calculateAngleFromRadians(initPosition);
-        arcFinishRadians = calculateRadiansFromAngle(angle);
-        updatePointerPosition();
-        invalidate();
+    public interface OnChangedListener{
+        void onChanged(float position);
     }
-
-    public void setOnStartTrackingTouch(OnStartTracking onStartTrackingTouch) {
-        this.onStartTrackingTouch = onStartTrackingTouch;
-    }
-
-    public void setOnStopTrackingTouch(OnStopTracking onStopTrackingTouch) {
-        this.onStopTrackingTouch = onStopTrackingTouch;
-    }
-
-    public int getMaxValue() {
-        return max;
-    }
-
-
-    public interface OnStartTracking{
-        void onStart(RatingsView tracker);
-    }
-
-    public interface OnStopTracking{
-        void onStop(RatingsView tracker);
-    }
-
 }

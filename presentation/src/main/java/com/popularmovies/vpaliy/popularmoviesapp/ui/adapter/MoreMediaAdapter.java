@@ -41,7 +41,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         @BindView(R.id.media_title)
         TextView mediaTitle;
 
-        @BindView(R.id.media_genres)
+        //@BindView(R.id.media_genres)
         TextView genres;
 
         MediaViewHolder(View itemView){
@@ -64,7 +64,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
             releaseYear.setText(convertToYear(cover.getReleaseDate()));
             mediaTitle.setText(cover.getMovieTitle());
             ratings.setText(String.format(Locale.US,"%.1f",cover.getAverageRate()));
-            if(cover.getGenres()!=null) genres.setText(cover.getGenres().toString());
+           // if(cover.getGenres()!=null) genres.setText(cover.getGenres().toString());
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)

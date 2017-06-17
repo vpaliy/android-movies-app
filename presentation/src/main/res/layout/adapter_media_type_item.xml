@@ -1,7 +1,7 @@
 <android.support.constraint.ConstraintLayout
-    android:background="@color/colorWhite"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fafafa"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginBottom="@dimen/spacing_huge"
     android:orientation="vertical"
@@ -36,7 +36,6 @@
         android:id="@+id/media_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingBottom="48dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

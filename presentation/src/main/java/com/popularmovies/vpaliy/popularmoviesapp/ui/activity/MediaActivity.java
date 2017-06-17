@@ -56,10 +56,11 @@ public class MediaActivity extends BaseActivity
     }
 
     private void setBottomNavigation(){
+        final int duration=getResources().getInteger(R.integer.page_fade_duration);
         bottomNavigation.setOnTabSelectListener((tabId ->
                 mediaPager.animate()
                         .alpha(0)
-                        .setDuration(R.integer.page_fade_duration)
+                        .setDuration(duration)
                         .setListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animation) {
@@ -79,7 +80,7 @@ public class MediaActivity extends BaseActivity
                                 }
                                 mediaPager.animate()
                                         .alpha(1.f)
-                                        .setDuration(R.integer.page_fade_duration)
+                                        .setDuration(duration)
                                         .setListener(null).start();
                             }
                         }).start()));

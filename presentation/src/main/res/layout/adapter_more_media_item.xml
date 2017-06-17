@@ -19,16 +19,17 @@
         android:id="@+id/media_title"
         style="@style/Widget.Title"
         android:maxLines="2"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintWidth_default="wrap"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:layout_marginStart="@dimen/spacing_medium"
         android:layout_marginTop="24dp"
         app:layout_constraintLeft_toRightOf="@+id/media_poster"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Pirates of the Caribbean Dead men "
-        android:layout_marginRight="8dp"
+        tools:text="Logan"
+        android:layout_marginRight="@dimen/spacing_medium"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
@@ -39,6 +40,7 @@
         android:drawableStart="@drawable/ic_ratings"
         android:drawablePadding="@dimen/spacing_small"
         tools:text="8.5"
+        android:visibility="gone"
         android:gravity="center"
         style="@style/Widget.Label"
         android:layout_marginStart="@dimen/spacing_medium"
@@ -57,13 +59,13 @@
         android:layout_marginTop="8dp"
         android:drawablePadding="4dp"
         android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="@+id/media_ratings"
-        app:layout_constraintTop_toBottomOf="@+id/media_ratings"
+        app:layout_constraintLeft_toLeftOf="@+id/media_title"
+        app:layout_constraintTop_toBottomOf="@+id/media_title"
         tools:text="2016" />
 
 
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RatingsView
-        android:id="@+id/picker"
+        android:id="@+id/ratings"
         app:pointer_size="1.5dp"
         app:pointer_color="#c62828"
         app:text_color="#b71c1c"
@@ -77,8 +79,8 @@
         android:layout_height="60dp"
         android:layout_marginRight="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/media_title" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="24dp" />
 
 
 </android.support.constraint.ConstraintLayout>
