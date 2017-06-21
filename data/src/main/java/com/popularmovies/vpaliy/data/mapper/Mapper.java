@@ -12,4 +12,5 @@ public interface Mapper<To, From> {
     To map(From from);
     List<To> map(List<From> from);
     From reverseMap(To to);
+    List<From> reverseMap(List<To> toList);
 }

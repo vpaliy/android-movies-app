@@ -56,6 +56,15 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
         return null;
     }
 
+    @Override
+    public List<MovieDetailEntity> reverseMap(List<MovieDetails> from) {
+        if (from != null){
+            List<MovieDetailEntity> list=new ArrayList<>(from.size());
+            from.forEach(details->list.add(reverseMap(details)));
+            return list;
+        }
+        return null;
+    }
 
     @Override
     public MovieDetailEntity reverseMap(MovieDetails details) {
@@ -79,20 +88,9 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
             detailEntity.setBackdropImages(movie.getBackdropImages());
             detailEntity.setFavorite(movie.isFavorite());
         }
-        List<ActorCover> actorCovers=details.getCast();
-        if(actorCovers!=null) {
-            List<ActorEntity> actorEntities = new ArrayList<>(actorCovers.size());
-            actorCovers.forEach(actorCover -> actorEntities.add(actorEntityMapper.reverseMap(actorCover)));
-            detailEntity.setCast(actorEntities);
-        }
-
+        detailEntity.setCast(actorEntityMapper.reverseMap(details.getCast()));
         detailEntity.setReviews(ReviewEntity.convertBack(details.getReviews()));
-        List<MediaCover> similarMovies=details.getSimilarMovies();
-        if(similarMovies!=null){
-            List<Movie> movieList=new ArrayList<>(similarMovies.size());
-            similarMovies.forEach(mediaCover ->movieList.add(movieCoverMapper.reverseMap(mediaCover)));
-            detailEntity.setSimilarMovies(movieList);
-        }
+        detailEntity.setSimilarMovies(movieCoverMapper.reverseMap(details.getSimilarMovies()));
         detailEntity.setTrailers(TrailerEntity.convertBack(details.getTrailers()));
         return detailEntity;
     }

@@ -35,6 +35,17 @@ public class TvShowInfoMapper implements Mapper<TVShowInfo,TvShowInfoEntity> {
         info.setStatus(tvShowInfoEntity.getStatus());
         return info;
     }
+
+    @Override
+    public List<TvShowInfoEntity> reverseMap(List<TVShowInfo> from) {
+        if(from!=null){
+            List<TvShowInfoEntity> list=new ArrayList<>(from.size());
+            from.forEach(info->list.add(reverseMap(info)));
+            return list;
+        }
+        return null;
+    }
+
     @Override
     public List<TVShowInfo> map(List<TvShowInfoEntity> from) {
         if(from==null) return null;

@@ -2,15 +2,12 @@ package com.popularmovies.vpaliy.data.mapper;
 
 
 import android.support.annotation.NonNull;
-
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
 import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 import com.popularmovies.vpaliy.domain.model.TVShowSeason;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -37,16 +34,22 @@ public class TvShowSeasonMapper implements Mapper<TVShowSeason,TvShowSeasonEntit
     }
 
     @Override
+    public List<TvShowSeasonEntity> reverseMap(List<TVShowSeason> from) {
+        if(from!=null){
+            List<TvShowSeasonEntity> list=new ArrayList<>(from.size());
+            from.forEach(entity->list.add(reverseMap(entity)));
+            return list;
+        }
+        return null;
+    }
+
+    @Override
     public TvShowSeasonEntity reverseMap(TVShowSeason tvShowSeason) {
         TvShowSeasonEntity entity=new TvShowSeasonEntity();
         entity.setPosterPath(tvShowSeason.getPosterPath());
         entity.setSeasonNumber(tvShowSeason.getSeasonNumber());
         entity.setAirDate(tvShowSeason.getAirDate());
-        if(tvShowSeason.getEpisodeList()!=null){
-            List<TvShowEpisodeEntity> episodeEntities=new ArrayList<>(tvShowSeason.getEpisodeList().size());
-            tvShowSeason.getEpisodeList().forEach(tvShowEpisode -> episodeEntities.add(episodeMapper.reverseMap(tvShowEpisode)));
-            entity.setEpisodes(episodeEntities);
-        }
+        entity.setEpisodes(episodeMapper.reverseMap(tvShowSeason.getEpisodeList()));
         entity.setName(tvShowSeason.getSeasonName());
         entity.setId(tvShowSeason.getSeasonId());
         return entity;

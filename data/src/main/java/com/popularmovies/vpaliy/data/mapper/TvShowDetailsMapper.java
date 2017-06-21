@@ -3,11 +3,7 @@ package com.popularmovies.vpaliy.data.mapper;
 
 import android.support.annotation.NonNull;
 
-import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
-import com.popularmovies.vpaliy.data.entity.BackdropImage;
-import com.popularmovies.vpaliy.data.entity.Genre;
-import com.popularmovies.vpaliy.data.entity.Network;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
@@ -17,7 +13,6 @@ import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
 import com.popularmovies.vpaliy.domain.model.TVShowSeason;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,19 +43,20 @@ public class TvShowDetailsMapper implements Mapper<TVShowDetails,TvShowDetailEnt
         TVShowDetails details=new TVShowDetails();
         details.setTvShowCover(coverMapper.map(tvShowDetailEntity.getTvShowCover()));
         details.setTvShowInfo(infoMapper.map(tvShowDetailEntity.getInfoEntity()));
-        if(tvShowDetailEntity.getCast()!=null){
-            List<ActorCover> cast=new ArrayList<>(tvShowDetailEntity.getCast().size());
-            tvShowDetailEntity.getCast().forEach(actorEntity -> cast.add(actorMapper.map(actorEntity)));
-            details.setCast(cast);
-        }
-        //
-        if(tvShowDetailEntity.getSeasons()!=null){
-            List<TVShowSeason> seasons=new ArrayList<>(tvShowDetailEntity.getSeasons().size());
-            tvShowDetailEntity.getSeasons().forEach(seasonEntity->seasons.add(seasonMapper.map(seasonEntity)));
-            details.setSeasons(seasons);
-        }
+        details.setCast(actorMapper.map(tvShowDetailEntity.getCast()));
+        details.setSeasons(seasonMapper.map(tvShowDetailEntity.getSeasons()));
         details.setTvShowId(tvShowDetailEntity.getTvShowCover().getId());
         return details;
+    }
+
+    @Override
+    public List<TvShowDetailEntity> reverseMap(List<TVShowDetails> from) {
+        if(from!=null){
+            List<TvShowDetailEntity> list=new ArrayList<>(from.size());
+            from.forEach(details->list.add(reverseMap(details)));
+            return list;
+        }
+        return null;
     }
 
     @Override
@@ -68,19 +64,9 @@ public class TvShowDetailsMapper implements Mapper<TVShowDetails,TvShowDetailEnt
         TvShowDetailEntity entity=new TvShowDetailEntity();
         entity.setTvShowCover(coverMapper.reverseMap(tvShowDetails.getTvShowCover()));
         entity.setInfoEntity(infoMapper.reverseMap(tvShowDetails.getTvShowInfo()));
-        if(tvShowDetails.getCast()!=null){
-            List<ActorEntity> cast=new ArrayList<>(tvShowDetails.getCast().size());
-            tvShowDetails.getCast().forEach(actorCover -> cast.add(actorMapper.reverseMap(actorCover)));
-            entity.setCast(cast);
-        }
-        //
-        if(tvShowDetails.getSeasons()!=null){
-            List<TvShowSeasonEntity> seasons=new ArrayList<>(tvShowDetails.getSeasons().size());
-            tvShowDetails.getSeasons().forEach(season->seasons.add(seasonMapper.reverseMap(season)));
-            entity.setSeasons(seasons);
-        }
+        entity.setCast(actorMapper.reverseMap(tvShowDetails.getCast()));
+        entity.setSeasons(seasonMapper.reverseMap(tvShowDetails.getSeasons()));
         return entity;
-
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.TvShow;
+import com.popularmovies.vpaliy.data.utils.MapperUtils;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +37,19 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         cover.setWatched(tvShow.isWatched());
         cover.setFavorite(tvShow.isFavorite());
         cover.setTvShow(true);
-        String releaseTime=tvShow.getFirstAirDate();
-        if(releaseTime!=null){
-            cover.setReleaseDate(releaseTime);
-            cover.setReleaseYear(releaseTime.substring(0,4));
-        }
+        cover.setReleaseDate(tvShow.getFirstAirDate());
+        cover.setReleaseYear(MapperUtils.convertToYear(tvShow.getFirstAirDate()));
         return cover;
+    }
+
+    @Override
+    public List<TvShow> reverseMap(List<MediaCover> from) {
+        if(from!=null){
+            List<TvShow> list=new ArrayList<>(from.size());
+            from.forEach(show->list.add(reverseMap(show)));
+            return list;
+        }
+        return null;
     }
 
     @Override

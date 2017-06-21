@@ -38,6 +38,16 @@ public class MovieInfoMapper implements Mapper<MovieInfo,Movie> {
     }
 
     @Override
+    public List<Movie> reverseMap(List<MovieInfo> from) {
+        if(from!=null){
+            List<Movie> list=new ArrayList<>(from.size());
+            from.forEach(movieInfo -> list.add(reverseMap(movieInfo)));
+            return list;
+        }
+        return null;
+    }
+
+    @Override
     public Movie reverseMap(MovieInfo movieInfo) {
         if(movieInfo==null) return null;
         Movie movie=new Movie();

@@ -38,11 +38,21 @@ public class ActorMapper implements Mapper<ActorCover,ActorEntity> {
         return null;
     }
 
+    @Override
+    public List<ActorEntity> reverseMap(List<ActorCover> from) {
+        if(from!=null){
+            List<ActorEntity> list=new ArrayList<>(from.size());
+            from.forEach(actorCover -> list.add(reverseMap(actorCover)));
+            return list;
+        }
+        return null;
+    }
 
     @Override
     public ActorEntity reverseMap(ActorCover actorCover) {
         ActorEntity entity=new ActorEntity();
         entity.setActorId(actorCover.getActorId());
+        entity.setMovieId(actorCover.getMovieId());
         entity.setActorAvatar(qualityConfiguration.extractPath(actorCover.getActorAvatar()));
         entity.setRole(actorCover.getRole());
         entity.setName(actorCover.getName());

@@ -30,6 +30,16 @@ public class TvShowEpisodeMapper implements Mapper<TVShowEpisode,TvShowEpisodeEn
     }
 
     @Override
+    public List<TvShowEpisodeEntity> reverseMap(List<TVShowEpisode> from) {
+        if(from!=null){
+            List<TvShowEpisodeEntity> list=new ArrayList<>(from.size());
+            from.forEach(tvShowEpisode -> list.add(reverseMap(tvShowEpisode)));
+            return list;
+        }
+        return null;
+    }
+
+    @Override
     public List<TVShowEpisode> map(List<TvShowEpisodeEntity> from) {
         if(from==null) return null;
         List<TVShowEpisode> episodes=new ArrayList<>(from.size());

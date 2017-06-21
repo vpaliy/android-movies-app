@@ -52,6 +52,16 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
     }
 
     @Override
+    public List<Movie> reverseMap(List<MediaCover> from) {
+        if(from!=null){
+            List<Movie> list=new ArrayList<>();
+            from.forEach(mediaCover -> list.add(reverseMap(mediaCover)));
+            return list;
+        }
+        return null;
+    }
+
+    @Override
     public Movie reverseMap(MediaCover movieCover) {
         Movie result=new Movie();
         result.setMovieId(movieCover.getMediaId());
