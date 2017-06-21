@@ -28,11 +28,10 @@ android {
 
     def API_KEY='"INSERT_THE_KEY"'
 
-
     buildTypes {
         release {
             debuggable true
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -46,16 +45,14 @@ android {
     }
 }
 
-
 dependencies {
     compile project(':data')
     compile project(':domain')
     compile files('libs/fab-revealing-api-1.0.jar')
     compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     compile 'com.roughike:bottom-bar:2.3.1'
-    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
-    compile 'me.gujun.android.taggroup:library:1.4@aar'
+    compile libs.calligraphy
     compile libs.constraintLayout
     compile libs.multiDex
     compile libs.materialIconLib

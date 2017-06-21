@@ -7,7 +7,6 @@ import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,6 +37,11 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         cover.setBackdrops(BackdropImage.convert(movieEntity.getBackdropImages(),qualityConfiguration));
         cover.setReleaseDate(movieEntity.getReleaseDate());
         cover.setDuration(convertToDuration(movieEntity.getRuntime()));
+        String releaseTime=movieEntity.getReleaseDate();
+        if(releaseTime!=null){
+            cover.setReleaseDate(releaseTime);
+            cover.setReleaseYear(releaseTime.substring(0,4));
+        }
         return cover;
     }
 
@@ -58,7 +62,7 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         result.setPosterPath(qualityConfiguration.extractPath(movieCover.getPosterPath()));
         result.setGenres(Genre.convertToGenres(movieCover.getGenres()));
         result.setTitle(movieCover.getMovieTitle());
-        result.setVoteAverage(movieCover.getAverageRate());
+        result.setVoteAverage(movieCover.getAverageVote());
         result.setFavorite(movieCover.isFavorite());
         result.setRuntime(convertToRuntime(movieCover.getDuration()));
         result.setBackdropImages(BackdropImage.convertToBackdrops(movieCover.getBackdrops(), qualityConfiguration));

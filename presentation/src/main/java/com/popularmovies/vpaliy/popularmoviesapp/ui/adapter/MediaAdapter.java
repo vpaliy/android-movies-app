@@ -15,7 +15,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.StringUtils;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -58,7 +58,7 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
 
         void onBindData(){
             MediaCover cover=at(getAdapterPosition());
-            mediaTitle.setText(StringUtils.appendBullet(cover.getMovieTitle()));
+            mediaTitle.setText(PresentationUtils.appendBullet(cover.getMovieTitle()));
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
                     .priority(Priority.HIGH)

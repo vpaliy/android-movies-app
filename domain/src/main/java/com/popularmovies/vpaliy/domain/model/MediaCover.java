@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.domain.model;
 
 
 import java.util.List;
+import java.util.Locale;
 
 public class MediaCover {
 
@@ -10,6 +11,7 @@ public class MediaCover {
     private boolean isFavorite;
     private boolean isWatched;
     private boolean isMustWatch;
+    private String releaseYear;
     private String movieTitle;
     private String posterPath;
     private String duration;
@@ -18,8 +20,8 @@ public class MediaCover {
     private List<String> backdrops;
     private boolean isTvShow;
 
-    public double getAverageRate() {
-        return averageRate;
+    public String getAverageRate() {
+        return String.format(Locale.US,"%.1f",averageRate);
     }
 
     public int getMediaId() {
@@ -66,6 +68,14 @@ public class MediaCover {
         return movieTitle;
     }
 
+    public String getReleaseYear() {
+        return releaseYear;
+    }
+
+    public double getAverageVote(){
+        return averageRate;
+    }
+
     public String getPosterPath() {
         return posterPath;
     }
@@ -92,6 +102,10 @@ public class MediaCover {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public void setReleaseYear(String releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public void setGenres(List<String> genres) {

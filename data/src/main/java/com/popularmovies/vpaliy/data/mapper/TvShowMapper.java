@@ -36,6 +36,11 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         cover.setWatched(tvShow.isWatched());
         cover.setFavorite(tvShow.isFavorite());
         cover.setTvShow(true);
+        String releaseTime=tvShow.getFirstAirDate();
+        if(releaseTime!=null){
+            cover.setReleaseDate(releaseTime);
+            cover.setReleaseYear(releaseTime.substring(0,4));
+        }
         return cover;
     }
 
@@ -43,7 +48,7 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
     public TvShow reverseMap(MediaCover mediaCover) {
         TvShow tvShow=new TvShow();
         tvShow.setName(mediaCover.getMovieTitle());
-        tvShow.setVoteAverage(mediaCover.getAverageRate());
+        tvShow.setVoteAverage(mediaCover.getAverageVote());
         tvShow.setId(mediaCover.getMediaId());
         tvShow.setFirstAirDate(mediaCover.getReleaseDate());
         tvShow.setPosterPath(qualityConfiguration.extractPath(mediaCover.getPosterPath()));

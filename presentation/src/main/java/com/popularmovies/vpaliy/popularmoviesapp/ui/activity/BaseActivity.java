@@ -6,7 +6,6 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.configuration.PresentationConfiguration;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
@@ -17,6 +16,7 @@ import io.reactivex.disposables.CompositeDisposable;
 /**
  * A base class for activities
  */
+
 public abstract class BaseActivity extends AppCompatActivity{
 
     @Inject

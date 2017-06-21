@@ -308,8 +308,6 @@ public class MovieDetailsFragment extends Fragment
                 });
     }
 
-
-
     private void showCoverDetails(@NonNull MediaCover movieCover){
         if(getView()!=null) {
             TextView year = ButterKnife.findById(getView(),R.id.year);
@@ -322,9 +320,8 @@ public class MovieDetailsFragment extends Fragment
             String titleText=movieCover.getMovieTitle();
             String yearText=bullet+" "+movieCover.getReleaseDate();
             String durationText=bullet+" "+movieCover.getDuration();
-            String ratingsText=Double.toString(movieCover.getAverageRate());
 
-            ratings.setText(ratingsText);
+            ratings.setText(movieCover.getAverageRate());
             title.setText(titleText!=null?titleText:"");
             year.setText(yearText);
             duration.setText(durationText);

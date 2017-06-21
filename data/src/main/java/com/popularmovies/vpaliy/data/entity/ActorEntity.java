@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ActorEntity implements HasId {
 
-
     @SerializedName("cast_id")
     private int actorId;
 

@@ -16,18 +16,13 @@ import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipsContainerView;
-
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
-
-import java.util.Arrays;
-import java.util.Locale;
 import butterknife.BindView;
 
 public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
 
-    public MoreMediaAdapter(@NonNull Context context,
-                            @NonNull RxBus rxBus){
+    public MoreMediaAdapter(@NonNull Context context, @NonNull RxBus rxBus){
         super(context,rxBus);
     }
 
@@ -47,8 +42,6 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
 
         @BindView(R.id.chipsContainer)
         ChipsContainerView chipsContainer;
-        //@BindView(R.id.media_genres)
-        TextView genres;
 
         MediaViewHolder(View itemView){
             super(itemView);
@@ -67,9 +60,9 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
 
         void onBindData(){
             MediaCover cover=at(getAdapterPosition());
-            releaseYear.setText(convertToYear(cover.getReleaseDate()));
+            releaseYear.setText(cover.getReleaseYear());
             mediaTitle.setText(cover.getMovieTitle());
-            ratings.setText(String.format(Locale.US,"%.1f",cover.getAverageRate()));
+            ratings.setText(cover.getAverageRate());
             chipsContainer.setTags(cover.getGenres());
 
             Glide.with(itemView.getContext())
@@ -79,10 +72,6 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
                     .placeholder(R.drawable.placeholder)
                     .animate(R.anim.fade_in)
                     .into(posterImage);
-        }
-
-        private String convertToYear(String date){
-            return date.substring(0,4);
         }
     }
 

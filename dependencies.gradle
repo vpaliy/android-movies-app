@@ -17,6 +17,7 @@ ext {
 
     /* Library versions */
     daggerVersion = '2.9'
+    calligraphyVersion='2.2.0'
     butterKnifeVersion = "8.5.1"
     supportVersion = "25.1.0"
     rxJavaVersion = '1.1.8'
@@ -89,7 +90,8 @@ ext {
             preferenceCompat14 : "com.android.support:preference-v14:${supportVersion}",
             materialIconLib    : "net.steamcrafted:materialiconlib:${materialIconLibVersion}",
             multiDex           : "com.android.support:multidex:${multiDexVersion}",
-            constraintLayout   : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}"
+            constraintLayout   : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            calligraphy         :  "uk.co.chrisjenx:calligraphy:${calligraphyVersion}"
 
 
     ]

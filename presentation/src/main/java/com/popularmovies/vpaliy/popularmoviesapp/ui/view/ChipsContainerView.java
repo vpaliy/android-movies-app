@@ -172,14 +172,6 @@ public class ChipsContainerView extends ViewGroup{
         requestLayout();
     }
 
-    private int addTextLength(View view){
-        if(view instanceof ChipView){
-            ChipView chipView=ChipView.class.cast(view);
-            return chipView.getChipText().length();
-        }
-        return 0;
-    }
-
     public class ChipView extends RelativeLayout {
 
         private TextView chipTextView;

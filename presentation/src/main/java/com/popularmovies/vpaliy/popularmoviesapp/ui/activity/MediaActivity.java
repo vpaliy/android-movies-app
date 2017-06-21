@@ -10,6 +10,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MediaTypePagerAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ViewAllEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager;
 import com.roughike.bottombar.BottomBar;
 import android.preference.PreferenceManager;
@@ -93,7 +94,7 @@ public class MediaActivity extends BaseActivity
 
     private void setActionBar(){
         ViewGroup.MarginLayoutParams params= ViewGroup.MarginLayoutParams.class.cast(actionBar.getLayoutParams());
-        params.topMargin=getStatusBarHeight();
+        params.topMargin= PresentationUtils.getStatusBarHeight(getResources());
         setSupportActionBar(actionBar);
         navigationView.setCheckedItem(R.id.movies);
     }
@@ -147,8 +148,7 @@ public class MediaActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return drawerToggle.onOptionsItemSelected(item)
-                ||super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) ||super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -171,14 +171,5 @@ public class MediaActivity extends BaseActivity
 
     private void viewAll(@NonNull ViewAllEvent event){
         navigator.viewAll(this,event);
-    }
-
-    private int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
     }
 }

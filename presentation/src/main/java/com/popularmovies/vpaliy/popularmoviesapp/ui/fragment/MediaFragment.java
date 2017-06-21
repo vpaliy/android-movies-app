@@ -58,7 +58,8 @@ public abstract class MediaFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View root=inflater.inflate(R.layout.fragment_media,container,false);
         unbinder=ButterKnife.bind(this,root);
         return root;

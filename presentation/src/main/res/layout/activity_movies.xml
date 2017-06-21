@@ -18,7 +18,7 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/actionBar"
-                app:layout_scrollFlags="scroll"
+                app:layout_scrollFlags="scroll|enterAlways"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
 
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:fitsSystemWindows="false"
-            app:bb_behavior="shy|underNavbar"
+            app:bb_behavior="shy"
             android:layout_gravity="bottom"
             app:bb_tabXmlResource="@xml/media_bottom_navigation"/>
     </android.support.design.widget.CoordinatorLayout>
