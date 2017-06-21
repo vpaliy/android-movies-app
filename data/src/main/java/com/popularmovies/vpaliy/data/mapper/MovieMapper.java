@@ -1,18 +1,17 @@
 package com.popularmovies.vpaliy.data.mapper;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
+import com.popularmovies.vpaliy.data.utils.MapperUtils;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToDuration;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToRuntime;
 
 
 @Singleton
@@ -37,11 +36,8 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         cover.setBackdrops(BackdropImage.convert(movieEntity.getBackdropImages(),qualityConfiguration));
         cover.setReleaseDate(movieEntity.getReleaseDate());
         cover.setDuration(convertToDuration(movieEntity.getRuntime()));
-        String releaseTime=movieEntity.getReleaseDate();
-        if(releaseTime!=null){
-            cover.setReleaseDate(releaseTime);
-            cover.setReleaseYear(releaseTime.substring(0,4));
-        }
+        cover.setReleaseDate(cover.getReleaseDate());
+        cover.setReleaseYear(MapperUtils.convertToYear(cover.getReleaseDate()));
         return cover;
     }
 
@@ -69,45 +65,4 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         result.setReleaseDate(movieCover.getReleaseDate());
         return result;
     }
-
-
-    @VisibleForTesting
-    int convertToRuntime(String duration){
-        if(duration==null) return 0;
-        Pattern pattern=Pattern.compile("-?\\d+");
-        Matcher matcher=pattern.matcher(duration);
-        int runtime=0;
-        int count=0;
-        while(matcher.find()) count++;
-        matcher=matcher.reset();
-        if(count==2){
-            matcher.find();
-            runtime=Integer.parseInt(matcher.group())*60;
-            if(matcher.find()) runtime+=Integer.parseInt(matcher.group());
-        }else if(matcher.find()) {
-            runtime = Integer.parseInt(matcher.group());
-            duration=duration.trim();
-            if(duration.contains("hr")||duration.contains("hrs")) runtime*=60;
-        }
-
-        return runtime;
-    }
-
-    @VisibleForTesting
-    String convertToDuration(int runtime){
-        if(runtime>0) {
-            int hours=runtime/60;
-            String duration="";
-            if(hours>0) {
-                duration = Integer.toString(hours)+" hr"+(hours>1?"s ":" ");
-            }
-            int minRemainder=runtime % 60;
-            if(minRemainder!=0){
-                duration+=Integer.toString(minRemainder)+" min";
-            }
-            return duration;
-        }
-        return null;
-    }
-
 }

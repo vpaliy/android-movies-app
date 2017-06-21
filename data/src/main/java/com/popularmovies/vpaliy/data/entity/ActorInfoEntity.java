@@ -6,19 +6,14 @@ import java.util.List;
 public class ActorInfoEntity {
 
     private int actorId;
-    private Date birthDate;
+    private String birthDate;
     private String birthplace;
     private String bioDescription;
     private List<String> imagePaths;
 
-    public ActorInfoEntity(int actorId){
-        this.actorId=actorId;
-    }
-
     public int getActorId() {
         return actorId;
     }
-
 
     public List<String> getImagePaths() {
         return imagePaths;
@@ -32,7 +27,7 @@ public class ActorInfoEntity {
         return birthplace;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
@@ -44,7 +39,6 @@ public class ActorInfoEntity {
         this.bioDescription = bioDescription;
     }
 
-
     public void setBirthplace(String birthplace) {
         this.birthplace = birthplace;
     }
@@ -53,7 +47,7 @@ public class ActorInfoEntity {
         this.imagePaths = imagePaths;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

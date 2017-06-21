@@ -1,7 +1,5 @@
 package com.popularmovies.vpaliy.data.entity;
 
-import android.support.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 import com.popularmovies.vpaliy.domain.model.Review;
 
@@ -9,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewEntity {
-
 
    // @SerializedName("id")
     private String reviewId;

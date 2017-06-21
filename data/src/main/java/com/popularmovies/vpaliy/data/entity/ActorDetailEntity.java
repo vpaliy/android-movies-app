@@ -11,10 +11,6 @@ public class ActorDetailEntity {
     private ActorInfoEntity actorInfo;
     private List<Movie> movies;
 
-    public ActorDetailEntity(int actorId){
-        this.actorId=actorId;
-    }
-
     public ActorEntity getActorCover() {
         return actor;
     }

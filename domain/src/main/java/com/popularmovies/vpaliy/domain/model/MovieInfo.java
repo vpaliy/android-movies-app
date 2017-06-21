@@ -12,7 +12,7 @@ public class MovieInfo {
     private String budget;
     private String revenue;
     private String description;
-    private Date releaseDate;
+    private String releaseDate;
 
     public MovieInfo(int movieId, String description){
         this.movieId=movieId;
@@ -43,7 +43,7 @@ public class MovieInfo {
         return revenue;
     }
 
-    public Date getReleaseDate() {
+    public String getReleaseDate() {
         return releaseDate;
     }
 
@@ -71,7 +71,7 @@ public class MovieInfo {
         this.revenue = revenue;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
 }

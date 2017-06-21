@@ -29,7 +29,6 @@ public class TvShowEpisodeEntity {
     @SerializedName("vote_count")
     private int voteCount;
 
-
     public int getId() {
         return id;
     }

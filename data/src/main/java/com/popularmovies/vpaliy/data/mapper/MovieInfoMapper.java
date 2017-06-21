@@ -29,7 +29,7 @@ public class MovieInfoMapper implements Mapper<MovieInfo,Movie> {
     public MovieInfo map(Movie movie) {
         if(movie==null) return null;
         MovieInfo movieInfo=new MovieInfo(movie.getMovieId(),movie.getOverview());
-        movieInfo.setReleaseDate(Date.valueOf(movie.getReleaseDate()));
+        movieInfo.setReleaseDate(movie.getReleaseDate());
         movieInfo.setRevenue(Long.toString(movie.getRevenue()));
         movieInfo.setBudget(Long.toString(movie.getBudget()));
         movieInfo.setAverageRate(movie.getVoteAverage());
@@ -42,7 +42,7 @@ public class MovieInfoMapper implements Mapper<MovieInfo,Movie> {
         if(movieInfo==null) return null;
         Movie movie=new Movie();
         movie.setVoteAverage(movieInfo.getAverageRate());
-        movie.setReleaseDate(movieInfo.getReleaseDate().toString());
+        movie.setReleaseDate(movieInfo.getReleaseDate());
         movie.setBudget(Long.parseLong(movieInfo.getBudget()));
         movie.setRevenue(Long.parseLong(movieInfo.getRevenue()));
         movie.setOverview(movieInfo.getDescription());

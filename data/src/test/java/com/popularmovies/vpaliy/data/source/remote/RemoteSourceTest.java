@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class RemoteSourceTest {
 
-    /*private static final int FAKE_ID=123;
+    /*private static final int FAKE_MEDIA_ID=123;
 
     @Mock
     private ISortConfiguration mockSortConfiguration;
@@ -41,13 +41,13 @@ public class RemoteSourceTest {
                 .willReturn(Observable.just(Mockito.mock(MovieWrapper.class)));
         given(mockMovieDataBaseAPI.getTopRatedMovies(1))
                 .willReturn(Observable.just(Mockito.mock(MovieWrapper.class)));
-        given(mockMovieDataBaseAPI.getMovieDetails(Integer.toString(FAKE_ID)))
+        given(mockMovieDataBaseAPI.getMovieDetails(Integer.toString(FAKE_MEDIA_ID)))
                 .willReturn(Observable.just(Mockito.mock(Movies.class)));
-        given(mockMovieDataBaseAPI.getBackdrops(Integer.toString(FAKE_ID)))
+        given(mockMovieDataBaseAPI.getBackdrops(Integer.toString(FAKE_MEDIA_ID)))
                 .willReturn(Observable.just(Mockito.mock(BackdropsWrapper.class)));
-        given(mockMovieDataBaseAPI.getMovieCast(Integer.toString(FAKE_ID)))
+        given(mockMovieDataBaseAPI.getMovieCast(Integer.toString(FAKE_MEDIA_ID)))
                 .willReturn(Observable.just(Mockito.mock(CastWrapper.class)));
-        given(mockMovieDataBaseAPI.getSimilarMovies(Integer.toString(FAKE_ID)))
+        given(mockMovieDataBaseAPI.getSimilarMovies(Integer.toString(FAKE_MEDIA_ID)))
                 .willReturn(Observable.just(Mockito.mock(MovieWrapper.class)));
     }
 
@@ -74,20 +74,20 @@ public class RemoteSourceTest {
 
     @Test
     public void testGetDetails(){
-        remoteSource.getDetails(FAKE_ID);
+        remoteSource.getDetails(FAKE_MEDIA_ID);
 
-        verify(mockMovieDataBaseAPI).getBackdrops(Integer.toString(FAKE_ID));
-        verify(mockMovieDataBaseAPI).getMovieDetails(Integer.toString(FAKE_ID));
-        verify(mockMovieDataBaseAPI).getMovieCast(Integer.toString(FAKE_ID));
-        verify(mockMovieDataBaseAPI).getSimilarMovies(Integer.toString(FAKE_ID));
+        verify(mockMovieDataBaseAPI).getBackdrops(Integer.toString(FAKE_MEDIA_ID));
+        verify(mockMovieDataBaseAPI).getMovieDetails(Integer.toString(FAKE_MEDIA_ID));
+        verify(mockMovieDataBaseAPI).getMovieCast(Integer.toString(FAKE_MEDIA_ID));
+        verify(mockMovieDataBaseAPI).getSimilarMovies(Integer.toString(FAKE_MEDIA_ID));
     }
 
 
     @Test
     public void testGetCover(){
 
-        remoteSource.getDetails(FAKE_ID);
-        verify(mockMovieDataBaseAPI).getMovieDetails(Integer.toString(FAKE_ID));
+        remoteSource.getDetails(FAKE_MEDIA_ID);
+        verify(mockMovieDataBaseAPI).getMovieDetails(Integer.toString(FAKE_MEDIA_ID));
     }
 
         */

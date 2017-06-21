@@ -1,9 +1,6 @@
 package com.popularmovies.vpaliy.data.entity;
 
-import android.support.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +24,14 @@ public class Network {
 
     public int getNetworkId() {
         return networkId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNetworkId(int networkId) {
+        this.networkId = networkId;
     }
 
     public static List<String> convertToString(List<Network> networks){
