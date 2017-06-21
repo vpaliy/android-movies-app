@@ -12,6 +12,7 @@ public class Review {
         this.movieId=movieId;
         this.author=author;
         this.content=content;
+        this.url=url;
     }
 
     public void setAuthor(String author) {

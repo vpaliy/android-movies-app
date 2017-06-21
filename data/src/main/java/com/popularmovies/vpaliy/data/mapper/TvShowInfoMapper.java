@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.data.mapper;
 
 
-import com.popularmovies.vpaliy.data.entity.Network;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
 import java.util.ArrayList;
@@ -9,6 +8,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToNetworks;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToString;
 
 @Singleton
 public class TvShowInfoMapper implements Mapper<TVShowInfo,TvShowInfoEntity> {
@@ -28,7 +30,7 @@ public class TvShowInfoMapper implements Mapper<TVShowInfo,TvShowInfoEntity> {
         info.setFirstAirDate(tvShowInfoEntity.getFirstAirDate());
         info.setLastAirDate(tvShowInfoEntity.getLastAirDate());
         info.setName(tvShowInfoEntity.getName());
-        info.setNetworks(Network.convertToString(tvShowInfoEntity.getNetworks()));
+        info.setNetworks(convertToString(tvShowInfoEntity.getNetworks()));
         info.setNumberOfEpisodes(tvShowInfoEntity.getNumberOfEpisodes());
         info.setNumberOfSeasons(tvShowInfoEntity.getNumberOfSeasons());
         info.setOriginalLanguage(tvShowInfoEntity.getOriginalLanguage());
@@ -66,7 +68,7 @@ public class TvShowInfoMapper implements Mapper<TVShowInfo,TvShowInfoEntity> {
         entity.setFirstAirDate(info.getFirstAirDate());
         entity.setLastAirDate(info.getLastAirDate());
         entity.setName(info.getName());
-        entity.setNetworks(Network.convertToNetworks(info.getNetworks()));
+        entity.setNetworks(convertToNetworks(info.getNetworks()));
         entity.setNumberOfEpisodes(info.getNumberOfEpisodes());
         entity.setNumberOfSeasons(info.getNumberOfSeasons());
         entity.setOriginalLanguage(info.getOriginalLanguage());

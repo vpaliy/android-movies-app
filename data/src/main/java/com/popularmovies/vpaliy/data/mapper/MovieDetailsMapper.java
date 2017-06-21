@@ -6,10 +6,14 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
+import com.popularmovies.vpaliy.data.utils.MapperUtils;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
+import com.popularmovies.vpaliy.domain.model.Review;
+import com.popularmovies.vpaliy.domain.model.Trailer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,14 +26,20 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
     private final Mapper<MediaCover,Movie> movieCoverMapper;
     private final Mapper<ActorCover,ActorEntity> actorEntityMapper;
     private final Mapper<MovieInfo,Movie> movieInfoMapper;
+    private final Mapper<Review,ReviewEntity> reviewMapper;
+    private final Mapper<Trailer,TrailerEntity> trailerMapper;
 
     @Inject
     public MovieDetailsMapper(Mapper<MediaCover,Movie> movieCoverMapper,
                               Mapper<ActorCover,ActorEntity> actorEntityMapper,
-                              Mapper<MovieInfo,Movie> movieInfoMapper) {
+                              Mapper<MovieInfo,Movie> movieInfoMapper,
+                              Mapper<Review,ReviewEntity> reviewMapper,
+                              Mapper<Trailer,TrailerEntity> trailerMapper) {
         this.movieCoverMapper=movieCoverMapper;
         this.actorEntityMapper=actorEntityMapper;
         this.movieInfoMapper=movieInfoMapper;
+        this.reviewMapper=reviewMapper;
+        this.trailerMapper=trailerMapper;
     }
 
     @Override
@@ -40,8 +50,8 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
         movieDetails.setCast(actorEntityMapper.map(detailsEntity.getCast()));
         movieDetails.setMovieInfo(movieInfoMapper.map(detailsEntity.getMovie()));
         movieDetails.setMovieCover(movieCoverMapper.map(detailsEntity.getMovie()));
-        movieDetails.setTrailers(TrailerEntity.convert(detailsEntity.getTrailers()));
-        movieDetails.setReviews(ReviewEntity.convert(detailsEntity.getReviews()));
+        movieDetails.setTrailers(trailerMapper.map(detailsEntity.getTrailers()));
+        movieDetails.setReviews(reviewMapper.map(detailsEntity.getReviews()));
         return movieDetails;
 
     }
@@ -89,9 +99,9 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
             detailEntity.setFavorite(movie.isFavorite());
         }
         detailEntity.setCast(actorEntityMapper.reverseMap(details.getCast()));
-        detailEntity.setReviews(ReviewEntity.convertBack(details.getReviews()));
+        detailEntity.setReviews(reviewMapper.reverseMap(details.getReviews()));
         detailEntity.setSimilarMovies(movieCoverMapper.reverseMap(details.getSimilarMovies()));
-        detailEntity.setTrailers(TrailerEntity.convertBack(details.getTrailers()));
+        detailEntity.setTrailers(trailerMapper.reverseMap(details.getTrailers()));
         return detailEntity;
     }
 }

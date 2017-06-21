@@ -34,7 +34,6 @@ public class MovieDetailEntity implements HasId{
         return trailers;
     }
 
-
     public List<Movie> getSimilarMovies() {
         return similarMovies;
     }
@@ -78,7 +77,6 @@ public class MovieDetailEntity implements HasId{
     public void setBackdropImages(List<BackdropImage> backdropImages) {
         this.backdropImages = backdropImages;
     }
-
 
     public void setMovie(Movie movie) {
         this.movie = movie;

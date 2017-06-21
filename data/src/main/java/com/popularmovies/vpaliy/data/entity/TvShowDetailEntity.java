@@ -9,9 +9,7 @@ public class TvShowDetailEntity implements HasId {
     private List<TvShowSeasonEntity> seasons;
     private List<ActorEntity> cast;
 
-    public List<TvShowSeasonEntity> getSeasons() {
-        return seasons;
-    }
+    public List<TvShowSeasonEntity> getSeasons() { return seasons;}
 
     @Override
     public int id() {
@@ -29,7 +27,6 @@ public class TvShowDetailEntity implements HasId {
     public List<ActorEntity> getCast() {
         return cast;
     }
-
 
     public void setCast(List<ActorEntity> cast) {
         this.cast = cast;

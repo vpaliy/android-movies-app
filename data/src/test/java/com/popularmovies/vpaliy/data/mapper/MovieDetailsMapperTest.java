@@ -42,7 +42,7 @@ public class MovieDetailsMapperTest {
 
     @Before
     public void setUp(){
-        mapper=new MovieDetailsMapper(movieMapper,actorMapper,infoMapper);
+       // mapper=new MovieDetailsMapper(movieMapper,actorMapper,infoMapper);
 
     }
     @Test

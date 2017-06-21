@@ -10,6 +10,7 @@ import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 import com.popularmovies.vpaliy.data.source.remote.service.TvShowService;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
+import com.popularmovies.vpaliy.data.utils.MapperUtils;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import java.util.List;
 import rx.Observable;
@@ -48,7 +49,7 @@ public class RemoteTvShowDetails implements DetailsDataSource<TvShowDetailEntity
 
         return Observable.zip(infoObservable,backdropsObservable,actorsObservable,
                 (infoEntity, backdropImages, actorEntities) -> {
-                    TvShow tvShow=TvShowInfoEntity.createTvShowCover(infoEntity);
+                    TvShow tvShow= MapperUtils.createTvShowCover(infoEntity);
                     tvShow.setBackdrops(backdropImages);
                     TvShowDetailEntity detailEntity=new TvShowDetailEntity();
                     detailEntity.setCast(actorEntities);

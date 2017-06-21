@@ -214,7 +214,6 @@ public class Movie implements HasId {
         this.status = status;
     }
 
-
     public void setRuntime(int runtime) {
         this.runtime = runtime;
     }

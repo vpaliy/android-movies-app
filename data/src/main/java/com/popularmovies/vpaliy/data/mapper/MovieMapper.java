@@ -1,17 +1,18 @@
 package com.popularmovies.vpaliy.data.mapper;
 
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
-import com.popularmovies.vpaliy.data.entity.BackdropImage;
-import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Movie;
-import com.popularmovies.vpaliy.data.utils.MapperUtils;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convert;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToBackdrops;
 import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToDuration;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToGenres;
 import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToRuntime;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToYear;
 
 
 @Singleton
@@ -29,15 +30,15 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         MediaCover cover=new MediaCover();
         cover.setMediaId(movieEntity.getMovieId());
         cover.setPosterPath(qualityConfiguration.convertCover(movieEntity.getPosterPath()));
-        cover.setGenres(Genre.convert(movieEntity.getGenres()));
+        cover.setGenres(convert(movieEntity.getGenres()));
         cover.setMovieTitle(movieEntity.getTitle());
         cover.setAverageRate(movieEntity.getVoteAverage());
         cover.setFavorite(movieEntity.isFavorite());
-        cover.setBackdrops(BackdropImage.convert(movieEntity.getBackdropImages(),qualityConfiguration));
+        cover.setBackdrops(convert(movieEntity.getBackdropImages(),qualityConfiguration));
         cover.setReleaseDate(movieEntity.getReleaseDate());
         cover.setDuration(convertToDuration(movieEntity.getRuntime()));
         cover.setReleaseDate(cover.getReleaseDate());
-        cover.setReleaseYear(MapperUtils.convertToYear(cover.getReleaseDate()));
+        cover.setReleaseYear(convertToYear(cover.getReleaseDate()));
         return cover;
     }
 
@@ -66,12 +67,12 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         Movie result=new Movie();
         result.setMovieId(movieCover.getMediaId());
         result.setPosterPath(qualityConfiguration.extractPath(movieCover.getPosterPath()));
-        result.setGenres(Genre.convertToGenres(movieCover.getGenres()));
+        result.setGenres(convertToGenres(movieCover.getGenres()));
         result.setTitle(movieCover.getMovieTitle());
         result.setVoteAverage(movieCover.getAverageVote());
         result.setFavorite(movieCover.isFavorite());
         result.setRuntime(convertToRuntime(movieCover.getDuration()));
-        result.setBackdropImages(BackdropImage.convertToBackdrops(movieCover.getBackdrops(), qualityConfiguration));
+        result.setBackdropImages(convertToBackdrops(movieCover.getBackdrops(), qualityConfiguration));
         result.setReleaseDate(movieCover.getReleaseDate());
         return result;
     }

@@ -23,6 +23,7 @@ import static org.hamcrest.CoreMatchers.is;
 @RunWith(MockitoJUnitRunner.class)
 public class MovieMapperTest  {
 
+
     private MovieMapper mapper;
 
     @Mock
@@ -34,53 +35,6 @@ public class MovieMapperTest  {
         when(qualityConfiguration.convertCover(anyString())).thenReturn(FAKE_POSTER_PATH);
         when(qualityConfiguration.extractPath(anyString())).thenReturn(FAKE_POSTER_PATH);
         mapper=new MovieMapper(qualityConfiguration);
-    }
-
-    @Test
-    public void testMapToMovieCover(){
-        Movie movie= DataSourceTestUtils.provideFakeMovie();
-        MediaCover movieCover=mapper.map(movie);
-
-        assertThat(movieCover.getAverageRate(),is(movie.getVoteAverage()));
-        assertThat(movieCover.getPosterPath(),is(convert(movie.getPosterPath())));
-        assertThat(movieCover.getMediaId(),is(movie.getMovieId()));
-        assertThat(movieCover.getMovieTitle(),is(movie.getTitle()));
-    }
-
-    @Test
-    public void testReverseMapping(){
-        MediaCover movieCover=mapper.map(DataSourceTestUtils.provideFakeMovie());
-        Movie movie=mapper.reverseMap(movieCover);
-
-        assertThat(movieCover.getAverageRate(),is(movie.getVoteAverage()));
-        assertThat(movieCover.getPosterPath(),is(convert(movie.getPosterPath())));
-        assertThat(movieCover.getMediaId(),is(movie.getMovieId()));
-        assertThat(movieCover.getMovieTitle(),is(movie.getTitle()));
-    }
-
-
-    @Test
-    public void testBackdropConverting(){
-        Movie movie=DataSourceTestUtils.provideFakeMovie();
-        List<String> strings=BackdropImage.convert(movie.getBackdropImages(),qualityConfiguration);
-        List<BackdropImage> backdrops=BackdropImage.convertToBackdrops(strings,qualityConfiguration);
-        assertThat(strings.size(),is(backdrops.size()));
-        for(int index=0;index<backdrops.size();index++){
-            assertThat(strings.get(index),is(backdrops.get(index).getBackdropPath()));
-        }
-    }
-
-    @Test
-    public void testGenreConverting(){
-        Movie movie= DataSourceTestUtils.provideFakeMovie();
-
-        List<String> strings= Genre.convert(movie.getGenres());
-        List<Genre> genres=Genre.convertToGenres(strings);
-
-        assertThat(genres.size(),is(strings.size()));
-        for(int index=0;index<genres.size();index++){
-            assertThat(strings.get(index),is(genres.get(index).getName()));
-        }
     }
 
     private String convert(String path){

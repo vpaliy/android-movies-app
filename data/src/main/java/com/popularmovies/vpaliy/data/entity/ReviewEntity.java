@@ -8,8 +8,11 @@ import java.util.List;
 
 public class ReviewEntity {
 
-   // @SerializedName("id")
+    @SerializedName("id")
     private String reviewId;
+
+    @SerializedName("media_id")
+    private int mediaId;
 
     @SerializedName("author")
     private String author;
@@ -20,13 +23,20 @@ public class ReviewEntity {
     @SerializedName("url")
     private String url;
 
-
     public String getAuthor() {
         return author;
     }
 
     public String getContent() {
         return content;
+    }
+
+    public int getMediaId() {
+        return mediaId;
+    }
+
+    public void setMediaId(int mediaId) {
+        this.mediaId = mediaId;
     }
 
     public String getUrl() {
@@ -51,34 +61,5 @@ public class ReviewEntity {
 
     public String getReviewId() {
         return reviewId;
-    }
-
-    public static List<Review> convert(List<ReviewEntity> reviewEntities){
-        if(reviewEntities==null||reviewEntities.isEmpty()){
-            return null;
-        }
-        List<Review> reviewList=new ArrayList<>(reviewEntities.size());
-        for(ReviewEntity reviewEntity:reviewEntities){
-            Review review=new Review(0,reviewEntity.getAuthor(),reviewEntity.getContent(),reviewEntity.getUrl());
-            reviewList.add(review);
-        }
-
-        return reviewList;
-    }
-
-    public static List<ReviewEntity> convertBack(List<Review> reviewEntities){
-        if(reviewEntities==null||reviewEntities.isEmpty()){
-            return null;
-        }
-        List<ReviewEntity> reviewList=new ArrayList<>(reviewEntities.size());
-        for(Review review:reviewEntities){
-            ReviewEntity reviewEntity=new ReviewEntity();
-            reviewEntity.setAuthor(review.getAuthor());
-            reviewEntity.setContent(review.getContent());
-            reviewEntity.setUrl(review.getUrl());
-            reviewList.add(reviewEntity);
-        }
-
-        return reviewList;
     }
 }

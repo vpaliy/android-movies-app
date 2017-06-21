@@ -13,6 +13,10 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convert;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToBackdrops;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToGenres;
+
 @Singleton
 public class TvShowMapper implements Mapper<MediaCover,TvShow> {
 
@@ -28,11 +32,11 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         MediaCover cover=new MediaCover();
         cover.setMediaId(tvShow.getId());
         cover.setAverageRate(tvShow.getVoteAverage().doubleValue());
-        cover.setBackdrops(BackdropImage.convert(tvShow.getBackdrops(),qualityConfiguration));
+        cover.setBackdrops(convert(tvShow.getBackdrops(),qualityConfiguration));
         cover.setMovieTitle(tvShow.getName());
         cover.setPosterPath(qualityConfiguration.convertCover(tvShow.getPosterPath()));
         cover.setReleaseDate(tvShow.getFirstAirDate());
-        cover.setGenres(Genre.convert(tvShow.getGenreList()));
+        cover.setGenres(convert(tvShow.getGenreList()));
         cover.setMustWatch(tvShow.isMustWatch());
         cover.setWatched(tvShow.isWatched());
         cover.setFavorite(tvShow.isFavorite());
@@ -60,8 +64,8 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         tvShow.setId(mediaCover.getMediaId());
         tvShow.setFirstAirDate(mediaCover.getReleaseDate());
         tvShow.setPosterPath(qualityConfiguration.extractPath(mediaCover.getPosterPath()));
-        tvShow.setBackdrops(BackdropImage.convertToBackdrops(mediaCover.getBackdrops(),qualityConfiguration));
-        tvShow.setGenreList(Genre.convertToGenres(mediaCover.getGenres()));
+        tvShow.setBackdrops(convertToBackdrops(mediaCover.getBackdrops(),qualityConfiguration));
+        tvShow.setGenreList(convertToGenres(mediaCover.getGenres()));
         tvShow.setFavorite(mediaCover.isFavorite());
         tvShow.setWatched(mediaCover.isWatched());
         tvShow.setMustWatch(mediaCover.isMustWatch());

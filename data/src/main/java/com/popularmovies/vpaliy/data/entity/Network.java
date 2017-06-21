@@ -33,18 +33,4 @@ public class Network {
     public void setNetworkId(int networkId) {
         this.networkId = networkId;
     }
-
-    public static List<String> convertToString(List<Network> networks){
-        if(networks==null) return null;
-        List<String> result=new ArrayList<>(networks.size());
-        networks.forEach(network -> result.add(network.getName()));
-        return result;
-    }
-
-    public static List<Network> convertToNetworks(List<String> strings){
-        if(strings==null) return null;
-        List<Network> networks=new ArrayList<>(strings.size());
-        strings.forEach(string->networks.add(new Network(string)));
-        return networks;
-    }
 }

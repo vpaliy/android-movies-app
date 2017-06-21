@@ -1,6 +1,20 @@
 package com.popularmovies.vpaliy.data.utils;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
+import com.popularmovies.vpaliy.data.entity.BackdropImage;
+import com.popularmovies.vpaliy.data.entity.Genre;
+import com.popularmovies.vpaliy.data.entity.Network;
+import com.popularmovies.vpaliy.data.entity.ReviewEntity;
+import com.popularmovies.vpaliy.data.entity.TrailerEntity;
+import com.popularmovies.vpaliy.data.entity.TvShow;
+import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
+import com.popularmovies.vpaliy.domain.model.Review;
+import com.popularmovies.vpaliy.domain.model.Trailer;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,4 +68,107 @@ public class MapperUtils {
         if(date==null||date.length()<4) return null;
         return date.substring(0,4);
     }
+
+    public static List<String> convert(List<BackdropImage> images, ImageQualityConfiguration configuration){
+        if(images==null) return null;
+        List<String> paths=new LinkedList<>();
+        images.forEach(backdropImage ->paths.add(configuration.
+                convertBackdrop(backdropImage.getBackdropPath())));
+        return paths;
+    }
+
+    public static List<BackdropImage> convertToBackdrops(List<String> backdrops, ImageQualityConfiguration configuration){
+        if(backdrops==null) return null;
+        List<BackdropImage> images=new LinkedList<>();
+        backdrops.forEach(string->{
+            String result=configuration.extractPath(string);
+            images.add(new BackdropImage(result));
+        });
+        return images;
+    }
+
+    public static TvShow createTvShowCover(TvShowInfoEntity info){
+        if(info==null) return null;
+        TvShow cover=new TvShow();
+        cover.setFirstAirDate(info.getFirstAirDate());
+        cover.setId(info.getTvShowId());
+        cover.setGenreList(info.getGenres());
+        cover.setVoteAverage(info.getVoteAverage());
+        cover.setVoteCount(info.getVoteCount());
+        cover.setBackdropPath(info.getBackdrop_path());
+        cover.setPosterPath(info.getPosterPath());
+        cover.setName(info.getName());
+        cover.setOverview(info.getOverview());
+        cover.setOriginalName(info.getOriginalName());
+        cover.setPopularity(info.getPopularity());
+        return cover;
+    }
+
+    public static List<Trailer> convertToTrailer(List<TrailerEntity> list){
+        if(list==null)return null;
+        List<Trailer> result=new ArrayList<>(list.size());
+        for(TrailerEntity entity:list){
+            Trailer trailer=new Trailer(entity.getMovieId(),entity.getTrailerUrl(),entity.getTrailerTitle());
+            result.add(trailer);
+        }
+        return result;
+    }
+
+    public static List<TrailerEntity> convertBackToTrailer(List<Trailer> list){
+        if(list==null)return null;
+        List<TrailerEntity> result=new ArrayList<>(list.size());
+        list.forEach(trailer->{
+            TrailerEntity trailerEntity=new TrailerEntity();
+            trailerEntity.setMovieId(trailer.getMovieId());
+            trailerEntity.setTrailerTitle(trailer.getTrailerTitle());
+            trailerEntity.setTrailerUrl(trailer.getTrailerUrl());
+            result.add(trailerEntity);
+        });
+        return result;
+    }
+
+    public static List<ReviewEntity> convertBack(List<Review> reviewEntities){
+        if(reviewEntities==null||reviewEntities.isEmpty()){
+            return null;
+        }
+        List<ReviewEntity> reviewList=new ArrayList<>(reviewEntities.size());
+        for(Review review:reviewEntities){
+            ReviewEntity reviewEntity=new ReviewEntity();
+            reviewEntity.setAuthor(review.getAuthor());
+            reviewEntity.setContent(review.getContent());
+            reviewEntity.setUrl(review.getUrl());
+            reviewList.add(reviewEntity);
+        }
+
+        return reviewList;
+    }
+
+    public static List<String> convertToString(List<Network> networks){
+        if(networks==null) return null;
+        List<String> result=new ArrayList<>(networks.size());
+        networks.forEach(network -> result.add(network.getName()));
+        return result;
+    }
+
+    public static List<Network> convertToNetworks(List<String> strings){
+        if(strings==null) return null;
+        List<Network> networks=new ArrayList<>(strings.size());
+        strings.forEach(string->networks.add(new Network(string)));
+        return networks;
+    }
+
+    public static List<String> convert(List<Genre> genres){
+        if(genres==null) return null;
+        List<String> result=new LinkedList<>();
+        genres.forEach(genre -> result.add(genre.getName()));
+        return result;
+    }
+
+    public static List<Genre> convertToGenres(List<String> stringList){
+        if(stringList==null) return null;
+        List<Genre> genres=new LinkedList<>();
+        stringList.forEach(string->genres.add(new Genre(string)));
+        return genres;
+    }
+
 }

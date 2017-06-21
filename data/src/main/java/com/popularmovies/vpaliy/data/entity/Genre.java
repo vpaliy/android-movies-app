@@ -34,18 +34,4 @@ public class Genre {
     public void setName(String name) {
         this.name = name;
     }
-
-    public static List<String> convert(List<Genre> genres){
-        if(genres==null) return null;
-        List<String> result=new LinkedList<>();
-        genres.forEach(genre -> result.add(genre.getName()));
-        return result;
-    }
-
-    public static List<Genre> convertToGenres(List<String> stringList){
-        if(stringList==null) return null;
-        List<Genre> genres=new LinkedList<>();
-        stringList.forEach(string->genres.add(new Genre(string)));
-        return genres;
-    }
 }

@@ -258,21 +258,4 @@ public class TvShowInfoEntity {
     public String getType() {
         return type;
     }
-
-    public static TvShow createTvShowCover(TvShowInfoEntity info){
-        if(info==null) return null;
-        TvShow cover=new TvShow();
-        cover.setFirstAirDate(info.getFirstAirDate());
-        cover.setId(info.getTvShowId());
-        cover.setGenreList(info.getGenres());
-        cover.setVoteAverage(info.getVoteAverage());
-        cover.setVoteCount(info.getVoteCount());
-        cover.setBackdropPath(info.getBackdrop_path());
-        cover.setPosterPath(info.getPosterPath());
-        cover.setName(info.getName());
-        cover.setOverview(info.getOverview());
-        cover.setOriginalName(info.getOriginalName());
-        cover.setPopularity(info.getPopularity());
-        return cover;
-    }
 }
