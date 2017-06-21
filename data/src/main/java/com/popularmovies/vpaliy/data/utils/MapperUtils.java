@@ -104,45 +104,6 @@ public class MapperUtils {
         return cover;
     }
 
-    public static List<Trailer> convertToTrailer(List<TrailerEntity> list){
-        if(list==null)return null;
-        List<Trailer> result=new ArrayList<>(list.size());
-        for(TrailerEntity entity:list){
-            Trailer trailer=new Trailer(entity.getMovieId(),entity.getTrailerUrl(),entity.getTrailerTitle());
-            result.add(trailer);
-        }
-        return result;
-    }
-
-    public static List<TrailerEntity> convertBackToTrailer(List<Trailer> list){
-        if(list==null)return null;
-        List<TrailerEntity> result=new ArrayList<>(list.size());
-        list.forEach(trailer->{
-            TrailerEntity trailerEntity=new TrailerEntity();
-            trailerEntity.setMovieId(trailer.getMovieId());
-            trailerEntity.setTrailerTitle(trailer.getTrailerTitle());
-            trailerEntity.setTrailerUrl(trailer.getTrailerUrl());
-            result.add(trailerEntity);
-        });
-        return result;
-    }
-
-    public static List<ReviewEntity> convertBack(List<Review> reviewEntities){
-        if(reviewEntities==null||reviewEntities.isEmpty()){
-            return null;
-        }
-        List<ReviewEntity> reviewList=new ArrayList<>(reviewEntities.size());
-        for(Review review:reviewEntities){
-            ReviewEntity reviewEntity=new ReviewEntity();
-            reviewEntity.setAuthor(review.getAuthor());
-            reviewEntity.setContent(review.getContent());
-            reviewEntity.setUrl(review.getUrl());
-            reviewList.add(reviewEntity);
-        }
-
-        return reviewList;
-    }
-
     public static List<String> convertToString(List<Network> networks){
         if(networks==null) return null;
         List<String> result=new ArrayList<>(networks.size());

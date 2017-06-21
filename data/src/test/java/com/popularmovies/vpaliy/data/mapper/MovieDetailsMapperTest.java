@@ -12,15 +12,15 @@ import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.List;
 
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -49,7 +49,7 @@ public class MovieDetailsMapperTest {
     public void testMappingToMovieDetails(){
         mapper.map(provideFakeDetailEntity());
 
-        verify(movieMapper).map(any(Movie.class));
+        verify(movieMapper).map(Matchers.any(Movie.class));
         verify(movieMapper).map(anyList());
         verify(infoMapper).map(any(Movie.class));
         verify(actorMapper).map(anyList());

@@ -39,6 +39,8 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         cover.setDuration(convertToDuration(movieEntity.getRuntime()));
         cover.setReleaseDate(cover.getReleaseDate());
         cover.setReleaseYear(convertToYear(cover.getReleaseDate()));
+        cover.setMustWatch(movieEntity.isMustWatch());
+        cover.setWatched(movieEntity.isWatched());
         return cover;
     }
 
@@ -74,6 +76,8 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         result.setRuntime(convertToRuntime(movieCover.getDuration()));
         result.setBackdropImages(convertToBackdrops(movieCover.getBackdrops(), qualityConfiguration));
         result.setReleaseDate(movieCover.getReleaseDate());
+        result.setMustWatch(movieCover.isMustWatch());
+        result.setWatched(movieCover.isWatched());
         return result;
     }
 }

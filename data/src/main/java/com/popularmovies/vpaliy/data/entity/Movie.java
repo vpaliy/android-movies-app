@@ -68,6 +68,8 @@ public class Movie implements HasId {
     private long voteCount;
 
     private boolean isFavorite;
+    private boolean isWatched;
+    private boolean isMustWatch;
 
     @Override
     public int id() {
@@ -188,6 +190,22 @@ public class Movie implements HasId {
 
     public void setOriginalLanguage(String originalLanguage) {
         this.originalLanguage = originalLanguage;
+    }
+
+    public boolean isMustWatch() {
+        return isMustWatch;
+    }
+
+    public boolean isWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(boolean watched) {
+        isWatched = watched;
+    }
+
+    public void setMustWatch(boolean mustWatch) {
+        isMustWatch = mustWatch;
     }
 
     public void setGenresId(int[] genresId) {

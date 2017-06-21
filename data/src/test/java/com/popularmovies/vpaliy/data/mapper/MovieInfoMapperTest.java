@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -32,7 +33,7 @@ public class MovieInfoMapperTest extends MapperTest{
         assertThat(movieInfo.getBudget(),is((Long.toString(movie.getBudget()))));
         assertThat(movieInfo.getRevenue(),is(Long.toString(movie.getRevenue())));
         assertThat(movieInfo.getDescription(),is(movie.getOverview()));
-        assertThat(movieInfo.getReleaseDate().toString(),is(movie.getReleaseDate()));
+        assertThat(movieInfo.getReleaseDate(),is(movie.getReleaseDate()));
     }
 
     @Test
@@ -45,6 +46,6 @@ public class MovieInfoMapperTest extends MapperTest{
         assertThat(movieInfo.getBudget(),is((Long.toString(movie.getBudget()))));
         assertThat(movieInfo.getRevenue(),is(Long.toString(movie.getRevenue())));
         assertThat(movieInfo.getDescription(),is(movie.getOverview()));
-        assertThat(movieInfo.getReleaseDate().toString(),is(movie.getReleaseDate()));
+        assertThat(movieInfo.getReleaseDate(),is(movie.getReleaseDate()));
     }
 }
