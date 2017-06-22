@@ -5,13 +5,8 @@ import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Network;
-import com.popularmovies.vpaliy.data.entity.ReviewEntity;
-import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
-import com.popularmovies.vpaliy.domain.model.Review;
-import com.popularmovies.vpaliy.domain.model.Trailer;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
