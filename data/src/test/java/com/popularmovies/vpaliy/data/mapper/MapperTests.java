@@ -12,6 +12,8 @@ import org.junit.runners.Suite;
             TvShowMapperTest.class,
             TvShowInfoMapperTest.class,
             TvShowSeasonMapperTest.class,
+            TvShowDetailsMapperTest.class,
+            TvShowEpisodeMapperTest.class,
             MovieMapperTest.class})
 public class MapperTests {
 }

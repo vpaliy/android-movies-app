@@ -222,6 +222,16 @@ public class FakeDataProvider {
                     provideTvEpisodeEntity(),provideTvEpisodeEntity(),provideTvEpisodeEntity());
     }
 
+    public static List<TVShowDetails> provideTvShowDetailsList(){
+        return Arrays.asList(provideTvShowDetails(),provideTvShowDetails(),
+                provideTvShowDetails(),provideTvShowDetails());
+    }
+
+    public static List<TvShowDetailEntity> provideTvShowDetailsEntityList(){
+        return Arrays.asList(provideTvShowDetailsEntity(),provideTvShowDetailsEntity(),
+                provideTvShowDetailsEntity(),provideTvShowDetailsEntity(),provideTvShowDetailsEntity());
+    }
+
     public static TvShowDetailEntity provideTvShowDetailsEntity(){
         TvShowDetailEntity detailEntity=new TvShowDetailEntity();
         detailEntity.setSeasons(provideTvShowSeasonEntityList());
