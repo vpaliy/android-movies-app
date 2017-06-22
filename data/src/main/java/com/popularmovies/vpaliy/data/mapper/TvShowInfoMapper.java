@@ -73,6 +73,7 @@ public class TvShowInfoMapper implements Mapper<TVShowInfo,TvShowInfoEntity> {
         entity.setNumberOfSeasons(info.getNumberOfSeasons());
         entity.setOriginalLanguage(info.getOriginalLanguage());
         entity.setStatus(info.getStatus());
+        entity.setVoteCount(info.getVoteCount());
         return entity;
     }
 

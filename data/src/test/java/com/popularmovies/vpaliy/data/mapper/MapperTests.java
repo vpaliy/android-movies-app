@@ -9,6 +9,9 @@ import org.junit.runners.Suite;
             MovieInfoMapperTest.class,
             ReviewMapperTest.class,
             TrailerMapperTest.class,
+            TvShowMapperTest.class,
+            TvShowInfoMapperTest.class,
+            TvShowSeasonMapperTest.class,
             MovieMapperTest.class})
 public class MapperTests {
 }

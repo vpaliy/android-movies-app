@@ -377,6 +377,16 @@ public class FakeDataProvider {
         return reviewEntity;
     }
 
+    public static List<TvShowInfoEntity> provideTvShowInfoEntityList(){
+        return Arrays.asList(provideTvShowInfoEntity(),provideTvShowInfoEntity(),
+                provideTvShowInfoEntity(),provideTvShowInfoEntity(),provideTvShowInfoEntity());
+    }
+
+    public static List<TVShowInfo> provideTvShowInfoList(){
+        return Arrays.asList(provideTvShowInfo(),provideTvShowInfo(),
+                provideTvShowInfo(),provideTvShowInfo(),provideTvShowInfo());
+    }
+
     public static Review provideReview(){
         return new Review(FAKE_MEDIA_ID,FAKE_AUTHOR,FAKE_CONTENT,FAKE_REVIEW_URL);
     }
