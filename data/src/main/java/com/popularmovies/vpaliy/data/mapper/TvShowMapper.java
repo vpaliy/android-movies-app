@@ -16,6 +16,7 @@ import javax.inject.Singleton;
 import static com.popularmovies.vpaliy.data.utils.MapperUtils.convert;
 import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToBackdrops;
 import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToGenres;
+import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToYear;
 
 @Singleton
 public class TvShowMapper implements Mapper<MediaCover,TvShow> {
@@ -42,7 +43,7 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         cover.setFavorite(tvShow.isFavorite());
         cover.setTvShow(true);
         cover.setReleaseDate(tvShow.getFirstAirDate());
-        cover.setReleaseYear(MapperUtils.convertToYear(tvShow.getFirstAirDate()));
+        cover.setReleaseYear(convertToYear(tvShow.getFirstAirDate()));
         return cover;
     }
 

@@ -1,90 +1,100 @@
 package com.popularmovies.vpaliy.data.mapper;
 
+import com.popularmovies.vpaliy.data.FakeDataProvider;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
-import com.popularmovies.vpaliy.data.source.DataSourceTestUtils;
+import com.popularmovies.vpaliy.data.entity.ReviewEntity;
+import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
-
+import com.popularmovies.vpaliy.domain.model.Review;
+import com.popularmovies.vpaliy.domain.model.Trailer;
+import org.mockito.junit.MockitoJUnitRunner;
+import java.util.List;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.Collections;
-import java.util.List;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyList;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieDetailsMapperTest {
 
-    private Mapper<MovieDetails,MovieDetailEntity> mapper;
+    @Mock
+    private Mapper<MediaCover,Movie> movieMapper;
 
     @Mock
-    private MovieMapper movieMapper;
+    private Mapper<ActorCover,ActorEntity> actorMapper;
 
     @Mock
-    private ActorMapper actorMapper;
+    private Mapper<MovieInfo,Movie> infoMapper;
 
     @Mock
-    private MovieInfoMapper infoMapper;
+    private Mapper<Review,ReviewEntity> reviewMapper;
 
+    @Mock
+    private Mapper<Trailer,TrailerEntity> trailerMapper;
+
+    private MovieDetailsMapper detailsMapper;
 
     @Before
     public void setUp(){
-       // mapper=new MovieDetailsMapper(movieMapper,actorMapper,infoMapper);
-
+        detailsMapper=new MovieDetailsMapper(movieMapper,actorMapper,
+                infoMapper,reviewMapper,trailerMapper);
     }
-    @Test
-    public void testMappingToMovieDetails(){
-        mapper.map(provideFakeDetailEntity());
 
-        verify(movieMapper).map(Matchers.any(Movie.class));
-        verify(movieMapper).map(anyList());
-        verify(infoMapper).map(any(Movie.class));
+    @Test
+    public void mapsFakeToReal(){
+        MovieDetailEntity entity= FakeDataProvider.provideMovieDetailsEntity();
+        detailsMapper.map(entity);
+
+        verify(movieMapper).map(eq(entity.getSimilarMovies()));
         verify(actorMapper).map(anyList());
-
+        verify(infoMapper).map(eq(entity.getMovie()));
+        verify(reviewMapper).map(eq(entity.getReviews()));
+        verify(trailerMapper).map(eq(entity.getTrailers()));
     }
-
 
     @Test
-    public void testReverseMapping(){
-        when(actorMapper.map(anyList())).thenReturn(Collections.singletonList(new ActorCover(0,0)));
-        when(movieMapper.map(anyList())).thenReturn(Collections.singletonList(new MediaCover()));
-        when(movieMapper.map(any(Movie.class))).thenReturn(new MediaCover());
-        when(infoMapper.map(any(Movie.class))).thenReturn(new MovieInfo(0,null));
-        MovieDetailEntity detailEntity=provideFakeDetailEntity();
-        List<?> entityList=detailEntity.getSimilarMovies();
-        int movieMapperCalls=entityList!=null?entityList.size():0;
-        entityList=detailEntity.getCast();
-        int castMapperCalls=entityList!=null?entityList.size():0;
+    public void mapsRealToFake(){
+        MovieDetails details=FakeDataProvider.provideMovieDetails();
+        detailsMapper.reverseMap(details);
 
-        MovieDetails movieDetails=mapper.map(detailEntity);
-        mapper.reverseMap(movieDetails);
-
-
-        verify(movieMapper,times(movieMapperCalls)).reverseMap(any(MediaCover.class));
-        verify(infoMapper).reverseMap(any(MovieInfo.class));
-        verify(actorMapper,times(castMapperCalls)).reverseMap(any(ActorCover.class));
-
+        verify(movieMapper).reverseMap(eq(details.getSimilarMovies()));
+        verify(actorMapper).reverseMap(anyList());
+        verify(infoMapper).reverseMap(eq(details.getMovieInfo()));
+        verify(reviewMapper).reverseMap(eq(details.getReviews()));
+        verify(trailerMapper).reverseMap(eq(details.getTrailers()));
     }
 
-    private MovieDetailEntity provideFakeDetailEntity(){
-        Movie movie=DataSourceTestUtils.provideFakeMovie();
-        MovieDetailEntity entity=new MovieDetailEntity();
-        entity.setMovie(DataSourceTestUtils.provideFakeMovie());
-        entity.setSimilarMovies(Collections.singletonList(movie));
-        entity.setCast(Collections.singletonList(new ActorEntity()));
-        return entity;
+    @Test
+    public void mapsFakeListToRealList(){
+        List<MovieDetailEntity> entityList=FakeDataProvider.provideMovieDetailEntityList();
+        detailsMapper.map(entityList);
+
+        verify(movieMapper,times(entityList.size())).map(anyList());
+        verify(actorMapper,times(entityList.size())).map(anyList());
+        verify(infoMapper,times(entityList.size())).map(any(Movie.class));
+        verify(reviewMapper,times(entityList.size())).map(anyList());
+        verify(trailerMapper,times(entityList.size())).map(anyList());
+    }
+
+    @Test
+    public void mapsRealListToFakeList(){
+        List<MovieDetails> detailsList=FakeDataProvider.provideMovieDetailsList();
+        detailsMapper.reverseMap(detailsList);
+
+        verify(movieMapper,times(detailsList.size())).reverseMap(anyList());
+        verify(actorMapper,times(detailsList.size())).reverseMap(anyList());
+        verify(infoMapper,times(detailsList.size())).reverseMap(any(MovieInfo.class));
+        verify(reviewMapper,times(detailsList.size())).reverseMap(anyList());
+        verify(trailerMapper,times(detailsList.size())).reverseMap(anyList());
     }
 }

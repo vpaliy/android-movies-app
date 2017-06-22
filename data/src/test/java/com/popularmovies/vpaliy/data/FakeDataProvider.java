@@ -381,6 +381,21 @@ public class FakeDataProvider {
         return new Review(FAKE_MEDIA_ID,FAKE_AUTHOR,FAKE_CONTENT,FAKE_REVIEW_URL);
     }
 
+    public static List<TvShow> provideTvShowList(){
+        return Arrays.asList(provideTvShowEntity(),provideTvShowEntity(),
+                provideTvShowEntity(),provideTvShowEntity(),provideTvShowEntity());
+    }
+
+    public static List<MovieDetailEntity> provideMovieDetailEntityList(){
+        return Arrays.asList(provideMovieDetailsEntity(),provideMovieDetailsEntity(),
+                provideMovieDetailsEntity(),provideMovieDetailsEntity());
+    }
+
+    public static List<MovieDetails> provideMovieDetailsList(){
+        return Arrays.asList(provideMovieDetails(),provideMovieDetails(),
+                provideMovieDetails(),provideMovieDetails());
+    }
+
     public static List<Review> provideReviewList(){
         return Arrays.asList(provideReview(),provideReview(),provideReview(),
                 provideReview(),provideReview());
@@ -424,6 +439,11 @@ public class FakeDataProvider {
         details.setTrailers(provideTrailerList());
         details.setSimilarMovies(provideMediaCoverList(false));
         return details;
+    }
+
+    public static List<MovieInfo> provideMovieInfoList(){
+        return Arrays.asList(provideMovieInfo(),provideMovieInfo(),provideMovieInfo(),
+                provideMovieInfo(),provideMovieInfo());
     }
 
     public static MovieDetailEntity provideMovieDetailsEntity(){

@@ -7,6 +7,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({ActorMapperTest.class,
             MovieDetailsMapperTest.class,
             MovieInfoMapperTest.class,
+            ReviewMapperTest.class,
+            TrailerMapperTest.class,
             MovieMapperTest.class})
 public class MapperTests {
 }
