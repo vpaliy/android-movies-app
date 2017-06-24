@@ -9,6 +9,7 @@
     </declare-styleable>
 
     <declare-styleable name="TicketImageView">
+        <attr name="ticket_color" format="color"/>
         <attr name="ticket_radius" format="float"/>
         <attr name="ticket_gap" format="float"/>
     </declare-styleable>

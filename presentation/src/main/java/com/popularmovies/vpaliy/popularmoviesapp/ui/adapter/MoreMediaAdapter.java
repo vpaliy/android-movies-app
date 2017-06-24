@@ -15,11 +15,13 @@ import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipsContainerView;
+import com.vpaliy.chips_lover.ChipsLayout;
+
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
+@SuppressWarnings("WeakerAccess")
 public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
 
     public MoreMediaAdapter(@NonNull Context context, @NonNull RxBus rxBus){
@@ -41,7 +43,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         TextView mediaTitle;
 
         @BindView(R.id.chipsContainer)
-        ChipsContainerView chipsContainer;
+        ChipsLayout chipsContainer;
 
         MediaViewHolder(View itemView){
             super(itemView);

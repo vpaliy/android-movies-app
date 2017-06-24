@@ -8,9 +8,9 @@ import android.view.View;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import java.util.ArrayList;
 import java.util.List;
-
 import android.support.annotation.NonNull;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class AbstractMediaAdapter<T> extends
         RecyclerView.Adapter<AbstractMediaAdapter<T>.GenericViewHolder>{
 

@@ -65,12 +65,14 @@
         app:layout_constraintTop_toBottomOf="@+id/media_title"
         tools:text="2016" />
 
-    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipsContainerView
+    <com.vpaliy.chips_lover.ChipsLayout
         android:id="@+id/chipsContainer"
         android:orientation="horizontal"
-        app:chip_background="#bbdefb"
-        app:chip_text_color="@color/blue_grey_700"
-        app:chip_style="@style/Widget.HashTag"
+        app:chip_layout_horizontal_margin="@dimen/spacing_small"
+        app:chip_layout_vertical_margin="@dimen/spacing_small"
+        app:chip_backgroundColor="#bbdefb"
+        app:chipTextColor="@color/blue_grey_700"
+        app:chipTextStyle="@style/Widget.HashTag"
         android:layout_width="0dp"
         app:layout_constraintWidth_default="wrap"
         android:layout_height="wrap_content"
@@ -80,6 +82,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/media_release_year"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginRight="@dimen/spacing_small"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent">
+    </com.vpaliy.chips_lover.ChipsLayout>
 
 </android.support.constraint.ConstraintLayout>

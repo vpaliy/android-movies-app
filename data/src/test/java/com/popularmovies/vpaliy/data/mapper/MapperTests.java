@@ -1,7 +1,5 @@
 package com.popularmovies.vpaliy.data.mapper;
 
-import com.popularmovies.vpaliy.data.utils.MapperUtils;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

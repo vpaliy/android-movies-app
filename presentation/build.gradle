@@ -17,7 +17,7 @@ android {
         versionCode config.versionCode
         versionName config.versionName
         testInstrumentationRunner config.testInstrumentationRunner
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary true
         multiDexEnabled true
     }
 
@@ -51,7 +51,7 @@ dependencies {
     compile files('libs/fab-revealing-api-1.0.jar')
     compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     compile 'com.roughike:bottom-bar:2.3.1'
-    compile 'com.robertlevonyan.view:MaterialChipView:1.0.1'
+    compile libs.chipsLover
     compile libs.calligraphy
     compile libs.constraintLayout
     compile libs.multiDex

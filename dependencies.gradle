@@ -17,6 +17,7 @@ ext {
 
     /* Library versions */
     daggerVersion = '2.9'
+    chipsLoverVersion='v1.0'
     calligraphyVersion='2.2.0'
     butterKnifeVersion = "8.5.1"
     supportVersion = "25.1.0"
@@ -59,6 +60,7 @@ ext {
 
     /** Main dependencies **/
     dependencies = [
+            chipsLover         : "com.github.vpaliyX:ChipsLover:${chipsLoverVersion}",
             glide              : "com.github.bumptech.glide:glide:${glideVersion}",
             supportAppCompat   : "com.android.support:appcompat-v7:${supportVersion}",
             supportDesign      : "com.android.support:design:${supportVersion}",

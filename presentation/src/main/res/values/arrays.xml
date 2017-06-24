@@ -14,4 +14,12 @@
         <item>#4db6ac</item>
         <item>#90caf9</item>
     </array>
+
+    <array name="sample_array">
+        <item>One</item>
+        <item>Two</item>
+        <item>Three</item>
+        <item>Four</item>
+        <item>Five</item>
+    </array>
 </resources>

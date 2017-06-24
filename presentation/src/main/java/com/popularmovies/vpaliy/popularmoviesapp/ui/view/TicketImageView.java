@@ -8,17 +8,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 
-public class TicketImageView extends RoundedImageView{
+public class TicketImageView extends AppCompatImageView{
 
     private float circleGap=10;
+    private int dotColor=Color.WHITE;
     private Paint paint;
     private float radius=10 ;
     private int circleNum=2;
     private float remain;
-    private Paint eraser;
 
 
     public TicketImageView (Context context) {
@@ -38,30 +39,20 @@ public class TicketImageView extends RoundedImageView{
         if(attrs!=null){
             TypedArray array = getContext().obtainStyledAttributes(attrs,
                     R.styleable.TicketImageView);
-            final int N = array.getIndexCount();
-            for (int i = 0; i < N; ++i) {
-                int attr = array.getIndex(i);
-                if(attr==R.styleable.TicketImageView_ticket_radius) {
-                    radius = array.getFloat(R.styleable.TicketImageView_ticket_radius, 18);
-                }else if(attr==R.styleable.TicketImageView_ticket_gap){
-                    circleGap=array.getFloat(R.styleable.TicketImageView_ticket_gap,20);
-                }
-            }
+            this.radius=array.getFloat(R.styleable.TicketImageView_ticket_radius,radius);
+            this.circleGap=array.getFloat(R.styleable.TicketImageView_ticket_gap,circleGap);
+            this.dotColor=array.getColor(R.styleable.TicketImageView_ticket_color,dotColor);
             array.recycle();
         }
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setDither(true);
-        paint.setColor(Color.WHITE);
+        paint.setColor(dotColor);
         paint.setStyle(Paint.Style.FILL);
-        eraser=new Paint();
-        eraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        eraser.setAntiAlias(true);
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
+    protected void onSizeChanged(int w, int h, int oldWidth, int oldHeight) {
+        super.onSizeChanged(w, h, oldWidth, oldHeight);
         if (remain==0){
             remain = (int)(w-circleGap)%(2*radius+circleGap);
         }
