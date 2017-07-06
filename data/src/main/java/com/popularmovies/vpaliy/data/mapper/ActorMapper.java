@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ActorMapper implements Mapper<ActorCover,ActorEntity> {
+public class ActorMapper extends Mapper<ActorCover,ActorEntity> {
 
     private final ImageQualityConfiguration qualityConfiguration;
 
@@ -26,26 +26,6 @@ public class ActorMapper implements Mapper<ActorCover,ActorEntity> {
         cover.setRole(actorEntity.getRole());
         cover.setName(actorEntity.getName());
         return cover;
-    }
-
-    @Override
-    public List<ActorCover> map(List<ActorEntity> from) {
-        if(from!=null) {
-            List<ActorCover> coverList = new ArrayList<>(from.size());
-            from.forEach(actorEntity -> coverList.add(map(actorEntity)));
-            return coverList;
-        }
-        return null;
-    }
-
-    @Override
-    public List<ActorEntity> reverseMap(List<ActorCover> from) {
-        if(from!=null){
-            List<ActorEntity> list=new ArrayList<>(from.size());
-            from.forEach(actorCover -> list.add(reverseMap(actorCover)));
-            return list;
-        }
-        return null;
     }
 
     @Override

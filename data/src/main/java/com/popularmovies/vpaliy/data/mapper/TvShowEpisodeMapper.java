@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class TvShowEpisodeMapper implements Mapper<TVShowEpisode,TvShowEpisodeEntity>{
+public class TvShowEpisodeMapper extends Mapper<TVShowEpisode,TvShowEpisodeEntity>{
 
     @Inject
     public TvShowEpisodeMapper(){}
@@ -27,24 +27,6 @@ public class TvShowEpisodeMapper implements Mapper<TVShowEpisode,TvShowEpisodeEn
         episode.setVoteAverage(tvShowEpisodeEntity.getVoteAverage().doubleValue());
         episode.setVoteCount(tvShowEpisodeEntity.getVoteCount());
         return episode;
-    }
-
-    @Override
-    public List<TvShowEpisodeEntity> reverseMap(List<TVShowEpisode> from) {
-        if(from!=null){
-            List<TvShowEpisodeEntity> list=new ArrayList<>(from.size());
-            from.forEach(tvShowEpisode -> list.add(reverseMap(tvShowEpisode)));
-            return list;
-        }
-        return null;
-    }
-
-    @Override
-    public List<TVShowEpisode> map(List<TvShowEpisodeEntity> from) {
-        if(from==null) return null;
-        List<TVShowEpisode> episodes=new ArrayList<>(from.size());
-        from.forEach(tvShowEpisodeEntity -> episodes.add(map(tvShowEpisodeEntity)));
-        return episodes;
     }
 
     @Override

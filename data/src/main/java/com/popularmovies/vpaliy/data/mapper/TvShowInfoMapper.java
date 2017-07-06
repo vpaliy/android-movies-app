@@ -13,7 +13,7 @@ import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToNetworks;
 import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToString;
 
 @Singleton
-public class TvShowInfoMapper implements Mapper<TVShowInfo,TvShowInfoEntity> {
+public class TvShowInfoMapper extends Mapper<TVShowInfo,TvShowInfoEntity> {
 
     @Inject
     public TvShowInfoMapper(){}
@@ -36,24 +36,6 @@ public class TvShowInfoMapper implements Mapper<TVShowInfo,TvShowInfoEntity> {
         info.setOriginalLanguage(tvShowInfoEntity.getOriginalLanguage());
         info.setStatus(tvShowInfoEntity.getStatus());
         return info;
-    }
-
-    @Override
-    public List<TvShowInfoEntity> reverseMap(List<TVShowInfo> from) {
-        if(from!=null){
-            List<TvShowInfoEntity> list=new ArrayList<>(from.size());
-            from.forEach(info->list.add(reverseMap(info)));
-            return list;
-        }
-        return null;
-    }
-
-    @Override
-    public List<TVShowInfo> map(List<TvShowInfoEntity> from) {
-        if(from==null) return null;
-        List<TVShowInfo> infoList=new ArrayList<>(from.size());
-        from.forEach(entity->infoList.add(map(entity)));
-        return infoList;
     }
 
     @Override

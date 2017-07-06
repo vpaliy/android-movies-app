@@ -52,7 +52,7 @@ public class TvShowMapperTest {
         MediaCover mediaCover=FakeDataProvider.provideMediaCover(true);
         TvShow tvShow=mapper.reverseMap(mediaCover);
         assertThatAreEqual(mediaCover,tvShow);
-        verify(qualityConfiguration).extractPath(eq(mediaCover.getPosterPath()));
+        verify(qualityConfiguration,times(2)).extractPath(eq(mediaCover.getPosterPath()));
 
         PowerMockito.verifyStatic();
         MapperUtils.convertToGenres(anyList());
@@ -78,7 +78,7 @@ public class TvShowMapperTest {
         List<TvShow> movieList=mapper.reverseMap(coverList);
         assertThatAreEqual(coverList,movieList);
 
-        verify(qualityConfiguration,times(movieList.size())).extractPath(anyString());
+        verify(qualityConfiguration,times(2*movieList.size())).extractPath(anyString());
 
         PowerMockito.verifyStatic(times(movieList.size()));
         MapperUtils.convertToGenres(anyList());

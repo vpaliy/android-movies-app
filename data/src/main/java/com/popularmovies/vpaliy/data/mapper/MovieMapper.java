@@ -18,9 +18,8 @@ import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToYear;
 
 
 @Singleton
-public class MovieMapper implements Mapper<MediaCover,Movie> {
+public class MovieMapper extends Mapper<MediaCover,Movie> {
 
-    private static final String TAG=MovieMapper.class.getSimpleName();
     private final ImageQualityConfiguration qualityConfiguration;
 
     @Inject
@@ -46,26 +45,6 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         cover.setWatched(movieEntity.isWatched());
         cover.setMainBackdrop(qualityConfiguration.convertBackdrop(movieEntity.getBackdrop_path()));
         return cover;
-    }
-
-    @Override
-    public List<MediaCover> map(List<Movie> from) {
-        if(from!=null) {
-            List<MediaCover> coverList = new ArrayList<>(from.size());
-            from.forEach(movie->coverList.add(map(movie)));
-            return coverList;
-        }
-        return null;
-    }
-
-    @Override
-    public List<Movie> reverseMap(List<MediaCover> from) {
-        if(from!=null){
-            List<Movie> list=new ArrayList<>();
-            from.forEach(mediaCover -> list.add(reverseMap(mediaCover)));
-            return list;
-        }
-        return null;
     }
 
     @Override

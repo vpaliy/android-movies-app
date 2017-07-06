@@ -10,30 +10,10 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ReviewMapper implements Mapper<Review,ReviewEntity> {
+public class ReviewMapper extends Mapper<Review,ReviewEntity> {
 
     @Inject
     public ReviewMapper(){}
-
-    @Override
-    public List<Review> map(List<ReviewEntity> from) {
-        if(from!=null){
-            List<Review> list=new ArrayList<>(from.size());
-            from.forEach(reviewEntity -> list.add(map(reviewEntity)));
-            return list;
-        }
-        return null;
-    }
-
-    @Override
-    public List<ReviewEntity> reverseMap(List<Review> from) {
-        if(from!=null){
-            List<ReviewEntity> result=new ArrayList<>(from.size());
-            from.forEach(review->result.add(reverseMap(review)));
-            return result;
-        }
-        return null;
-    }
 
     @Override
     public Review map(ReviewEntity reviewEntity) {

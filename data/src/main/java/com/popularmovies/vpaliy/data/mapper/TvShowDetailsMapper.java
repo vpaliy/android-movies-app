@@ -20,7 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class TvShowDetailsMapper implements Mapper<TVShowDetails,TvShowDetailEntity> {
+public class TvShowDetailsMapper extends Mapper<TVShowDetails,TvShowDetailEntity> {
 
     private final Mapper<TVShowSeason,TvShowSeasonEntity> seasonMapper;
     private final Mapper<MediaCover,TvShow> coverMapper;
@@ -50,16 +50,6 @@ public class TvShowDetailsMapper implements Mapper<TVShowDetails,TvShowDetailEnt
     }
 
     @Override
-    public List<TvShowDetailEntity> reverseMap(List<TVShowDetails> from) {
-        if(from!=null){
-            List<TvShowDetailEntity> list=new ArrayList<>(from.size());
-            from.forEach(details->list.add(reverseMap(details)));
-            return list;
-        }
-        return null;
-    }
-
-    @Override
     public TvShowDetailEntity reverseMap(TVShowDetails tvShowDetails) {
         TvShowDetailEntity entity=new TvShowDetailEntity();
         entity.setTvShowCover(coverMapper.reverseMap(tvShowDetails.getTvShowCover()));
@@ -67,13 +57,5 @@ public class TvShowDetailsMapper implements Mapper<TVShowDetails,TvShowDetailEnt
         entity.setCast(actorMapper.reverseMap(tvShowDetails.getCast()));
         entity.setSeasons(seasonMapper.reverseMap(tvShowDetails.getSeasons()));
         return entity;
-    }
-
-    @Override
-    public List<TVShowDetails> map(List<TvShowDetailEntity> from) {
-        if(from==null) return null;
-        List<TVShowDetails> details=new ArrayList<>(from.size());
-        from.forEach(tvShowDetailEntity -> details.add(map(tvShowDetailEntity)));
-        return details;
     }
 }

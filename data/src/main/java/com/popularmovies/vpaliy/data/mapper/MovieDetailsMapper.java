@@ -21,7 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity> {
+public class MovieDetailsMapper extends Mapper<MovieDetails,MovieDetailEntity> {
 
     private final Mapper<MediaCover,Movie> movieCoverMapper;
     private final Mapper<ActorCover,ActorEntity> actorEntityMapper;
@@ -54,26 +54,6 @@ public class MovieDetailsMapper implements Mapper<MovieDetails,MovieDetailEntity
         movieDetails.setReviews(reviewMapper.map(detailsEntity.getReviews()));
         return movieDetails;
 
-    }
-
-    @Override
-    public List<MovieDetails> map(List<MovieDetailEntity> from) {
-        if(from!=null) {
-            List<MovieDetails> result = new ArrayList<>(from.size());
-            from.forEach(detailEntity ->result.add(map(detailEntity)));
-            return result;
-        }
-        return null;
-    }
-
-    @Override
-    public List<MovieDetailEntity> reverseMap(List<MovieDetails> from) {
-        if (from != null){
-            List<MovieDetailEntity> list=new ArrayList<>(from.size());
-            from.forEach(details->list.add(reverseMap(details)));
-            return list;
-        }
-        return null;
     }
 
     @Override

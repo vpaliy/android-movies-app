@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class TvShowSeasonMapper implements Mapper<TVShowSeason,TvShowSeasonEntity>{
+public class TvShowSeasonMapper extends Mapper<TVShowSeason,TvShowSeasonEntity>{
 
     private final Mapper<TVShowEpisode,TvShowEpisodeEntity> episodeMapper;
 
@@ -34,16 +34,6 @@ public class TvShowSeasonMapper implements Mapper<TVShowSeason,TvShowSeasonEntit
     }
 
     @Override
-    public List<TvShowSeasonEntity> reverseMap(List<TVShowSeason> from) {
-        if(from!=null){
-            List<TvShowSeasonEntity> list=new ArrayList<>(from.size());
-            from.forEach(entity->list.add(reverseMap(entity)));
-            return list;
-        }
-        return null;
-    }
-
-    @Override
     public TvShowSeasonEntity reverseMap(TVShowSeason tvShowSeason) {
         TvShowSeasonEntity entity=new TvShowSeasonEntity();
         entity.setPosterPath(tvShowSeason.getPosterPath());
@@ -54,13 +44,4 @@ public class TvShowSeasonMapper implements Mapper<TVShowSeason,TvShowSeasonEntit
         entity.setId(tvShowSeason.getSeasonId());
         return entity;
     }
-
-    @Override
-    public List<TVShowSeason> map(List<TvShowSeasonEntity> from) {
-        if(from==null) return null;
-        List<TVShowSeason> seasons=new ArrayList<>(from.size());
-        from.forEach(tvShowSeasonEntity -> seasons.add(map(tvShowSeasonEntity)));
-        return seasons;
-    }
-
 }

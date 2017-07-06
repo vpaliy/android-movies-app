@@ -12,18 +12,10 @@ import javax.inject.Singleton;
 
 
 @Singleton
-public class MovieInfoMapper implements Mapper<MovieInfo,Movie> {
+public class MovieInfoMapper extends Mapper<MovieInfo,Movie> {
 
     @Inject
     public MovieInfoMapper(){}
-
-    @Override
-    public List<MovieInfo> map(List<Movie> from) {
-        if(from==null) return null;
-        List<MovieInfo> result=new ArrayList<>(from.size());
-        from.forEach(movie ->result.add(map(movie)));
-        return result;
-    }
 
     @Override
     public MovieInfo map(Movie movie) {
@@ -35,16 +27,6 @@ public class MovieInfoMapper implements Mapper<MovieInfo,Movie> {
         movieInfo.setAverageRate(movie.getVoteAverage());
         movieInfo.setDescription(movie.getOverview());
         return movieInfo;
-    }
-
-    @Override
-    public List<Movie> reverseMap(List<MovieInfo> from) {
-        if(from!=null){
-            List<Movie> list=new ArrayList<>(from.size());
-            from.forEach(movieInfo -> list.add(reverseMap(movieInfo)));
-            return list;
-        }
-        return null;
     }
 
     @Override

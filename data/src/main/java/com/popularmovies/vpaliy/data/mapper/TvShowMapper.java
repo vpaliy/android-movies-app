@@ -2,13 +2,8 @@ package com.popularmovies.vpaliy.data.mapper;
 
 
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
-import com.popularmovies.vpaliy.data.entity.BackdropImage;
-import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.TvShow;
-import com.popularmovies.vpaliy.data.utils.MapperUtils;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
-import java.util.ArrayList;
-import java.util.List;
 import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -19,7 +14,7 @@ import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToGenres;
 import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToYear;
 
 @Singleton
-public class TvShowMapper implements Mapper<MediaCover,TvShow> {
+public class TvShowMapper extends Mapper<MediaCover,TvShow> {
 
     private ImageQualityConfiguration qualityConfiguration;
 
@@ -49,16 +44,6 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
     }
 
     @Override
-    public List<TvShow> reverseMap(List<MediaCover> from) {
-        if(from!=null){
-            List<TvShow> list=new ArrayList<>(from.size());
-            from.forEach(show->list.add(reverseMap(show)));
-            return list;
-        }
-        return null;
-    }
-
-    @Override
     public TvShow reverseMap(MediaCover mediaCover) {
         TvShow tvShow=new TvShow();
         tvShow.setName(mediaCover.getMovieTitle());
@@ -74,13 +59,4 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         tvShow.setBackdropPath(qualityConfiguration.extractPath(mediaCover.getMainBackdrop()));
         return tvShow;
     }
-
-    @Override
-    public List<MediaCover> map(List<TvShow> from) {
-        if(from==null) return null;
-        List<MediaCover> result=new ArrayList<>(from.size());
-        from.forEach(tvShow -> result.add(map(tvShow)));
-        return result;
-    }
-
 }
