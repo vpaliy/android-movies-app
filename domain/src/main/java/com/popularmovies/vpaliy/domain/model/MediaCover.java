@@ -1,6 +1,9 @@
 package com.popularmovies.vpaliy.domain.model;
 
 
+import android.text.format.DateUtils;
+import android.text.format.Time;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -16,6 +19,7 @@ public class MediaCover {
     private String posterPath;
     private String duration;
     private String releaseDate;
+    private String mainBackdrop;
     private List<String> genres;
     private List<String> backdrops;
     private boolean isTvShow;
@@ -86,6 +90,22 @@ public class MediaCover {
 
     public boolean isTvShow() {
         return isTvShow;
+    }
+
+    public void setMainBackdrop(String mainBackdrop) {
+        this.mainBackdrop = mainBackdrop;
+    }
+
+    public String getMainBackdrop() {
+        return mainBackdrop!=null?mainBackdrop:posterPath;
+    }
+
+    public String getFormattedDate(){
+        Time time = new Time();
+        time.parse3339(getReleaseDate());
+        return DateUtils.getRelativeTimeSpanString(time.toMillis(false),
+                System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_ALL).toString();
     }
 
     public void setAverageRate(double averageRate) {

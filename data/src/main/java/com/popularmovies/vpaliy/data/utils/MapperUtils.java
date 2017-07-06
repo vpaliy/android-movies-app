@@ -7,6 +7,8 @@ import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.Network;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
+import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

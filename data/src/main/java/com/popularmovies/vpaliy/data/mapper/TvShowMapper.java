@@ -36,6 +36,7 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         cover.setBackdrops(convert(tvShow.getBackdrops(),qualityConfiguration));
         cover.setMovieTitle(tvShow.getName());
         cover.setPosterPath(qualityConfiguration.convertCover(tvShow.getPosterPath()));
+        cover.setMainBackdrop(qualityConfiguration.convertBackdrop(tvShow.getBackdropPath()));
         cover.setReleaseDate(tvShow.getFirstAirDate());
         cover.setGenres(convert(tvShow.getGenreList()));
         cover.setMustWatch(tvShow.isMustWatch());
@@ -70,6 +71,7 @@ public class TvShowMapper implements Mapper<MediaCover,TvShow> {
         tvShow.setFavorite(mediaCover.isFavorite());
         tvShow.setWatched(mediaCover.isWatched());
         tvShow.setMustWatch(mediaCover.isMustWatch());
+        tvShow.setBackdropPath(qualityConfiguration.extractPath(mediaCover.getMainBackdrop()));
         return tvShow;
     }
 

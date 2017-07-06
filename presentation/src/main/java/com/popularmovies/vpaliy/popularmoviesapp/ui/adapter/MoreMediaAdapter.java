@@ -1,7 +1,11 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.icu.text.NumberFormat;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,15 +13,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
+import com.vpaliy.chips_lover.ChipView;
 import com.vpaliy.chips_lover.ChipsLayout;
-
 import butterknife.ButterKnife;
+
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
@@ -45,6 +52,9 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
         @BindView(R.id.chipsContainer)
         ChipsLayout chipsContainer;
 
+        @BindView(R.id.details_background)
+        View background;
+
         MediaViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -62,19 +72,30 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
 
         void onBindData(){
             MediaCover cover=at(getAdapterPosition());
-            releaseYear.setText(cover.getReleaseYear());
+            releaseYear.setText(cover.getFormattedDate());
             mediaTitle.setText(cover.getMovieTitle());
-            ratings.setText(cover.getAverageRate());
             chipsContainer.setTags(cover.getGenres());
-
+            ratings.setText(cover.getAverageRate());
             Glide.with(itemView.getContext())
-                    .load(cover.getPosterPath())
-                    .priority(Priority.HIGH)
+                    .load(cover.getMainBackdrop())
+                    .asBitmap()
+                    .priority(Priority.IMMEDIATE)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.placeholder)
                     .animate(R.anim.fade_in)
-                    .into(posterImage);
+                    .into(new ImageViewTarget<Bitmap>(posterImage) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            posterImage.setImageBitmap(resource);
+                          //  new Palette.Builder(resource).generate(MediaViewHolder.this::applyPalette);
+                        }
+                    });
         }
+
+        private void applyPalette(Palette palette){
+            background.setBackgroundColor(PresentationUtils.getPaletteColors(palette)[1]);
+        }
+
     }
 
     @Override

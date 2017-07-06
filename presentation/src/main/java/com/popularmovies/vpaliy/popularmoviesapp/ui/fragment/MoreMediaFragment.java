@@ -14,6 +14,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import java.util.List;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,11 +27,10 @@ import butterknife.BindView;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.widget.GridLayout;
 
-public abstract class MoreMediaFragment  extends Fragment
+public abstract class MoreMediaFragment extends Fragment
         implements MediaContract.View {
-
-    private static final String TAG=MoreMediaFragment.class.getSimpleName();
 
     protected Presenter presenter;
 
@@ -45,7 +45,6 @@ public abstract class MoreMediaFragment  extends Fragment
 
     private Unbinder unbinder;
     private SortType sortType;
-
     private AbstractMediaAdapter<MediaCover> adapter;
 
     public static MoreMediaFragment create(SortType sortType, boolean isTvShow){
@@ -64,8 +63,7 @@ public abstract class MoreMediaFragment  extends Fragment
         if(savedInstanceState==null){
             savedInstanceState=getArguments();
         }
-        this.sortType=SortType.valueOf(savedInstanceState.getString(Constants.EXTRA_DATA));
-
+        sortType=SortType.valueOf(savedInstanceState.getString(Constants.EXTRA_DATA));
     }
 
     @Override
@@ -75,8 +73,6 @@ public abstract class MoreMediaFragment  extends Fragment
             adapter=new MoreMediaAdapter(getContext(),rxBus);
             refreshLayout.setOnRefreshListener(()->presenter.requestRefresh(sortType));
             mediaList.setAdapter(adapter);
-            mediaList.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
-            mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             mediaList.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -92,6 +88,7 @@ public abstract class MoreMediaFragment  extends Fragment
                     }
                 }
             });
+            getActivity().setTitle(getTitle(sortType));
             presenter.start(sortType);
         }
     }
@@ -111,14 +108,12 @@ public abstract class MoreMediaFragment  extends Fragment
     }
 
     @Override
-    public void appendMedia(@NonNull SortType sortType,
-                            @NonNull List<MediaCover> covers) {
+    public void appendMedia(@NonNull SortType sortType, @NonNull List<MediaCover> covers) {
         adapter.appendData(covers);
     }
 
     @Override
-    public void showMedia(@NonNull SortType sortType,
-                          @NonNull List<MediaCover> covers) {
+    public void showMedia(@NonNull SortType sortType, @NonNull List<MediaCover> covers) {
         adapter.setData(covers);
     }
 
@@ -142,6 +137,6 @@ public abstract class MoreMediaFragment  extends Fragment
     }
 
     abstract void initializeDependencies();
-    abstract String getTitle(@NonNull SortType sortType);
+    abstract  String getTitle(@NonNull SortType sortType);
 
 }

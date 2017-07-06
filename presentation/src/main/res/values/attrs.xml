@@ -14,10 +14,16 @@
         <attr name="ticket_gap" format="float"/>
     </declare-styleable>
 
-    <declare-styleable name="ChipsContainerView">
-        <attr name="chip_style" format="reference"/>
-        <attr name="chip_text" format="string" />
-        <attr name="chip_background" format="color" />
-        <attr name="chip_text_color" format="color" />
+    <declare-styleable name="RatingsView">
+        <attr name="ratings_size" format="dimension"/>
+        <attr name="ratings_margin" format="dimension"/>
+        <attr name="ratings_color" format="color"/>
+        <attr name="ratings_radius" format="dimension"/>
+        <attr name="image_margin" format="dimension"/>
+        <attr name="ratings_text" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="RatioImageView">
+        <attr name="image_ratio" format="float"/>
     </declare-styleable>
 </resources>

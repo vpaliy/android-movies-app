@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 
+import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.PersonalFragment;
@@ -13,33 +14,29 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.TvShowsFragment;
 
 public class MediaTypePagerAdapter extends FragmentStatePagerAdapter {
 
-    private SparseArray<MediaContract.View> views;
     private Context context;
 
     public MediaTypePagerAdapter(FragmentManager manager, Context context){
         super(manager);
         this.context=context;
-        views=new SparseArray<>();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return "Movies";
+                return context.getString(R.string.movies);
             case 1:
-                return "TV";
+                return context.getString(R.string.tv_shows);
             case 2:
-                return "Personal";
-            case 3:
-                return "Tv";
+                return context.getString(R.string.personal);
         }
         return super.getPageTitle(position);
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 
     @Override
@@ -51,13 +48,8 @@ public class MediaTypePagerAdapter extends FragmentStatePagerAdapter {
                 return new TvShowsFragment();
             case 2:
                 return new PersonalFragment();
-            case 3:
-                return new TvShowsFragment();
         }
         return null;
     }
 
-    public MediaContract.View viewAt(int index){
-        return views.get(index);
-    }
 }

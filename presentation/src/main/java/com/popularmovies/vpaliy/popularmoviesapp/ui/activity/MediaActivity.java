@@ -49,7 +49,7 @@ public class MediaActivity extends BaseActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
+        setContentView(R.layout.activity_media);
         ButterKnife.bind(this);
         setUI();
         PreferenceManager.getDefaultSharedPreferences(this)
@@ -89,7 +89,7 @@ public class MediaActivity extends BaseActivity
 
     private void setMovieTypePager(){
         mediaPager.setAdapter(new MediaTypePagerAdapter(getSupportFragmentManager(),this));
-        mediaPager.setOffscreenPageLimit(5);
+        mediaPager.setOffscreenPageLimit(3);
     }
 
     private void setActionBar(){
@@ -148,7 +148,7 @@ public class MediaActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return drawerToggle.onOptionsItemSelected(item) ||super.onOptionsItemSelected(item);
+       return drawerToggle.onOptionsItemSelected(item) ||super.onOptionsItemSelected(item);
     }
 
     @Override

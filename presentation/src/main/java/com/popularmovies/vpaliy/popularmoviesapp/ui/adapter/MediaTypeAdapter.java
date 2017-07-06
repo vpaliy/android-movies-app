@@ -17,10 +17,10 @@ import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
+@SuppressWarnings("WeakerAccess")
 public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.MediaTypeWrapper>{
 
-    public MediaTypeAdapter(@NonNull Context context,
-                            @NonNull RxBus rxBus){
+    public MediaTypeAdapter(@NonNull Context context, @NonNull RxBus rxBus){
         super(context,rxBus);
     }
 
@@ -39,8 +39,8 @@ public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.Medi
         public TypeViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
-            list.setLayoutManager(new LinearLayoutManager(itemView.getContext(),
-                    LinearLayoutManager.HORIZONTAL,false));
+            //TODO get rid of this
+            list.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL,false));
             list.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -93,10 +93,8 @@ public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.Medi
         private final MediaType mediaType;
         private final RecyclerView.Adapter<?> adapter;
 
-        private MediaTypeWrapper(@NonNull String text,
-                                 @NonNull RecyclerView.Adapter<?> adapter,
-                                 @NonNull SortType sortType,
-                                 @NonNull MediaType mediaType,
+        private MediaTypeWrapper(@NonNull String text, @NonNull RecyclerView.Adapter<?> adapter,
+                                 @NonNull SortType sortType, @NonNull MediaType mediaType,
                                  int color){
             this.text=text;
             this.adapter=adapter;
@@ -105,11 +103,9 @@ public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.Medi
             this.mediaType=mediaType;
         }
 
-        public static MediaTypeWrapper wrap(@NonNull String text,
-                                            @NonNull SortType sortType,
+        public static MediaTypeWrapper wrap(@NonNull String text, @NonNull SortType sortType,
                                             @NonNull RecyclerView.Adapter<?> adapter,
-                                            @NonNull MediaType mediaType,
-                                            int color){
+                                            @NonNull MediaType mediaType, int color){
             return new MediaTypeWrapper(text,adapter,sortType,mediaType,color);
         }
     }

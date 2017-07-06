@@ -13,6 +13,8 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/actionBar"
+            app:titleTextAppearance="@style/Widget.ToolbarText"
+            app:contentInsetStartWithNavigation="0dp"
             app:layout_scrollFlags="scroll|enterAlways"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"/>

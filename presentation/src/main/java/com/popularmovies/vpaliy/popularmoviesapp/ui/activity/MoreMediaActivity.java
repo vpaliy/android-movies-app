@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
-
 import android.os.Bundle;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -12,6 +11,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 
 public class MoreMediaActivity extends BaseActivity {
 
@@ -33,8 +33,8 @@ public class MoreMediaActivity extends BaseActivity {
         mediaType=MediaType.valueOf(bundle.getString(Constants.EXTRA_MEDIA_TYPE));
     }
 
-
     private void setUI(){
+        setActionBar();
         MoreMediaFragment fragment;
         switch (mediaType){
             case MOVIES:
@@ -48,10 +48,25 @@ public class MoreMediaActivity extends BaseActivity {
                 .replace(R.id.media_frame,fragment).commit();
     }
 
+    private void setActionBar(){
+        Toolbar actionBar=ButterKnife.findById(this,R.id.actionBar);
+        setSupportActionBar(actionBar);
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            actionBar.setNavigationOnClickListener(v->onBackPressed());
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.EXTRA_SORT_TYPE,sortType.name());
+        outState.putString(Constants.EXTRA_MEDIA_TYPE,mediaType.name());
+    }
+
     @Override
     void inject() {
-        App.appInstance().appComponent()
-                .inject(this);
+        App.appInstance().appComponent() .inject(this);
     }
 
     @Override

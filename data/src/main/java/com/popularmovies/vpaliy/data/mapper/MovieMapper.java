@@ -1,5 +1,7 @@
 package com.popularmovies.vpaliy.data.mapper;
 
+import android.util.Log;
+
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
@@ -18,6 +20,7 @@ import static com.popularmovies.vpaliy.data.utils.MapperUtils.convertToYear;
 @Singleton
 public class MovieMapper implements Mapper<MediaCover,Movie> {
 
+    private static final String TAG=MovieMapper.class.getSimpleName();
     private final ImageQualityConfiguration qualityConfiguration;
 
     @Inject
@@ -41,6 +44,7 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         cover.setReleaseYear(convertToYear(cover.getReleaseDate()));
         cover.setMustWatch(movieEntity.isMustWatch());
         cover.setWatched(movieEntity.isWatched());
+        cover.setMainBackdrop(qualityConfiguration.convertBackdrop(movieEntity.getBackdrop_path()));
         return cover;
     }
 
@@ -72,6 +76,7 @@ public class MovieMapper implements Mapper<MediaCover,Movie> {
         result.setGenres(convertToGenres(movieCover.getGenres()));
         result.setTitle(movieCover.getMovieTitle());
         result.setVoteAverage(movieCover.getAverageVote());
+        result.setBackdropPath(qualityConfiguration.extractPath(movieCover.getMainBackdrop()));
         result.setFavorite(movieCover.isFavorite());
         result.setRuntime(convertToRuntime(movieCover.getDuration()));
         result.setBackdropImages(convertToBackdrops(movieCover.getBackdrops(), qualityConfiguration));

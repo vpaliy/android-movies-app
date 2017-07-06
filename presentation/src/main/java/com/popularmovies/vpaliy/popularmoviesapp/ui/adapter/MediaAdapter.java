@@ -1,8 +1,10 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
-
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,12 +12,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -58,14 +60,32 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
 
         void onBindData(){
             MediaCover cover=at(getAdapterPosition());
-            mediaTitle.setText(PresentationUtils.appendBullet(cover.getMovieTitle()));
+            mediaTitle.setText(cover.getMovieTitle());
             Glide.with(itemView.getContext())
                     .load(cover.getPosterPath())
-                    .priority(Priority.HIGH)
+                    .priority(Priority.IMMEDIATE)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .placeholder(R.drawable.placeholder)
                     .animate(R.anim.fade_in)
                     .into(posterImage);
+        }
+
+        private void applyPalette(Palette palette){
+            itemView.setBackgroundColor(getDominantColor(palette));
+        }
+
+        private int getDominantColor(Palette palette){
+            if (palette != null) {
+                Palette.Swatch result=palette.getDominantSwatch();
+                if(palette.getDarkVibrantSwatch()!=null){
+                    result=palette.getDarkVibrantSwatch();
+                }
+                else if(palette.getDarkMutedSwatch()!=null){
+                    result=palette.getDarkMutedSwatch();
+                }
+                return result.getRgb();
+            }
+            return Color.WHITE;
         }
     }
 

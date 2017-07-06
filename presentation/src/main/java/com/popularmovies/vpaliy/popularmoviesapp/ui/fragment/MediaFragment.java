@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -71,9 +72,9 @@ public abstract class MediaFragment extends Fragment
         if(view!=null){
             mediaAdapters=new LinkedHashMap<>();
             mediaTypeAdapter=new MediaTypeAdapter(getContext(),rxBus);
+            //TODO get rid of that
             mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             mediaList.setAdapter(mediaTypeAdapter);
-            mediaList.setNestedScrollingEnabled(false);
             getSortTypes().forEach(presenter::start);
         }
     }

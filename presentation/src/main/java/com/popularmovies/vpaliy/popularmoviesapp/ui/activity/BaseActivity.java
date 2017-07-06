@@ -50,8 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
     }
 
-    @CallSuper
-    @Override
+    @CallSuper @Override
     protected void onStart() {
         super.onStart();
         disposables.add(eventBus.asFlowable()
@@ -64,8 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         }
     }
 
-    @CallSuper
-    @Override
+    @CallSuper @Override
     protected void onStop(){
         super.onStop();
         disposables.clear();

@@ -13,12 +13,11 @@ import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MediaPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieCastPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieInfoPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieReviewPresenter;
-
-import com.popularmovies.vpaliy.data.source.qualifier.Movies;
-import com.popularmovies.vpaliy.data.source.qualifier.TV;
 import dagger.Module;
 import dagger.Provides;
 import android.support.annotation.NonNull;
+import com.popularmovies.vpaliy.data.source.qualifier.Movies;
+import com.popularmovies.vpaliy.data.source.qualifier.TV;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 
 @Module
@@ -63,7 +62,4 @@ public class PresenterModule {
     MovieReviewContract.Presenter provideMovieReviewPresenter(@NonNull MovieReviewPresenter presenter){
         return presenter;
     }
-
-
-
 }
