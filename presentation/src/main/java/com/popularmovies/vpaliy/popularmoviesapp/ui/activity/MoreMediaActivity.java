@@ -7,11 +7,15 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoreMediaFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
 
 public class MoreMediaActivity extends BaseActivity {
 
@@ -29,8 +33,10 @@ public class MoreMediaActivity extends BaseActivity {
 
     private void handleBundle(Bundle bundle){
         if(bundle==null) bundle=getIntent().getExtras();
-        sortType=SortType.valueOf(bundle.getString(Constants.EXTRA_SORT_TYPE));
-        mediaType=MediaType.valueOf(bundle.getString(Constants.EXTRA_MEDIA_TYPE));
+        if(bundle!=null) {
+            sortType = SortType.valueOf(bundle.getString(Constants.EXTRA_SORT_TYPE));
+            mediaType = MediaType.valueOf(bundle.getString(Constants.EXTRA_MEDIA_TYPE));
+        }
     }
 
     private void setUI(){
@@ -50,6 +56,8 @@ public class MoreMediaActivity extends BaseActivity {
 
     private void setActionBar(){
         Toolbar actionBar=ButterKnife.findById(this,R.id.actionBar);
+        ViewGroup.MarginLayoutParams params= ViewGroup.MarginLayoutParams.class.cast(actionBar.getLayoutParams());
+        params.topMargin=PresentationUtils.getStatusBarHeight(getResources());
         setSupportActionBar(actionBar);
         if(getSupportActionBar()!=null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -7,13 +7,13 @@
 
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
         android:id="@+id/media_poster"
-        android:layout_width="140dp"
-        android:layout_height="200dp"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="@dimen/poster_height"
         android:scaleType="centerCrop"
         tools:src="@drawable/kong_poster"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_margin="16dp"/>
+        android:layout_margin="@dimen/spacing_large"/>
 
     <TextView
         android:id="@+id/media_title"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textAlignment="center"
-        android:textColor="@color/text_secondary_dark"
+        android:textColor="@color/blue_grey_400"
         style="@style/Widget.Title"
         tools:text="The Hobbit"
         android:ellipsize="end"

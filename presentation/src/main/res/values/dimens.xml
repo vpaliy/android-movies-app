@@ -4,6 +4,7 @@
     <dimen name="item_width">150dp</dimen>
     <dimen name="item_card_width">0dp</dimen>
     <dimen name="item_padding">8dp</dimen>
+    <dimen name="view_all_margin">24dp</dimen>
 
     <!-- Spacing -->
     <dimen name="spacing_small">4dp</dimen>

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.icu.text.NumberFormat;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,13 +88,14 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
                         @Override
                         protected void setResource(Bitmap resource) {
                             posterImage.setImageBitmap(resource);
-                          //  new Palette.Builder(resource).generate(MediaViewHolder.this::applyPalette);
+                            new Palette.Builder(resource).generate(MediaViewHolder.this::applyPalette);
                         }
                     });
         }
 
         private void applyPalette(Palette palette){
-            background.setBackgroundColor(PresentationUtils.getPaletteColors(palette)[1]);
+            int defaultColor=ContextCompat.getColor(itemView.getContext(),R.color.light_grey);
+            background.setBackgroundColor(palette.getDominantColor(defaultColor));
         }
 
     }

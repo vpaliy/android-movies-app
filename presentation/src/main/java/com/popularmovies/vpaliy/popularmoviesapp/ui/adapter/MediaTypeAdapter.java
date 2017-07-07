@@ -11,20 +11,21 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.RequestMoreEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ViewAllEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.ViewAllWrapper;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import butterknife.BindView;
 
-@SuppressWarnings("WeakerAccess")
+
 public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.MediaTypeWrapper>{
 
     public MediaTypeAdapter(@NonNull Context context, @NonNull RxBus rxBus){
         super(context,rxBus);
     }
 
-    public class TypeViewHolder extends GenericViewHolder
+    class TypeViewHolder extends GenericViewHolder
             implements View.OnClickListener{
 
         @BindView(R.id.media_list)
@@ -36,23 +37,14 @@ public class MediaTypeAdapter extends AbstractMediaAdapter<MediaTypeAdapter.Medi
         @BindView(R.id.more)
         TextView more;
 
-        public TypeViewHolder(View itemView){
+        TypeViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
-            //TODO get rid of this
-            list.setLayoutManager(new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL,false));
-            list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            list.addOnScrollListener(new OnReachBottomListener(list,null) {
                 @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    LinearLayoutManager layoutManager=LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
-                    int totalItemCount = layoutManager.getItemCount();
-                    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-
-                    boolean endHasBeenReached = lastVisibleItemPosition + 5 >= totalItemCount;
-                    if (totalItemCount > 0 && endHasBeenReached) {
-                        RequestMoreEvent event=RequestMoreEvent.createRequest(at(getAdapterPosition()).sortType);
-                        rxBus.send(event);
-                    }
+                public void onLoadMore() {
+                    RequestMoreEvent event=RequestMoreEvent.createRequest(at(getAdapterPosition()).sortType);
+                    rxBus.send(event);
                 }
             });
             list.setNestedScrollingEnabled(false);

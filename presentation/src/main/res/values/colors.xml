@@ -1,6 +1,6 @@
 <resources>
     <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">@color/mid_grey</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorFavorite">#ffeb3b</color>
@@ -19,7 +19,7 @@
     <color name="blue_grey_700">#455a64</color>
     <color name="blue_grey_900">#37474F</color>
     <color name="red_color">#ff5722</color>
-
+    <color name="white_50">#fafafa</color>
 
     <!-- common colours -->
     <color name="text_primary_dark">#de000000</color> <!-- 87% -->

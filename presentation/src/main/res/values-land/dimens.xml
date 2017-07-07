@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- So it does not get obscured by the navigation bar -->
+    <dimen name="view_all_margin">52dp</dimen>
+</resources>

@@ -25,6 +25,7 @@
 
     <string name="more_movies_layout_manager" translatable="false">GridLayoutManager</string>
     <string name="text_layout_manager" translatable="false">LinearLayoutManager</string>
+    <string name="media_layout_manager" translatable="false">LinearLayoutManager</string>
 
     <!-- Menu -->
     <string name="menu_sort_action">Sort By</string>

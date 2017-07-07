@@ -11,10 +11,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.AbstractMediaAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoreMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener;
+
 import java.util.List;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,7 +27,6 @@ import butterknife.BindView;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.GridLayout;
 
 public abstract class MoreMediaFragment extends Fragment
         implements MediaContract.View {
@@ -73,19 +72,10 @@ public abstract class MoreMediaFragment extends Fragment
             adapter=new MoreMediaAdapter(getContext(),rxBus);
             refreshLayout.setOnRefreshListener(()->presenter.requestRefresh(sortType));
             mediaList.setAdapter(adapter);
-            mediaList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            mediaList.addOnScrollListener(new OnReachBottomListener(mediaList,refreshLayout) {
                 @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    if (refreshLayout.isRefreshing())
-                        return;
-                    LinearLayoutManager layoutManager=LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
-                    int totalItemCount = layoutManager.getItemCount();
-                    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-
-                    boolean endHasBeenReached = lastVisibleItemPosition + 5 >= totalItemCount;
-                    if (totalItemCount > 0 && endHasBeenReached) {
-                        presenter.requestMore(sortType);
-                    }
+                public void onLoadMore() {
+                    presenter.requestMore(sortType);
                 }
             });
             getActivity().setTitle(getTitle(sortType));

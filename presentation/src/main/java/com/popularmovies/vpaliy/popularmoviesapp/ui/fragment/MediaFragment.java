@@ -56,7 +56,6 @@ public abstract class MediaFragment extends Fragment
         disposables=new CompositeDisposable();
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -72,8 +71,6 @@ public abstract class MediaFragment extends Fragment
         if(view!=null){
             mediaAdapters=new LinkedHashMap<>();
             mediaTypeAdapter=new MediaTypeAdapter(getContext(),rxBus);
-            //TODO get rid of that
-            mediaList.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
             mediaList.setAdapter(mediaTypeAdapter);
             getSortTypes().forEach(presenter::start);
         }
