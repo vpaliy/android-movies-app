@@ -1,9 +1,9 @@
 <android.support.v7.widget.RecyclerView
     android:id="@+id/media_recycler_view"
-    android:clipToPadding="false"
     app:layoutManager="@string/media_layout_manager"
-    android:paddingTop="@dimen/spacing_medium"
+    tools:listitem="@layout/adapter_media_type_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" />

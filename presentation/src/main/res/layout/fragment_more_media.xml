@@ -1,5 +1,5 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,6 +13,7 @@
             android:id="@+id/media_list"
             android:paddingTop="@dimen/spacing_medium"
             app:layoutManager="@string/more_movies_layout_manager"
+            tools:listitem="@layout/adapter_more_media_item"
             app:spanCount="@integer/span_count"
             android:layout_height="match_parent"
             android:layout_width="match_parent"

@@ -21,7 +21,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.ButterKnife;
-import android.view.ViewGroup;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -93,8 +92,9 @@ public class MediaActivity extends BaseActivity
     }
 
     private void setActionBar(){
-        ViewGroup.MarginLayoutParams params= ViewGroup.MarginLayoutParams.class.cast(actionBar.getLayoutParams());
-        params.topMargin= PresentationUtils.getStatusBarHeight(getResources());
+        int statusBarHeight= PresentationUtils.getStatusBarHeight(getResources());
+        actionBar.getLayoutParams().height+=statusBarHeight;
+        actionBar.setPadding(0,statusBarHeight,0,0);
         setSupportActionBar(actionBar);
         navigationView.setCheckedItem(R.id.movies);
     }

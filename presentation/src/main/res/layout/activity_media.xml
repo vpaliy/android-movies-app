@@ -31,6 +31,7 @@
         <com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager
             android:id="@+id/media_pager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_marginBottom="@dimen/spacing_big"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         
@@ -41,7 +42,7 @@
             app:bb_showShadow="true"
             app:bb_inActiveTabColor="@color/colorWhite"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="?attr/actionBarSize"
             android:fitsSystemWindows="false"
             app:bb_behavior="shy|underNavbar"
             android:layout_gravity="bottom"
