@@ -24,12 +24,6 @@ allprojects {
     }
 }
 
-task first {
-    doLast{
-        println "First task's been executed!"
-    }
-}
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

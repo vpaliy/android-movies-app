@@ -12,10 +12,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.adapter.MoreMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener;
-
 import java.util.List;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +29,6 @@ import android.support.annotation.Nullable;
 public abstract class MoreMediaFragment extends Fragment
         implements MediaContract.View {
 
-    protected Presenter presenter;
-
     @Inject
     protected RxBus rxBus;
 
@@ -44,6 +40,7 @@ public abstract class MoreMediaFragment extends Fragment
 
     private Unbinder unbinder;
     private SortType sortType;
+    protected Presenter presenter;
     private AbstractMediaAdapter<MediaCover> adapter;
 
     public static MoreMediaFragment create(SortType sortType, boolean isTvShow){

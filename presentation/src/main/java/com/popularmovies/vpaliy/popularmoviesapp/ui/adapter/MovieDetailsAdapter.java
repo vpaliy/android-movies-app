@@ -14,7 +14,6 @@ import android.support.annotation.NonNull;
 
 public class MovieDetailsAdapter extends FragmentPagerAdapter {
 
-
     private static final int INFO=0;
     private static final int CAST=1;
     private static final int REVIEW=2;

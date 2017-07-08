@@ -2,4 +2,6 @@
 <resources>
     <!-- So it does not get obscured by the navigation bar -->
     <dimen name="view_all_margin">52dp</dimen>
+
+    <dimen name="navigation_bar_margin">48dp</dimen>
 </resources>

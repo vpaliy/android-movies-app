@@ -3,7 +3,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -13,7 +12,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager;
 import com.roughike.bottombar.BottomBar;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,8 +23,7 @@ import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class MediaActivity extends BaseActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener{
+public class MediaActivity extends BaseActivity {
     
     @BindView(R.id.actionBar)
     protected Toolbar actionBar;
@@ -51,8 +48,6 @@ public class MediaActivity extends BaseActivity
         setContentView(R.layout.activity_media);
         ButterKnife.bind(this);
         setUI();
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .registerOnSharedPreferenceChangeListener(this);
     }
 
     private void setBottomNavigation(){
@@ -120,12 +115,6 @@ public class MediaActivity extends BaseActivity
         });
     }
 
-
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        // moviesFragment.onConfigChanged();
-    }
-
     private void setUI(){
         setDrawer();
         setActionBar();
@@ -133,12 +122,6 @@ public class MediaActivity extends BaseActivity
         setBottomNavigation();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .unregisterOnSharedPreferenceChangeListener(this);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);

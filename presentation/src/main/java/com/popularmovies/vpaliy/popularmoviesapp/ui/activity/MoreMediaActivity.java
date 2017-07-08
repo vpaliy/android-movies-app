@@ -10,10 +10,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
@@ -26,9 +26,9 @@ public class MoreMediaActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_media);
-        ButterKnife.bind(this);
         handleBundle(savedInstanceState);
-        setUI();
+        setActionBar();
+        if(savedInstanceState==null) setUpFragment();
     }
 
     private void handleBundle(Bundle bundle){
@@ -39,19 +39,20 @@ public class MoreMediaActivity extends BaseActivity {
         }
     }
 
-    private void setUI(){
-        setActionBar();
+    private void setUpFragment(){
+        FragmentManager manager=getSupportFragmentManager();
         MoreMediaFragment fragment;
-        switch (mediaType){
+        switch (mediaType) {
             case MOVIES:
-                fragment=MoreMediaFragment.create(sortType,false);
+                fragment = MoreMediaFragment.create(sortType, false);
                 break;
             default:
-                fragment=MoreMediaFragment.create(sortType,true);
+                fragment = MoreMediaFragment.create(sortType, true);
                 break;
         }
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.media_frame,fragment).commit();
+        manager.beginTransaction()
+                .replace(R.id.media_frame, fragment)
+                .commit();
     }
 
     private void setActionBar(){

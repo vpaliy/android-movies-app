@@ -1,13 +1,10 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.activity;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants.EXTRA_DATA;
@@ -20,24 +17,13 @@ public class DetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initTransition();
+        supportPostponeEnterTransition();
         setContentView(R.layout.activity_movie_details);
         if(savedInstanceState==null){
             extraData=getIntent().getExtras();
             setUI();
         }else{
             extraData=savedInstanceState.getBundle(EXTRA_DATA);
-        }
-    }
-
-    private void initTransition(){
-        if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-            postponeEnterTransition();
-        }
-        if(Permission.checkForVersion(Build.VERSION_CODES.JELLY_BEAN)){
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
 

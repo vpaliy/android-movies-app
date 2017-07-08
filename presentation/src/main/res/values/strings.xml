@@ -23,7 +23,7 @@
     <string name="as_cards">Cards</string>
     <string name="synopsis_title">Synopsis</string>
 
-    <string name="more_movies_layout_manager" translatable="false">GridLayoutManager</string>
+    <string name="more_movies_layout_manager" translatable="false">StaggeredGridLayoutManager</string>
     <string name="text_layout_manager" translatable="false">LinearLayoutManager</string>
     <string name="media_layout_manager" translatable="false">LinearLayoutManager</string>
 
