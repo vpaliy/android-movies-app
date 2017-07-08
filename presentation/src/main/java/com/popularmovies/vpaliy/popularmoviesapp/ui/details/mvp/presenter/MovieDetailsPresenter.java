@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
+package com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
@@ -7,9 +7,9 @@ import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieDetailsContract;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract;
 import rx.subscriptions.CompositeSubscription;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieDetailsContract.View;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract.View;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 
 import javax.inject.Inject;

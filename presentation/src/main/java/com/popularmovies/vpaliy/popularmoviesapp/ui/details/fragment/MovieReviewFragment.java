@@ -13,7 +13,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieReviewContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieReviewAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import java.util.List;
@@ -25,7 +25,7 @@ import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import static com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract.Presenter;
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieReviewContract.Presenter;
 
 
 public class MovieReviewFragment extends Fragment

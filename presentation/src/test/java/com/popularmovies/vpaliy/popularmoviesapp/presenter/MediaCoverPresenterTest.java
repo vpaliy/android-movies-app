@@ -5,8 +5,8 @@ import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.View;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MediaPresenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract.View;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaPresenter;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -6,14 +6,13 @@ import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract.Presenter;
 import java.util.Arrays;
 import java.util.List;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
 
 import javax.inject.Inject;

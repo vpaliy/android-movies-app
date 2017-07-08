@@ -1,10 +1,10 @@
-package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
+package com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.presenter;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieCastContract.View;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieCastContract;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieCastContract.View;
 import rx.subscriptions.CompositeSubscription;
 import javax.inject.Inject;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;

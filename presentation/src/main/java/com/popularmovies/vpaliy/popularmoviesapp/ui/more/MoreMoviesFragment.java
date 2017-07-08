@@ -1,17 +1,14 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.more;
 
-
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaContract.Presenter;
 
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaFragment;
-
 import javax.inject.Inject;
 
 public class MoreMoviesFragment extends MoreMediaFragment {

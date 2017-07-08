@@ -4,7 +4,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.base;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
-import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 import io.reactivex.disposables.CompositeDisposable;
 import javax.inject.Inject;

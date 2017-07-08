@@ -1,19 +1,18 @@
-package com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter;
+package com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.presenter;
 
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.Review;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieReviewContract;
 import java.util.List;
 import rx.subscriptions.CompositeSubscription;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 
-import static com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract.View;
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieReviewContract.View;
 
 @ViewScope
 public class MovieReviewPresenter

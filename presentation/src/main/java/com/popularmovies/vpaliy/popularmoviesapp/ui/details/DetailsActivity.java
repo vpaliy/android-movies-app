@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 import android.os.Bundle;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
-import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.fragment.MovieDetailsFragment;
 import android.support.annotation.NonNull;

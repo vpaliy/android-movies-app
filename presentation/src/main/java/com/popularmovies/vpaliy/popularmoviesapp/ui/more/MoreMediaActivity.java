@@ -4,7 +4,7 @@ import android.os.Bundle;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;

@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.data.utils.scheduler.SchedulerProvider;
-import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 import javax.inject.Singleton;
 import dagger.Module;

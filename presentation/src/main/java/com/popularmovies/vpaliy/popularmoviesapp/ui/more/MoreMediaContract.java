@@ -1,14 +1,13 @@
-package com.popularmovies.vpaliy.popularmoviesapp.mvp.contract;
-
-import com.popularmovies.vpaliy.domain.configuration.SortType;
-import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.BaseView;
-import java.util.List;
+package com.popularmovies.vpaliy.popularmoviesapp.ui.more;
 
 import android.support.annotation.NonNull;
+import com.popularmovies.vpaliy.domain.configuration.SortType;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BasePresenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseView;
+import java.util.List;
 
-public interface MediaContract {
+public interface MoreMediaContract {
 
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);

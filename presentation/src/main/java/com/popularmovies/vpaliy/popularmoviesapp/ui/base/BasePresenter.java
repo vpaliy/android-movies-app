@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.mvp;
+package com.popularmovies.vpaliy.popularmoviesapp.ui.base;
 
 
 import android.support.annotation.NonNull;

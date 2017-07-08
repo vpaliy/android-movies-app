@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.mvp.contract;
+package com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract;
 
 
 import android.support.annotation.NonNull;
@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.domain.model.Trailer;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.BasePresenter;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.BaseView;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BasePresenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseView;
 
 import java.util.List;
 

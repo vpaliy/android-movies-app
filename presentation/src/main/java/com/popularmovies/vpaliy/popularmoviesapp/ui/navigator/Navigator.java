@@ -8,8 +8,8 @@ import android.support.v4.app.ActivityOptionsCompat;
 
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.DetailsActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
-import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ViewAllEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;

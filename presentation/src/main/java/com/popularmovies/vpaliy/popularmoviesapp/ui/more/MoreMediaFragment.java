@@ -5,10 +5,9 @@ import android.support.v4.app.Fragment;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MediaContract.Presenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener;
 import java.util.List;
@@ -26,7 +25,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 public abstract class MoreMediaFragment extends Fragment
-        implements MediaContract.View {
+        implements MoreMediaContract.View {
 
     @Inject
     protected RxBus rxBus;

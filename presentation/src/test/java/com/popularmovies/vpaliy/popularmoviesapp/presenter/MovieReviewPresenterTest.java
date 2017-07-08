@@ -1,20 +1,9 @@
 package com.popularmovies.vpaliy.popularmoviesapp.presenter;
 
-import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.contract.MovieReviewContract;
-import com.popularmovies.vpaliy.popularmoviesapp.mvp.presenter.MovieReviewPresenter;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import rx.Observable;
-
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MovieReviewPresenterTest extends BasePresenterTest {

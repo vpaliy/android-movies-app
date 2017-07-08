@@ -12,7 +12,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.MapperModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.NetworkModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
