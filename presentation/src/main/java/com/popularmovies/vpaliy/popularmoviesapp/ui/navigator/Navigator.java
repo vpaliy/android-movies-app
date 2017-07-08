@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 
-import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.DetailsActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MoreMediaActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.DetailsActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;

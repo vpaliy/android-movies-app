@@ -2,18 +2,17 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.component;
 
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.activity.MediaActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MediaFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoreMediaFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoreMoviesFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoreTvFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieCastFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieDetailsFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieInfoFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MovieReviewFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.MoviesFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.PersonalFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.fragment.TvShowsFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMoviesFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreTvFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.fragment.MovieCastFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.fragment.MovieDetailsFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.fragment.MovieInfoFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.fragment.MovieReviewFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MoviesFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.media.PersonalFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.media.TvShowsFragment;
 
 import dagger.Component;
 
