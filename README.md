@@ -8,7 +8,7 @@ The application uses an API key in order to get the information from  [The Movie
 
 # Take a look #
 
-![](https://github.com/vpaliyX/PopularMovies/blob/master/art/ezgif-2-48f8bfad51.gif)
+![](https://github.com/vpaliyX/PopularMovies/blob/master/art/main_screen_animation.gif)
 
 ![](https://github.com/vpaliyX/PopularMovies/blob/master/art/ezgif-2-42ce1c1633.png)
 
