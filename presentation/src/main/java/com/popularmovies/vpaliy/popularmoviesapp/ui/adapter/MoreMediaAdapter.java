@@ -2,10 +2,9 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.icu.text.NumberFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +19,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
-import com.vpaliy.chips_lover.ChipView;
+import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipsLayout;
 import butterknife.ButterKnife;
 
@@ -93,11 +91,35 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover>{
                     });
         }
 
+        //that's where the magic happens
         private void applyPalette(Palette palette){
-            int defaultColor=ContextCompat.getColor(itemView.getContext(),R.color.light_grey);
-            background.setBackgroundColor(palette.getDominantColor(defaultColor));
+            Palette.Swatch swatch=palette.getDarkVibrantSwatch();
+            if(swatch==null) swatch=palette.getDominantSwatch();
+            //apply if not null
+            if(swatch!=null){
+                background.setBackgroundColor(swatch.getRgb());
+                ChipBuilder builder=chipsContainer.getChipBuilder()
+                        .setBackgroundColor(swatch.getTitleTextColor())
+                        .setTextColor(swatch.getBodyTextColor());
+                chipsContainer.updateChipColors(builder);
+                mediaTitle.setTextColor(swatch.getBodyTextColor());
+                releaseYear.setTextColor(swatch.getBodyTextColor());
+                ratings.setTextColor(swatch.getBodyTextColor());
+                setDrawableColor(releaseYear,swatch.getBodyTextColor());
+                setDrawableColor(ratings,swatch.getBodyTextColor());
+            }
         }
 
+        //color the drawable, if there are any
+        private void setDrawableColor(TextView view, int color){
+            Drawable[] drawables=view.getCompoundDrawables();
+            for(Drawable drawable:drawables){
+                if(drawable!=null){
+                    drawable.mutate();
+                    DrawableCompat.setTint(drawable,color);
+                }
+            }
+        }
     }
 
     @Override

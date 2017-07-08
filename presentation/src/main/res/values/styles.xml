@@ -1,33 +1,22 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="PopMovies" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
+
 
     <style name="SimpleAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-    </style>
-
-    <!-- Details Theme for version lower than L. -->
-    <style name="DetailsTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light" >
-        <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/app_logo</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -44,7 +33,6 @@
         <item name="itemIconTint">@color/colorWhite</item>
         <item name="itemTextColor">@color/colorWhite</item>
     </style>
-
 
     <style name="Widget"/>
 

@@ -1,65 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
-    <!-- Details Theme which supports shared element transitions. -->
-    <style name="DetailsTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Set up the transition mode -->
-
+    <style name="PopMovies" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
-
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+    </style>
 
+    <style name="PopMovies.Details" parent="PopMovies">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
-
 
         <item name="android:windowSharedElementEnterTransition">@transition/transition_enter</item>
         <item name="android:windowSharedElementExitTransition">@transition/transition_exit</item>
         <item name="android:windowSharedElementReenterTransition">@transition/transition_exit</item>
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SimpleAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/light_grey</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-    </style>
-
-
-    <!-- Main theme which supports a shared element transitions feature. -->
-    <style name="MainTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-
-    <!-- Main theme which supports a shared element transitions feature. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Set up the transition mode -->
+    <style name="PopMovies.MoreMedia" parent="PopMovies">
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
-
-
-        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
-
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
-
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="Widget.NumberText" parent="@android:style/TextAppearance.Material.Caption">

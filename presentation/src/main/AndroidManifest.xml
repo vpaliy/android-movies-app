@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.popularmovies.vpaliy.popularmoviesapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".App"
-        android:theme="@style/AppTheme">
+        android:theme="@style/PopMovies">
 
         <activity
             android:name=".ui.activity.SplashActivity"
@@ -27,21 +27,18 @@
 
         <activity
             android:name=".ui.activity.MediaActivity"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/PopMovies"/>
 
         <activity
             android:name=".ui.activity.MoreMediaActivity"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/PopMovies.MoreMedia"/>
 
         <activity android:name=".ui.activity.DetailsActivity"
-                  android:theme="@style/DetailsTheme">
-        </activity>
+                  android:theme="@style/PopMovies.Details"/>
 
         <activity
             android:name=".ui.activity.SettingsActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/PopMovies"
             android:parentActivityName=".ui.activity.MediaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -52,7 +49,5 @@
             android:exported="false"
             android:authorities="com.popularmovies.vpaliy"
             android:name="com.popularmovies.vpaliy.data.source.local.MovieProvider"/>
-
     </application>
-
 </manifest>
