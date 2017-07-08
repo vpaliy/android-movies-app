@@ -11,7 +11,7 @@
     <TextView
         android:id="@+id/title"
         tools:text="Title"
-        android:textColor="@color/text_tertiary_dark"
+        android:textColor="@color/text_secondary_dark"
         style="@style/Widget.BigTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
