@@ -12,7 +12,7 @@ The application uses an API key in order to get the information from  [The Movie
 
 ![](https://github.com/vpaliyX/PopularMovies/blob/master/art/ezgif-2-42ce1c1633.png)
 
-..will continue.
+..will be continued.
 
 
 
