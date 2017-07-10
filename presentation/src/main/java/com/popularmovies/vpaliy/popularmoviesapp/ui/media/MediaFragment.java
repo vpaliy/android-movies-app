@@ -127,11 +127,6 @@ public abstract class MediaFragment extends Fragment
         mediaAdapters.get(sortType).appendData(movies);
     }
 
-
-    @Override
-    public void setLoadingIndicator(boolean isLoading) {
-    }
-
     public abstract void initializeDependencies();
     public abstract String getTitle(SortType sortType);
     public abstract int getColor(SortType sortType);

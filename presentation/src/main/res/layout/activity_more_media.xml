@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootView"
+    android:transitionGroup="false"
     android:layout_marginEnd="@dimen/navigation_bar_margin"
     android:layout_marginRight="@dimen/navigation_bar_margin"
     android:background="@color/colorGray"

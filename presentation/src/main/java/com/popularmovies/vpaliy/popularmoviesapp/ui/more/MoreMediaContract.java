@@ -11,8 +11,8 @@ public interface MoreMediaContract {
 
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
-        void showMedia(@NonNull SortType sortType, @NonNull List<MediaCover> movies);
-        void appendMedia(@NonNull SortType sortType, @NonNull List<MediaCover> movies);
+        void showMedia(@NonNull List<MediaCover> movies);
+        void appendMedia(@NonNull List<MediaCover> movies);
         void setLoadingIndicator(boolean isLoading);
         void showErrorMessage();
         void showEmptyMessage();

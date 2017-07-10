@@ -93,12 +93,12 @@ public abstract class MoreMediaFragment extends Fragment
     }
 
     @Override
-    public void appendMedia(@NonNull SortType sortType, @NonNull List<MediaCover> covers) {
+    public void appendMedia(@NonNull List<MediaCover> covers) {
         adapter.appendData(covers);
     }
 
     @Override
-    public void showMedia(@NonNull SortType sortType, @NonNull List<MediaCover> covers) {
+    public void showMedia(@NonNull List<MediaCover> covers) {
         adapter.setData(covers);
     }
 

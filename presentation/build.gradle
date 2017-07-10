@@ -52,6 +52,7 @@ dependencies {
     compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     compile 'com.roughike:bottom-bar:2.3.1'
     compile 'com.github.kanytu:ImageWindow:v1.0'
+    compile 'com.romandanylyk:pageindicatorview:0.2.0@aar'
     compile libs.chipsLover
     compile libs.calligraphy
     compile libs.constraintLayout

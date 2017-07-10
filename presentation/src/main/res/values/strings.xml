@@ -64,4 +64,9 @@
     <string name="NA">N/A</string>
 
 
+    <!-- Transition names -->
+    <string name="background_transition_name" translatable="false">background_trans_name</string>
+    <string name="poster_transition_name" translatable="false">poster_trans_name</string>
+    <string name="backdrop_transition_name" translatable="false">backdrop_trans_name</string>
+
 </resources>

@@ -1,0 +1,5 @@
+<ripple
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:radius="50dp"
+    android:color="#fafafa">
+</ripple>

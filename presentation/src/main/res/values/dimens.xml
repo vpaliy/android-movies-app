@@ -18,4 +18,21 @@
     <!-- Image -->
     <dimen name="poster_height">200dp</dimen>
     <dimen name="poster_width">140dp</dimen>
+
+
+    <!-- Z-axis elevations -->
+    <dimen name="z_app_bar">4dp</dimen>
+    <dimen name="z_card">2dp</dimen>
+    <dimen name="z_fab">6dp</dimen>
+    <dimen name="touch_raise">6dp</dimen>
+    <dimen name="touched_app_bar">8dp</dimen>
+    <dimen name="z_fab_over_touchable_app_bar">9dp</dimen>
+
+    <dimen name="nested_scroll_margin_top">-140dp</dimen>
+    <dimen name="body_sheet_width">500dp</dimen>
+    <dimen name="details_sheet_height">100dp</dimen>
+    <dimen name="toolbar_height">56dp</dimen>
+    <dimen name="shot_collapsed_app_bar_height">168dp</dimen>
+    <dimen name="drag_dismiss_distance">112dp</dimen>
+
 </resources>

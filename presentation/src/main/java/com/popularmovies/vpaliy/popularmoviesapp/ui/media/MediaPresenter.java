@@ -4,7 +4,6 @@ import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract.View;
 import rx.subscriptions.CompositeSubscription;
 import java.util.List;
@@ -57,13 +56,11 @@ public class MediaPresenter implements MediaContract.Presenter{
     }
 
     private void startLoading(SortType sortType){
-        view.setLoadingIndicator(true);
         subscriptions.add(iRepository.get(sortType)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(movies->processData(sortType,movies),
-                        this::handleErrorMessage,
-                        this::completeLoading));
+                        this::handleErrorMessage));
     }
 
     private void processData(SortType sortType, List<MediaCover> movieList){
@@ -78,13 +75,11 @@ public class MediaPresenter implements MediaContract.Presenter{
 
     @Override
     public void requestMore(@NonNull SortType sortType) {
-            view.setLoadingIndicator(true);
             subscriptions.add(iRepository.requestMore(sortType)
                     .subscribeOn(schedulerProvider.io())
                     .observeOn(schedulerProvider.ui())
                     .subscribe(movies->appendData(sortType,movies),
-                            this::handleErrorMessage,
-                            this::completeLoading));
+                            this::handleErrorMessage));
     }
 
     private void appendData(SortType sortType,@Nullable List<MediaCover> movieList){
@@ -97,11 +92,6 @@ public class MediaPresenter implements MediaContract.Presenter{
 
     private void handleErrorMessage(Throwable throwable){
         throwable.printStackTrace();
-        view.setLoadingIndicator(false);
         view.showErrorMessage();
-    }
-
-    private void completeLoading(){
-        view.setLoadingIndicator(false);
     }
 }

@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,6 +22,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import com.vpaliy.chips_lover.ChipBuilder;
@@ -62,8 +66,12 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     lock();
                     Bundle args = new Bundle();
                     args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
-                    TransitionWrapper wrapper = TransitionWrapper.wrap(posterImage, args);
-                    rxBus.send(new ExposeDetailsEvent(wrapper));
+                    args.putString(Constants.EXTRA_DATA,at(getAdapterPosition()).getMainBackdrop());
+                    ViewCompat.setTransitionName(posterImage,inflater.getContext().getString(R.string.backdrop_transition_name));
+                    Context context=itemView.getContext();
+                    Log.d("MoreMediaAdapter","Here");
+                    rxBus.send(ExposeEvent.dispatchEvent(args, Pair.create(itemView,context.getString(R.string.background_transition_name)),
+                            Pair.create(posterImage,context.getString(R.string.backdrop_transition_name))));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });

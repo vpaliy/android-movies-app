@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
  * A base class for activities

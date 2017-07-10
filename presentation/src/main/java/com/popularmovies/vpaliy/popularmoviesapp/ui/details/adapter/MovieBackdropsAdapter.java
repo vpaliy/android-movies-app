@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 
@@ -22,11 +24,17 @@ public class MovieBackdropsAdapter extends PagerAdapter{
 
     private List<String> movieBackdrops;
     private LayoutInflater inflater;
+    private volatile boolean isLoaded=false;
+    private Callback callback;
     private static final int NUMBER_OF_BACKDROPS=5;
 
     public MovieBackdropsAdapter(Context context){
         this.movieBackdrops=new ArrayList<>();
         this.inflater=LayoutInflater.from(context);
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -38,15 +46,21 @@ public class MovieBackdropsAdapter extends PagerAdapter{
         Glide.with(container.getContext())
                 .load(movieBackdrops.get(position))
                 .asBitmap()
-                .centerCrop()
+                .priority(Priority.IMMEDIATE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(new ImageViewTarget<Bitmap>(image) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        image.setImageBitmap(resource);
-                        progressBar.setVisibility(View.INVISIBLE);
-
-                    }
-                });
+                          @Override
+                          protected void setResource(Bitmap resource) {
+                              image.setImageBitmap(resource);
+                              progressBar.setVisibility(View.GONE);
+                              if (position == 0 && !isLoaded) {
+                                  isLoaded = true;
+                                  if (callback != null) {
+                                      callback.onTransitionImageLoaded(image);
+                                  }
+                              }
+                          }
+                      });
         container.addView(view);
         return view;
     }
@@ -71,5 +85,9 @@ public class MovieBackdropsAdapter extends PagerAdapter{
     public void destroyItem(ViewGroup container, int position, Object object) {
         View view=View.class.cast(object);
         container.removeView(view);
+    }
+
+    public interface Callback {
+        void onTransitionImageLoaded(ImageView image);
     }
 }

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <style name="PopMovies" parent="Theme.AppCompat.Light.NoActionBar">
@@ -12,15 +11,30 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
     </style>
 
     <style name="PopMovies.Details" parent="PopMovies">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
 
-        <item name="android:windowSharedElementEnterTransition">@transition/transition_enter</item>
-        <item name="android:windowSharedElementExitTransition">@transition/transition_exit</item>
-        <item name="android:windowSharedElementReenterTransition">@transition/transition_exit</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+
+        <item name="android:windowSharedElementEnterTransition">@transition/shared_enter</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowBackground">@color/scrim</item>
     </style>
 
     <style name="PopMovies.MoreMedia" parent="PopMovies">
@@ -29,6 +43,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">true</item>
+
     </style>
 
     <style name="Widget.NumberText" parent="@android:style/TextAppearance.Material.Caption">

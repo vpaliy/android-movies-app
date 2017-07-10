@@ -4,12 +4,12 @@ import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
-import java.util.List;
-import rx.subscriptions.CompositeSubscription;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import javax.inject.Inject;
+import java.util.List;
+import rx.subscriptions.CompositeSubscription;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @ViewScope
@@ -65,7 +65,7 @@ public class MoreMediaPresenter implements MoreMediaContract.Presenter{
     private void processData(SortType sortType, List<MediaCover> movieList){
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
-                view.showMedia(sortType,movieList);
+                view.showMedia(movieList);
                 return;
             }
         }
@@ -86,7 +86,7 @@ public class MoreMediaPresenter implements MoreMediaContract.Presenter{
     private void appendData(SortType sortType,@Nullable List<MediaCover> movieList){
         if(movieList!=null) {
             if (!movieList.isEmpty()) {
-                view.appendMedia(sortType,movieList);
+                view.appendMedia(movieList);
             }
         }
     }

@@ -1,9 +1,10 @@
 <android.support.v7.widget.CardView
+    android:id="@+id/more_media_card"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:clickable="false"
-    android:layout_margin="@dimen/spacing_large"
+    android:layout_margin="@dimen/spacing_medium"
     app:cardElevation="@dimen/cardview_default_elevation"
     app:cardCornerRadius="@dimen/cardview_default_radius"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--According to Material Design the media area should be 16:9-->
         <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RatioImageView
             android:id="@+id/media_poster"
             android:scaleType="centerCrop"

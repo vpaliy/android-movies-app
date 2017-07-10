@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="StaggeredDistanceSlide">
+        <attr name="spread" format="integer" />
+    </declare-styleable>
+</resources>

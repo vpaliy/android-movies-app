@@ -26,4 +26,8 @@
     <declare-styleable name="RatioImageView">
         <attr name="image_ratio" format="float"/>
     </declare-styleable>
+
+    <declare-styleable name="Pinnable">
+        <attr name="state_pinned" format="boolean"/>
+    </declare-styleable>
 </resources>

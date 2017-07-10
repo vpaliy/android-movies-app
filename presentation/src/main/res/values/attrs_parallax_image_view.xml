@@ -1,0 +1,9 @@
+<resources>
+    <declare-styleable name="ParallaxRatioViewPager">
+        <attr name="image_ratio"/>
+        <attr name="scrimAlpha" format="float"/>
+        <attr name="maxScrimAlpha" format="float"/>
+        <attr name="parallaxFactor" format="float"/>
+        <attr name="scrimColor" format="color" />
+    </declare-styleable>
+</resources>

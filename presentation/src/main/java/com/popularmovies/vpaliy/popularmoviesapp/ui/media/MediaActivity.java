@@ -8,6 +8,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.SettingsActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
@@ -17,6 +18,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.ButterKnife;
@@ -142,15 +144,16 @@ public class MediaActivity extends BaseActivity {
 
     @Override
     public void handleEvent(@NonNull Object event) {
-        if(event instanceof  ExposeDetailsEvent){
-            showDetails(ExposeDetailsEvent.class.cast(event));
+        if(event instanceof ExposeEvent){
+            Log.d(MediaActivity.class.getSimpleName(),"HandleEvent");
+            showDetails(ExposeEvent.class.cast(event));
         }else if(event instanceof ViewAllEvent){
             viewAll(ViewAllEvent.class.cast(event));
         }
     }
 
-    private void showDetails(@NonNull ExposeDetailsEvent event){
-        navigator.showDetails(this,event);
+    private void showDetails(@NonNull ExposeEvent event){
+        navigator.navigate(this,event);
     }
 
     private void viewAll(@NonNull ViewAllEvent event){

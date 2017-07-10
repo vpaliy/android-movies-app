@@ -6,16 +6,17 @@ import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
-
 import butterknife.ButterKnife;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class MoreMediaActivity extends BaseActivity {
 
@@ -80,12 +81,12 @@ public class MoreMediaActivity extends BaseActivity {
 
     @Override
     public void handleEvent(@NonNull Object event) {
-        if(event instanceof ExposeDetailsEvent) {
-            showDetails(ExposeDetailsEvent.class.cast(event));
+        if(event instanceof ExposeEvent) {
+            showDetails(ExposeEvent.class.cast(event));
         }
     }
 
-    private void showDetails(@NonNull ExposeDetailsEvent event){
-        navigator.showDetails(this,event);
+    private void showDetails(@NonNull ExposeEvent event){
+        navigator.navigate(this,event);
     }
 }

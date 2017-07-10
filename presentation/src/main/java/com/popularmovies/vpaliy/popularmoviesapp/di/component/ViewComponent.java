@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.component;
 
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.Dummy;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMoviesFragment;
@@ -19,6 +21,7 @@ import dagger.Component;
 @ViewScope
 @Component(dependencies = ApplicationComponent.class, modules = PresenterModule.class)
 public interface ViewComponent {
+    void inject(Dummy dummy);
     void inject(MediaFragment mediaFragment);
     void inject(TvShowsFragment tvShowsFragment);
     void inject(MediaActivity activity);
