@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ public class MovieBackdropsAdapter extends PagerAdapter{
     private LayoutInflater inflater;
     private volatile boolean isLoaded=false;
     private Callback callback;
-    private static final int NUMBER_OF_BACKDROPS=5;
 
     public MovieBackdropsAdapter(Context context){
         this.movieBackdrops=new ArrayList<>();
@@ -56,7 +56,7 @@ public class MovieBackdropsAdapter extends PagerAdapter{
                               if (position == 0 && !isLoaded) {
                                   isLoaded = true;
                                   if (callback != null) {
-                                      callback.onTransitionImageLoaded(image);
+                                      callback.onTransitionImageLoaded(image,resource);
                                   }
                               }
                           }
@@ -65,10 +65,14 @@ public class MovieBackdropsAdapter extends PagerAdapter{
         return view;
     }
 
+    public void appendData(List<String> data){
+        this.movieBackdrops=data;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        return movieBackdrops.size()>=NUMBER_OF_BACKDROPS
-                ?NUMBER_OF_BACKDROPS:movieBackdrops.size();
+        return movieBackdrops.size();
     }
 
     public void setData(@NonNull List<String> backdrops){
@@ -88,6 +92,6 @@ public class MovieBackdropsAdapter extends PagerAdapter{
     }
 
     public interface Callback {
-        void onTransitionImageLoaded(ImageView image);
+        void onTransitionImageLoaded(ImageView image, Bitmap bitmap);
     }
 }

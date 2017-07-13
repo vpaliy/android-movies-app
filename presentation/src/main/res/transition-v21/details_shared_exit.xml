@@ -1,0 +1,38 @@
+<transitionSet
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:duration="350"
+    android:transitionOrdering="together">
+
+    <transitionSet>
+        <targets>
+            <target android:targetId="@id/background" />
+        </targets>
+        <changeBounds android:interpolator="@android:interpolator/fast_out_slow_in" />
+        <!-- compensate for the diff in elevation of this element in the two activities -->
+        <transition
+            class="com.popularmovies.vpaliy.popularmoviesapp.ui.view.LiftOff"
+            app:initialElevation="-4dp"
+            app:finalElevation="-2dp" />
+    </transitionSet>
+
+    <transitionSet>
+        <targets>
+            <target android:targetId="@id/media_title" />
+            <target android:targetId="@id/media_release_year" />
+            <target android:targetId="@id/media_ratings" />
+            <target android:targetId="@id/details_background"/>
+            <target android:targetId="@id/chipsContainer"/>
+            <target android:targetId="@id/background" />
+        </targets>
+        <changeBounds android:interpolator="@android:interpolator/fast_out_slow_in" />
+
+    </transitionSet>
+
+    <changeBounds  android:interpolator="@android:interpolator/fast_out_slow_in">
+    <targets>
+        <target android:targetId="@id/backdrop_pager" />
+    </targets>
+    </changeBounds>
+
+</transitionSet>

@@ -1,115 +1,16 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/body"
     app:contentPadding="16dp"
     android:layout_margin="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/materialIconView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:materialIconColor="@color/colorGray"
-            app:materialIcon="run" />
-
-        <TextView
-            android:id="@+id/movieDescriptionTitle"
-            android:layout_width="wrap_content"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_alignTop="@+id/materialIconView"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@+id/materialIconView"
-            android:layout_toRightOf="@+id/materialIconView"
-            android:text="@string/synopsis_title" />
-
-        <at.blogc.android.views.ExpandableTextView
-            android:id="@+id/movieDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/movieDescriptionTitle"
-            android:layout_alignStart="@+id/movieDescriptionTitle"
-            android:layout_below="@+id/movieDescriptionTitle"
-            android:layout_marginTop="16dp"
-            android:ellipsize="end"
-            android:maxLines="5"
-            android:text="@string/NA"
-            app:animation_duration="1000" />
-
-        <net.steamcrafted.materialiconlib.MaterialIconView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            app:materialIconColor="@color/colorGray"
-            android:id="@+id/releaseDateLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/movieDescription"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold"
-            app:materialIcon="calendar_range" />
-
-
-        <TextView
-            android:id="@+id/releaseDate"
-            android:layout_marginLeft="16dp"
-            android:layout_width="wrap_content"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/releaseDateLabel"
-            android:layout_toEndOf="@+id/releaseDateLabel"
-            android:layout_toRightOf="@+id/releaseDateLabel"
-            android:text="@string/NA" />
-
-
-        <TextView
-            android:id="@+id/budgetLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/releaseDate"
-            android:layout_marginTop="32dp"
-            android:text="@string/media_budget"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/budget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginStart="6dp"
-            android:layout_alignTop="@+id/budgetLabel"
-            android:layout_toEndOf="@+id/budgetLabel"
-            android:layout_toRightOf="@+id/budgetLabel"
-            android:text="@string/NA" />
-
-        <TextView
-            android:id="@+id/revenueLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/budgetLabel"
-            android:layout_marginTop="16dp"
-            android:text="@string/media_revenue"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/revenue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginStart="6dp"
-            android:layout_alignTop="@+id/revenueLabel"
-            android:layout_toEndOf="@+id/revenueLabel"
-            android:layout_toRightOf="@+id/revenueLabel"
-            android:text="@string/NA" />
-    </RelativeLayout>
-
+    </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
 

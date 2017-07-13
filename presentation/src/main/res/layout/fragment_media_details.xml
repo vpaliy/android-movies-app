@@ -38,10 +38,22 @@
         android:focusableInTouchMode="true"
         android:importantForAccessibility="no" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/spacing_medium"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="insideOverlay"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:listitem="@layout/blank"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <android.support.v4.view.ViewPager
         android:transitionName="@string/backdrop_transition_name"
         android:id="@+id/backdrop_pager"
+        android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="300dp"/>
 
@@ -53,5 +65,6 @@
         app:piv_viewPager="@id/backdrop_pager"
         android:layout_gravity="center_horizontal" />
 
+    <include layout="@layout/layout_media_description"/>
 
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout>

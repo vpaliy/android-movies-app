@@ -22,11 +22,13 @@ import butterknife.ButterKnife;
 
 public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHolder> {
 
+    private static final int BLANK_TYPE=0;
     private static final int INFO_TYPE=1;
     private static final int MEDIA_TYPE=2;
 
     private List<MovieListWrapper> wrapperList;
     private MovieInfo movieInfo;
+    private View blank;
 
     private final LayoutInflater inflater;
     private final Context context;
@@ -38,14 +40,15 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
     }
 
 
-    public abstract class AbstractViewHolder extends RecyclerView.ViewHolder {
+    public class AbstractViewHolder extends RecyclerView.ViewHolder {
 
         public AbstractViewHolder(View itemView){
             super(itemView);
         }
 
-        abstract void bindData();
+        void bindData(){};
     }
+
 
 
     public class InfoViewHolder extends AbstractViewHolder
@@ -120,12 +123,19 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
     @Override
     public AbstractViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType){
+            case BLANK_TYPE:
+                if(blank==null) blank=inflater.inflate(R.layout.blank,parent,false);
+                return new AbstractViewHolder(blank);
             case INFO_TYPE:
                 return new InfoViewHolder(inflater.inflate(R.layout.movie_info_card,parent,false));
             case MEDIA_TYPE:
                 return new MoviesViewHolder(inflater.inflate(R.layout.movie_similar_card,parent,false));
         }
         return null;
+    }
+
+    public View getBlank() {
+        return blank;
     }
 
     @Override
@@ -135,12 +145,13 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
 
     @Override
     public int getItemCount() {
-        return wrapperList.size()+(movieInfo!=null?1:0);
+        return wrapperList.size()+(movieInfo!=null?1:0)+1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position==0?INFO_TYPE:MEDIA_TYPE;
+        if(position==0) return BLANK_TYPE;
+        return position>1?MEDIA_TYPE:INFO_TYPE;
     }
 
 
