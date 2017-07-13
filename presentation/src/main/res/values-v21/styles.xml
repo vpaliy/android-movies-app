@@ -47,6 +47,9 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">true</item>
 
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+
     </style>
 
     <style name="Widget.NumberText" parent="@android:style/TextAppearance.Material.Caption">

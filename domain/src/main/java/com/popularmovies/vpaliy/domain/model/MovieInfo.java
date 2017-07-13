@@ -1,8 +1,5 @@
 package com.popularmovies.vpaliy.domain.model;
 
-
-import java.util.Date;
-
 public class MovieInfo {
 
     private int movieId;
@@ -43,6 +40,10 @@ public class MovieInfo {
         return revenue;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -65,6 +66,10 @@ public class MovieInfo {
 
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setRevenue(String revenue) {

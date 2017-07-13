@@ -24,15 +24,11 @@
             <target android:targetId="@id/details_background"/>
             <target android:targetId="@id/chipsContainer"/>
             <target android:targetId="@id/background" />
+            <target android:targetId="@id/backdrop_pager" />
         </targets>
         <changeBounds android:interpolator="@android:interpolator/fast_out_slow_in" />
 
     </transitionSet>
 
-    <changeBounds  android:interpolator="@android:interpolator/fast_out_slow_in">
-    <targets>
-        <target android:targetId="@id/backdrop_pager" />
-    </targets>
-    </changeBounds>
 
 </transitionSet>

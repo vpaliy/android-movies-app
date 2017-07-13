@@ -72,6 +72,7 @@ public class MovieBackdropsAdapter extends PagerAdapter{
 
     @Override
     public int getCount() {
+        if(movieBackdrops.size()>=5) return 5;
         return movieBackdrops.size();
     }
 

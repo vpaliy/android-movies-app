@@ -112,7 +112,7 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
 
         @Override
         void bindData() {
-            MovieListWrapper wrapper=wrapperList.get(getAdapterPosition()-1);
+            MovieListWrapper wrapper=wrapperList.get(getAdapterPosition()-2);
             RecyclerView.Adapter<?> adapter=wrapper.getAdapter();
             additionalList.setAdapter(adapter);
             cardTitle.setText(wrapper.getTitle());

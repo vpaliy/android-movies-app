@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.annotation.FloatRange;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
@@ -80,33 +81,11 @@ public class ParallaxRatioViewPager extends ViewPager{
         }
     }
 
-
     public void setScrimAlpha(@FloatRange(from = 0f, to = 1f) float alpha) {
         if (scrimAlpha != alpha) {
             scrimAlpha = alpha;
             scrimPaint.setColor(PresentationUtils.modifyAlpha(scrimColor, scrimAlpha));
             postInvalidateOnAnimation();
-        }
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int measuredWidth=getMeasuredWidth();
-        setMeasuredDimension(measuredWidth, Math.round(measuredWidth*imageRatio));
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        if (imageOffset != 0) {
-            final int saveCount = canvas.save();
-            canvas.translate(0f, imageOffset);
-            super.onDraw(canvas);
-            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), scrimPaint);
-            canvas.restoreToCount(saveCount);
-        } else {
-            super.onDraw(canvas);
-            canvas.drawRect(0, 0, canvas.getWidth(), canvas.getHeight(), scrimPaint);
         }
     }
 

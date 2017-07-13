@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
+import com.bumptech.glide.Glide;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -11,9 +13,12 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.InfoAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieBackdropsAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieTrailersAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout;
 import com.rd.PageIndicatorView;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
@@ -25,6 +30,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -42,7 +48,7 @@ public class Dummy extends BaseActivity
         implements MovieDetailsContract.View{
 
     @BindView(R.id.backdrop_pager)
-    protected ViewPager pager;
+    protected ParallaxRatioViewPager pager;
 
     @BindView(R.id.page_indicator)
     protected PageIndicatorView indicatorView;
@@ -51,7 +57,7 @@ public class Dummy extends BaseActivity
     protected View actionBar;
 
     @BindView(R.id.details_background)
-    protected View detailsParent;
+    protected TranslatableLayout detailsParent;
 
     @BindView(R.id.media_title)
     protected TextView mediaTitle;
@@ -65,8 +71,12 @@ public class Dummy extends BaseActivity
     @BindView(R.id.media_release_year)
     protected TextView releaseYear;
 
+    @BindView(R.id.media_description)
+    protected TextView mediaDescription;
+
     @BindView(R.id.details)
     protected RecyclerView info;
+
 
     private InfoAdapter infoAdapter;
     private MovieBackdropsAdapter adapter;
@@ -91,7 +101,8 @@ public class Dummy extends BaseActivity
         adapter.setCallback((image,bitmap)->{
             indicatorView.setAnimationType(AnimationType.WORM);
             indicatorView.setTranslationY(image.getHeight()-indicatorView.getHeight()*2.5f);
-            detailsParent.setTranslationY(image.getHeight());
+            detailsParent.setStaticOffset(image.getHeight());
+            detailsParent.setOffset(image.getHeight());
             View blank=infoAdapter.getBlank();
             ViewGroup.LayoutParams params=blank.getLayoutParams();
             params.height=image.getHeight()+detailsParent.getHeight();
@@ -112,6 +123,9 @@ public class Dummy extends BaseActivity
 
         int height=PresentationUtils.getStatusBarHeight(getResources());
         actionBar.setPadding(0,height,0,0);
+
+        info.addOnScrollListener(listener);
+        info.setOnFlingListener(flingListener);
     }
 
     private void applyPalette(Palette palette){
@@ -127,6 +141,7 @@ public class Dummy extends BaseActivity
             mediaTitle.setTextColor(swatch.getBodyTextColor());
             releaseYear.setTextColor(swatch.getBodyTextColor());
             mediaRatings.setTextColor(swatch.getBodyTextColor());
+            mediaDescription.setTextColor(swatch.getBodyTextColor());
             setDrawableColor(releaseYear,swatch.getBodyTextColor());
             setDrawableColor(mediaRatings,swatch.getBodyTextColor());
         }
@@ -142,6 +157,30 @@ public class Dummy extends BaseActivity
         }
     }
 
+    private RecyclerView.OnFlingListener flingListener = new RecyclerView.OnFlingListener() {
+        @Override
+        public boolean onFling(int velocityX, int velocityY) {
+            pager.setImmediatePin(true);
+            return false;
+        }
+    };
+
+    private RecyclerView.OnScrollListener listener=new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            pager.setImmediatePin(newState == RecyclerView.SCROLL_STATE_SETTLING);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            final int scrollY= infoAdapter.getBlank().getTop();
+            pager.setOffset(scrollY);
+            detailsParent.setOffset(detailsParent.getStaticOffset()+scrollY);
+        }
+    };
+
     @Override
     public void inject() {
         DaggerViewComponent.builder()
@@ -153,6 +192,10 @@ public class Dummy extends BaseActivity
     @Override
     public void showDetails(@NonNull MovieDetails movieDetails) {
         infoAdapter.setMovieInfo(movieDetails.getMovieInfo());
+        mediaDescription.setText(movieDetails.getMovieInfo().getDescription());
+        MovieTrailersAdapter adapter=new MovieTrailersAdapter(this);
+        adapter.setData(movieDetails.getTrailers());
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_trailers)));
     }
 
     @Override
@@ -167,7 +210,6 @@ public class Dummy extends BaseActivity
         mediaRatings.setText(movieCover.getAverageRate());
         tags.setTags(movieCover.getGenres());
     }
-
 
     @Override
     public void shareWithMovie(MovieDetails details) {
