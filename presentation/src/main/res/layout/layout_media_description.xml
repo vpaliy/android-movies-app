@@ -14,20 +14,17 @@
     <TextView
         android:id="@+id/media_title"
         style="@style/Widget.Title"
-        android:maxLines="2"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:transitionName="@string/title_transition_name"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="wrap_content"
-        app:layout_constraintHorizontal_bias="0.01"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Logan"
-        android:layout_marginRight="@dimen/spacing_medium"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginEnd="@dimen/spacing_medium" />
+        tools:text="Fantastic beasts and where to find them "
+        android:layout_marginTop="16dp"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/media_release_year"
@@ -42,9 +39,9 @@
         android:layout_marginTop="@dimen/spacing_medium"
         android:drawablePadding="@dimen/spacing_small"
         android:gravity="center"
-        app:layout_constraintLeft_toLeftOf="@+id/media_title"
         app:layout_constraintTop_toBottomOf="@+id/media_title"
-        tools:text="In 7 days" />
+        tools:text="In 7 days"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <com.vpaliy.chips_lover.ChipsLayout
         android:id="@+id/chipsContainer"
@@ -60,7 +57,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/spacing_large"
         app:layout_constraintTop_toBottomOf="@+id/media_release_year"
-        app:layout_constraintLeft_toLeftOf="@+id/media_title" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/media_ratings"
@@ -80,7 +77,9 @@
         app:layout_constraintLeft_toRightOf="@+id/media_release_year"
         android:layout_marginLeft="@dimen/spacing_medium"
         android:layout_marginRight="@dimen/spacing_medium"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_medium" />
 
 
     <TextView
@@ -91,6 +90,6 @@
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/spacing_large"
         style="@style/Widget.Title"
-        app:layout_constraintLeft_toLeftOf="@id/chipsContainer"
-        app:layout_constraintTop_toBottomOf="@id/chipsContainer"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chipsContainer"/>
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout>

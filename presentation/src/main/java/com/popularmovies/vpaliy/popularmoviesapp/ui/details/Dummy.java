@@ -27,6 +27,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -77,6 +78,8 @@ public class Dummy extends BaseActivity
     @BindView(R.id.details)
     protected RecyclerView info;
 
+    @BindView(R.id.poster)
+    protected ImageView poster;
 
     private InfoAdapter infoAdapter;
     private MovieBackdropsAdapter adapter;
@@ -107,6 +110,8 @@ public class Dummy extends BaseActivity
             ViewGroup.LayoutParams params=blank.getLayoutParams();
             params.height=image.getHeight()+detailsParent.getHeight();
             blank.setLayoutParams(params);
+            poster.setTranslationY(image.getHeight()-poster.getHeight()*.3f);
+            shiftElements();
             new Palette.Builder(bitmap).generate(Dummy.this::applyPalette);
             image.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
@@ -126,6 +131,41 @@ public class Dummy extends BaseActivity
 
         info.addOnScrollListener(listener);
         info.setOnFlingListener(flingListener);
+    }
+
+    private void shiftElements(){
+        final float posterY=getBottomY(poster);
+        final int offset=poster.getWidth()+(int)getResources().getDimension(R.dimen.spacing_medium);
+        Log.d(TAG,"Media Poster:"+Float.toString(posterY));
+        if(posterY>=getBottomY(mediaTitle)){
+            Log.d(TAG,"Media Title:"+Float.toString(getBottomY(mediaTitle)));
+            shiftWithMargins(mediaTitle,offset);
+        }
+        //
+        if(posterY>=getBottomY(releaseYear)){
+            Log.d(TAG,"Media date:"+Float.toString(getBottomY(releaseYear)));
+            shiftWithMargins(releaseYear,offset);
+        }
+
+        if(posterY>=getBottomY(tags)){
+            Log.d(TAG,"Media Tags:"+Float.toString(getBottomY(tags)));
+            shiftWithMargins(tags,offset);
+        }
+
+        if(posterY>=getBottomY(mediaDescription)){
+            Log.d(TAG,"Media Description:"+Float.toString(getBottomY(mediaDescription)));
+            shiftWithMargins(mediaDescription,offset);
+        }
+    }
+
+    private void shiftWithMargins(View target, int offset){
+        ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(target.getLayoutParams());
+        params.leftMargin+=offset;
+        target.setLayoutParams(params);
+    }
+
+    private float getBottomY(View view){
+        return view.getTop()+view.getHeight();
     }
 
     private void applyPalette(Palette palette){
@@ -209,6 +249,10 @@ public class Dummy extends BaseActivity
         releaseYear.setText(movieCover.getFormattedDate());
         mediaRatings.setText(movieCover.getAverageRate());
         tags.setTags(movieCover.getGenres());
+
+        Glide.with(this)
+                .load(movieCover.getPosterPath())
+                .into(poster);
     }
 
     @Override

@@ -1,4 +1,5 @@
-<com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:transitionGroup="false"
@@ -72,6 +73,12 @@
         app:piv_viewPager="@id/backdrop_pager"
         android:layout_gravity="center_horizontal" />
 
-
     <include layout="@layout/layout_media_description"/>
+
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:id="@+id/poster"
+        android:scaleType="centerCrop"
+        android:layout_width="120dp"
+        android:layout_height="180dp" />
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout>
