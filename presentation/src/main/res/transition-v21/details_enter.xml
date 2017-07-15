@@ -4,6 +4,7 @@
 
     <transitionSet>
         <targets>
+            <target android:targetId="@id/poster"/>
             <target android:targetId="@id/blank"/>
             <target android:targetId="@id/body"/>
         </targets>

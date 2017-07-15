@@ -38,21 +38,16 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
         this.eventBus=eventBus;
         this.data=data;
         this.inflater=LayoutInflater.from(context);
-
     }
-
 
     public class MovieViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
 
-        @BindView(R.id.movieImage)
-        ImageView image;
+        @BindView(R.id.media_poster)
+        ImageView posterImage;
 
-        @BindView(R.id.movieTitle)
-        TextView title;
-
-        @BindView(R.id.movieYear)
-        TextView year;
+        @BindView(R.id.media_title)
+        TextView mediaTitle;
 
         public MovieViewHolder(View itemView){
             super(itemView);
@@ -62,17 +57,7 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
 
         @Override
         public void onClick(View v) {
-            if(!hasBeenClicked) {
-                hasBeenClicked=true;
-                MediaCover victim=data.get(getAdapterPosition());
-                if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-                    image.setTransitionName(image.getContext().getString(R.string.movie_image)
-                            +Integer.toString(victim.getMediaId()));
-                }
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constants.EXTRA_ID, victim.getMediaId());
-                eventBus.send(new ExposeDetailsEvent(TransitionWrapper.wrap(image, bundle)));
-            }
+
         }
 
         void bindData(){
@@ -80,10 +65,8 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
             Glide.with(inflater.getContext())
                     .load(movieCover.getPosterPath())
                     .centerCrop()
-                    .into(image);
-            title.setText(data.get(getAdapterPosition()).getMovieTitle());
-            String date= movieCover.getReleaseDate();
-            year.setText(date);
+                    .into(posterImage);
+            mediaTitle.setText(data.get(getAdapterPosition()).getMovieTitle());
         }
     }
 
@@ -95,7 +78,7 @@ public class RelatedMoviesAdapter extends RecyclerView.Adapter<RelatedMoviesAdap
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root=inflater.inflate(R.layout.adapter_related_movie,parent,false);
+        View root=inflater.inflate(R.layout.adapter_media_item,parent,false);
         return new MovieViewHolder(root);
     }
 

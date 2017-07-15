@@ -119,7 +119,6 @@ public class  MovieInfoFragment extends Fragment
 
     @Override
     public void showGeneralInfo(@NonNull MovieInfo movieInfo) {
-        adapter.setMovieInfo(movieInfo);
     }
 
 

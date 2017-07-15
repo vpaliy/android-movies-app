@@ -7,9 +7,7 @@ import android.util.AttributeSet;
 public class TranslatableLayout extends ConstraintLayout {
 
     private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
-
     private boolean isChecked = false;
-    private int minOffset;
     private int staticOffset;
 
     public TranslatableLayout(Context context, AttributeSet attrs) {
@@ -18,7 +16,6 @@ public class TranslatableLayout extends ConstraintLayout {
 
     public void setOffset(int offset) {
         if (offset != getTranslationY()) {
-            offset = Math.max(minOffset, offset);
             setTranslationY(offset);
         }
     }
@@ -29,10 +26,6 @@ public class TranslatableLayout extends ConstraintLayout {
 
     public void setStaticOffset(int staticOffset) {
         this.staticOffset = staticOffset;
-    }
-
-    public void setMinOffset(int minOffset) {
-        this.minOffset = minOffset;
     }
 
     public int getStaticOffset() {
@@ -49,7 +42,6 @@ public class TranslatableLayout extends ConstraintLayout {
             refreshDrawableState();
         }
     }
-
 
     @Override
     public int[] onCreateDrawableState(int extraSpace) {

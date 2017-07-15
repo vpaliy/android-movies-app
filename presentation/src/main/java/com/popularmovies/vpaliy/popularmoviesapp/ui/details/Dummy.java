@@ -2,7 +2,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
 import com.bumptech.glide.Glide;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -13,35 +12,36 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.InfoAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieBackdropsAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieCastAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieTrailersAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.RelatedMoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxImageView;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout;
 import com.rd.PageIndicatorView;
-import butterknife.BindView;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.os.Handler;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import javax.inject.Inject;
-
 import java.util.Collections;
 import java.util.List;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract.Presenter;
 import com.rd.animation.type.AnimationType;
 import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipsLayout;
+import javax.inject.Inject;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import butterknife.BindView;
 
 import butterknife.ButterKnife;
 
@@ -79,7 +79,7 @@ public class Dummy extends BaseActivity
     protected RecyclerView info;
 
     @BindView(R.id.poster)
-    protected ImageView poster;
+    protected ParallaxImageView poster;
 
     private InfoAdapter infoAdapter;
     private MovieBackdropsAdapter adapter;
@@ -106,12 +106,27 @@ public class Dummy extends BaseActivity
             indicatorView.setTranslationY(image.getHeight()-indicatorView.getHeight()*2.5f);
             detailsParent.setStaticOffset(image.getHeight());
             detailsParent.setOffset(image.getHeight());
-            View blank=infoAdapter.getBlank();
-            ViewGroup.LayoutParams params=blank.getLayoutParams();
-            params.height=image.getHeight()+detailsParent.getHeight();
-            blank.setLayoutParams(params);
-            poster.setTranslationY(image.getHeight()-poster.getHeight()*.3f);
-            shiftElements();
+            detailsParent.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    View blank=infoAdapter.getBlank();
+                    ViewGroup.LayoutParams params=blank.getLayoutParams();
+                    params.height=image.getHeight()+detailsParent.getHeight();
+                    blank.setLayoutParams(params);
+                }
+            });
+            final float posterOffset=image.getHeight()-poster.getHeight()*.33f;
+            poster.setMinOffset(ViewCompat.getMinimumHeight(image)+poster.getHeight()/2);
+            poster.setStaticOffset(posterOffset);
+            poster.setOffset(posterOffset);
+            poster.setPinned(true);
+            new Handler().post(()->{
+                shiftElements();
+                View blank=infoAdapter.getBlank();
+                ViewGroup.LayoutParams params=blank.getLayoutParams();
+                params.height=image.getHeight()+detailsParent.getHeight();
+                blank.setLayoutParams(params);
+            });
             new Palette.Builder(bitmap).generate(Dummy.this::applyPalette);
             image.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
@@ -134,28 +149,48 @@ public class Dummy extends BaseActivity
     }
 
     private void shiftElements(){
-        final float posterY=getBottomY(poster);
+        final float posterY=poster.getY()+poster.getHeight();
+        final float posterX=poster.getX()+poster.getWidth();
         final int offset=poster.getWidth()+(int)getResources().getDimension(R.dimen.spacing_medium);
-        Log.d(TAG,"Media Poster:"+Float.toString(posterY));
-        if(posterY>=getBottomY(mediaTitle)){
-            Log.d(TAG,"Media Title:"+Float.toString(getBottomY(mediaTitle)));
-            shiftWithMargins(mediaTitle,offset);
+        if(posterX>=mediaTitle.getX()) {
+            if (shouldShiftHorizontally(posterY,mediaTitle)) {
+                shiftWithMargins(mediaTitle, offset);
+            }
         }
         //
-        if(posterY>=getBottomY(releaseYear)){
-            Log.d(TAG,"Media date:"+Float.toString(getBottomY(releaseYear)));
-            shiftWithMargins(releaseYear,offset);
+        if(posterX>=releaseYear.getX()) {
+            if (shouldShiftHorizontally(posterY,releaseYear)) {
+                shiftWithMargins(releaseYear, offset);
+            }else if(shouldShiftVertically(posterY,releaseYear)){
+                ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(releaseYear.getLayoutParams());
+                params.topMargin+=posterY-getBottomY(releaseYear)+getResources().getDimension(R.dimen.spacing_medium);
+                releaseYear.setLayoutParams(params);
+            }
         }
 
-        if(posterY>=getBottomY(tags)){
-            Log.d(TAG,"Media Tags:"+Float.toString(getBottomY(tags)));
-            shiftWithMargins(tags,offset);
+        if(posterX>=tags.getX()) {
+            if (shouldShiftHorizontally(posterY,tags)) {
+                shiftWithMargins(tags, offset);
+            }else if(shouldShiftVertically(posterY,tags)){
+                ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(tags.getLayoutParams());
+                params.topMargin+=posterY-getBottomY(tags)+getResources().getDimension(R.dimen.spacing_medium);
+                tags.setLayoutParams(params);
+            }
         }
 
         if(posterY>=getBottomY(mediaDescription)){
-            Log.d(TAG,"Media Description:"+Float.toString(getBottomY(mediaDescription)));
             shiftWithMargins(mediaDescription,offset);
         }
+    }
+
+    private boolean shouldShiftVertically(float y, View target){
+        float targetY=getBottomY(target);
+        return (y-targetY)>=(-getResources().getDimension(R.dimen.spacing_medium));
+    }
+
+    private boolean shouldShiftHorizontally(float y, View target){
+        float targetY=getBottomY(target);
+        return y>targetY+target.getHeight()/2;
     }
 
     private void shiftWithMargins(View target, int offset){
@@ -165,7 +200,7 @@ public class Dummy extends BaseActivity
     }
 
     private float getBottomY(View view){
-        return view.getTop()+view.getHeight();
+        return detailsParent.getY()+view.getY();
     }
 
     private void applyPalette(Palette palette){
@@ -200,6 +235,7 @@ public class Dummy extends BaseActivity
     private RecyclerView.OnFlingListener flingListener = new RecyclerView.OnFlingListener() {
         @Override
         public boolean onFling(int velocityX, int velocityY) {
+            poster.setImmediatePin(true);
             pager.setImmediatePin(true);
             return false;
         }
@@ -209,6 +245,7 @@ public class Dummy extends BaseActivity
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
+            poster.setImmediatePin(newState==RecyclerView.SCROLL_STATE_SETTLING);
             pager.setImmediatePin(newState == RecyclerView.SCROLL_STATE_SETTLING);
         }
 
@@ -216,7 +253,9 @@ public class Dummy extends BaseActivity
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             final int scrollY= infoAdapter.getBlank().getTop();
+            Log.d(TAG,Float.toString(scrollY));
             pager.setOffset(scrollY);
+            poster.setOffset(poster.getStaticOffset()+scrollY);
             detailsParent.setOffset(detailsParent.getStaticOffset()+scrollY);
         }
     };
@@ -231,10 +270,14 @@ public class Dummy extends BaseActivity
 
     @Override
     public void showDetails(@NonNull MovieDetails movieDetails) {
-        infoAdapter.setMovieInfo(movieDetails.getMovieInfo());
+        MovieCastAdapter castAdapter=new MovieCastAdapter(this);
+        castAdapter.setData(movieDetails.getCast());
+        RelatedMoviesAdapter relatedMoviesAdapter=new RelatedMoviesAdapter(this,movieDetails.getSimilarMovies(),null);
         mediaDescription.setText(movieDetails.getMovieInfo().getDescription());
         MovieTrailersAdapter adapter=new MovieTrailersAdapter(this);
         adapter.setData(movieDetails.getTrailers());
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(castAdapter,getString(R.string.cast_title)));
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(relatedMoviesAdapter,getString(R.string.media_similar_content)));
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_trailers)));
     }
 

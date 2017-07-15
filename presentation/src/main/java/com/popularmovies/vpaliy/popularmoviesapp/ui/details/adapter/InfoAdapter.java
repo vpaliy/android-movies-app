@@ -23,11 +23,9 @@ import butterknife.ButterKnife;
 public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHolder> {
 
     private static final int BLANK_TYPE=0;
-    private static final int INFO_TYPE=1;
     private static final int MEDIA_TYPE=2;
 
     private List<MovieListWrapper> wrapperList;
-    private MovieInfo movieInfo;
     private View blank;
 
     private final LayoutInflater inflater;
@@ -46,73 +44,26 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
             super(itemView);
         }
 
-        void bindData(){};
+        void bindData(){}
     }
-
-
-
-    public class InfoViewHolder extends AbstractViewHolder
-            implements View.OnClickListener{
-
-        @BindView(R.id.budget)
-        TextView movieBudget;
-
-        @BindView(R.id.revenue)
-        TextView movieRevenue;
-
-        @BindView(R.id.releaseDate)
-        TextView movieReleaseDate;
-
-        @BindView(R.id.movieDescription)
-        ExpandableTextView movieDescription;
-
-        public InfoViewHolder(View itemView){
-            super(itemView);
-            ButterKnife.bind(this,itemView);
-            movieDescription.setOnClickListener(this);
-
-        }
-
-        @Override
-        public void onClick(View v) {
-            movieDescription.toggle();
-        }
-
-        void bindData(){
-            final Context context=inflater.getContext();
-            final String NA=context.getString(R.string.NA);
-            final String budgetText=movieInfo.getBudget()!=null?"$"+movieInfo.getBudget():NA;
-            final String revenueText=movieInfo.getRevenue()!=null?"$"+movieInfo.getRevenue():NA;
-            final String releaseDateText=movieInfo.getReleaseDate()!=null?movieInfo.getReleaseDate().toString():NA;
-            final String descriptionText=movieInfo.getDescription()!=null?movieInfo.getDescription():NA;
-
-            movieDescription.setText(descriptionText);
-            movieBudget.setText(budgetText);
-            movieRevenue.setText(revenueText);
-            movieReleaseDate.setText(releaseDateText);
-        }
-    }
-
 
     public class MoviesViewHolder extends AbstractViewHolder{
 
-        @BindView(R.id.cardTitle)
+        @BindView(R.id.title)
         TextView cardTitle;
 
-        @BindView(R.id.additionalList)
+        @BindView(R.id.media_list)
         RecyclerView additionalList;
 
         public MoviesViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
             additionalList.setNestedScrollingEnabled(false);
-            additionalList.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-
         }
 
         @Override
         void bindData() {
-            MovieListWrapper wrapper=wrapperList.get(getAdapterPosition()-2);
+            MovieListWrapper wrapper=wrapperList.get(getAdapterPosition()-1);
             RecyclerView.Adapter<?> adapter=wrapper.getAdapter();
             additionalList.setAdapter(adapter);
             cardTitle.setText(wrapper.getTitle());
@@ -126,12 +77,9 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
             case BLANK_TYPE:
                 if(blank==null) blank=inflater.inflate(R.layout.blank,parent,false);
                 return new AbstractViewHolder(blank);
-            case INFO_TYPE:
-                return new InfoViewHolder(inflater.inflate(R.layout.movie_info_card,parent,false));
-            case MEDIA_TYPE:
+            default:
                 return new MoviesViewHolder(inflater.inflate(R.layout.movie_similar_card,parent,false));
         }
-        return null;
     }
 
     public View getBlank() {
@@ -145,26 +93,19 @@ public class InfoAdapter extends RecyclerView.Adapter<InfoAdapter.AbstractViewHo
 
     @Override
     public int getItemCount() {
-        return wrapperList.size()+(movieInfo!=null?1:0)+1;
+        return wrapperList.size()+1;
     }
 
     @Override
     public int getItemViewType(int position) {
         if(position==0) return BLANK_TYPE;
-        return position>1?MEDIA_TYPE:INFO_TYPE;
-    }
-
-
-    public void setMovieInfo(MovieInfo movieInfo){
-        this.movieInfo=movieInfo;
-        notifyDataSetChanged();
+        return MEDIA_TYPE;
     }
 
     public void addWrapper(MovieListWrapper wrapper){
         wrapperList.add(wrapper);
         notifyItemInserted(wrapperList.size());
     }
-
 
     public static class MovieListWrapper {
 

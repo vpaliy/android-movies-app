@@ -30,10 +30,10 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
     public class CastViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
 
-        @BindView(R.id.actorImage)
+        @BindView(R.id.actor_image)
         CircleImageView actorImage;
 
-        @BindView(R.id.actionName)
+        @BindView(R.id.actor_name)
         TextView actorName;
 
         public CastViewHolder(View itemView){

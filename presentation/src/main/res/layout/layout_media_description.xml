@@ -1,9 +1,7 @@
 <com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout
-    android:orientation="vertical"
     android:padding="@dimen/spacing_large"
     android:id="@+id/details_background"
     android:background="@color/blue_grey_400"
-    android:layout_below="@+id/media_poster"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:transitionName="@string/media_details_transition_name"
@@ -23,7 +21,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="Fantastic beasts and where to find them "
-        android:layout_marginTop="16dp"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
@@ -55,7 +52,7 @@
         app:layout_constraintWidth_default="wrap"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintTop_toBottomOf="@+id/media_release_year"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -88,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_medium"
         style="@style/Widget.Title"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chipsContainer"/>

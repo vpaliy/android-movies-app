@@ -28,6 +28,7 @@
 
         <item name="android:windowSharedElementEnterTransition">@transition/shared_enter</item>
         <item name="android:windowEnterTransition">@transition/details_enter</item>
+        <item name="android:windowReturnTransition">@transition/details_exit</item>
         <item name="android:windowExitTransition">@transition/details_exit</item>
         <item name="android:windowSharedElementReturnTransition">@transition/details_shared_exit</item>
 
