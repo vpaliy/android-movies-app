@@ -1,34 +1,41 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.view;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
+import android.widget.Checkable;
+import android.widget.ImageButton;
 
-public class TranslatableLayout extends ConstraintLayout {
+public class FABToggle extends FloatingActionButton
+        implements Checkable {
 
-    private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
+    private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };
+
     private boolean isChecked = false;
-    private float staticOffset;
+    private int minOffset;
+    private int staticOffset;
 
-    public TranslatableLayout(Context context, AttributeSet attrs) {
+    public FABToggle(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void setOffset(float offset) {
+    public void setOffset(int offset) {
         if (offset != getTranslationY()) {
+            offset = Math.max(minOffset, offset);
             setTranslationY(offset);
         }
     }
 
-    public float getOffset() {
-        return getTranslationY();
-    }
-
-    public void setStaticOffset(float staticOffset) {
+    public void setStaticOffset(int staticOffset) {
         this.staticOffset = staticOffset;
     }
 
-    public float getStaticOffset() {
+    public void setMinOffset(int minOffset) {
+        this.minOffset = minOffset;
+    }
+
+    public int getStaticOffset() {
         return staticOffset;
     }
 
@@ -41,6 +48,10 @@ public class TranslatableLayout extends ConstraintLayout {
             this.isChecked = isChecked;
             refreshDrawableState();
         }
+    }
+
+    public void toggle() {
+        setChecked(!isChecked);
     }
 
     @Override

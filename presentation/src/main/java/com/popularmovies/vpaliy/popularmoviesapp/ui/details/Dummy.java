@@ -1,8 +1,10 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import com.bumptech.glide.Glide;
+import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
@@ -18,6 +20,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.RelatedMovie
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.FABToggle;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxImageView;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout;
@@ -81,6 +84,9 @@ public class Dummy extends BaseActivity
     @BindView(R.id.poster)
     protected ParallaxImageView poster;
 
+    @BindView(R.id.share_fab)
+    protected FABToggle toggle;
+
     private InfoAdapter infoAdapter;
     private MovieBackdropsAdapter adapter;
     private Presenter presenter;
@@ -113,6 +119,11 @@ public class Dummy extends BaseActivity
                     ViewGroup.LayoutParams params=blank.getLayoutParams();
                     params.height=image.getHeight()+detailsParent.getHeight();
                     blank.setLayoutParams(params);
+
+
+                    int offset=image.getHeight()+detailsParent.getHeight()-(toggle.getHeight()/2);
+                    toggle.setStaticOffset(offset);
+                    toggle.setOffset(offset);
                 }
             });
             final float posterOffset=image.getHeight()-poster.getHeight()*.33f;
@@ -120,12 +131,14 @@ public class Dummy extends BaseActivity
             poster.setStaticOffset(posterOffset);
             poster.setOffset(posterOffset);
             poster.setPinned(true);
+            toggle.setMinOffset(ViewCompat.getMinimumHeight(pager)-toggle.getHeight()/2);
             new Handler().post(()->{
                 shiftElements();
                 View blank=infoAdapter.getBlank();
                 ViewGroup.LayoutParams params=blank.getLayoutParams();
                 params.height=image.getHeight()+detailsParent.getHeight();
                 blank.setLayoutParams(params);
+
             });
             new Palette.Builder(bitmap).generate(Dummy.this::applyPalette);
             image.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -208,6 +221,7 @@ public class Dummy extends BaseActivity
         if(swatch==null) swatch=palette.getDominantSwatch();
         //apply if not null
         if(swatch!=null){
+            toggle.setBackgroundTintList(ColorStateList.valueOf(swatch.getRgb()));
             detailsParent.setBackgroundColor(swatch.getRgb());
             ChipBuilder builder=tags.getChipBuilder()
                     .setBackgroundColor(swatch.getTitleTextColor())
@@ -253,10 +267,21 @@ public class Dummy extends BaseActivity
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             final int scrollY= infoAdapter.getBlank().getTop();
-            Log.d(TAG,Float.toString(scrollY));
             pager.setOffset(scrollY);
             poster.setOffset(poster.getStaticOffset()+scrollY);
             detailsParent.setOffset(detailsParent.getStaticOffset()+scrollY);
+            toggle.setOffset(toggle.getStaticOffset()+scrollY);
+
+            float min=poster.getOffset()+poster.getHeight();
+            float max=detailsParent.getStaticOffset()+detailsParent.getHeight();
+            //hide the poster as it goes up
+            float alpha=((detailsParent.getOffset()+detailsParent.getHeight())-min)/(max-min);
+            poster.setAlpha(alpha);
+            toggle.setAlpha(1f-alpha);
+            max=pager.getHeight();
+            min=indicatorView.getTranslationY()+indicatorView.getHeight();
+            //hide the indicator as well
+            indicatorView.setAlpha((pager.getOffset()+pager.getHeight()-min)/(max-min));
         }
     };
 
@@ -276,7 +301,14 @@ public class Dummy extends BaseActivity
         mediaDescription.setText(movieDetails.getMovieInfo().getDescription());
         MovieTrailersAdapter adapter=new MovieTrailersAdapter(this);
         adapter.setData(movieDetails.getTrailers());
+
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(castAdapter,getString(R.string.cast_title)));
+        MediaCollection collection=movieDetails.getCollection();
+        if(collection!=null && collection.getCovers()!=null){
+            RelatedMoviesAdapter collectionAdapter=new RelatedMoviesAdapter(this,collection.getCovers(),null);
+            infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(collectionAdapter,collection.getName()));
+        }
+
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(relatedMoviesAdapter,getString(R.string.media_similar_content)));
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_trailers)));
     }

@@ -2,12 +2,14 @@ package com.popularmovies.vpaliy.data.mapper;
 
 
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.CollectionEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.utils.MapperUtils;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
+import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
@@ -28,18 +30,21 @@ public class MovieDetailsMapper extends Mapper<MovieDetails,MovieDetailEntity> {
     private final Mapper<MovieInfo,Movie> movieInfoMapper;
     private final Mapper<Review,ReviewEntity> reviewMapper;
     private final Mapper<Trailer,TrailerEntity> trailerMapper;
+    private final Mapper<MediaCollection,CollectionEntity> collectionMapper;
 
     @Inject
     public MovieDetailsMapper(Mapper<MediaCover,Movie> movieCoverMapper,
                               Mapper<ActorCover,ActorEntity> actorEntityMapper,
                               Mapper<MovieInfo,Movie> movieInfoMapper,
                               Mapper<Review,ReviewEntity> reviewMapper,
-                              Mapper<Trailer,TrailerEntity> trailerMapper) {
+                              Mapper<Trailer,TrailerEntity> trailerMapper,
+                              Mapper<MediaCollection,CollectionEntity> collectionMapper) {
         this.movieCoverMapper=movieCoverMapper;
         this.actorEntityMapper=actorEntityMapper;
         this.movieInfoMapper=movieInfoMapper;
         this.reviewMapper=reviewMapper;
         this.trailerMapper=trailerMapper;
+        this.collectionMapper=collectionMapper;
     }
 
     @Override
@@ -52,6 +57,7 @@ public class MovieDetailsMapper extends Mapper<MovieDetails,MovieDetailEntity> {
         movieDetails.setMovieCover(movieCoverMapper.map(detailsEntity.getMovie()));
         movieDetails.setTrailers(trailerMapper.map(detailsEntity.getTrailers()));
         movieDetails.setReviews(reviewMapper.map(detailsEntity.getReviews()));
+        movieDetails.setCollection(collectionMapper.map(detailsEntity.getCollectionEntity()));
         return movieDetails;
 
     }
@@ -78,6 +84,7 @@ public class MovieDetailsMapper extends Mapper<MovieDetails,MovieDetailEntity> {
             detailEntity.setBackdropImages(movie.getBackdropImages());
             detailEntity.setFavorite(movie.isFavorite());
         }
+        detailEntity.setCollectionEntity(collectionMapper.reverseMap(details.getCollection()));
         detailEntity.setCast(actorEntityMapper.reverseMap(details.getCast()));
         detailEntity.setReviews(reviewMapper.reverseMap(details.getReviews()));
         detailEntity.setSimilarMovies(movieCoverMapper.reverseMap(details.getSimilarMovies()));

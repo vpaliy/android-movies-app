@@ -12,10 +12,20 @@ public class MovieDetailEntity implements HasId{
     private List<Movie> similarMovies;
     private List<BackdropImage> backdropImages;
     private List<Genre> genres;
+    private CollectionEntity collectionEntity;
 
     @Override
     public int id() {
         return movie.id();
+    }
+
+
+    public void setCollectionEntity(CollectionEntity collectionEntity) {
+        this.collectionEntity = collectionEntity;
+    }
+
+    public CollectionEntity getCollectionEntity() {
+        return collectionEntity;
     }
 
     public int getMovieId() {

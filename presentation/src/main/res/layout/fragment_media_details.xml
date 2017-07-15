@@ -44,7 +44,6 @@
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/spacing_medium"
         android:orientation="vertical"
         android:scrollbars="vertical"
         android:scrollbarStyle="insideOverlay"
@@ -83,4 +82,16 @@
         android:scaleType="centerCrop"
         android:layout_width="120dp"
         android:layout_height="180dp" />
+
+
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.FABToggle
+        android:id="@+id/share_fab"
+        app:fabSize="normal"
+        android:alpha="0"
+        app:srcCompat="@drawable/share_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginRight="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_medium" />
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout>

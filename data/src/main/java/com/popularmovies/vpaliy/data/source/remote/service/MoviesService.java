@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.data.source.remote.service;
 
+import com.popularmovies.vpaliy.data.entity.CollectionEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
@@ -34,6 +35,9 @@ public interface MoviesService {
 
     @GET("movie/{id}")
     Observable<Movie> queryDetails(@Path("id") String id);
+
+    @GET("collection/{collection_id}")
+    Observable<CollectionEntity> queryCollection(@Path("collection_id") String id);
 
     @GET("movie/{id}/images")
     Observable<BackdropsWrapper> queryBackdrops(@Path("id") String id);

@@ -12,9 +12,14 @@ public class MovieDetails {
     private List<Trailer> trailers;
     private List<ActorCover> cast;
     private List<MediaCover> similarMovies;
+    private MediaCollection collection;
 
     public MovieDetails(int movieId){
         this.movieId=movieId;
+    }
+
+    public void setCollection(MediaCollection collection) {
+        this.collection = collection;
     }
 
     public int getMovieId() {
@@ -39,6 +44,10 @@ public class MovieDetails {
 
     public MovieInfo getMovieInfo() {
         return movieInfo;
+    }
+
+    public MediaCollection getCollection() {
+        return collection;
     }
 
     public List<MediaCover> getSimilarMovies() {

@@ -2,11 +2,13 @@ package com.popularmovies.vpaliy.data.mapper;
 
 import com.popularmovies.vpaliy.data.FakeDataProvider;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.CollectionEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
+import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
@@ -42,12 +44,16 @@ public class MovieDetailsMapperTest {
     @Mock
     private Mapper<Trailer,TrailerEntity> trailerMapper;
 
+
+    @Mock
+    private Mapper<MediaCollection,CollectionEntity> collectionMapper;
+
     private MovieDetailsMapper detailsMapper;
 
     @Before
     public void setUp(){
         detailsMapper=new MovieDetailsMapper(movieMapper,actorMapper,
-                infoMapper,reviewMapper,trailerMapper);
+                infoMapper,reviewMapper,trailerMapper,collectionMapper);
     }
 
     @Test

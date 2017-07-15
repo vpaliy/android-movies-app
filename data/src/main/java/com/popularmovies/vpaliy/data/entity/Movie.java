@@ -67,6 +67,9 @@ public class Movie implements HasId {
     @SerializedName("vote_count")
     private long voteCount;
 
+    @SerializedName("belongs_to_collection")
+    private CollectionEntity collection;
+
     private boolean isFavorite;
     private boolean isWatched;
     private boolean isMustWatch;
@@ -94,6 +97,14 @@ public class Movie implements HasId {
 
     public boolean isFavorite() {
         return isFavorite;
+    }
+
+    public void setCollection(CollectionEntity collection) {
+        this.collection = collection;
+    }
+
+    public CollectionEntity getCollection() {
+        return collection;
     }
 
     public void setFavorite(boolean favorite) {
