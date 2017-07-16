@@ -458,8 +458,6 @@ public final class MoviesContract {
         public static String getMusthWatchMediaId(Uri uri){
             return Long.toString(ContentUris.parseId(uri));
         }
-
-
     }
 
     public static class WatchedhMedia implements MediaCollectionColumns {
@@ -484,5 +482,4 @@ public final class MoviesContract {
             return Long.toString(ContentUris.parseId(uri));
         }
     }
-
 }

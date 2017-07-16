@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
 
 import android.content.Context;
+
+import com.popularmovies.vpaliy.data.source.remote.service.CastService;
 import com.popularmovies.vpaliy.data.source.remote.service.GenresService;
 import com.popularmovies.vpaliy.data.source.remote.service.MoviesService;
 import com.popularmovies.vpaliy.data.source.remote.service.TvShowService;
@@ -91,5 +93,11 @@ public class NetworkModule {
     @Singleton
     GenresService provideGenresService(@NonNull Retrofit retrofit){
         return retrofit.create(GenresService.class);
+    }
+
+    @Provides
+    @Singleton
+    CastService provideCastService(@NonNull Retrofit retrofit){
+        return retrofit.create(CastService.class);
     }
 }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#fafafa"
+    android:transitionGroup="false"
     android:id="@+id/body"
     android:layout_marginBottom="@dimen/spacing_large"
     android:layout_marginTop="@dimen/spacing_large"

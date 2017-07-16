@@ -154,6 +154,7 @@ public class MediaActivity extends BaseActivity {
     }
 
     private void showDetails(@NonNull ExposeEvent event){
+        disposables.clear();
         event.data.putInt(Constants.EXTRA_TRANSITION_ID,R.transition.details_poster_enter);
         navigator.navigate(this,event);
     }

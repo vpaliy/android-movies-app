@@ -110,6 +110,7 @@ public class MediaDetailsFragment extends BaseFragment
     private String sharedPath;
     private String sharedPosterPath;
 
+
     public static MediaDetailsFragment newInstance(Bundle args){
         MediaDetailsFragment fragment=new MediaDetailsFragment();
         fragment.setArguments(args);
@@ -139,8 +140,11 @@ public class MediaDetailsFragment extends BaseFragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
+            if(sharedPosterPath!=null){
+                ViewCompat.setTransitionName(poster,getArguments().getString(Constants.EXTRA_TRANSITION_NAME));
+                loadCover();
+            }
             getActivity().supportPostponeEnterTransition();
-            if(sharedPosterPath!=null) loadCover();
             infoAdapter=new InfoAdapter(getContext());
             adapter=new MovieBackdropsAdapter(getContext());
             adapter.setData(Collections.singletonList(sharedPath));

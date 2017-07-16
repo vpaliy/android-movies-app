@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.configuration.SortConfiguration;
+import com.popularmovies.vpaliy.data.entity.ActorDetailEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShow;
@@ -10,14 +11,17 @@ import com.popularmovies.vpaliy.data.repository.CoverRepository;
 import com.popularmovies.vpaliy.data.repository.DetailsRepository;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
+import com.popularmovies.vpaliy.data.source.local.LocalActorDetails;
 import com.popularmovies.vpaliy.data.source.local.LocalMovieCovers;
 import com.popularmovies.vpaliy.data.source.local.LocalMovieDetails;
 import com.popularmovies.vpaliy.data.source.local.LocalTvShowCovers;
 import com.popularmovies.vpaliy.data.source.local.LocalTvShowDetails;
+import com.popularmovies.vpaliy.data.source.remote.RemoteActorDetails;
 import com.popularmovies.vpaliy.data.source.remote.RemoteMovieCovers;
 import com.popularmovies.vpaliy.data.source.remote.RemoteMovieDetails;
 import com.popularmovies.vpaliy.data.source.remote.RemoteTvShowCovers;
 import com.popularmovies.vpaliy.data.source.remote.RemoteTvShowDetails;
+import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
@@ -128,6 +132,26 @@ public class DataModule {
     @Provides
     IDetailsRepository<TVShowDetails> provideTVShowDetails(DetailsRepository<TVShowDetails,TvShowDetailEntity> detailsRepository){
         return detailsRepository;
+    }
+
+    @Singleton
+    @Provides
+    IDetailsRepository<ActorDetails> provideActorDetails(DetailsRepository<ActorDetails,ActorDetailEntity> detailsRepository){
+        return detailsRepository;
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    DetailsDataSource<ActorDetailEntity> remoteActorDetails(RemoteActorDetails remoteActorDetails){
+        return remoteActorDetails;
+    }
+
+    @Singleton
+    @Provides
+    @Local
+    DetailsDataSource<ActorDetailEntity> localActorDetails(LocalActorDetails localActorDetails){
+        return localActorDetails;
     }
 
 }

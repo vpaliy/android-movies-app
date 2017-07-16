@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
+import com.popularmovies.vpaliy.data.entity.ActorDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.CollectionEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
@@ -11,6 +12,7 @@ import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
+import com.popularmovies.vpaliy.data.mapper.ActorDetailsMapper;
 import com.popularmovies.vpaliy.data.mapper.ActorMapper;
 import com.popularmovies.vpaliy.data.mapper.CollectionMapper;
 import com.popularmovies.vpaliy.data.mapper.Mapper;
@@ -25,6 +27,7 @@ import com.popularmovies.vpaliy.data.mapper.TvShowInfoMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowMapper;
 import com.popularmovies.vpaliy.data.mapper.TvShowSeasonMapper;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
+import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -111,6 +114,12 @@ public class MapperModule {
     @Singleton
     @Provides
     Mapper<MovieDetails,MovieDetailEntity> provideMovieDetailsMapper(MovieDetailsMapper mapper){
+        return mapper;
+    }
+
+    @Singleton
+    @Provides
+    Mapper<ActorDetails,ActorDetailEntity> provideActorMapper(ActorDetailsMapper mapper){
         return mapper;
     }
 

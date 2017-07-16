@@ -10,7 +10,9 @@ import android.transition.TransitionInflater;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+
 
 public class MediaDetailsActivity extends BaseActivity {
 
@@ -49,6 +51,7 @@ public class MediaDetailsActivity extends BaseActivity {
 
     @Override
     public void handleEvent(@NonNull Object event) {
-
+        disposables.clear();
+        navigator.navigate(this, ExposeEvent.class.cast(event));
     }
 }

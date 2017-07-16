@@ -282,7 +282,6 @@ public class FakeDataProvider {
         ActorDetailEntity actorDetailEntity=new ActorDetailEntity();
         actorDetailEntity.setActorId(FAKE_ACTOR_ID);
         actorDetailEntity.setActor(provideActorEntity());
-        actorDetailEntity.setActorInfo(provideActorInfo());
         actorDetailEntity.setMovies(provideMovieList());
         return actorDetailEntity;
     }

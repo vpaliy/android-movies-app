@@ -48,13 +48,15 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
             posterImage.setOnClickListener(v -> {
                 if(!isLocked()) {
                     lock();
+                    Context context=itemView.getContext();
                     Bundle args = new Bundle();
+                    String transitionName=context.getString(R.string.poster_transition_name)+getAdapterPosition();
                     args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
                     args.putString(Constants.EXTRA_DATA,at(getAdapterPosition()).getMainBackdrop());
                     args.putString(Constants.EXTRA_POSTER_PATH,at(getAdapterPosition()).getPosterPath());
-                    ViewCompat.setTransitionName(posterImage,inflater.getContext().getString(R.string.poster_transition_name));
-                    Context context=itemView.getContext();
-                    rxBus.send(ExposeEvent.dispatchEvent(args,Pair.create(posterImage,context.getString(R.string.poster_transition_name))));
+                    args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);
+                    ViewCompat.setTransitionName(posterImage,transitionName);
+                    rxBus.send(ExposeEvent.dispatchEvent(args,Pair.create(posterImage,transitionName)));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });

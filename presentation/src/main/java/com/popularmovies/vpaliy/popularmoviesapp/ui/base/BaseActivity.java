@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 /**
  * A base class for activities
@@ -48,8 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
     @CallSuper @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         disposables.add(eventBus.asFlowable()
                 .subscribe(this::processEvent));
     }
@@ -60,11 +59,16 @@ public abstract class BaseActivity extends AppCompatActivity{
         }
     }
 
+    @Override @CallSuper
+    protected void onPause() {
+        super.onPause();
+        disposables.clear();
+    }
+
+    //just in case if the onPause() hasn't been called
     @CallSuper @Override
     protected void onStop(){
         super.onStop();
         disposables.clear();
     }
-
-
 }

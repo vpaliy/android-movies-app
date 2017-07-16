@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
+
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -17,18 +20,13 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.CastViewHolder> {
+public class MovieCastAdapter extends AbstractMediaAdapter<ActorCover> {
 
-    private List<ActorCover> castList;
-    private LayoutInflater inflater;
-
-    public MovieCastAdapter(@NonNull Context context){
-        this.castList=new ArrayList<>();
-        this.inflater=LayoutInflater.from(context);
+    public MovieCastAdapter(@NonNull Context context, @NonNull RxBus rxBus){
+        super(context,rxBus);
     }
 
-    public class CastViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener{
+    public class CastViewHolder extends AbstractMediaAdapter<ActorCover>.GenericViewHolder{
 
         @BindView(R.id.actor_image)
         CircleImageView actorImage;
@@ -36,47 +34,25 @@ public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.Cast
         @BindView(R.id.actor_name)
         TextView actorName;
 
-        public CastViewHolder(View itemView){
+        CastViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
 
-        void onBindData(){
+        public void onBindData(){
             Glide.with(inflater.getContext())
-                    .load(castList.get(getAdapterPosition()).getActorAvatar())
+                    .load(at(getAdapterPosition()).getActorAvatar())
                     .centerCrop()
                     .into(actorImage);
-            ActorCover actor=castList.get(getAdapterPosition());
+            ActorCover actor=at(getAdapterPosition());
             String fullName=actor.getName();
 
             actorName.setText(fullName);
         }
-
-        @Override
-        public void onClick(View v) {
-
-        }
     }
-
-
     @Override
     public CastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root=inflater.inflate(R.layout.adapter_movie_cast,parent,false);
         return new CastViewHolder(root);
-    }
-
-    public void setData(@NonNull List<ActorCover> cast){
-        this.castList=cast;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void onBindViewHolder(CastViewHolder holder, int position) {
-        holder.onBindData();
-    }
-
-    @Override
-    public int getItemCount() {
-        return castList.size();
     }
 }

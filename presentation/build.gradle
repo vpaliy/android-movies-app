@@ -53,6 +53,7 @@ dependencies {
     compile 'com.roughike:bottom-bar:2.3.1'
     compile 'com.github.kanytu:ImageWindow:v1.0'
     compile 'com.romandanylyk:pageindicatorview:0.2.0@aar'
+    compile 'com.github.florent37:diagonallayout:1.0.6'
     compile libs.chipsLover
     compile libs.calligraphy
     compile libs.constraintLayout
