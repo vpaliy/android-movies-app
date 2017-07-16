@@ -5,16 +5,8 @@ import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.DetailsPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieCastContract;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieInfoContract;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieReviewContract;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.presenter.MovieDetailsPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaPresenter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.presenter.MovieCastPresenter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.presenter.MovieInfoPresenter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.presenter.MovieReviewPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaPresenter;
 
@@ -41,11 +33,6 @@ public class PresenterModule {
     }
 
     @ViewScope @Provides
-    MovieDetailsContract.Presenter mediaDetailsPresenter(@NonNull MovieDetailsPresenter presenter){
-        return presenter;
-    }
-
-    @ViewScope @Provides
     MediaDetailsContract.Presenter detailsPresenter(@NonNull DetailsPresenter presenter){
         return presenter;
     }
@@ -62,18 +49,4 @@ public class PresenterModule {
         return new MoreMediaPresenter(iCoverRepository,schedulerProvider);
     }
 
-    @ViewScope @Provides
-    MovieInfoContract.Presenter movieInfoPresenter(@NonNull MovieInfoPresenter presenter){
-        return presenter;
-    }
-
-    @ViewScope @Provides
-    MovieCastContract.Presenter movieCastPresenter(@NonNull MovieCastPresenter presenter){
-        return presenter;
-    }
-
-    @ViewScope @Provides
-    MovieReviewContract.Presenter movieReviewPresenter(@NonNull MovieReviewPresenter presenter){
-        return presenter;
-    }
 }

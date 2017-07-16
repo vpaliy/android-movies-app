@@ -33,12 +33,6 @@
             android:name=".ui.more.MoreMediaActivity"
             android:theme="@style/PopMovies.MoreMedia"/>
 
-        <activity android:name=".ui.details.DetailsActivity"
-                  android:theme="@style/PopMovies.Details"/>
-
-        <activity android:name=".ui.details.Dummy"
-                android:theme="@style/PopMovies.Details"/>
-
         <activity
             android:name=".ui.base.SettingsActivity"
             android:theme="@style/PopMovies"

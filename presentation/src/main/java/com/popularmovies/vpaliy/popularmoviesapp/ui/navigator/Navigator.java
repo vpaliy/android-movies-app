@@ -8,25 +8,21 @@ import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.DetailsActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.Dummy;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ViewAllEvent;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
-import android.view.View;
 
 public class Navigator {
 
     private static final String TAG=Navigator.class.getSimpleName();
 
     public void showDetails(@NonNull Activity activity, @NonNull ExposeDetailsEvent event){
-        Intent intent=new Intent(activity,Dummy.class);
+        Intent intent=new Intent(activity,MediaDetailsFragment.class);
         TransitionWrapper wrapper=event.getWrapper();
         intent.putExtras(wrapper.getData());
         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
