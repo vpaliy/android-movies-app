@@ -1,7 +1,5 @@
 <transitionSet
     xmlns:android="http://schemas.android.com/apk/res/android">
-
-
     <transitionSet>
         <targets>
             <target android:targetId="@id/poster"/>

@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.media;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import java.util.List;
@@ -47,8 +50,11 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     lock();
                     Bundle args = new Bundle();
                     args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
-                    TransitionWrapper wrapper = TransitionWrapper.wrap(posterImage, args);
-                    rxBus.send(new ExposeDetailsEvent(wrapper));
+                    args.putString(Constants.EXTRA_DATA,at(getAdapterPosition()).getMainBackdrop());
+                    args.putString(Constants.EXTRA_POSTER_PATH,at(getAdapterPosition()).getPosterPath());
+                    ViewCompat.setTransitionName(posterImage,inflater.getContext().getString(R.string.poster_transition_name));
+                    Context context=itemView.getContext();
+                    rxBus.send(ExposeEvent.dispatchEvent(args,Pair.create(posterImage,context.getString(R.string.poster_transition_name))));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });

@@ -19,8 +19,6 @@ import android.support.annotation.NonNull;
 
 public class Navigator {
 
-    private static final String TAG=Navigator.class.getSimpleName();
-
     public void showDetails(@NonNull Activity activity, @NonNull ExposeDetailsEvent event){
         Intent intent=new Intent(activity,MediaDetailsFragment.class);
         TransitionWrapper wrapper=event.getWrapper();

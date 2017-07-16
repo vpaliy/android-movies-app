@@ -11,6 +11,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetail
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager;
 import com.roughike.bottombar.BottomBar;
@@ -153,6 +154,7 @@ public class MediaActivity extends BaseActivity {
     }
 
     private void showDetails(@NonNull ExposeEvent event){
+        event.data.putInt(Constants.EXTRA_TRANSITION_ID,R.transition.details_poster_enter);
         navigator.navigate(this,event);
     }
 

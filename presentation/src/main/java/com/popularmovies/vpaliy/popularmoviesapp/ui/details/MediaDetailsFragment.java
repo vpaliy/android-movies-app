@@ -15,6 +15,10 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
@@ -43,6 +47,7 @@ import com.rd.animation.type.AnimationType;
 import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipsLayout;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import butterknife.BindView;
@@ -103,6 +108,7 @@ public class MediaDetailsFragment extends BaseFragment
 
     private int mediaId;
     private String sharedPath;
+    private String sharedPosterPath;
 
     public static MediaDetailsFragment newInstance(Bundle args){
         MediaDetailsFragment fragment=new MediaDetailsFragment();
@@ -117,6 +123,7 @@ public class MediaDetailsFragment extends BaseFragment
         if(savedInstanceState==null) savedInstanceState=getArguments();
         mediaId=savedInstanceState.getInt(Constants.EXTRA_ID);
         sharedPath=savedInstanceState.getString(Constants.EXTRA_DATA);
+        sharedPosterPath=savedInstanceState.getString(Constants.EXTRA_POSTER_PATH);
         initializeDependencies();
     }
 
@@ -133,6 +140,7 @@ public class MediaDetailsFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
             getActivity().supportPostponeEnterTransition();
+            if(sharedPosterPath!=null) loadCover();
             infoAdapter=new InfoAdapter(getContext());
             adapter=new MovieBackdropsAdapter(getContext());
             adapter.setData(Collections.singletonList(sharedPath));
@@ -154,21 +162,12 @@ public class MediaDetailsFragment extends BaseFragment
                         toggle.setOffset(offset);
                     }
                 });
-                presenter.start(mediaId);
                 final float posterOffset=image.getHeight()-poster.getHeight()*.33f;
                 poster.setMinOffset(ViewCompat.getMinimumHeight(image)+poster.getHeight()/2);
                 poster.setStaticOffset(posterOffset);
                 poster.setOffset(posterOffset);
                 poster.setPinned(true);
                 toggle.setMinOffset(ViewCompat.getMinimumHeight(pager)-toggle.getHeight()/2);
-                new Handler().post(()->{
-                    shiftElements();
-                    View blank=infoAdapter.getBlank();
-                    ViewGroup.LayoutParams params=blank.getLayoutParams();
-                    params.height=image.getHeight()+detailsParent.getHeight();
-                    blank.setLayoutParams(params);
-
-                });
                 new Palette.Builder(bitmap).generate(MediaDetailsFragment.this::applyPalette);
                 image.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                     @Override
@@ -177,6 +176,7 @@ public class MediaDetailsFragment extends BaseFragment
                         return true;
                     }
                 });
+                presenter.start(mediaId);
             });
             info.setAdapter(infoAdapter);
             pager.setAdapter(adapter);
@@ -190,55 +190,34 @@ public class MediaDetailsFragment extends BaseFragment
     }
 
 
+    private void adjustElements(){
+        indicatorView.setAnimationType(AnimationType.WORM);
+        indicatorView.setTranslationY(pager.getHeight()-indicatorView.getHeight()*2.5f);
+        detailsParent.setStaticOffset(pager.getHeight());
+        detailsParent.setOffset(pager.getHeight());
+        detailsParent.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                View blank=infoAdapter.getBlank();
+                ViewGroup.LayoutParams params=blank.getLayoutParams();
+                params.height=pager.getHeight() +detailsParent.getHeight();
+                blank.setLayoutParams(params);
+
+                int offset=pager.getHeight()+detailsParent.getHeight()-(toggle.getHeight()/2);
+                toggle.setStaticOffset(offset);
+                toggle.setOffset(offset);
+            }
+        });
+        final float posterOffset=pager.getHeight()-poster.getHeight()*.33f;
+        poster.setMinOffset(ViewCompat.getMinimumHeight(pager)+poster.getHeight()/2);
+        poster.setStaticOffset(posterOffset);
+        poster.setOffset(posterOffset);
+        poster.setPinned(true);
+        toggle.setMinOffset(ViewCompat.getMinimumHeight(pager)-toggle.getHeight()/2);
+    }
+
     private void shiftElements(){
-        final float posterY=poster.getY()+poster.getHeight();
-        final float posterX=poster.getX()+poster.getWidth();
-        final int offset=poster.getWidth()+(int)getResources().getDimension(R.dimen.spacing_medium);
-        if(posterX>=mediaTitle.getX()) {
-            if (shouldShiftHorizontally(posterY,mediaTitle)) {
-                shiftWithMargins(mediaTitle, offset);
-            }
-        }
-        //
-        if(posterX>=releaseYear.getX()) {
-            if (shouldShiftHorizontally(posterY,releaseYear)) {
-                shiftWithMargins(releaseYear, offset);
-            }else if(shouldShiftVertically(posterY,releaseYear)){
-                ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(releaseYear.getLayoutParams());
-                params.topMargin+=posterY-getBottomY(releaseYear)+getResources().getDimension(R.dimen.spacing_medium);
-                releaseYear.setLayoutParams(params);
-            }
-        }
-
-        if(posterX>=tags.getX()) {
-            if (shouldShiftHorizontally(posterY,tags)) {
-                shiftWithMargins(tags, offset);
-            }else if(shouldShiftVertically(posterY,tags)){
-                ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(tags.getLayoutParams());
-                params.topMargin+=posterY-getBottomY(tags)+getResources().getDimension(R.dimen.spacing_medium);
-                tags.setLayoutParams(params);
-            }
-        }
-    }
-
-    private boolean shouldShiftVertically(float y, View target){
-        float targetY=getBottomY(target);
-        return (y-targetY)>=(-getResources().getDimension(R.dimen.spacing_medium));
-    }
-
-    private boolean shouldShiftHorizontally(float y, View target){
-        float targetY=getBottomY(target);
-        return y>targetY+target.getHeight()/2;
-    }
-
-    private void shiftWithMargins(View target, int offset){
-        ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(target.getLayoutParams());
-        params.leftMargin+=offset;
-        target.setLayoutParams(params);
-    }
-
-    private float getBottomY(View view){
-        return detailsParent.getY()+view.getY();
+        ParamsFactory.shiftElementsFrom(poster, Arrays.asList(mediaTitle,releaseYear,tags));
     }
 
     private void applyPalette(Palette palette){
@@ -335,9 +314,17 @@ public class MediaDetailsFragment extends BaseFragment
         releaseYear.setText(mediaCover.getFormattedDate());
         mediaRatings.setText(mediaCover.getAverageRate());
         tags.setTags(mediaCover.getGenres());
+        if(sharedPosterPath==null){
+            sharedPosterPath=mediaCover.getPosterPath();
+            loadCover();
+        }
+    }
 
+    private void loadCover(){
         Glide.with(this)
-                .load(mediaCover.getPosterPath())
+                .load(sharedPosterPath)
+                .priority(Priority.IMMEDIATE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(poster);
     }
 
@@ -347,6 +334,8 @@ public class MediaDetailsFragment extends BaseFragment
         detailsParent.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
+                detailsParent.getViewTreeObserver().removeOnPreDrawListener(this);
+                shiftElements();
                 getActivity().supportStartPostponedEnterTransition();
                 return true;
             }
@@ -386,5 +375,45 @@ public class MediaDetailsFragment extends BaseFragment
         this.presenter.attachView(this);
     }
 
+
+    public static class ParamsFactory{
+
+        static void shiftElementsFrom(View target, List<View> shiftElements){
+            final float posterY=target.getY()+target.getHeight();
+            final float posterX=target.getX()+target.getWidth();
+            final int offset=target.getWidth()+target.getResources().getDimensionPixelOffset(R.dimen.spacing_medium);
+            shiftElements.forEach(element->{
+                if(posterX>=element.getX()) {
+                    if (shouldShiftHorizontally(posterY,element)) {
+                        shiftWithMargins(element, offset);
+                    }else if(shouldShiftVertically(posterY,element)){
+                        ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(element.getLayoutParams());
+                        params.topMargin+=posterY-getBottomY(element)+element.getResources().getDimension(R.dimen.spacing_medium);
+                        element.setLayoutParams(params);
+                    }
+                }
+            });
+        }
+
+        static boolean shouldShiftVertically(float y, View target){
+            float targetY=getBottomY(target);
+            return (y-targetY)>=(-target.getResources().getDimension(R.dimen.spacing_medium));
+        }
+
+        static boolean shouldShiftHorizontally(float y, View target){
+            float targetY=getBottomY(target);
+            return y>targetY+target.getHeight()/2;
+        }
+
+        static void shiftWithMargins(View target, int offset){
+            ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(target.getLayoutParams());
+            params.leftMargin+=offset;
+            target.setLayoutParams(params);
+        }
+
+        static float getBottomY(View view){
+            return view.getRootView().getY()+view.getY();
+        }
+    }
 }
 

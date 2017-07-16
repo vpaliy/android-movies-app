@@ -15,6 +15,7 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import android.support.annotation.NonNull;
 import android.widget.ProgressBar;
@@ -79,6 +80,13 @@ public class MovieBackdropsAdapter extends PagerAdapter{
     public void setData(@NonNull List<String> backdrops){
         this.movieBackdrops=backdrops;
         notifyDataSetChanged();
+    }
+
+    public void setPoster(String poster){
+        if(poster!=null){
+            movieBackdrops= Collections.singletonList(poster);
+            notifyDataSetChanged();
+        }
     }
 
     @Override

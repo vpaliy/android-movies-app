@@ -2,24 +2,22 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.popularmovies.vpaliy.domain.model.Review;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import java.util.ArrayList;
 import java.util.List;
-
 import at.blogc.android.views.ExpandableTextView;
 import butterknife.BindView;
+import android.support.annotation.NonNull;
 import butterknife.ButterKnife;
 
-public class MovieReviewAdapter
-        extends RecyclerView.Adapter<MovieReviewAdapter.ReviewViewHolder> {
+public class MovieReviewAdapter extends
+        RecyclerView.Adapter<MovieReviewAdapter.ReviewViewHolder> {
 
     private List<Review> data;
     private LayoutInflater inflater;
@@ -28,7 +26,6 @@ public class MovieReviewAdapter
         this.inflater=LayoutInflater.from(context);
         this.data=new ArrayList<>();
     }
-
 
     @Override
     public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,7 +45,6 @@ public class MovieReviewAdapter
     public void setData(@NonNull List<Review> reviews){
         this.data=reviews;
         notifyDataSetChanged();
-
     }
 
     public class ReviewViewHolder extends RecyclerView.ViewHolder
@@ -75,7 +71,5 @@ public class MovieReviewAdapter
             reviewAuthor.setText(data.get(getAdapterPosition()).getAuthor());
             reviewContent.setText(data.get(getAdapterPosition()).getContent());
         }
-
-
     }
 }
