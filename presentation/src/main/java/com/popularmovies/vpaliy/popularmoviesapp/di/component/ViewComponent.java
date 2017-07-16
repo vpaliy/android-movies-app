@@ -4,6 +4,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.Dummy;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMoviesFragment;
@@ -33,4 +34,5 @@ public interface ViewComponent {
     void inject(MovieCastFragment fragment);
     void inject(MovieInfoFragment fragment);
     void inject(MovieReviewFragment fragment);
+    void inject(MediaDetailsFragment fragment);
 }

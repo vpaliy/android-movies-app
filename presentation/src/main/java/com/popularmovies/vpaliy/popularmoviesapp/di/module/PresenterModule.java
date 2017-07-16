@@ -3,6 +3,8 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.DetailsPresenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieCastContract;
@@ -40,6 +42,11 @@ public class PresenterModule {
 
     @ViewScope @Provides
     MovieDetailsContract.Presenter mediaDetailsPresenter(@NonNull MovieDetailsPresenter presenter){
+        return presenter;
+    }
+
+    @ViewScope @Provides
+    MediaDetailsContract.Presenter detailsPresenter(@NonNull DetailsPresenter presenter){
         return presenter;
     }
 

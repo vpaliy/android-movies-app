@@ -1,35 +1,8 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 
-import android.animation.Animator;
-import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import com.bumptech.glide.Glide;
-import com.popularmovies.vpaliy.domain.model.MediaCollection;
-import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.popularmoviesapp.App;
-import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
-import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseFragment;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.InfoAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieBackdropsAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieCastAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieTrailersAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.RelatedMoviesAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.view.FABToggle;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxImageView;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout;
-import com.rd.PageIndicatorView;
 import android.os.Handler;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
@@ -40,20 +13,51 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
-import java.util.Collections;
-import java.util.List;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.mvp.contract.MovieDetailsContract.Presenter;
+
+import com.bumptech.glide.Glide;
+import com.popularmovies.vpaliy.domain.model.ActorCover;
+import com.popularmovies.vpaliy.domain.model.MediaCollection;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.domain.model.MovieInfo;
+import com.popularmovies.vpaliy.domain.model.Trailer;
+import com.popularmovies.vpaliy.popularmoviesapp.App;
+import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.InfoAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieBackdropsAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieCastAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieTrailersAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.RelatedMoviesAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.FABToggle;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxImageView;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout;
+import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
 import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipsLayout;
 
-import javax.inject.Inject;
+import java.util.Collections;
+import java.util.List;
+import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import butterknife.BindView;
 
-public class Dummy extends BaseFragment
-        implements MovieDetailsContract.View{
+import javax.inject.Inject;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract.Presenter;
+
+public class MediaDetailsFragment extends BaseFragment
+        implements MediaDetailsContract.View {
+
+    private Presenter presenter;
 
     @BindView(R.id.backdrop_pager)
     protected ParallaxRatioViewPager pager;
@@ -96,15 +100,24 @@ public class Dummy extends BaseFragment
 
     private InfoAdapter infoAdapter;
     private MovieBackdropsAdapter adapter;
-    private Presenter presenter;
 
+    private int mediaId;
+    private String sharedPath;
 
-    private static final String TAG=Dummy.class.getSimpleName();
+    public static MediaDetailsFragment newInstance(Bundle args){
+        MediaDetailsFragment fragment=new MediaDetailsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-    public static Dummy newInstance(Bundle args){
-        Dummy dummy=new Dummy();
-        dummy.setArguments(args);
-        return dummy;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        if(savedInstanceState==null) savedInstanceState=getArguments();
+        mediaId=savedInstanceState.getInt(Constants.EXTRA_ID);
+        sharedPath=savedInstanceState.getString(Constants.EXTRA_DATA);
+        initializeDependencies();
     }
 
     @Nullable
@@ -120,13 +133,9 @@ public class Dummy extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
             getActivity().supportPostponeEnterTransition();
-            if(savedInstanceState==null) savedInstanceState=getArguments();
-            int mediaId=savedInstanceState.getInt(Constants.EXTRA_ID);
-            String posterPath=savedInstanceState.getString(Constants.EXTRA_DATA);
-
             infoAdapter=new InfoAdapter(getContext());
             adapter=new MovieBackdropsAdapter(getContext());
-            adapter.setData(Collections.singletonList(posterPath));
+            adapter.setData(Collections.singletonList(sharedPath));
             adapter.setCallback((image,bitmap)->{
                 indicatorView.setAnimationType(AnimationType.WORM);
                 indicatorView.setTranslationY(image.getHeight()-indicatorView.getHeight()*2.5f);
@@ -140,12 +149,12 @@ public class Dummy extends BaseFragment
                         params.height=image.getHeight()+detailsParent.getHeight();
                         blank.setLayoutParams(params);
 
-
                         int offset=image.getHeight()+detailsParent.getHeight()-(toggle.getHeight()/2);
                         toggle.setStaticOffset(offset);
                         toggle.setOffset(offset);
                     }
                 });
+                presenter.start(mediaId);
                 final float posterOffset=image.getHeight()-poster.getHeight()*.33f;
                 poster.setMinOffset(ViewCompat.getMinimumHeight(image)+poster.getHeight()/2);
                 poster.setStaticOffset(posterOffset);
@@ -160,7 +169,7 @@ public class Dummy extends BaseFragment
                     blank.setLayoutParams(params);
 
                 });
-                new Palette.Builder(bitmap).generate(Dummy.this::applyPalette);
+                new Palette.Builder(bitmap).generate(MediaDetailsFragment.this::applyPalette);
                 image.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                     @Override
                     public boolean onPreDraw() {
@@ -171,16 +180,15 @@ public class Dummy extends BaseFragment
             });
             info.setAdapter(infoAdapter);
             pager.setAdapter(adapter);
-            presenter.start(mediaId);
 
-            int height=PresentationUtils.getStatusBarHeight(getResources());
+            int height= PresentationUtils.getStatusBarHeight(getResources());
             actionBar.setPadding(0,height,0,0);
 
             info.addOnScrollListener(listener);
             info.setOnFlingListener(flingListener);
-
         }
     }
+
 
     private void shiftElements(){
         final float posterY=poster.getY()+poster.getHeight();
@@ -210,10 +218,6 @@ public class Dummy extends BaseFragment
                 params.topMargin+=posterY-getBottomY(tags)+getResources().getDimension(R.dimen.spacing_medium);
                 tags.setLayoutParams(params);
             }
-        }
-
-        if(posterY>=getBottomY(mediaDescription)){
-            shiftWithMargins(mediaDescription,offset);
         }
     }
 
@@ -306,33 +310,13 @@ public class Dummy extends BaseFragment
         }
     };
 
+
     @Override
     public void initializeDependencies() {
         DaggerViewComponent.builder()
-                .applicationComponent(App.appInstance().appComponent())
                 .presenterModule(new PresenterModule())
+                .applicationComponent(App.appInstance().appComponent())
                 .build().inject(this);
-    }
-
-    @Override
-    public void showDetails(@NonNull MovieDetails movieDetails) {
-        MovieCastAdapter castAdapter=new MovieCastAdapter(getContext());
-        castAdapter.setData(movieDetails.getCast());
-        RelatedMoviesAdapter relatedMoviesAdapter=new RelatedMoviesAdapter(getContext(),movieDetails.getSimilarMovies(),null);
-        mediaDescription.setText(movieDetails.getMovieInfo().getDescription());
-        MovieTrailersAdapter adapter=new MovieTrailersAdapter(getContext());
-        adapter.setData(movieDetails.getTrailers());
-
-        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(castAdapter,getString(R.string.cast_title)));
-        MediaCollection collection=movieDetails.getCollection();
-        if(collection!=null && collection.getCovers()!=null){
-            RelatedMoviesAdapter collectionAdapter=new RelatedMoviesAdapter(getContext(),collection.getCovers(),null);
-            infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(collectionAdapter,collection.getName()));
-        }
-
-        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(relatedMoviesAdapter,getString(R.string.media_similar_content)));
-        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_trailers)));
-        getActivity().supportStartPostponedEnterTransition();
     }
 
     @Override
@@ -341,27 +325,66 @@ public class Dummy extends BaseFragment
     }
 
     @Override
-    public void showCover(@NonNull MediaCover movieCover) {
-        mediaTitle.setText(movieCover.getMovieTitle());
-        releaseYear.setText(movieCover.getFormattedDate());
-        mediaRatings.setText(movieCover.getAverageRate());
-        tags.setTags(movieCover.getGenres());
+    public void shareWithMovie(@NonNull MovieDetails details) {
+
+    }
+
+    @Override
+    public void showCover(@NonNull MediaCover mediaCover) {
+        mediaTitle.setText(mediaCover.getMovieTitle());
+        releaseYear.setText(mediaCover.getFormattedDate());
+        mediaRatings.setText(mediaCover.getAverageRate());
+        tags.setTags(mediaCover.getGenres());
 
         Glide.with(this)
-                .load(movieCover.getPosterPath())
+                .load(mediaCover.getPosterPath())
                 .into(poster);
     }
 
     @Override
-    public void shareWithMovie(MovieDetails details) {
+    public void showDetails(@NonNull MovieInfo movieInfo) {
+        mediaDescription.setText(movieInfo.getDescription());
+        detailsParent.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                getActivity().supportStartPostponedEnterTransition();
+                return true;
+            }
+        });
+    }
 
+    @Override
+    public void showCollection(@NonNull MediaCollection collection) {
+        RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),collection.getCovers(),rxBus);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,collection.getName()));
+    }
+
+    @Override
+    public void showSimilarMovies(@NonNull List<MediaCover> covers) {
+        RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),covers,rxBus);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_similar_content)));
+    }
+
+    @Override
+    public void showTrailers(@NonNull List<Trailer> trailers) {
+        MovieTrailersAdapter adapter=new MovieTrailersAdapter(getContext());
+        adapter.setData(trailers);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_trailers)));
+    }
+
+    @Override
+    public void showCast(@NonNull List<ActorCover> actorCovers) {
+        MovieCastAdapter castAdapter=new MovieCastAdapter(getContext());
+        castAdapter.setData(actorCovers);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(castAdapter,getString(R.string.cast_title)));
     }
 
     @Inject
     @Override
     public void attachPresenter(@NonNull Presenter presenter) {
-        this.presenter=presenter;
+        this.presenter=checkNotNull(presenter);
         this.presenter.attachView(this);
     }
 
 }
+

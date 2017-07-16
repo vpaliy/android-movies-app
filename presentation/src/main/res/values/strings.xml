@@ -78,5 +78,6 @@
     <string name="date_transition_name" translatable="false">date_trans_name</string>
     <string name="ratings_transition_name" translatable="false">ratings_trans_name</string>
     <string name="tags_transition_name" translatable="false">tags_transition_name</string>
+    <string name="button_transition_name" translatable="false">fab_button_trans_name</string>
 
 </resources>

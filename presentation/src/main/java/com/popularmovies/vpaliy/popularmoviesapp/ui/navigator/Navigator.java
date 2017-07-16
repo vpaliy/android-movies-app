@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.DetailsActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.Dummy;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ViewAllEvent;
@@ -39,7 +40,7 @@ public class Navigator {
     }
 
     public void navigate(@NonNull Activity activity, @NonNull ExposeEvent event){
-        Intent intent=new Intent(activity,Dummy.class);
+        Intent intent=new Intent(activity,MediaDetailsActivity.class);
         intent.putExtras(event.data);
         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
             ActivityOptionsCompat optionsCompat=ActivityOptionsCompat

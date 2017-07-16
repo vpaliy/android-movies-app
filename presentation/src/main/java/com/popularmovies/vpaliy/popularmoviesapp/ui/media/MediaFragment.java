@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
@@ -27,7 +28,7 @@ import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public abstract class MediaFragment extends Fragment
+public abstract class MediaFragment extends BaseFragment
         implements MediaContract.View{
 
     protected Presenter presenter;
@@ -35,13 +36,8 @@ public abstract class MediaFragment extends Fragment
     private AbstractMediaAdapter<MediaTypeWrapper> mediaTypeAdapter;
     private CompositeDisposable disposables;
 
-    @Inject
-    protected RxBus rxBus;
-
     @BindView(R.id.media_recycler_view)
     protected RecyclerView mediaList;
-
-    private Unbinder unbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +52,7 @@ public abstract class MediaFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root=inflater.inflate(R.layout.fragment_media,container,false);
-        unbinder=ButterKnife.bind(this,root);
+        bind(root);
         return root;
     }
 
@@ -74,8 +70,7 @@ public abstract class MediaFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-        disposables.add(rxBus.asFlowable()
-                .subscribe(this::processEvent));
+        disposables.add(rxBus.asFlowable().subscribe(this::processEvent));
     }
 
     private void processEvent(Object event){
@@ -91,12 +86,6 @@ public abstract class MediaFragment extends Fragment
     public void onStop() {
         super.onStop();
         if(disposables!=null) disposables.clear();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(unbinder!=null) unbinder.unbind();
     }
 
     @Override
@@ -127,7 +116,6 @@ public abstract class MediaFragment extends Fragment
         mediaAdapters.get(sortType).appendData(movies);
     }
 
-    public abstract void initializeDependencies();
     public abstract String getTitle(SortType sortType);
     public abstract int getColor(SortType sortType);
     public abstract MediaType getMediaType();
