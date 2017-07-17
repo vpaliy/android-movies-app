@@ -16,8 +16,12 @@ public class ActorActivity extends BaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actor);
-
-
+        if(savedInstanceState==null){
+            savedInstanceState=getIntent().getExtras();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame,ActorFragment.newInstance(savedInstanceState))
+                    .commit();
+        }
     }
 
     @Override

@@ -1,9 +1,10 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,9 +13,9 @@ import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,6 +38,14 @@ public class MovieCastAdapter extends AbstractMediaAdapter<ActorCover> {
         CastViewHolder(View itemView){
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemView.setOnClickListener(view->{
+                ActorCover actorCover=at(getAdapterPosition());
+                Context context=inflater.getContext();
+                Bundle args=new Bundle();
+                args.putInt(Constants.EXTRA_ID,actorCover.getActorId());
+                ViewCompat.setTransitionName(actorImage,context.getString(R.string.actor_poster_transition_name));
+                rxBus.send(ExposeEvent.exposeActorDetails(args,Pair.create(actorImage,context.getString(R.string.actor_poster_transition_name))));
+            });
         }
 
         public void onBindData(){

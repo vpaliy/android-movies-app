@@ -1,12 +1,9 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,11 +13,9 @@ import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
+
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.BindView;
@@ -55,7 +50,7 @@ public class RelatedMoviesAdapter extends AbstractMediaAdapter<MediaCover> {
                     args.putString(Constants.EXTRA_POSTER_PATH,at(getAdapterPosition()).getPosterPath());
                     args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);
                     ViewCompat.setTransitionName(posterImage,transitionName);
-                    rxBus.send(ExposeEvent.dispatchEvent(args,Pair.create(posterImage,transitionName)));
+                    rxBus.send(ExposeEvent.exposeMediaDetails(args,Pair.create(posterImage,transitionName)));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });

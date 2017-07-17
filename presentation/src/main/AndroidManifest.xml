@@ -45,6 +45,9 @@
         <activity android:name=".ui.details.MediaDetailsActivity"
             android:theme="@style/PopMovies.Details"/>
 
+        <activity android:name=".ui.actor.ActorActivity"
+            android:theme="@style/PopMovies.Details"/>
+
         <provider
             android:exported="false"
             android:authorities="com.popularmovies.vpaliy"

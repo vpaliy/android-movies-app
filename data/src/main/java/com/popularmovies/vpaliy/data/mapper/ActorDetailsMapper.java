@@ -10,6 +10,9 @@ import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -30,6 +33,7 @@ public class ActorDetailsMapper extends Mapper<ActorDetails,ActorDetailEntity>  
         this.movieMapper=movieMapper;
         this.tvShowMapper=tvShowMapper;
         this.actorMapper=actorMapper;
+        this.qualityConfiguration=qualityConfiguration;
     }
 
     @Override
@@ -41,7 +45,11 @@ public class ActorDetailsMapper extends Mapper<ActorDetails,ActorDetailEntity>  
         details.setBirthplace(actorDetailEntity.getBirthplace());
         details.setImagePaths(actorDetailEntity.getImagePaths());
         details.setBirthday(actorDetailEntity.getBirthday());
-        details.setImages(actorDetailEntity.getImages());
+        List<String> images=new ArrayList<>(actorDetailEntity.getImages());
+        images.forEach(image->{
+            image=qualityConfiguration.convertBackdrop(image);
+        });
+        details.setImages(images);
         details.setDeathday(actorDetailEntity.getDeathday());
         details.setActor(actorMapper.map(actorDetailEntity.getActor()));
         details.setTvShows(tvShowMapper.map(actorDetailEntity.getTvShows()));

@@ -1,16 +1,26 @@
-<com.github.florent37.diagonallayout.DiagonalLayout
+<android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    app:diagonal_angle="20"
-    app:diagonal_position="bottom"
-    app:diagonal_direction="left"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/backdrop"
-        android:src="@drawable/image"
-        android:scaleType="centerCrop"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</com.github.florent37.diagonallayout.DiagonalLayout>
+    <com.github.florent37.diagonallayout.DiagonalLayout
+        android:id="@+id/diagonalLayout"
+        android:layout_width="0dp"
+        android:layout_height="266dp"
+        app:diagonal_angle="10"
+        android:elevation="10dp"
+        android:paddingBottom="16dp"
+        app:diagonal_direction="left"
+        app:diagonal_position="bottom"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:id="@+id/actor_backdrop"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.github.florent37.diagonallayout.DiagonalLayout>
+</android.support.constraint.ConstraintLayout>

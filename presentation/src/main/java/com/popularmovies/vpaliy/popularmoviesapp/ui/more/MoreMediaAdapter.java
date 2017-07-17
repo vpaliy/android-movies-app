@@ -8,7 +8,6 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,11 +19,9 @@ import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
 import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipsLayout;
 import butterknife.ButterKnife;
@@ -69,7 +66,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     args.putString(Constants.EXTRA_DATA,at(getAdapterPosition()).getMainBackdrop());
                     ViewCompat.setTransitionName(posterImage,inflater.getContext().getString(R.string.backdrop_transition_name));
                     Context context=itemView.getContext();
-                    rxBus.send(ExposeEvent.dispatchEvent(args, Pair.create(itemView,context.getString(R.string.background_transition_name)),
+                    rxBus.send(ExposeEvent.exposeMediaDetails(args, Pair.create(itemView,context.getString(R.string.background_transition_name)),
                             Pair.create(posterImage,context.getString(R.string.backdrop_transition_name)),
                             Pair.create(mediaTitle,context.getString(R.string.title_transition_name)),
                             Pair.create(releaseYear,context.getString(R.string.date_transition_name)),

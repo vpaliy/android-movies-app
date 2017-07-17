@@ -367,7 +367,7 @@ public class MediaDetailsFragment extends BaseFragment
 
     @Override
     public void showCast(@NonNull List<ActorCover> actorCovers) {
-        MovieCastAdapter castAdapter=new MovieCastAdapter(getContext());
+        MovieCastAdapter castAdapter=new MovieCastAdapter(getContext(),rxBus);
         castAdapter.setData(actorCovers);
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(castAdapter,getString(R.string.cast_title)));
     }

@@ -7,6 +7,8 @@ import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -40,7 +42,8 @@ public class ActorPresenter implements ActorContract.Presenter{
     }
 
     private void processData(ActorDetails details){
-
+        List<String> images=details.getImages();
+        view.showBackground(images.get(0));
     }
 
     private void catchError(Throwable error){

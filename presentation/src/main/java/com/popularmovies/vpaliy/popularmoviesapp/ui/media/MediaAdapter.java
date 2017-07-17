@@ -14,11 +14,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
+
 import java.util.List;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
@@ -56,7 +55,7 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     args.putString(Constants.EXTRA_POSTER_PATH,at(getAdapterPosition()).getPosterPath());
                     args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);
                     ViewCompat.setTransitionName(posterImage,transitionName);
-                    rxBus.send(ExposeEvent.dispatchEvent(args,Pair.create(posterImage,transitionName)));
+                    rxBus.send(ExposeEvent.exposeMediaDetails(args,Pair.create(posterImage,transitionName)));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });

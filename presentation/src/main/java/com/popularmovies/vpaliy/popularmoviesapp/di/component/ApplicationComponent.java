@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.component;
 import android.content.Context;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
+import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
@@ -30,6 +31,7 @@ public interface ApplicationComponent {
     Navigator navigator();
     ISortConfiguration sortConfiguration();
     BaseSchedulerProvider schedulerProvider();
+    IDetailsRepository<ActorDetails> provideActorDetails();
     IDetailsRepository<MovieDetails> provideMovieDetails();
     @Movies ICoverRepository<MediaCover> moviesRepository();
     @TV ICoverRepository<MediaCover> tvRepository();

@@ -14,6 +14,7 @@ public interface ActorContract {
         void showImages(@NonNull List<String> images);
         void showProfilePhoto(@NonNull String profilePhoto);
         void showBioDetails(@NonNull ActorDetailEntity entity);
+        void showBackground(@NonNull String backdropPath);
     }
 
     interface Presenter extends BasePresenter<View> {

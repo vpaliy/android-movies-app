@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 
+import com.popularmovies.vpaliy.popularmoviesapp.ui.actor.ActorActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsFragment;
@@ -19,22 +20,10 @@ import android.support.annotation.NonNull;
 
 public class Navigator {
 
-    public void showDetails(@NonNull Activity activity, @NonNull ExposeDetailsEvent event){
-        Intent intent=new Intent(activity,MediaDetailsFragment.class);
-        TransitionWrapper wrapper=event.getWrapper();
-        intent.putExtras(wrapper.getData());
-        if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
-            ActivityOptionsCompat options=ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(activity,wrapper.getImage(), wrapper.getImage().getTransitionName());
-            activity.startActivity(intent,options.toBundle());
-        }else{
-            activity.startActivity(intent);
-        }
-
-    }
-
     public void navigate(@NonNull Activity activity, @NonNull ExposeEvent event){
-        Intent intent=new Intent(activity,MediaDetailsActivity.class);
+        Class<?> clazz=event.code!=ExposeEvent.CODE_ACTOR_DETAILS
+                ?MediaDetailsActivity.class: ActorActivity.class;
+        Intent intent=new Intent(activity,clazz);
         intent.putExtras(event.data);
         if(Permission.checkForVersion(Build.VERSION_CODES.LOLLIPOP)){
             ActivityOptionsCompat optionsCompat=ActivityOptionsCompat
