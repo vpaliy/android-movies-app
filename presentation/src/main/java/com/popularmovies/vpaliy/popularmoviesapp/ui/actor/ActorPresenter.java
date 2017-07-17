@@ -1,17 +1,12 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.actor;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
-
 import java.util.List;
-
+import android.support.annotation.NonNull;
 import javax.inject.Inject;
-
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.actor.ActorContract.View;
 
@@ -47,6 +42,9 @@ public class ActorPresenter implements ActorContract.Presenter{
         view.showBackground(images.get(0));
         view.showProfilePhoto(details.getActorCover().getActorAvatar());
         view.showBioDetails(details);
+        if(details.getImages()!=null){
+            view.showImages(details.getImages());
+        }
         if(details.getMovies()!=null) {
             view.showMovieCredits(details.getMovies());
         }

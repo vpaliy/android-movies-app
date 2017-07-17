@@ -58,6 +58,14 @@ public class ActorDetails {
         return taggedImages;
     }
 
+    public ActorInfo buildActorInfo(){
+        ActorInfo actorInfo=new ActorInfo(actorId);
+        actorInfo.setBirthplace(birthplace);
+        actorInfo.setBioDescription(bioDescription);
+        actorInfo.setBirthday(birthday);
+        return actorInfo;
+    }
+
     public ActorCover getActorCover() {
         return actor;
     }

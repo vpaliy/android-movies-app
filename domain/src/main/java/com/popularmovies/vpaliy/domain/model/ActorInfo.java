@@ -1,13 +1,11 @@
 package com.popularmovies.vpaliy.domain.model;
 
-
-import java.util.Date;
 import java.util.List;
 
 public class ActorInfo {
 
     private int actorId;
-    private Date birthDate;
+    private String birthday;
     private String birthplace;
     private String bioDescription;
     private List<String> imagePaths;
@@ -33,8 +31,8 @@ public class ActorInfo {
         return birthplace;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public String getBirthday() {
+        return birthday;
     }
 
     public void setActorId(int actorId) {
@@ -54,8 +52,7 @@ public class ActorInfo {
         this.imagePaths = imagePaths;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
-
 }
