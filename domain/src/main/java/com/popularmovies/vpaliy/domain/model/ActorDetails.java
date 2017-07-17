@@ -10,6 +10,7 @@ public class ActorDetails {
     private List<MediaCover> movies;
     private List<MediaCover> tvShows;
     private List<String> images;
+    private List<String> taggedImages;
     private String birthplace;
     private String bioDescription;
     private List<String> imagePaths;
@@ -47,6 +48,14 @@ public class ActorDetails {
 
     public void setTvShows(List<MediaCover> tvShows) {
         this.tvShows = tvShows;
+    }
+
+    public void setTaggedImages(List<String> taggedImages) {
+        this.taggedImages = taggedImages;
+    }
+
+    public List<String> getTaggedImages() {
+        return taggedImages;
     }
 
     public ActorCover getActorCover() {

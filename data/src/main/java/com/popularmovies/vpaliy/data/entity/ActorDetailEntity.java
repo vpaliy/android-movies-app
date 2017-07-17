@@ -13,6 +13,7 @@ public class ActorDetailEntity implements HasId {
     private List<Movie> movies;
     private List<TvShow> tvShows;
     private List<String> images;
+    private List<String> taggedImages;
 
     @SerializedName("profile_path")
     private String profilePath;
@@ -25,9 +26,6 @@ public class ActorDetailEntity implements HasId {
 
     @SerializedName("name")
     private String name;
-
-    @SerializedName("image")
-    private List<String> imagePaths;
 
     @SerializedName("popularity")
     private String popularity;
@@ -69,14 +67,6 @@ public class ActorDetailEntity implements HasId {
         return birthday;
     }
 
-    public ActorEntity getActor() {
-        return actor;
-    }
-
-    public List<String> getImagePaths() {
-        return imagePaths;
-    }
-
     public List<String> getImages() {
         return images;
     }
@@ -105,6 +95,14 @@ public class ActorDetailEntity implements HasId {
         return movies;
     }
 
+    public void setTaggedImages(List<String> taggedImages) {
+        this.taggedImages = taggedImages;
+    }
+
+    public List<String> getTaggedImages() {
+        return taggedImages;
+    }
+
     public void setActor(ActorEntity actor) {
         this.actor = actor;
     }
@@ -129,9 +127,6 @@ public class ActorDetailEntity implements HasId {
         this.images = images;
     }
 
-    public void setImagePaths(List<String> imagePaths) {
-        this.imagePaths = imagePaths;
-    }
 
     public void setBioDescription(String bioDescription) {
         this.bioDescription = bioDescription;

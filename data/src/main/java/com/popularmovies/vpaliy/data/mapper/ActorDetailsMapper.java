@@ -43,15 +43,25 @@ public class ActorDetailsMapper extends Mapper<ActorDetails,ActorDetailEntity>  
         details.setBirthplace(actorDetailEntity.getBirthplace());
         details.setActorId(actorDetailEntity.getActorId());
         details.setBirthplace(actorDetailEntity.getBirthplace());
-        details.setImagePaths(actorDetailEntity.getImagePaths());
+        details.setImagePaths(actorDetailEntity.getImages());
         details.setBirthday(actorDetailEntity.getBirthday());
-        List<String> images=new ArrayList<>(actorDetailEntity.getImages());
-        images.forEach(image->{
-            image=qualityConfiguration.convertBackdrop(image);
-        });
-        details.setImages(images);
+        if(actorDetailEntity.getImages()!=null) {
+            List<String> images = new ArrayList<>(actorDetailEntity.getImages().size());
+            actorDetailEntity.getImages().forEach(image -> {
+                images.add(qualityConfiguration.convertBackdrop(image));
+            });
+            details.setImages(images);
+        }
+
+        if(actorDetailEntity.getTaggedImages()!=null){
+            List<String> images = new ArrayList<>(actorDetailEntity.getTaggedImages().size());
+            actorDetailEntity.getTaggedImages().forEach(image -> {
+                images.add(qualityConfiguration.convertBackdrop(image));
+            });
+            details.setTaggedImages(images);
+        }
         details.setDeathday(actorDetailEntity.getDeathday());
-        details.setActor(actorMapper.map(actorDetailEntity.getActor()));
+        details.setActor(actorMapper.map(actorDetailEntity.getActorCover()));
         details.setTvShows(tvShowMapper.map(actorDetailEntity.getTvShows()));
         details.setMovies(movieMapper.map(actorDetailEntity.getMovies()));
         return details;
@@ -61,7 +71,7 @@ public class ActorDetailsMapper extends Mapper<ActorDetails,ActorDetailEntity>  
     public ActorDetailEntity reverseMap(ActorDetails actorDetails) {
         ActorDetailEntity detailEntity=new ActorDetailEntity();
         detailEntity.setBioDescription(actorDetails.getBioDescription());
-        detailEntity.setImagePaths(actorDetails.getImagePaths());
+        detailEntity.setImages(actorDetails.getImagePaths());
         detailEntity.setMovies(movieMapper.reverseMap(actorDetails.getMovies()));
         detailEntity.setTvShows(tvShowMapper.reverseMap(actorDetails.getTvShows()));
         detailEntity.setDeathday(actorDetails.getDeathday());

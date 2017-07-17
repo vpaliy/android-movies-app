@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class ActorEntity implements HasId {
 
-    @SerializedName("cast_id")
+    @SerializedName("id")
     private int actorId;
 
-    @SerializedName("id")
+    @SerializedName("cast_id")
     private int movieId;
 
     @SerializedName("name")

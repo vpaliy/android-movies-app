@@ -19,6 +19,7 @@ public class ActorMapper extends Mapper<ActorCover,ActorEntity> {
     public ActorMapper(ImageQualityConfiguration qualityConfiguration){
         this.qualityConfiguration=qualityConfiguration;
     }
+
     @Override
     public ActorCover map(ActorEntity actorEntity) {
         ActorCover cover=new ActorCover(actorEntity.getActorId(),actorEntity.getMovieId());

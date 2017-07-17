@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.actor;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.model.ActorDetails;
@@ -42,8 +43,9 @@ public class ActorPresenter implements ActorContract.Presenter{
     }
 
     private void processData(ActorDetails details){
-        List<String> images=details.getImages();
+        List<String> images=details.getTaggedImages();
         view.showBackground(images.get(0));
+
     }
 
     private void catchError(Throwable error){
