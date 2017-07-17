@@ -2,7 +2,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.actor;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,7 +89,6 @@ public class ActorFragment extends BaseFragment
             getActivity().supportPostponeEnterTransition();
             biographyAdapter=new BiographyAdapter(getContext());
             actorCredits.setAdapter(biographyAdapter);
-            actorCredits.addOnScrollListener(scrollListener);
             presenter.start(actorId);
         }
     }
@@ -128,7 +126,9 @@ public class ActorFragment extends BaseFragment
 
     @Override
     public void showImages(@NonNull List<String> images) {
-
+        ImagesAdapter adapter=new ImagesAdapter(getContext(),rxBus);
+        adapter.setData(images);
+        biographyAdapter.addWrapper(BiographyAdapter.MovieListWrapper.wrap(adapter,getString(R.string.actor_personal_images)));
     }
 
     @Override
@@ -165,16 +165,4 @@ public class ActorFragment extends BaseFragment
         RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),tvShows,rxBus);
         biographyAdapter.addWrapper(BiographyAdapter.MovieListWrapper.wrap(adapter,getString(R.string.tv_shows)));
     }
-
-    private RecyclerView.OnScrollListener scrollListener=new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            final float translationY=diagonalLayout.getTranslationY()-dy;
-            guideline.setTranslationY(translationY);
-            diagonalLayout.setTranslationY(translationY);
-            actorImage.setTranslationY(translationY);
-            actorName.setTranslationY(translationY);
-        }
-    };
 }

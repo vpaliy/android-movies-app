@@ -45,7 +45,6 @@ public class ActorDetailsMapper extends Mapper<ActorDetails,ActorDetailEntity>  
         details.setBirthplace(actorDetailEntity.getBirthplace());
         details.setActorId(actorDetailEntity.getActorId());
         details.setBirthplace(actorDetailEntity.getBirthplace());
-        details.setImagePaths(actorDetailEntity.getImages());
         details.setBirthday(actorDetailEntity.getBirthday());
         if(actorDetailEntity.getImages()!=null) {
             List<String> images = new ArrayList<>(actorDetailEntity.getImages().size());

@@ -61,6 +61,7 @@
     <string name="no_reviews_message">No reviews</string>
     <string name="no_cast_message">No cast</string>
 
+    <string name="actor_personal_images">Photos</string>
     <string name="info_title">Info</string>
     <string name="cast_title">Cast</string>
     <string name="review_title">Review</string>
