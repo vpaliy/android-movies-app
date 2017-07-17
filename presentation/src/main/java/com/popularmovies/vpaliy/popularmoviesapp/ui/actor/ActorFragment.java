@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +25,15 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.data.entity.ActorDetailEntity;
 import com.popularmovies.vpaliy.domain.model.ActorDetails;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.InfoAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.RelatedMoviesAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-import com.vpaliy.chips_lover.ChipBuilder;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -57,8 +59,13 @@ public class ActorFragment extends BaseFragment
     @BindView(R.id.parent)
     protected View parent;
 
+    @BindView(R.id.actor_media_credits)
+    protected RecyclerView actorCredits;
+
     @BindView(R.id.actor_name)
     protected TextView actorName;
+
+    private InfoAdapter infoAdapter;
 
     public static ActorFragment newInstance(Bundle args){
         ActorFragment fragment=new ActorFragment();
@@ -88,6 +95,8 @@ public class ActorFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
             getActivity().supportPostponeEnterTransition();
+            infoAdapter=new InfoAdapter(getContext());
+            actorCredits.setAdapter(infoAdapter);
             presenter.start(actorId);
         }
     }
@@ -111,7 +120,7 @@ public class ActorFragment extends BaseFragment
                     @Override
                     protected void setResource(Bitmap resource) {
                         actorBackdrop.setImageBitmap(resource);
-                        new Palette.Builder(resource).generate(ActorFragment.this::applyPalette);
+                    //    new Palette.Builder(resource).generate(ActorFragment.this::applyPalette);
                     }
                 });
     }
@@ -156,6 +165,18 @@ public class ActorFragment extends BaseFragment
                 });
     }
 
+    @Override
+    public void showMovieCredits(@NonNull List<MediaCover> movies) {
+        RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),movies,rxBus);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.movies)));
+    }
+
+    @Override
+    public void showTvShowCredits(@NonNull List<MediaCover> tvShows) {
+        RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),tvShows,rxBus);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.tv_shows)));
+    }
+
     private void applyPalette(Palette palette){
         Palette.Swatch swatch=palette.getDarkMutedSwatch();
         if(swatch==null) swatch=palette.getDominantSwatch();
@@ -166,20 +187,4 @@ public class ActorFragment extends BaseFragment
         }
     }
 
-    private void setDrawableColor(TextView view, int color){
-        Drawable[] drawables=view.getCompoundDrawables();
-        for(Drawable drawable:drawables){
-            if(drawable!=null){
-                drawable.mutate();
-                DrawableCompat.setTint(drawable,color);
-            }
-        }
-    }
-    private void loadImage(String imageUrl, ImageView target){
-        Glide.with(getContext())
-                .load(imageUrl)
-                .priority(Priority.IMMEDIATE)
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .into(target);
-    }
 }

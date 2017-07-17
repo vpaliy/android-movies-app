@@ -47,6 +47,12 @@ public class ActorPresenter implements ActorContract.Presenter{
         view.showBackground(images.get(0));
         view.showProfilePhoto(details.getActorCover().getActorAvatar());
         view.showBioDetails(details);
+        if(details.getMovies()!=null) {
+            view.showMovieCredits(details.getMovies());
+        }
+        if(details.getTvShows()!=null) {
+            view.showTvShowCredits(details.getTvShows());
+        }
     }
 
     private void catchError(Throwable error){

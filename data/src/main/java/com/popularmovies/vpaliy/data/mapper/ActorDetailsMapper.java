@@ -1,6 +1,8 @@
 package com.popularmovies.vpaliy.data.mapper;
 
 
+import android.util.Log;
+
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;

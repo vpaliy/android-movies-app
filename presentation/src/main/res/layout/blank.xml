@@ -3,4 +3,4 @@
     android:id="@+id/blank"
     android:paddingBottom="32dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="0dp"/>
