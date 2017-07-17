@@ -46,7 +46,7 @@
             android:theme="@style/PopMovies.Details"/>
 
         <activity android:name=".ui.actor.ActorActivity"
-            android:theme="@style/PopMovies.Details"/>
+            android:theme="@style/PopMovies.Actor"/>
 
         <provider
             android:exported="false"

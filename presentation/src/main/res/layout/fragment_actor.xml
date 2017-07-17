@@ -1,26 +1,36 @@
-<android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:diagonal="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <com.github.florent37.diagonallayout.DiagonalLayout
         android:id="@+id/diagonalLayout"
-        android:layout_width="0dp"
-        android:layout_height="266dp"
-        app:diagonal_angle="10"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        diagonal:diagonal_angle="10"
         android:elevation="10dp"
         android:paddingBottom="16dp"
-        app:diagonal_direction="left"
-        app:diagonal_position="bottom"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        diagonal:diagonal_direction="left"
+        diagonal:diagonal_position="bottom">
 
         <ImageView
             android:id="@+id/actor_backdrop"
-            android:scaleType="centerCrop"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/image"
+            />
     </com.github.florent37.diagonallayout.DiagonalLayout>
-</android.support.constraint.ConstraintLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/actor_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:transitionName="@string/actor_poster_transition_name"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="267dp"
+        android:elevation="15dp" />
+
+</FrameLayout>
