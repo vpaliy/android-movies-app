@@ -46,6 +46,7 @@ public class ActorPresenter implements ActorContract.Presenter{
         List<String> images=details.getTaggedImages();
         view.showBackground(images.get(0));
         view.showProfilePhoto(details.getActorCover().getActorAvatar());
+        view.showBioDetails(details);
     }
 
     private void catchError(Throwable error){

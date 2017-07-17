@@ -1,27 +1,30 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:diagonal="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.github.florent37.diagonallayout.DiagonalLayout
         android:id="@+id/diagonalLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="350dp"
-        diagonal:diagonal_angle="10"
+        app:diagonal_angle="10"
         android:elevation="10dp"
         android:paddingBottom="16dp"
-        diagonal:diagonal_direction="left"
-        diagonal:diagonal_position="bottom">
+        app:diagonal_direction="left"
+        app:diagonal_position="bottom"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <ImageView
             android:id="@+id/actor_backdrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            tools:src="@drawable/image"
-            />
+            tools:src="@drawable/image" />
     </com.github.florent37.diagonallayout.DiagonalLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -29,8 +32,32 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:transitionName="@string/actor_poster_transition_name"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="267dp"
-        android:elevation="15dp" />
+        android:elevation="15dp"
+        android:layout_marginLeft="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline" />
 
-</FrameLayout>
+
+    <TextView
+        android:id="@+id/actor_name"
+        style="@style/Widget.Title"
+        tools:text="Walter Paliy"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:layout_marginRight="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        app:layout_constraintGuide_begin="370dp"
+        android:orientation="horizontal" />
+
+
+</android.support.constraint.ConstraintLayout>

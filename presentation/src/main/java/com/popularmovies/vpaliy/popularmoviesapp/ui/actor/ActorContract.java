@@ -1,8 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.actor;
 
 import android.support.annotation.NonNull;
-
-import com.popularmovies.vpaliy.data.entity.ActorDetailEntity;
+import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseView;
 import java.util.List;
@@ -13,7 +12,7 @@ public interface ActorContract {
         void attachPresenter(@NonNull Presenter presenter);
         void showImages(@NonNull List<String> images);
         void showProfilePhoto(@NonNull String profilePhoto);
-        void showBioDetails(@NonNull ActorDetailEntity entity);
+        void showBioDetails(@NonNull ActorDetails entity);
         void showBackground(@NonNull String backdropPath);
     }
 
