@@ -13,6 +13,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreTvFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MoviesFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.PersonalFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.TvShowsFragment;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.season.SeasonFragment;
 
 import dagger.Component;
 
@@ -30,4 +31,5 @@ public interface ViewComponent {
     void inject(ActorFragment fragment);
     void inject(TvDetailsFragment fragment);
     void inject(MovieDetailsFragment fragment);
+    void inject(SeasonFragment fragment);
 }

@@ -17,12 +17,12 @@ import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
+import com.popularmovies.vpaliy.domain.model.Episode;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
 import com.popularmovies.vpaliy.domain.model.Review;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
-import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
 import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.Trailer;
@@ -133,8 +133,8 @@ public class FakeDataProvider {
                 provideMediaCover(isTvShow),provideMediaCover(isTvShow),provideMediaCover(isTvShow));
     }
 
-    public static TVShowEpisode provideTvShowEpisode(){
-        TVShowEpisode episode=new TVShowEpisode();
+    public static Episode provideTvShowEpisode(){
+        Episode episode=new Episode();
         episode.setVoteAverage(FAKE_VOTE_AVERAGE);
         episode.setEpisodeOverview(FAKE_OVERVIEW);
         episode.setEpisodeNumber(FAKE_EPISODE_NUMBER);
@@ -157,7 +157,7 @@ public class FakeDataProvider {
         return entity;
     }
 
-    public static List<TVShowEpisode> provideTvShowEpisodeList(){
+    public static List<Episode> provideTvShowEpisodeList(){
         return Arrays.asList(provideTvShowEpisode(),provideTvShowEpisode(),
                 provideTvShowEpisode(),provideTvShowEpisode(),provideTvShowEpisode());
     }

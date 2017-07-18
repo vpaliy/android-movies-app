@@ -7,9 +7,9 @@ import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
 import com.popularmovies.vpaliy.data.utils.MapperUtils;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
+import com.popularmovies.vpaliy.domain.model.Episode;
 import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.SeasonDetails;
-import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 
 import javax.inject.Inject;
@@ -20,14 +20,14 @@ public class SeasonMapper extends Mapper<SeasonDetails,SeasonEntity>{
 
     private final Mapper<SeasonCover,SeasonEntity> mapper;
     private final Mapper<ActorCover,ActorEntity> castMapper;
-    private final Mapper<TVShowEpisode,TvShowEpisodeEntity> episodeMapper;
+    private final Mapper<Episode,TvShowEpisodeEntity> episodeMapper;
     private final Mapper<Trailer,TrailerEntity> trailerMapper;
     private ImageQualityConfiguration qualityConfiguration;
 
     @Inject
     public SeasonMapper(Mapper<SeasonCover,SeasonEntity> mapper,
                         Mapper<ActorCover,ActorEntity> castMapper,
-                        Mapper<TVShowEpisode,TvShowEpisodeEntity> episodeMapper,
+                        Mapper<Episode,TvShowEpisodeEntity> episodeMapper,
                         Mapper<Trailer,TrailerEntity> trailerMapper,
                         ImageQualityConfiguration qualityConfiguration){
         this.mapper=mapper;

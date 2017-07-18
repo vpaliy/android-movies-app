@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.domain.model;
 
-public class TVShowEpisode {
+public class Episode {
 
     private String episodeId;
     private int episodeNumber;

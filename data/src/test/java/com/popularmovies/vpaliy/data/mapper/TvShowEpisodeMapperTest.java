@@ -2,7 +2,8 @@ package com.popularmovies.vpaliy.data.mapper;
 
 import com.popularmovies.vpaliy.data.FakeDataProvider;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
-import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
+import com.popularmovies.vpaliy.domain.model.Episode;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ public class TvShowEpisodeMapperTest {
 
     @Test
     public void mapsRealToFake(){
-        TVShowEpisode episode= FakeDataProvider.provideTvShowEpisode();
+        Episode episode= FakeDataProvider.provideTvShowEpisode();
         TvShowEpisodeEntity entity=mapper.reverseMap(episode);
 
         assertThatAreEqual(episode,entity);
@@ -32,14 +33,14 @@ public class TvShowEpisodeMapperTest {
     @Test
     public void mapsFakeToReal(){
         TvShowEpisodeEntity episodeEntity=FakeDataProvider.provideTvEpisodeEntity();
-        TVShowEpisode episode=mapper.map(episodeEntity);
+        Episode episode=mapper.map(episodeEntity);
 
         assertThatAreEqual(episode,episodeEntity);
     }
 
     @Test
     public void mapsRealListToFakeList(){
-        List<TVShowEpisode> episodes=FakeDataProvider.provideTvShowEpisodeList();
+        List<Episode> episodes=FakeDataProvider.provideTvShowEpisodeList();
         List<TvShowEpisodeEntity> entities=mapper.reverseMap(episodes);
 
         assertThatAreEqual(episodes,entities);
@@ -48,19 +49,19 @@ public class TvShowEpisodeMapperTest {
     @Test
     public void mapsFakeListToRealList(){
         List<TvShowEpisodeEntity> entities=FakeDataProvider.provideTvShowEpisodeEntityList();
-        List<TVShowEpisode> episodes=mapper.map(entities);
+        List<Episode> episodes=mapper.map(entities);
 
         assertThatAreEqual(episodes,entities);
     }
 
-    private void assertThatAreEqual(List<TVShowEpisode> first, List<TvShowEpisodeEntity> second){
+    private void assertThatAreEqual(List<Episode> first, List<TvShowEpisodeEntity> second){
         assertThat(first.size(),is(second.size()));
         for(int index=0;index<first.size();index++){
             assertThatAreEqual(first.get(index),second.get(index));
         }
     }
 
-    private void assertThatAreEqual(TVShowEpisode episode, TvShowEpisodeEntity entity){
+    private void assertThatAreEqual(Episode episode, TvShowEpisodeEntity entity){
         assertThat(episode.getVoteCount(),is(entity.getVoteCount()));
         assertThat(episode.getVoteAverage(),is(entity.getVoteAverage()));
         assertThat(episode.getEpisodeId(),is(entity.getId()));

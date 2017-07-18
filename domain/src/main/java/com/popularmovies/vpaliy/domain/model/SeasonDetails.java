@@ -9,13 +9,13 @@ public class SeasonDetails {
     private List<String> images;
     private List<Trailer> videos;
     private List<ActorCover> cast;
-    private List<TVShowEpisode> episodeList;
+    private List<Episode> episodeList;
 
     public void setCast(List<ActorCover> cast) {
         this.cast = cast;
     }
 
-    public void setEpisodeList(List<TVShowEpisode> episodeList) {
+    public void setEpisodeList(List<Episode> episodeList) {
         this.episodeList = episodeList;
     }
 
@@ -51,7 +51,7 @@ public class SeasonDetails {
         return videos;
     }
 
-    public List<TVShowEpisode> getEpisodeList() {
+    public List<Episode> getEpisodeList() {
         return episodeList;
     }
 

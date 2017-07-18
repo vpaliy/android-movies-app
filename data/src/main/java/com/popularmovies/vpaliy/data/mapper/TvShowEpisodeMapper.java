@@ -2,24 +2,21 @@ package com.popularmovies.vpaliy.data.mapper;
 
 
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
-import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.popularmovies.vpaliy.domain.model.Episode;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class TvShowEpisodeMapper extends Mapper<TVShowEpisode,TvShowEpisodeEntity>{
+public class TvShowEpisodeMapper extends Mapper<Episode,TvShowEpisodeEntity>{
 
     @Inject
     public TvShowEpisodeMapper(){}
 
     @Override
-    public TVShowEpisode map(TvShowEpisodeEntity tvShowEpisodeEntity) {
+    public Episode map(TvShowEpisodeEntity tvShowEpisodeEntity) {
         if(tvShowEpisodeEntity==null) return null;
-        TVShowEpisode episode=new TVShowEpisode();
+        Episode episode=new Episode();
         episode.setEpisodeId(tvShowEpisodeEntity.getId());
         episode.setEpisodeName(tvShowEpisodeEntity.getName());
         episode.setEpisodeNumber(tvShowEpisodeEntity.getEpisodeNumber());
@@ -30,16 +27,16 @@ public class TvShowEpisodeMapper extends Mapper<TVShowEpisode,TvShowEpisodeEntit
     }
 
     @Override
-    public TvShowEpisodeEntity reverseMap(TVShowEpisode tvShowEpisode) {
-        if(tvShowEpisode==null) return null;
+    public TvShowEpisodeEntity reverseMap(Episode episode) {
+        if(episode ==null) return null;
         TvShowEpisodeEntity episodeEntity=new TvShowEpisodeEntity();
-        episodeEntity.setEpisodeNumber(tvShowEpisode.getEpisodeNumber());
-        episodeEntity.setId(tvShowEpisode.getEpisodeId());
-        episodeEntity.setName(tvShowEpisode.getEpisodeName());
-        episodeEntity.setOverview(tvShowEpisode.getEpisodeOverview());
-        episodeEntity.setEpisodeNumber(tvShowEpisode.getEpisodeNumber());
-        episodeEntity.setVoteAverage(tvShowEpisode.getVoteAverage());
-        episodeEntity.setVoteCount(tvShowEpisode.getVoteCount());
+        episodeEntity.setEpisodeNumber(episode.getEpisodeNumber());
+        episodeEntity.setId(episode.getEpisodeId());
+        episodeEntity.setName(episode.getEpisodeName());
+        episodeEntity.setOverview(episode.getEpisodeOverview());
+        episodeEntity.setEpisodeNumber(episode.getEpisodeNumber());
+        episodeEntity.setVoteAverage(episode.getVoteAverage());
+        episodeEntity.setVoteCount(episode.getVoteCount());
         return episodeEntity;
     }
 }

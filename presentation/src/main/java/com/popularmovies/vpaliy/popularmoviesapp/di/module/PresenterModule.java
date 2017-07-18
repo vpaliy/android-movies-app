@@ -24,6 +24,8 @@ import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
 import com.popularmovies.vpaliy.data.source.qualifier.TV;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.season.SeasonContract;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.season.SeasonPresenter;
 
 @Module
 public class PresenterModule {
@@ -70,6 +72,11 @@ public class PresenterModule {
     ActorContract.Presenter actorPresenter(IDetailsRepository<ActorDetails> iDetailsRepository,
                                            BaseSchedulerProvider schedulerProvider){
         return new ActorPresenter(iDetailsRepository,schedulerProvider);
+    }
+
+    @ViewScope @Provides
+    SeasonContract.Presenter seasonPresenter(SeasonPresenter presenter){
+        return presenter;
     }
 
 }

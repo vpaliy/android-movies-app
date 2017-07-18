@@ -29,6 +29,7 @@ import com.popularmovies.vpaliy.data.mapper.TvShowMapper;
 import com.popularmovies.vpaliy.data.mapper.SeasonCoverMapper;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.ActorDetails;
+import com.popularmovies.vpaliy.domain.model.Episode;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -37,7 +38,6 @@ import com.popularmovies.vpaliy.domain.model.Review;
 import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.SeasonDetails;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
-import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import javax.inject.Singleton;
@@ -85,7 +85,7 @@ public class MapperModule {
 
     @Singleton
     @Provides
-    Mapper<TVShowEpisode,TvShowEpisodeEntity> provideEpisodeMapper(TvShowEpisodeMapper mapper){
+    Mapper<Episode,TvShowEpisodeEntity> provideEpisodeMapper(TvShowEpisodeMapper mapper){
         return mapper;
     }
 
