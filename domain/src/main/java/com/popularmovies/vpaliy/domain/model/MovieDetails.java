@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MovieDetails {
 
-    private int movieId;
+    private String movieId;
     private MovieInfo movieInfo;
     private MediaCover movieCover;
     private List<Review> reviews;
@@ -14,7 +14,7 @@ public class MovieDetails {
     private List<MediaCover> similarMovies;
     private MediaCollection collection;
 
-    public MovieDetails(int movieId){
+    public MovieDetails(String movieId){
         this.movieId=movieId;
     }
 
@@ -22,7 +22,7 @@ public class MovieDetails {
         this.collection = collection;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movieId;
     }
 
@@ -54,7 +54,7 @@ public class MovieDetails {
         return similarMovies;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 

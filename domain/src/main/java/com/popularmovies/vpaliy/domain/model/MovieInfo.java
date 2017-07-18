@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.domain.model;
 
 public class MovieInfo {
 
-    private int movieId;
+    private String movieId;
     private double averageRate;
     private String name;
     private String director;
@@ -11,12 +11,12 @@ public class MovieInfo {
     private String description;
     private String releaseDate;
 
-    public MovieInfo(int movieId, String description){
+    public MovieInfo(String movieId, String description){
         this.movieId=movieId;
         this.description=description;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movieId;
     }
 
@@ -48,7 +48,7 @@ public class MovieInfo {
         return releaseDate;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 

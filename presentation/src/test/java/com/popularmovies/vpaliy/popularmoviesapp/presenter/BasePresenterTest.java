@@ -18,12 +18,12 @@ import java.util.List;
 public class BasePresenterTest {
 
     static final BaseSchedulerProvider SCHEDULER_PROVIDER=new ImmediateSchedulerProvider();
-    static final int FAKE_MOVIE_ID=123;
+    static final String FAKE_MOVIE_ID="fake_movie_id";
     static final MediaCover FAKE_MOVIE_COVER=new MediaCover();
     static final List<MediaCover> FAKE_EMPTY_COVER_LIST=new ArrayList<>();
     static final List<MediaCover> FAKE_COVER_LIST=Arrays.asList(FAKE_MOVIE_COVER,FAKE_MOVIE_COVER,FAKE_MOVIE_COVER);
     static final MovieDetails FAKE_MOVIE_DETAILS=new MovieDetails(FAKE_MOVIE_ID);
-    static final ActorCover FAKE_ACTOR=new ActorCover(-1,FAKE_MOVIE_ID);
+    static final ActorCover FAKE_ACTOR=new ActorCover(FAKE_MOVIE_ID,FAKE_MOVIE_ID);
     static final Trailer FAKE_TRAILER=new Trailer(FAKE_MOVIE_ID,null,null);
     static final Review FAKE_REVIEW=new Review(FAKE_MOVIE_ID,null,null,null);
     static final List<Review> FAKE_REVIEWS=Arrays.asList(FAKE_REVIEW,FAKE_REVIEW,FAKE_REVIEW);

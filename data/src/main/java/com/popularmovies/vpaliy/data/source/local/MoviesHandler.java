@@ -70,7 +70,7 @@ public class MoviesHandler {
         return this;
     }
 
-    public MoviesHandler insertTrailers(List<TrailerEntity> trailers, int movieId){
+    public MoviesHandler insertTrailers(List<TrailerEntity> trailers, String movieId){
         if(trailers!=null){
             for(TrailerEntity trailer:trailers){
                 //in case there is not id
@@ -82,9 +82,9 @@ public class MoviesHandler {
         return this;
     }
 
-    public MoviesHandler insertGenres(List<Genre> genres, int movieId){
+    public MoviesHandler insertGenres(List<Genre> genres, String movieId){
         if(genres==null||!genres.isEmpty()) return this;
-        Uri uri=Movies.buildMovieWithGenresUri(Integer.toString(movieId));
+        Uri uri=Movies.buildMovieWithGenresUri(movieId);
         for(Genre genre:genres){
             ContentValues values=new ContentValues();
             values.put(MovieSQLHelper.MediaGenres.MEDIA_ID,movieId);
@@ -94,9 +94,9 @@ public class MoviesHandler {
         return this;
     }
 
-    public MoviesHandler insertActors(List<ActorEntity> actors, int movieId){
+    public MoviesHandler insertActors(List<ActorEntity> actors, String movieId){
         if(actors==null||actors.isEmpty()) return this;
-        Uri uri=Movies.buildMovieWithActorsUri(Integer.toString(movieId));
+        Uri uri=Movies.buildMovieWithActorsUri(movieId);
         for(ActorEntity actorEntity:actors){
             ContentValues values=new ContentValues();
             values.put(MovieSQLHelper.MediaActors.MEDIA_ID,movieId);
@@ -106,9 +106,9 @@ public class MoviesHandler {
         return this;
     }
 
-    public MoviesHandler insertSimilarMovies(List<Movie> similarMovies, int movieId){
+    public MoviesHandler insertSimilarMovies(List<Movie> similarMovies, String movieId){
         if(similarMovies==null||similarMovies.isEmpty()) return null;
-        Uri uri=Movies.buildMovieWithSimilarUri(Integer.toString(movieId));
+        Uri uri=Movies.buildMovieWithSimilarUri(movieId);
         for(Movie movie:similarMovies){
             ContentValues values=new ContentValues();
             values.put(MovieSQLHelper.SimilarMovies.MEDIA_ID,movieId);
@@ -142,14 +142,14 @@ public class MoviesHandler {
 
 
 
-    public MoviesHandler appendCast(int movieId){
-        Uri uri=Movies.buildMovieWithActorsUri(Integer.toString(movieId));
+    public MoviesHandler appendCast(String movieId){
+        Uri uri=Movies.buildMovieWithActorsUri(movieId);
         Cursor cursor=contentResolver.query(uri,null,null,null,null);
         if(cursor!=null){
             List<ActorEntity> actorList=new ArrayList<>(cursor.getCount());
             while(cursor.moveToNext()){
                 ActorEntity actor=new ActorEntity();
-                actor.setActorId(cursor.getInt(cursor.getColumnIndex(Actors.ACTOR_ID)));
+                actor.setActorId(cursor.getString(cursor.getColumnIndex(Actors.ACTOR_ID)));
                 actor.setName(cursor.getString(cursor.getColumnIndex(Actors.ACTOR_NAME)));
                 actor.setActorAvatar(cursor.getString(cursor.getColumnIndex(Actors.ACTOR_IMAGE_URL)));
                 actor.setMovieId(movieId);
@@ -187,8 +187,8 @@ public class MoviesHandler {
         return this;
     }
 
-    public MoviesHandler appendTrailers(int movieId){
-        Uri uri=Movies.buildMovieWithTrailersUri(Integer.toString(movieId));
+    public MoviesHandler appendTrailers(String movieId){
+        Uri uri=Movies.buildMovieWithTrailersUri(movieId);
         Cursor cursor=contentResolver.query(uri,null,null,null,null);
         if(cursor!=null){
             List<TrailerEntity> trailerList=new ArrayList<>(cursor.getCount());
@@ -197,7 +197,7 @@ public class MoviesHandler {
                 trailer.setMovieId(movieId);
                 trailer.setTrailerUrl(cursor.getString(cursor.getColumnIndex(Trailers.TRAILER_VIDEO_URL)));
                 trailer.setTrailerTitle(cursor.getString(cursor.getColumnIndex(Trailers.TRAILER_TITLE)));
-                trailer.setTrailerId(cursor.getInt(cursor.getColumnIndex(Trailers.TRAILER_ID)));
+                trailer.setTrailerId(cursor.getString(cursor.getColumnIndex(Trailers.TRAILER_ID)));
                 trailer.setSite(cursor.getString(cursor.getColumnIndex(Trailers.TRAILER_SITE)));
                 trailerList.add(trailer);
             }
@@ -225,7 +225,7 @@ public class MoviesHandler {
     public Movie convertToMovie(Cursor cursor){
         if(cursor==null) return null;
         Movie movie=new Movie();
-        movie.setMovieId(cursor.getInt(cursor.getColumnIndex(Movies.MOVIE_ID)));
+        movie.setMovieId(cursor.getString(cursor.getColumnIndex(Movies.MOVIE_ID)));
         movie.setTitle(cursor.getString(cursor.getColumnIndex(Movies.MOVIE_TITLE)));
         movie.setOverview(cursor.getString(cursor.getColumnIndex(Movies.MOVIE_OVERVIEW)));
         movie.setOriginalTitle(cursor.getString(cursor.getColumnIndex(Movies.MOVIE_ORIGINAL_TITLE)));

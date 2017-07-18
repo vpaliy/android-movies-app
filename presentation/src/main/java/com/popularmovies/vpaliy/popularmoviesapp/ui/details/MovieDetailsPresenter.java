@@ -35,7 +35,7 @@ public class MovieDetailsPresenter extends DetailsPresenter<MovieDetails> {
         }
 
         if(!isEmpty(details.getSimilarMovies())){
-            view.showSimilarMovies(details.getSimilarMovies());
+            view.showSimilar(details.getSimilarMovies());
         }
 
         if(!isEmpty(details.getTrailers())){

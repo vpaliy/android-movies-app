@@ -21,12 +21,12 @@ public class ActorEntity implements HasId {
     private String role;
 
     @Override
-    public int id() {
-        return actorId;
+    public String id() {
+        return Integer.toString(actorId);
     }
 
-    public int getActorId() {
-        return actorId;
+    public String getActorId() {
+        return Integer.toString(actorId);
     }
 
     public String getActorAvatar() {
@@ -37,12 +37,12 @@ public class ActorEntity implements HasId {
         return name;
     }
 
-    public int getMovieId() {
-        return movieId;
+    public String getMovieId() {
+        return Integer.toString(movieId);
     }
 
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public void setMovieId(String movieId) {
+        this.movieId = Integer.parseInt(movieId);
     }
 
     public String getRole() {
@@ -53,8 +53,8 @@ public class ActorEntity implements HasId {
         this.actorAvatar = actorAvatar;
     }
 
-    public void setActorId(int actorId) {
-        this.actorId = actorId;
+    public void setActorId(String actorId) {
+        this.actorId = Integer.parseInt(actorId);
     }
 
     public void setName(String name) {

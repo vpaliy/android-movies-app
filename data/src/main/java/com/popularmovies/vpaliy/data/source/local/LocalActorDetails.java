@@ -19,7 +19,7 @@ public class LocalActorDetails implements DetailsDataSource<ActorDetailEntity> {
     }
 
     @Override
-    public Observable<ActorDetailEntity> get(int id) {
+    public Observable<ActorDetailEntity> get(String id) {
         return Observable.empty();
     }
 }

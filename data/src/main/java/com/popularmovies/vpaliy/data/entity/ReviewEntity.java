@@ -31,12 +31,12 @@ public class ReviewEntity {
         return content;
     }
 
-    public int getMediaId() {
-        return mediaId;
+    public String getMediaId() {
+        return Integer.toString(mediaId);
     }
 
-    public void setMediaId(int mediaId) {
-        this.mediaId = mediaId;
+    public void setMediaId(String mediaId) {
+        this.mediaId = Integer.parseInt(mediaId);
     }
 
     public String getUrl() {

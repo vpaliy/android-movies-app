@@ -16,7 +16,7 @@ abstract class AbstractRepository<T> {
     private static final int DEFAULT_CACHE_DURATION=20; //20 minutes
 
     private Context context;
-    private final CacheStore<Integer,T> cacheStore;
+    private final CacheStore<String,T> cacheStore;
     protected final BaseSchedulerProvider schedulerProvider;
 
     AbstractRepository(Context context,BaseSchedulerProvider schedulerProvider){
@@ -33,15 +33,15 @@ abstract class AbstractRepository<T> {
                 .build());
     }
 
-    boolean isCached(int key){
+    boolean isCached(String key){
         return cacheStore.isInCache(key);
     }
 
-    void cache(int key, T data){
+    void cache(String key, T data){
         cacheStore.put(key,data);
     }
 
-    Observable<T> fromCache(int id){
+    Observable<T> fromCache(String id){
         return cacheStore.getStream(id);
     }
 

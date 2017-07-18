@@ -19,13 +19,9 @@ import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.domain.model.MovieInfo;
-import com.popularmovies.vpaliy.domain.model.TVShowSeason;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.Trailer;
-import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
-import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.InfoAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieBackdropsAdapter;
@@ -101,7 +97,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
     private InfoAdapter infoAdapter;
     private MovieBackdropsAdapter adapter;
 
-    private int mediaId;
+    private String mediaId;
     private String sharedPath;
     private String sharedPosterPath;
 
@@ -119,7 +115,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         if(savedInstanceState==null) savedInstanceState=getArguments();
-        mediaId=savedInstanceState.getInt(Constants.EXTRA_ID);
+        mediaId=savedInstanceState.getString(Constants.EXTRA_ID);
         sharedPath=savedInstanceState.getString(Constants.EXTRA_DATA);
         sharedPosterPath=savedInstanceState.getString(Constants.EXTRA_POSTER_PATH);
         initializeDependencies();
@@ -341,13 +337,13 @@ public abstract class MediaDetailsFragment extends BaseFragment
     }
 
     @Override
-    public void showSimilarMovies(@NonNull List<MediaCover> covers) {
+    public void showSimilar(@NonNull List<MediaCover> covers) {
         RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),covers,rxBus);
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_similar_content)));
     }
 
     @Override
-    public void showSeasons(List<TVShowSeason> seasons) {
+    public void showSeasons(List<SeasonCover> seasons) {
         SeasonAdapter adapter=new SeasonAdapter(getContext(),rxBus);
         adapter.setData(seasons);
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_seasons)));

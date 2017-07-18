@@ -1,27 +1,21 @@
 package com.popularmovies.vpaliy.domain.model;
 
 
-import java.util.List;
+public class SeasonCover {
 
-public class TVShowSeason {
-
-    private int seasonId;
+    private String seasonId;
     private String airDate;
     private String seasonName;
     private String posterPath;
+    private String overview;
     private int seasonNumber;
-    private List<TVShowEpisode> episodeList;
 
-    public int getSeasonId() {
+    public String getSeasonId() {
         return seasonId;
     }
 
     public int getSeasonNumber() {
         return seasonNumber;
-    }
-
-    public List<TVShowEpisode> getEpisodeList() {
-        return episodeList;
     }
 
     public String getAirDate() {
@@ -40,15 +34,19 @@ public class TVShowSeason {
         this.airDate = airDate;
     }
 
-    public void setEpisodeList(List<TVShowEpisode> episodeList) {
-        this.episodeList = episodeList;
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getOverview() {
+        return overview;
     }
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
 
-    public void setSeasonId(int seasonId) {
+    public void setSeasonId(String seasonId) {
         this.seasonId = seasonId;
     }
 

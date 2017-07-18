@@ -4,7 +4,7 @@ import com.popularmovies.vpaliy.data.entity.Genre;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
 import com.popularmovies.vpaliy.data.source.remote.service.GenresService;
-import com.popularmovies.vpaliy.data.source.remote.service.TvShowService;
+import com.popularmovies.vpaliy.data.source.remote.service.TvService;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.PageWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
@@ -22,17 +22,17 @@ import android.util.SparseArray;
 @Singleton
 public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
 
-    private TvShowService tvShowService;
+    private TvService tvService;
     private Map<SortType,PageWrapper> pageMap;
     private SparseArray<Genre> genres;
     private GenresService genresService;
     private BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public RemoteTvShowCovers(@NonNull TvShowService tvShowService,
+    public RemoteTvShowCovers(@NonNull TvService tvService,
                               @NonNull GenresService genresService,
                               @NonNull BaseSchedulerProvider schedulerProvider){
-        this.tvShowService=tvShowService;
+        this.tvService = tvService;
         this.schedulerProvider=schedulerProvider;
         this.genresService=genresService;
         this.pageMap=new HashMap<>();
@@ -60,23 +60,23 @@ public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
         Observable<List<TvShow>> tvObservable;
         switch (sortType){
             case TOP_RATED:
-                tvObservable=tvShowService.queryTopRated(pageWrapper.currentPage)
+                tvObservable= tvService.queryTopRated(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
                 break;
             case POPULAR:
-                tvObservable=tvShowService.queryPopular(pageWrapper.currentPage)
+                tvObservable= tvService.queryPopular(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
                 break;
             case LATEST:
-                tvObservable=tvShowService.queryLatest(pageWrapper.currentPage)
+                tvObservable= tvService.queryLatest(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
                 break;
             case UPCOMING:
-                tvObservable=tvShowService.queryAiringToday(pageWrapper.currentPage)
+                tvObservable= tvService.queryAiringToday(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
                 break;
             default:
-                tvObservable=tvShowService.queryOnAir(pageWrapper.currentPage)
+                tvObservable= tvService.queryOnAir(pageWrapper.currentPage)
                         .map(wrapper->convertToTv(sortType,wrapper));
                 break;
         }
@@ -122,8 +122,8 @@ public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
     }
 
     @Override
-    public Observable<TvShow> get(int id) {
-        return tvShowService.queryTvShow(id);
+    public Observable<TvShow> get(String id) {
+        return tvService.queryTvShow(id);
     }
 
     @Override

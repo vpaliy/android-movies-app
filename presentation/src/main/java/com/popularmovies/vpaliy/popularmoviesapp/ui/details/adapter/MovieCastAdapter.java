@@ -42,7 +42,7 @@ public class MovieCastAdapter extends AbstractMediaAdapter<ActorCover> {
                 ActorCover actorCover=at(getAdapterPosition());
                 Context context=inflater.getContext();
                 Bundle args=new Bundle();
-                args.putInt(Constants.EXTRA_ID,actorCover.getActorId());
+                args.putString(Constants.EXTRA_ID,actorCover.getActorId());
                 ViewCompat.setTransitionName(actorImage,context.getString(R.string.actor_poster_transition_name));
                 rxBus.send(ExposeEvent.exposeActorDetails(args,Pair.create(actorImage,context.getString(R.string.actor_poster_transition_name))));
             });

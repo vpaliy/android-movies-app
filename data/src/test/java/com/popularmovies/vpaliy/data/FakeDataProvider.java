@@ -10,12 +10,12 @@ import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
 import com.popularmovies.vpaliy.data.entity.Network;
 import com.popularmovies.vpaliy.data.entity.ReviewEntity;
+import com.popularmovies.vpaliy.data.entity.SeasonEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
-import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
@@ -24,7 +24,7 @@ import com.popularmovies.vpaliy.domain.model.Review;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
-import com.popularmovies.vpaliy.domain.model.TVShowSeason;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 
 import java.util.Arrays;
@@ -33,13 +33,6 @@ import java.util.List;
 @SuppressWarnings("WeakerAccess")
 public class FakeDataProvider {
 
-    public static final int FAKE_MEDIA_ID =123;
-    public static final int FAKE_SEASON_ID=-123;
-    public static final int FAKE_EPISODE_ID=-321;
-    public static final int FAKE_ACTOR_ID=321;
-    public static final int FAKE_NETWORK_ID=43;
-    public static final int FAKER_ID=1234;
-    public static final int FAKE_TRAILER_ID=1234;
     public static final int FAKE_RUNTIME=120;
     public static final int FAKE_VOTE_COUNT=1000;
     public static final int FAKE_EPISODE_NUMBER=12;
@@ -50,6 +43,13 @@ public class FakeDataProvider {
     public static final long FAKE_REVENUE=100000;
     public static final double FAKE_POPULARITY=10;
     public static final double FAKE_VOTE_AVERAGE=7.5d;
+    public static final String FAKE_MEDIA_ID ="fake_media_id";
+    public static final String FAKE_SEASON_ID="fake_season_id";
+    public static final String FAKE_EPISODE_ID="fake_episode_id";
+    public static final String FAKE_ACTOR_ID="fake_actor_id";
+    public static final String FAKE_NETWORK_ID="fake_network_id";
+    public static final String FAKER_ID="fake_id";
+    public static final String FAKE_TRAILER_ID="fake_trailer_id";
     public static final String FAKE_DIRECTOR="fake_director";
     public static final String FAKE_MOVIE_DESCRIPTION="fake_movie_description";
     public static final String FAKE_BIRTH_DATE ="fake_birth_date";
@@ -162,19 +162,19 @@ public class FakeDataProvider {
                 provideTvShowEpisode(),provideTvShowEpisode(),provideTvShowEpisode());
     }
 
-    public static TVShowSeason provideTvShowSeason(){
-        TVShowSeason season=new TVShowSeason();
+    public static SeasonCover provideTvShowSeason(){
+        SeasonCover season=new SeasonCover();
         season.setSeasonName(FAKE_NAME);
         season.setSeasonId(FAKE_SEASON_ID);
         season.setAirDate(FAKE_FIRST_AIR_DATE);
         season.setPosterPath(FAKE_POSTER_PATH);
         season.setSeasonNumber(FAKE_SEASON_NUMBER);
-        season.setEpisodeList(provideTvShowEpisodeList());
+        season.setOverview(FAKE_OVERVIEW);
         return season;
     }
 
-    public static TvShowSeasonEntity provideTvShowSeasonEntity(){
-        TvShowSeasonEntity entity=new TvShowSeasonEntity();
+    public static SeasonEntity provideTvShowSeasonEntity(){
+        SeasonEntity entity=new SeasonEntity();
         entity.setId(FAKE_SEASON_ID);
         entity.setEpisodes(provideTvShowEpisodeEntityList());
         entity.setSeasonNumber(FAKE_SEASON_NUMBER);
@@ -185,12 +185,12 @@ public class FakeDataProvider {
         return entity;
     }
 
-    public static List<TVShowSeason> provideTvShowSeasonList(){
+    public static List<SeasonCover> provideTvShowSeasonList(){
         return Arrays.asList(provideTvShowSeason(),provideTvShowSeason(),provideTvShowSeason(),
                 provideTvShowSeason(),provideTvShowSeason(),provideTvShowSeason());
     }
 
-    public static List<TvShowSeasonEntity> provideTvShowSeasonEntityList(){
+    public static List<SeasonEntity> provideTvShowSeasonEntityList(){
         return Arrays.asList(provideTvShowSeasonEntity(),provideTvShowSeasonEntity(),provideTvShowSeasonEntity(),
                     provideTvShowSeasonEntity(),provideTvShowSeasonEntity(),provideTvShowSeasonEntity());
     }

@@ -15,7 +15,7 @@ public class LocalTvShowDetails implements DetailsDataSource<TvShowDetailEntity>
     public LocalTvShowDetails(){}
 
     @Override
-    public Observable<TvShowDetailEntity> get(int id) {
+    public Observable<TvShowDetailEntity> get(String id) {
         return null;
     }
 

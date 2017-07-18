@@ -7,7 +7,7 @@ import rx.Observable;
 
 public interface ICoverRepository<T> {
     Observable<List<T>> get(SortType type);
-    Observable<T> get(int id);
+    Observable<T> get(String id);
     Observable<List<T>> requestMore(SortType type);
     void update(T item, SortType type);
 }

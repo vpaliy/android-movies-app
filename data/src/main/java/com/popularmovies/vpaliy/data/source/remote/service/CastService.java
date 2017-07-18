@@ -17,17 +17,17 @@ import rx.Observable;
 public interface CastService {
 
     @GET("person/{person_id}")
-    Observable<ActorDetailEntity> getActor(@Path("person_id") int id);
+    Observable<ActorDetailEntity> getActor(@Path("person_id") String id);
 
     @GET("person/{person_id}/movie_credits")
-    Observable<MovieCreditsWrapper> queryMovieCredits(@Path("person_id") int id);
+    Observable<MovieCreditsWrapper> queryMovieCredits(@Path("person_id") String id);
 
     @GET("person/{person_id}/tv_credits")
-    Observable<TvCreditsWrapper> queryTvShowCredits(@Path("person_id") int id);
+    Observable<TvCreditsWrapper> queryTvShowCredits(@Path("person_id") String id);
 
     @GET("person/{person_id}/images")
-    Observable<CastImagesWrapper> queryImages(@Path("person_id") int id);
+    Observable<CastImagesWrapper> queryImages(@Path("person_id") String id);
 
     @GET("person/{person_id}/tagged_images")
-    Observable<TaggedImagesWrapper> queryTaggedImages(@Path("person_id") int id);
+    Observable<TaggedImagesWrapper> queryTaggedImages(@Path("person_id") String id);
 }

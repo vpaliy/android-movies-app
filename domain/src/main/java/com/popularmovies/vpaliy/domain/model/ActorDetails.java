@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ActorDetails {
 
-    private int actorId;
+    private String actorId;
     private ActorCover actor;
     private List<MediaCover> movies;
     private List<MediaCover> tvShows;
@@ -70,10 +70,6 @@ public class ActorDetails {
         return actor;
     }
 
-    public int getActorId() {
-        return actorId;
-    }
-
     public List<MediaCover> getMovies() {
         return movies;
     }
@@ -82,7 +78,11 @@ public class ActorDetails {
         this.actor = actor;
     }
 
-    public void setActorId(int actorId) {
+    public String getActorId() {
+        return actorId;
+    }
+
+    public void setActorId(String actorId) {
         this.actorId = actorId;
     }
 

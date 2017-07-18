@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
             TrailerMapperTest.class,
             TvShowMapperTest.class,
             TvShowInfoMapperTest.class,
-            TvShowSeasonMapperTest.class,
+            SeasonCoverMapperTest.class,
             TvShowDetailsMapperTest.class,
             TvShowEpisodeMapperTest.class,
             MapperUtilsTest.class,

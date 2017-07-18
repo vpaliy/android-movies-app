@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.popularmovies.vpaliy.domain.model.TVShowSeason;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
@@ -17,13 +17,13 @@ import butterknife.ButterKnife;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 
-public class SeasonAdapter extends AbstractMediaAdapter<TVShowSeason> {
+public class SeasonAdapter extends AbstractMediaAdapter<SeasonCover> {
 
     public SeasonAdapter(@NonNull Context context, @NonNull RxBus eventBus) {
         super(context, eventBus);
     }
 
-    public class SeasonViewHolder extends AbstractMediaAdapter<TVShowSeason>.GenericViewHolder {
+    public class SeasonViewHolder extends AbstractMediaAdapter<SeasonCover>.GenericViewHolder {
 
         @BindView(R.id.media_poster)
         ImageView posterImage;
@@ -38,7 +38,7 @@ public class SeasonAdapter extends AbstractMediaAdapter<TVShowSeason> {
 
         @Override
         public void onBindData(){
-            TVShowSeason season=at(getAdapterPosition());
+            SeasonCover season=at(getAdapterPosition());
             Glide.with(inflater.getContext())
                     .load(season.getPosterPath())
                     .priority(Priority.IMMEDIATE)

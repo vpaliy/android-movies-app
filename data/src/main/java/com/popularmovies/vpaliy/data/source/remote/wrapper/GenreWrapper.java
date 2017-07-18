@@ -12,7 +12,7 @@ public class GenreWrapper {
 
     public SparseArray<Genre> convert(){
         SparseArray<Genre> array=new SparseArray<>();
-        genres.forEach(genre -> array.put(genre.getId(),genre));
+        genres.forEach(genre -> array.put(Integer.parseInt(genre.getId()),genre));
         return array;
     }
 }

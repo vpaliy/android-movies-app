@@ -6,7 +6,6 @@ import java.util.Locale;
 public class TrailerEntity {
 
     private int movieId;
-
     private int trailerId;
 
     @SerializedName("name")
@@ -18,8 +17,8 @@ public class TrailerEntity {
     @SerializedName("site")
     private String site;
 
-    public int getMovieId() {
-        return movieId;
+    public String getMovieId() {
+        return Integer.toString(movieId);
     }
 
     public String getTrailerUrl() {
@@ -34,12 +33,12 @@ public class TrailerEntity {
         return site;
     }
 
-    public int getTrailerId() {
-        return trailerId;
+    public String getTrailerId() {
+        return Integer.toString(trailerId);
     }
 
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public void setMovieId(String movieId) {
+        this.movieId = Integer.parseInt(movieId);
     }
 
     public void setTrailerTitle(String trailerTitle) {
@@ -50,8 +49,8 @@ public class TrailerEntity {
         this.trailerUrl = trailerUrl;
     }
 
-    public void setTrailerId(int trailerId) {
-        this.trailerId = trailerId;
+    public void setTrailerId(String trailerId) {
+        this.trailerId = Integer.parseInt(trailerId);
     }
 
     public void setSite(String site) {

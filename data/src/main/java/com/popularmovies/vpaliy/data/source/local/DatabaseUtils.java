@@ -66,7 +66,7 @@ public final class DatabaseUtils {
         if(cursor==null) return null;
         Movie movie=new Movie();
 
-        final int movieId=cursor.getInt(cursor.getColumnIndex(_ID));
+        final String movieId=cursor.getString(cursor.getColumnIndex(_ID));
         final String originalTitle=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_ORIGINAL_TITLE));
         final String overview=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_OVERVIEW));
         final String releaseDate=cursor.getString(cursor.getColumnIndex(Movies.MOVIE_RELEASE_DATE));

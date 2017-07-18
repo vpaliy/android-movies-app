@@ -20,7 +20,7 @@ public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presen
     private final ICoverRepository<MediaCover> iCoverRepository;
     private final CompositeSubscription subscriptions;
     private final BaseSchedulerProvider schedulerProvider;
-    private int mediaId;
+    private String mediaId;
 
     public DetailsPresenter(@NonNull IDetailsRepository<T> repository,
                             @NonNull @Movies ICoverRepository<MediaCover> iCoverRepository,
@@ -29,7 +29,6 @@ public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presen
         this.schedulerProvider=schedulerProvider;
         this.iCoverRepository=iCoverRepository;
         this.subscriptions=new CompositeSubscription();
-        this.mediaId =-1;
     }
 
     @Override
@@ -53,13 +52,13 @@ public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presen
     }
 
     @Override
-    public void start(int mediaId) {
+    public void start(String mediaId) {
         this.mediaId =mediaId;
         retrieveDetails(mediaId);
         retrieveCover(mediaId);
     }
 
-    private void retrieveCover(int id){
+    private void retrieveCover(String id){
         subscriptions.add(iCoverRepository.get(id)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -67,7 +66,7 @@ public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presen
                         this::handleErrorMessage,()->{}));
     }
 
-    private void retrieveDetails(int id){
+    private void retrieveDetails(String id){
         subscriptions.add(repository.get(id)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())

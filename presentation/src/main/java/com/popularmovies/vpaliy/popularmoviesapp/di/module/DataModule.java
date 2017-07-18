@@ -5,6 +5,7 @@ import com.popularmovies.vpaliy.data.configuration.SortConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorDetailEntity;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
+import com.popularmovies.vpaliy.data.entity.SeasonEntity;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.repository.CoverRepository;
@@ -14,14 +15,17 @@ import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 import com.popularmovies.vpaliy.data.source.local.LocalActorDetails;
 import com.popularmovies.vpaliy.data.source.local.LocalMovieCovers;
 import com.popularmovies.vpaliy.data.source.local.LocalMovieDetails;
+import com.popularmovies.vpaliy.data.source.local.LocalSeasonSource;
 import com.popularmovies.vpaliy.data.source.local.LocalTvShowCovers;
 import com.popularmovies.vpaliy.data.source.local.LocalTvShowDetails;
 import com.popularmovies.vpaliy.data.source.remote.RemoteActorDetails;
 import com.popularmovies.vpaliy.data.source.remote.RemoteMovieCovers;
 import com.popularmovies.vpaliy.data.source.remote.RemoteMovieDetails;
+import com.popularmovies.vpaliy.data.source.remote.RemoteSeasonSource;
 import com.popularmovies.vpaliy.data.source.remote.RemoteTvShowCovers;
 import com.popularmovies.vpaliy.data.source.remote.RemoteTvShowDetails;
 import com.popularmovies.vpaliy.domain.model.ActorDetails;
+import com.popularmovies.vpaliy.domain.model.SeasonDetails;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.configuration.IImageQualityConfiguration;
 import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
@@ -154,4 +158,23 @@ public class DataModule {
         return localActorDetails;
     }
 
+    @Singleton
+    @Provides
+    @Remote
+    DetailsDataSource<SeasonEntity> remoteSeasonDetails(RemoteSeasonSource remote){
+        return remote;
+    }
+
+    @Singleton
+    @Provides
+    @Local
+    DetailsDataSource<SeasonEntity> localSeasonDetails(LocalSeasonSource local){
+        return local;
+    }
+
+    @Singleton
+    @Provides
+    IDetailsRepository<SeasonDetails> seasonRepository(DetailsRepository<SeasonDetails,SeasonEntity> detailsRepository){
+        return detailsRepository;
+    }
 }

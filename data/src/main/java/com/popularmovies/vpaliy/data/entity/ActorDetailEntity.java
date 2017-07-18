@@ -39,7 +39,7 @@ public class ActorDetailEntity implements HasId {
     public ActorEntity getActorCover() {
         if(actor==null){
             actor=new ActorEntity();
-            actor.setActorId(actorId);
+            actor.setActorId(Integer.toString(actorId));
             actor.setName(name);
             actor.setActorAvatar(profilePath);
         }
@@ -47,8 +47,8 @@ public class ActorDetailEntity implements HasId {
     }
 
     @Override
-    public int id() {
-        return actorId;
+    public String id() {
+        return Integer.toString(actorId);
     }
 
     public String getPopularity() {
@@ -87,8 +87,8 @@ public class ActorDetailEntity implements HasId {
         return name;
     }
 
-    public int getActorId() {
-        return actorId;
+    public String getActorId() {
+        return Integer.toString(actorId);
     }
 
     public List<Movie> getMovies() {
@@ -107,8 +107,8 @@ public class ActorDetailEntity implements HasId {
         this.actor = actor;
     }
 
-    public void setActorId(int actorId) {
-        this.actorId = actorId;
+    public void setActorId(String actorId) {
+        this.actorId = Integer.parseInt(actorId);
     }
 
     public void setMovies(List<Movie> movies) {

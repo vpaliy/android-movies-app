@@ -16,7 +16,7 @@ import java.util.List;
 public final class DataSourceTestUtils {
 
 
-    public static final int FAKE_MOVIE_ID=123;
+    public static final String FAKE_MOVIE_ID="fake_movie_id";
     public static final int FAKE_RUNTIME=120;
     public static final long FAKE_VOTE_COUNT=1000L;
     public static final long FAKE_BUDGET=1000000;

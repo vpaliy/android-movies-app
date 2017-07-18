@@ -30,7 +30,7 @@ public class ActorPresenter implements ActorContract.Presenter{
     }
 
     @Override
-    public void start(int id) {
+    public void start(String id) {
         detailsRepository.get(id)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())

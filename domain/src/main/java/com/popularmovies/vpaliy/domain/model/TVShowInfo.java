@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TVShowInfo {
 
-    private int tvShowId;
+    private String tvShowId;
     private String overview;
     private String lastAirDate;
     private String firstAirDate;
@@ -37,7 +37,7 @@ public class TVShowInfo {
         return numberOfSeasons;
     }
 
-    public int getTvShowId() {
+    public String getTvShowId() {
         return tvShowId;
     }
 
@@ -129,7 +129,7 @@ public class TVShowInfo {
         this.status = status;
     }
 
-    public void setTvShowId(int tvShowId) {
+    public void setTvShowId(String tvShowId) {
         this.tvShowId = tvShowId;
     }
 }

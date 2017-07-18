@@ -4,17 +4,17 @@ import java.util.List;
 
 public class ActorInfo {
 
-    private int actorId;
+    private String actorId;
     private String birthday;
     private String birthplace;
     private String bioDescription;
     private List<String> imagePaths;
 
-    public ActorInfo(int actorId){
+    public ActorInfo(String actorId){
         this.actorId=actorId;
     }
 
-    public int getActorId() {
+    public String getActorId() {
         return actorId;
     }
 
@@ -35,7 +35,7 @@ public class ActorInfo {
         return birthday;
     }
 
-    public void setActorId(int actorId) {
+    public void setActorId(String actorId) {
         this.actorId = actorId;
     }
 

@@ -5,10 +5,8 @@ import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 import com.popularmovies.vpaliy.data.source.remote.service.CastService;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastImagesWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieCreditsWrapper;
-import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TaggedImagesWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TvCreditsWrapper;
-import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 
 import javax.inject.Inject;
@@ -33,7 +31,7 @@ public class RemoteActorDetails implements DetailsDataSource<ActorDetailEntity>{
     public void insert(ActorDetailEntity item) { /* Empty */}
 
     @Override
-    public Observable<ActorDetailEntity> get(int id) {
+    public Observable<ActorDetailEntity> get(String id) {
         Observable<ActorDetailEntity> actorObservable=castService.getActor(id)
                 .subscribeOn(schedulerProvider.multi());
         Observable<CastImagesWrapper> imagesObservable=castService.queryImages(id)
@@ -44,7 +42,6 @@ public class RemoteActorDetails implements DetailsDataSource<ActorDetailEntity>{
                 .subscribeOn(schedulerProvider.multi());
         Observable<TaggedImagesWrapper> taggedImagesObservable=castService.queryTaggedImages(id)
                 .subscribeOn(schedulerProvider.multi());
-
         return Observable.zip(actorObservable,imagesObservable,movieObservable,tvShowsObservable,taggedImagesObservable,
                 (actorDetailEntity, castImagesWrapper, movieWrapper, tvShowsWrapper,taggedImagesWrapper) ->{
                     actorDetailEntity.setMovies(movieWrapper.credits);

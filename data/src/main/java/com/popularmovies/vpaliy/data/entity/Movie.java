@@ -75,12 +75,12 @@ public class Movie implements HasId {
     private boolean isMustWatch;
 
     @Override
-    public int id() {
-        return movieId;
+    public String id() {
+        return Integer.toString(movieId);
     }
 
-    public int getMovieId() {
-        return movieId;
+    public String getMovieId() {
+        return Integer.toString(movieId);
     }
 
     public double getPopularity(){
@@ -195,8 +195,8 @@ public class Movie implements HasId {
         this.homepage = homepage;
     }
 
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public void setMovieId(String movieId) {
+        this.movieId = Integer.parseInt(movieId);
     }
 
     public void setOriginalLanguage(String originalLanguage) {

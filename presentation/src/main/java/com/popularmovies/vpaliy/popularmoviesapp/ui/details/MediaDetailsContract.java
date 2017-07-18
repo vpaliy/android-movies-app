@@ -7,8 +7,7 @@ import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
-import com.popularmovies.vpaliy.domain.model.MovieInfo;
-import com.popularmovies.vpaliy.domain.model.TVShowSeason;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseView;
@@ -20,10 +19,10 @@ public interface MediaDetailsContract {
         void attachPresenter(@NonNull Presenter presenter);
         void showBackdrops(@NonNull List<String> backdrops);
         void shareWithMovie(@NonNull MovieDetails details);
-        void showSeasons(@NonNull List<TVShowSeason> seasons);
+        void showSeasons(@NonNull List<SeasonCover> seasons);
         void showDescription(@NonNull String description);
         void showCover(@NonNull MediaCover cover);
-        void showSimilarMovies(@NonNull List<MediaCover> covers);
+        void showSimilar(@NonNull List<MediaCover> covers);
         void showCollection(@NonNull MediaCollection collection);
         void showTrailers(@NonNull List<Trailer> trailers);
         void showCast(@NonNull List<ActorCover> actorCovers);
@@ -33,7 +32,7 @@ public interface MediaDetailsContract {
         void attachView(@NonNull View view);
         void make(SortType sortType);
         void shareWithMovie();
-        void start(int ID);
+        void start(String id);
         void stop();
     }
 }

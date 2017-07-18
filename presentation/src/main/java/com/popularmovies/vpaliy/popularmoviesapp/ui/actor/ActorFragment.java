@@ -34,7 +34,7 @@ public class ActorFragment extends BaseFragment
         implements ActorContract.View{
 
     private Presenter presenter;
-    private int actorId;
+    private String actorId;
 
     @BindView(R.id.actor_backdrop)
     protected ImageView actorBackdrop;
@@ -79,7 +79,7 @@ public class ActorFragment extends BaseFragment
         if(savedInstanceState==null){
             savedInstanceState=getArguments();
         }
-        actorId=savedInstanceState.getInt(Constants.EXTRA_ID);
+        actorId=savedInstanceState.getString(Constants.EXTRA_ID);
     }
 
     @Override

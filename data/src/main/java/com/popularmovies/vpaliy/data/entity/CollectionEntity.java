@@ -1,7 +1,5 @@
 package com.popularmovies.vpaliy.data.entity;
 
-import android.support.annotation.StringRes;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -30,8 +28,8 @@ public class CollectionEntity implements HasId{
         return overview;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return Integer.toString(id);
     }
 
     public List<Movie> getParts() {
@@ -55,16 +53,16 @@ public class CollectionEntity implements HasId{
     }
 
     @Override
-    public int id() {
-        return id;
+    public String id() {
+        return Integer.toString(id);
     }
 
     public void setOverview(String overview) {
         this.overview = overview;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = Integer.parseInt(id);
     }
 
     public void setName(String name) {

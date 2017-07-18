@@ -3,12 +3,12 @@ package com.popularmovies.vpaliy.domain.model;
 
 public class Review {
 
-    private int movieId;
+    private String movieId;
     private String author;
     private String content;
     private String url;
 
-    public Review(int movieId, String author, String content, String url){
+    public Review(String movieId, String author, String content, String url){
         this.movieId=movieId;
         this.author=author;
         this.content=content;
@@ -23,7 +23,7 @@ public class Review {
         this.content = content;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 
@@ -31,7 +31,7 @@ public class Review {
         this.url = url;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movieId;
     }
 

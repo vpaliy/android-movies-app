@@ -24,9 +24,4 @@ public class Constants {
         if(backdropPath==null)return null;
         return appendBaseMovieURL(IMAGE_SIZE_W780)+backdropPath;
     }
-
-
-
-
-
 }

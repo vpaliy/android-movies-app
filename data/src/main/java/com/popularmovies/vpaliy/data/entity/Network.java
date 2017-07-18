@@ -30,7 +30,7 @@ public class Network {
         this.name = name;
     }
 
-    public void setNetworkId(int networkId) {
-        this.networkId = networkId;
+    public void setNetworkId(String networkId) {
+        this.networkId = Integer.parseInt(networkId);
     }
 }

@@ -23,7 +23,7 @@ public class LocalMovieCovers implements CoverDataSource<Movie> {
     }
 
     @Override
-    public Observable<Movie> get(int id) {
+    public Observable<Movie> get(String id) {
         return null;
     }
 

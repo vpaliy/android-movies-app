@@ -3,12 +3,13 @@ package com.popularmovies.vpaliy.data.source.remote;
 
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
+import com.popularmovies.vpaliy.data.entity.SeasonEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
-import com.popularmovies.vpaliy.data.source.remote.service.TvShowService;
+import com.popularmovies.vpaliy.data.source.remote.service.TvService;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
@@ -22,46 +23,43 @@ import rx.schedulers.Schedulers;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
-import android.util.Log;
-
 @Singleton
 public class RemoteTvShowDetails implements DetailsDataSource<TvShowDetailEntity>{
 
-    private TvShowService tvShowService;
+    private TvService tvService;
     private BaseSchedulerProvider schedulerProvider;
 
     @Inject
-    public RemoteTvShowDetails(@NonNull TvShowService tvShowService,
+    public RemoteTvShowDetails(@NonNull TvService tvService,
                                @NonNull BaseSchedulerProvider schedulerProvider){
-        this.tvShowService=tvShowService;
+        this.tvService = tvService;
         this.schedulerProvider=schedulerProvider;
     }
 
     @Override
-    public Observable<TvShowDetailEntity> get(int id) {
-        Observable<TvShowInfoEntity> infoObservable=tvShowService.queryTvShowInfo(id)
+    public Observable<TvShowDetailEntity> get(String id) {
+        Observable<TvShowInfoEntity> infoObservable= tvService.queryTvShowInfo(id)
                 .subscribeOn(schedulerProvider.multi());
 
-        Observable<List<BackdropImage>> backdropsObservable = tvShowService.queryBackdrops(id)
+        Observable<List<BackdropImage>> backdropsObservable = tvService.queryBackdrops(id)
                 .subscribeOn(Schedulers.newThread())
                 .map(BackdropsWrapper::getBackdropImages);
 
-        Observable<List<ActorEntity>> actorsObservable = tvShowService.queryCast(id)
+        Observable<List<ActorEntity>> actorsObservable = tvService.queryCast(id)
                 .subscribeOn(schedulerProvider.multi())
                 .map(CastWrapper::getCast);
 
-        Observable<List<TrailerEntity>> trailerObservable=tvShowService.queryVideos(id)
+        Observable<List<TrailerEntity>> trailerObservable= tvService.queryVideos(id)
                 .subscribeOn(schedulerProvider.multi())
                 .map(TrailerWrapper::getTrailers);
 
-        Observable<TvShowsWrapper> similarObservable=tvShowService.querySimilar(id)
+        Observable<TvShowsWrapper> similarObservable= tvService.querySimilar(id)
                 .subscribeOn(schedulerProvider.multi());
 
         return Observable.zip(infoObservable,backdropsObservable,actorsObservable,trailerObservable,similarObservable,
                 (infoEntity, backdropImages, actorEntities,trailers,similarWrapper) -> {
                     TvShow tvShow= MapperUtils.createTvShowCover(infoEntity);
                     tvShow.setBackdrops(backdropImages);
-                    Log.d(RemoteTvShowDetails.class.getSimpleName(),Integer.toString(backdropImages.size()));
                     TvShowDetailEntity detailEntity=new TvShowDetailEntity();
                     detailEntity.setCast(actorEntities);
                     detailEntity.setInfoEntity(infoEntity);
@@ -71,6 +69,14 @@ public class RemoteTvShowDetails implements DetailsDataSource<TvShowDetailEntity
                     detailEntity.setTvShowCover(tvShow);
                     return detailEntity;
                 });
+    }
+
+    private void appendId(List<SeasonEntity> list, int id){
+        if(list!=null){
+            list.forEach(seasonEntity -> {
+                int temp=seasonEntity.getSeasonNumber();
+            });
+        }
     }
 
     @Override

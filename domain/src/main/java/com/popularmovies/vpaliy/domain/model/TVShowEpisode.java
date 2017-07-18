@@ -2,14 +2,24 @@ package com.popularmovies.vpaliy.domain.model;
 
 public class TVShowEpisode {
 
-    private int episodeId;
+    private String episodeId;
     private int episodeNumber;
     private String episodeOverview;
     private String episodeName;
+    private String imagePath;
     private double voteAverage;
     private int voteCount;
 
-    public void setEpisodeId(int episodeId) {
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setEpisodeId(String episodeId) {
         this.episodeId = episodeId;
     }
 
@@ -42,7 +52,7 @@ public class TVShowEpisode {
         return voteCount;
     }
 
-    public int getEpisodeId() {
+    public String getEpisodeId() {
         return episodeId;
     }
 

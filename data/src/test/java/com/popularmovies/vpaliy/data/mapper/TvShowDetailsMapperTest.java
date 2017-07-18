@@ -2,15 +2,17 @@ package com.popularmovies.vpaliy.data.mapper;
 
 import com.popularmovies.vpaliy.data.FakeDataProvider;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.SeasonEntity;
+import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
-import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
-import com.popularmovies.vpaliy.domain.model.TVShowSeason;
+import com.popularmovies.vpaliy.domain.model.Trailer;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +32,7 @@ import static org.mockito.Mockito.verify;
 public class TvShowDetailsMapperTest {
 
     @Mock
-    private Mapper<TVShowSeason,TvShowSeasonEntity> seasonMapper;
+    private Mapper<SeasonCover,SeasonEntity> seasonMapper;
 
     @Mock
     private Mapper<MediaCover,TvShow> coverMapper;
@@ -41,11 +43,14 @@ public class TvShowDetailsMapperTest {
     @Mock
     private Mapper<TVShowInfo,TvShowInfoEntity> infoMapper;
 
+    @Mock
+    private Mapper<Trailer,TrailerEntity> trailerMapper;
+
     private TvShowDetailsMapper mapper;
 
     @Before
     public void setUp(){
-        mapper=new TvShowDetailsMapper(seasonMapper,actorMapper,infoMapper,coverMapper);
+        mapper=new TvShowDetailsMapper(seasonMapper,actorMapper,infoMapper,coverMapper,trailerMapper);
     }
 
     @Test

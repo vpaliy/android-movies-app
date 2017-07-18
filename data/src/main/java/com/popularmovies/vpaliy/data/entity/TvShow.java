@@ -53,8 +53,8 @@ public class TvShow implements HasId {
     private boolean isMustWatch;
 
     @Override
-    public int id() {
-        return id;
+    public String id() {
+        return Integer.toString(id);
     }
 
     public boolean isWatched() {
@@ -93,8 +93,8 @@ public class TvShow implements HasId {
         this.genreList = genreList;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return Integer.toString(id);
     }
 
     public int getVoteCount() {
@@ -157,8 +157,8 @@ public class TvShow implements HasId {
         this.posterPath = posterPath;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = Integer.parseInt(id);
     }
 
     public void setBackdropPath(String backdropPath) {

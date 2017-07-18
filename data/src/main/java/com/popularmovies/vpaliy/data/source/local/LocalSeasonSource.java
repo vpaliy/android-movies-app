@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.data.source.local;
 
-import com.popularmovies.vpaliy.data.entity.MovieDetailEntity;
+import com.popularmovies.vpaliy.data.entity.SeasonEntity;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 
 import javax.inject.Inject;
@@ -8,20 +8,19 @@ import javax.inject.Singleton;
 
 import rx.Observable;
 
-
 @Singleton
-public class LocalMovieDetails implements DetailsDataSource<MovieDetailEntity> {
+public class LocalSeasonSource implements DetailsDataSource<SeasonEntity> {
 
     @Inject
-    public LocalMovieDetails(){}
+    public LocalSeasonSource(){}
 
     @Override
-    public Observable<MovieDetailEntity> get(String id) {
+    public Observable<SeasonEntity> get(String id) {
         return null;
     }
 
     @Override
-    public void insert(MovieDetailEntity item) {
+    public void insert(SeasonEntity item) {
 
     }
 }

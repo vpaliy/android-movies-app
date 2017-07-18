@@ -35,7 +35,7 @@ public class MovieInfoPresenterTest extends BasePresenterTest {
         presenter.start(FAKE_MOVIE_ID);
 
         verify(mockView).showTrailers(FAKE_TRAILERS);
-        verify(mockView).showSimilarMovies(FAKE_COVER_LIST);
+        verify(mockView).showSimilar(FAKE_COVER_LIST);
         verify(mockView).showGeneralInfo(FAKE_MOVIE_INFO);
         verify(mockRepository).getDetails(FAKE_MOVIE_ID);
     }
@@ -47,7 +47,7 @@ public class MovieInfoPresenterTest extends BasePresenterTest {
         presenter.start(FAKE_MOVIE_ID);
 
         verify(mockView).showTrailers(FAKE_TRAILERS);
-        verify(mockView).showSimilarMovies(FAKE_COVER_LIST);
+        verify(mockView).showSimilar(FAKE_COVER_LIST);
         verify(mockView).showNoInfoMessage();
         verify(mockRepository).getDetails(FAKE_MOVIE_ID);
     }   */

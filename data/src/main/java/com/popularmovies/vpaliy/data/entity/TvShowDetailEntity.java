@@ -6,15 +6,15 @@ public class TvShowDetailEntity implements HasId {
 
     private TvShow tvShowCover;
     private TvShowInfoEntity infoEntity;
-    private List<TvShowSeasonEntity> seasons;
+    private List<SeasonEntity> seasons;
     private List<ActorEntity> cast;
     private List<TrailerEntity> trailers;
     private List<TvShow> similarTvShows;
 
-    public List<TvShowSeasonEntity> getSeasons() { return seasons;}
+    public List<SeasonEntity> getSeasons() { return seasons;}
 
     @Override
-    public int id() {
+    public String id() {
         return tvShowCover.id();
     }
 
@@ -54,7 +54,7 @@ public class TvShowDetailEntity implements HasId {
         this.infoEntity = infoEntity;
     }
 
-    public void setSeasons(List<TvShowSeasonEntity> seasons) {
+    public void setSeasons(List<SeasonEntity> seasons) {
         this.seasons = seasons;
     }
 

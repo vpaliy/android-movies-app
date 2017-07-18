@@ -46,7 +46,7 @@ public class RelatedMoviesAdapter extends AbstractMediaAdapter<MediaCover> {
                     Context context=itemView.getContext();
                     Bundle args = new Bundle();
                     String transitionName=context.getString(R.string.poster_transition_name)+getAdapterPosition();
-                    args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
+                    args.putString(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
                     args.putString(Constants.EXTRA_DATA,at(getAdapterPosition()).getMainBackdrop());
                     args.putString(Constants.EXTRA_POSTER_PATH,at(getAdapterPosition()).getPosterPath());
                     args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);

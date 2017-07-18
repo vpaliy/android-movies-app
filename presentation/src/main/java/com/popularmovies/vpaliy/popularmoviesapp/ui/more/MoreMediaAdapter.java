@@ -63,7 +63,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     lock();
                     Bundle args = new Bundle();
                     MediaCover cover=at(getAdapterPosition());
-                    args.putInt(Constants.EXTRA_ID, cover.getMediaId());
+                    args.putString(Constants.EXTRA_ID, cover.getMediaId());
                     args.putString(Constants.EXTRA_DATA,cover.getMainBackdrop());
                     args.putBoolean(Constants.EXTRA_IS_TV,cover.isTvShow());
                     ViewCompat.setTransitionName(posterImage,inflater.getContext().getString(R.string.backdrop_transition_name));

@@ -108,8 +108,8 @@ public class RemoteMovieCovers implements CoverDataSource<Movie> {
     }
 
     @Override
-    public Observable<Movie> get(int id) {
-        return moviesService.queryDetails(Integer.toString(id));
+    public Observable<Movie> get(String id) {
+        return moviesService.queryDetails(id);
     }
 
     @Override

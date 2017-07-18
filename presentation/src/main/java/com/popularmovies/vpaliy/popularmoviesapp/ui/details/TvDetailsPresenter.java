@@ -36,7 +36,7 @@ public class TvDetailsPresenter extends DetailsPresenter<TVShowDetails> {
         }
 
         if(!isEmpty(details.getSimilar())){
-            view.showSimilarMovies(details.getSimilar());
+            view.showSimilar(details.getSimilar());
         }
 
         if(!isEmpty(details.getTrailers())){

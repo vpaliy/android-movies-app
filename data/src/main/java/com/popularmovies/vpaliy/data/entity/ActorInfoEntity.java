@@ -11,8 +11,8 @@ public class ActorInfoEntity {
     private String bioDescription;
     private List<String> imagePaths;
 
-    public int getActorId() {
-        return actorId;
+    public String getActorId() {
+        return Integer.toString(actorId);
     }
 
     public List<String> getImagePaths() {
@@ -31,8 +31,8 @@ public class ActorInfoEntity {
         return birthDate;
     }
 
-    public void setActorId(int actorId) {
-        this.actorId = actorId;
+    public void setActorId(String actorId) {
+        this.actorId = Integer.parseInt(actorId);
     }
 
     public void setBioDescription(String bioDescription) {

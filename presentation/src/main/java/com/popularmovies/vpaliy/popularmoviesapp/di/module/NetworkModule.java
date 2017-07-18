@@ -6,7 +6,8 @@ import android.content.Context;
 import com.popularmovies.vpaliy.data.source.remote.service.CastService;
 import com.popularmovies.vpaliy.data.source.remote.service.GenresService;
 import com.popularmovies.vpaliy.data.source.remote.service.MoviesService;
-import com.popularmovies.vpaliy.data.source.remote.service.TvShowService;
+import com.popularmovies.vpaliy.data.source.remote.service.SeasonService;
+import com.popularmovies.vpaliy.data.source.remote.service.TvService;
 import com.popularmovies.vpaliy.popularmoviesapp.BuildConfig;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
@@ -85,8 +86,8 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    TvShowService provideTvShowService(@NonNull Retrofit retrofit){
-        return retrofit.create(TvShowService.class);
+    TvService provideTvShowService(@NonNull Retrofit retrofit){
+        return retrofit.create(TvService.class);
     }
 
     @Provides
@@ -99,5 +100,11 @@ public class NetworkModule {
     @Singleton
     CastService provideCastService(@NonNull Retrofit retrofit){
         return retrofit.create(CastService.class);
+    }
+
+    @Provides
+    @Singleton
+    SeasonService provideSeasonService(@NonNull Retrofit retrofit){
+        return retrofit.create(SeasonService.class);
     }
 }

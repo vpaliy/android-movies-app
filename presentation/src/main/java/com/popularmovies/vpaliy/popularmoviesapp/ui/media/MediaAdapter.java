@@ -50,7 +50,7 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     Bundle args = new Bundle();
                     MediaCover cover=at(getAdapterPosition());
                     String transitionName=context.getString(R.string.poster_transition_name)+getAdapterPosition();
-                    args.putInt(Constants.EXTRA_ID, cover.getMediaId());
+                    args.putString(Constants.EXTRA_ID, cover.getMediaId());
                     args.putString(Constants.EXTRA_DATA,cover.getMainBackdrop());
                     args.putString(Constants.EXTRA_POSTER_PATH,cover.getPosterPath());
                     args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);

@@ -22,7 +22,7 @@ public interface ActorContract {
 
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
-        void start(int id);
+        void start(String id);
         void stop();
     }
 }

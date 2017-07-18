@@ -37,7 +37,7 @@ public class DetailsRepository<T,F extends HasId> extends AbstractRepository<F>
     }
 
     @Override
-    public Observable<T> get(int id) {
+    public Observable<T> get(String id) {
         if(!isCached(id)){
             if(isNetworkConnection()){
                 return remoteSource.get(id)

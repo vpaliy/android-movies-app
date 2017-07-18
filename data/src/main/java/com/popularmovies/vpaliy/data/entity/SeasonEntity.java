@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.data.entity;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class TvShowSeasonEntity {
+public class SeasonEntity implements HasId {
 
     @SerializedName("_id")
     private String _id;
@@ -29,6 +29,39 @@ public class TvShowSeasonEntity {
     @SerializedName("season_number")
     private int seasonNumber;
 
+    private List<BackdropImage> images;
+    private List<String> videos;
+    private List<ActorEntity> cast;
+
+    @Override
+    public String id() {
+        return Integer.toString(id);
+    }
+
+    public void setCast(List<ActorEntity> cast) {
+        this.cast = cast;
+    }
+
+    public void setVideos(List<String> videos) {
+        this.videos = videos;
+    }
+
+    public void setImages(List<BackdropImage> images) {
+        this.images = images;
+    }
+
+    public List<String> getVideos() {
+        return videos;
+    }
+
+    public List<ActorEntity> getCast() {
+        return cast;
+    }
+
+    public List<BackdropImage> getImages() {
+        return images;
+    }
+
     public String getOverview() {
         return overview;
     }
@@ -41,8 +74,8 @@ public class TvShowSeasonEntity {
         return airDate;
     }
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return Integer.toString(id);
     }
 
     public int getSeasonNumber() {
@@ -81,8 +114,8 @@ public class TvShowSeasonEntity {
         this.episodes = episodes;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = Integer.parseInt(id);
     }
 
     public void setPosterPath(String posterPath) {

@@ -5,10 +5,10 @@ import java.util.List;
 
 public class TVShowDetails {
 
-    private int tvShowId;
+    private String tvShowId;
     private MediaCover tvShowCover;
     private TVShowInfo tvShowInfo;
-    private List<TVShowSeason> seasons;
+    private List<SeasonCover> seasons;
     private List<ActorCover> cast;
     private List<Trailer> trailers;
     private List<MediaCover> similar;
@@ -25,7 +25,7 @@ public class TVShowDetails {
         return similar;
     }
 
-    public int getTvShowId() {
+    public String getTvShowId() {
         return tvShowId;
     }
 
@@ -37,7 +37,7 @@ public class TVShowDetails {
         return cast;
     }
 
-    public List<TVShowSeason> getSeasons() {
+    public List<SeasonCover> getSeasons() {
         return seasons;
     }
 
@@ -53,7 +53,7 @@ public class TVShowDetails {
         this.cast = cast;
     }
 
-    public void setSeasons(List<TVShowSeason> seasons) {
+    public void setSeasons(List<SeasonCover> seasons) {
         this.seasons = seasons;
     }
 
@@ -61,7 +61,7 @@ public class TVShowDetails {
         this.tvShowCover = tvShowCover;
     }
 
-    public void setTvShowId(int tvShowId) {
+    public void setTvShowId(String tvShowId) {
         this.tvShowId = tvShowId;
     }
 

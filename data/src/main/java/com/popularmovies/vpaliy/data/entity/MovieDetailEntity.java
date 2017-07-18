@@ -15,7 +15,7 @@ public class MovieDetailEntity implements HasId{
     private CollectionEntity collectionEntity;
 
     @Override
-    public int id() {
+    public String id() {
         return movie.id();
     }
 
@@ -28,7 +28,7 @@ public class MovieDetailEntity implements HasId{
         return collectionEntity;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movie.getMovieId();
     }
 

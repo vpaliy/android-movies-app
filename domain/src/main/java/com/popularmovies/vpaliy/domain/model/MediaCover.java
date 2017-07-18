@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class MediaCover {
 
-    private int mediaId;
+    private String mediaId;
     private double averageRate;
     private boolean isFavorite;
     private boolean isWatched;
@@ -28,7 +28,7 @@ public class MediaCover {
         return String.format(Locale.US,"%.1f",averageRate);
     }
 
-    public int getMediaId() {
+    public String getMediaId() {
         return mediaId;
     }
 
@@ -132,7 +132,7 @@ public class MediaCover {
         this.genres = genres;
     }
 
-    public void setMediaId(int mediaId) {
+    public void setMediaId(String mediaId) {
         this.mediaId = mediaId;
     }
 

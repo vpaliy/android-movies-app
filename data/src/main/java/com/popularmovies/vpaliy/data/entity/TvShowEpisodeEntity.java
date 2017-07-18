@@ -29,8 +29,8 @@ public class TvShowEpisodeEntity {
     @SerializedName("vote_count")
     private int voteCount;
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return Integer.toString(id);
     }
 
     public int getEpisodeNumber() {
@@ -61,8 +61,8 @@ public class TvShowEpisodeEntity {
         return stillPath;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(String id) {
+        this.id = Integer.parseInt(id);
     }
 
     public void setAirDate(String airDate) {

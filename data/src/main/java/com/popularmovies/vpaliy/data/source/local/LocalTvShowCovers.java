@@ -18,7 +18,7 @@ public class LocalTvShowCovers implements CoverDataSource<TvShow> {
     public LocalTvShowCovers(){}
 
     @Override
-    public Observable<TvShow> get(int id) {
+    public Observable<TvShow> get(String id) {
         return null;
     }
 

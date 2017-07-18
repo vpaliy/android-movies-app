@@ -2,33 +2,35 @@ package com.popularmovies.vpaliy.data.mapper;
 
 
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.SeasonEntity;
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowDetailEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
-import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
-import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class TvShowDetailsMapper extends Mapper<TVShowDetails,TvShowDetailEntity> {
 
-    private final Mapper<TVShowSeason,TvShowSeasonEntity> seasonMapper;
+    private final Mapper<SeasonCover,SeasonEntity> seasonMapper;
     private final Mapper<MediaCover,TvShow> coverMapper;
     private final Mapper<ActorCover,ActorEntity> actorMapper;
     private final Mapper<TVShowInfo,TvShowInfoEntity> infoMapper;
     private final Mapper<Trailer,TrailerEntity> trailerMapper;
 
     @Inject
-    public TvShowDetailsMapper(@NonNull Mapper<TVShowSeason,TvShowSeasonEntity> seasonMapper,
+    public TvShowDetailsMapper(@NonNull Mapper<SeasonCover,SeasonEntity> seasonMapper,
                                @NonNull Mapper<ActorCover,ActorEntity> actorMapper,
                                @NonNull Mapper<TVShowInfo,TvShowInfoEntity> infoMapper,
                                @NonNull Mapper<MediaCover,TvShow> coverMapper,

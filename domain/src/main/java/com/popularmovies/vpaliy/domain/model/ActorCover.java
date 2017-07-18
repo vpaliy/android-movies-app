@@ -2,18 +2,18 @@ package com.popularmovies.vpaliy.domain.model;
 
 public class ActorCover {
 
-    private int actorId;
-    private int movieId;
+    private String actorId;
+    private String movieId;
     private String name;
     private String actorAvatar;
     private String role;
 
-    public ActorCover(int actorId, int movieId){
+    public ActorCover(String actorId, String movieId){
         this.actorId=actorId;
         this.movieId=movieId;
     }
 
-    public int getActorId() {
+    public String getActorId() {
         return actorId;
     }
 
@@ -25,7 +25,7 @@ public class ActorCover {
         return name;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movieId;
     }
 
@@ -37,7 +37,7 @@ public class ActorCover {
         this.actorAvatar = actorAvatar;
     }
 
-    public void setActorId(int actorId) {
+    public void setActorId(String actorId) {
         this.actorId = actorId;
     }
 
@@ -45,7 +45,7 @@ public class ActorCover {
         this.name = name;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 

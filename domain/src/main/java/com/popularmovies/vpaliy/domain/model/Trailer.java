@@ -2,17 +2,17 @@ package com.popularmovies.vpaliy.domain.model;
 
 public class Trailer {
 
-    private int movieId;
+    private String movieId;
     private String trailerTitle;
     private String trailerUrl;
 
-    public Trailer(int movieId, String trailerUrl, String trailerTitle){
+    public Trailer(String movieId, String trailerUrl, String trailerTitle){
         this.movieId=movieId;
         this.trailerUrl=trailerUrl;
         this.trailerTitle=trailerTitle;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movieId;
     }
 
@@ -24,7 +24,7 @@ public class Trailer {
         return trailerTitle;
     }
 
-    public void setMovieId(int movieId) {
+    public void setMovieId(String movieId) {
         this.movieId = movieId;
     }
 

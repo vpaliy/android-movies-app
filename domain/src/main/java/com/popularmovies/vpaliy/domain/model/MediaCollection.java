@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MediaCollection {
 
-    private int id;
+    private String id;
     private List<MediaCover> covers;
     private String name;
     private String overview;
@@ -14,7 +14,7 @@ public class MediaCollection {
         this.name = name;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public class MediaCollection {
         return name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
