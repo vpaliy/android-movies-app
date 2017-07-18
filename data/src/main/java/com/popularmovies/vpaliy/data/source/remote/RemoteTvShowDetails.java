@@ -23,6 +23,7 @@ import rx.schedulers.Schedulers;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import android.support.annotation.NonNull;
+
 @Singleton
 public class RemoteTvShowDetails implements DetailsDataSource<TvShowDetailEntity>{
 
@@ -67,14 +68,18 @@ public class RemoteTvShowDetails implements DetailsDataSource<TvShowDetailEntity
                     detailEntity.setSimilarTvShows(similarWrapper.getTvShows());
                     detailEntity.setSeasons(infoEntity.getSeasonEntities());
                     detailEntity.setTvShowCover(tvShow);
+                    appendId(detailEntity.getSeasons(),infoEntity.getTvShowId());
                     return detailEntity;
                 });
     }
 
-    private void appendId(List<SeasonEntity> list, int id){
+    private void appendId(List<SeasonEntity> list, String id){
         if(list!=null){
             list.forEach(seasonEntity -> {
-                int temp=seasonEntity.getSeasonNumber();
+                StringBuilder builder=new StringBuilder(id);
+                builder.append("/");
+                builder.append(seasonEntity.getSeasonNumber());
+                seasonEntity.setId(builder.toString());
             });
         }
     }

@@ -2,10 +2,6 @@ package com.popularmovies.vpaliy.data.mapper;
 
 import com.popularmovies.vpaliy.data.entity.TrailerEntity;
 import com.popularmovies.vpaliy.domain.model.Trailer;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 

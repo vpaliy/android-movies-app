@@ -30,7 +30,7 @@ public class SeasonEntity implements HasId {
     private int seasonNumber;
 
     private List<BackdropImage> images;
-    private List<String> videos;
+    private List<TrailerEntity> videos;
     private List<ActorEntity> cast;
 
     @Override
@@ -42,7 +42,7 @@ public class SeasonEntity implements HasId {
         this.cast = cast;
     }
 
-    public void setVideos(List<String> videos) {
+    public void setVideos(List<TrailerEntity> videos) {
         this.videos = videos;
     }
 
@@ -50,7 +50,7 @@ public class SeasonEntity implements HasId {
         this.images = images;
     }
 
-    public List<String> getVideos() {
+    public List<TrailerEntity> getVideos() {
         return videos;
     }
 

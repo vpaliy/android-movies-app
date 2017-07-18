@@ -3,6 +3,9 @@ package com.popularmovies.vpaliy.data.source.remote;
 import com.popularmovies.vpaliy.data.entity.SeasonEntity;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 import com.popularmovies.vpaliy.data.source.remote.service.SeasonService;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,11 +26,25 @@ public class RemoteSeasonSource implements DetailsDataSource<SeasonEntity>{
 
     @Override
     public Observable<SeasonEntity> get(String id) {
-        return null;
+        String tvId=id.substring(id.indexOf("/"));
+        String seasonNumber=id.substring(id.indexOf("/"),id.length());
+        Observable<SeasonEntity> seasonObservable=seasonService.querySeason(tvId,seasonNumber)
+                .subscribeOn(schedulerProvider.multi());
+        Observable<CastWrapper> castObservable=seasonService.queryCast(tvId,seasonNumber)
+                .subscribeOn(schedulerProvider.multi());
+        Observable<BackdropsWrapper> backdropObservable=seasonService.queryImages(tvId,seasonNumber)
+                .subscribeOn(schedulerProvider.multi());
+        Observable<TrailerWrapper> trailerObservable=seasonService.queryVideos(tvId,seasonNumber)
+                .subscribeOn(schedulerProvider.multi());
+        return Observable.zip(seasonObservable,castObservable,backdropObservable,trailerObservable,
+                (seasonEntity, castWrapper, backdropsWrapper, trailerWrapper) ->{
+                    seasonEntity.setImages(backdropsWrapper.getBackdropImages());
+                    seasonEntity.setCast(castWrapper.getCast());
+                    seasonEntity.setVideos(trailerWrapper.getTrailers());
+                   return seasonEntity;
+                });
     }
 
     @Override
-    public void insert(SeasonEntity item) {
-
-    }
+    public void insert(SeasonEntity item) { /* Empty */}
 }

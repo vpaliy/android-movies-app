@@ -7,7 +7,7 @@ public class SeasonDetails {
     private SeasonCover seasonCover;
     private String seasonId;
     private List<String> images;
-    private List<String> videos;
+    private List<Trailer> videos;
     private List<ActorCover> cast;
     private List<TVShowEpisode> episodeList;
 
@@ -31,7 +31,7 @@ public class SeasonDetails {
         this.seasonId = seasonId;
     }
 
-    public void setVideos(List<String> videos) {
+    public void setVideos(List<Trailer> videos) {
         this.videos = videos;
     }
 
@@ -47,7 +47,7 @@ public class SeasonDetails {
         return images;
     }
 
-    public List<String> getVideos() {
+    public List<Trailer> getVideos() {
         return videos;
     }
 
