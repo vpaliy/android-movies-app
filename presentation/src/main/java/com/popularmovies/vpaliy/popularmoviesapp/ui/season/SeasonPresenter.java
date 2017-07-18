@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.season;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.SeasonDetails;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import android.support.annotation.NonNull;
@@ -38,6 +39,8 @@ public class SeasonPresenter implements SeasonContract.Presenter{
 
     private void processData(SeasonDetails details){
         if(details!=null){
+            SeasonCover cover=details.getSeasonCover();
+            view.showPoster(cover.getPosterPath());
         }
     }
 

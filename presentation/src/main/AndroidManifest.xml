@@ -42,6 +42,9 @@
                 android:value=".ui.media.MediaActivity"/>
         </activity>
 
+        <activity android:name=".ui.season.SeasonActivity"
+            android:theme="@style/PopMovies.Actor"/>
+
         <activity android:name=".ui.details.MediaDetailsActivity"
             android:theme="@style/PopMovies.Details"/>
 

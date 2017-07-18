@@ -9,7 +9,7 @@ public class SeasonEntity implements HasId {
     private String _id;
 
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("air_date")
     private String airDate;
@@ -35,7 +35,7 @@ public class SeasonEntity implements HasId {
 
     @Override
     public String id() {
-        return Integer.toString(id);
+        return id;
     }
 
     public void setCast(List<ActorEntity> cast) {
@@ -75,7 +75,7 @@ public class SeasonEntity implements HasId {
     }
 
     public String getId() {
-        return Integer.toString(id);
+        return id;
     }
 
     public int getSeasonNumber() {
@@ -115,7 +115,7 @@ public class SeasonEntity implements HasId {
     }
 
     public void setId(String id) {
-        this.id = Integer.parseInt(id);
+        this.id = id;
     }
 
     public void setPosterPath(String posterPath) {

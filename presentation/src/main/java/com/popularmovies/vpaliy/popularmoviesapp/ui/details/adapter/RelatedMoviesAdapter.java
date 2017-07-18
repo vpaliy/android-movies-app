@@ -51,7 +51,7 @@ public class RelatedMoviesAdapter extends AbstractMediaAdapter<MediaCover> {
                     args.putString(Constants.EXTRA_POSTER_PATH,at(getAdapterPosition()).getPosterPath());
                     args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);
                     ViewCompat.setTransitionName(posterImage,transitionName);
-                    rxBus.send(ExposeEvent.exposeMovieDetails(args,Pair.create(posterImage,transitionName)));
+                    rxBus.send(ExposeEvent.exposeMediaDetails(args,Pair.create(posterImage,transitionName)));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });

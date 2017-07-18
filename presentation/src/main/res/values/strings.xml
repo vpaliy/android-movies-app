@@ -74,7 +74,7 @@
     <string name="background_transition_name" translatable="false">background_trans_name</string>
     <string name="poster_transition_name" translatable="false">poster_trans_name</string>
     <string name="backdrop_transition_name" translatable="false">backdrop_trans_name</string>
-
+    <string name="season_transition_name" translatable="false">season_trans_name</string>
     <string name="media_details_transition_name" translatable="false">media_details_trans_name</string>
     <string name="title_transition_name" translatable="false">title_trans_name</string>
     <string name="date_transition_name" translatable="false">date_trans_name</string>

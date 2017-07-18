@@ -1,5 +1,7 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
+import android.util.Log;
+
 import com.popularmovies.vpaliy.data.entity.SeasonEntity;
 import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 import com.popularmovies.vpaliy.data.source.remote.service.SeasonService;
@@ -26,8 +28,8 @@ public class RemoteSeasonSource implements DetailsDataSource<SeasonEntity>{
 
     @Override
     public Observable<SeasonEntity> get(String id) {
-        String tvId=id.substring(id.indexOf("/"));
-        String seasonNumber=id.substring(id.indexOf("/"),id.length());
+        String tvId=id.substring(0,id.indexOf("/"));
+        String seasonNumber=id.substring(id.indexOf("/")+1,id.length());
         Observable<SeasonEntity> seasonObservable=seasonService.querySeason(tvId,seasonNumber)
                 .subscribeOn(schedulerProvider.multi());
         Observable<CastWrapper> castObservable=seasonService.queryCast(tvId,seasonNumber)

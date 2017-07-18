@@ -56,7 +56,7 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);
                     args.putBoolean(Constants.EXTRA_IS_TV,cover.isTvShow());
                     ViewCompat.setTransitionName(posterImage,transitionName);
-                    rxBus.send(ExposeEvent.exposeMovieDetails(args, Pair.create(posterImage, transitionName)));
+                    rxBus.send(ExposeEvent.exposeMediaDetails(args, Pair.create(posterImage, transitionName)));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });
