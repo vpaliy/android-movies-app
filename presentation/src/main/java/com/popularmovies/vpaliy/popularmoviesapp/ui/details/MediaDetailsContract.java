@@ -8,6 +8,7 @@ import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
+import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BasePresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseView;
@@ -18,8 +19,9 @@ public interface MediaDetailsContract {
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
         void showBackdrops(@NonNull List<String> backdrops);
-        void showDetails(@NonNull MovieInfo movieInfo);
         void shareWithMovie(@NonNull MovieDetails details);
+        void showSeasons(@NonNull List<TVShowSeason> seasons);
+        void showDescription(@NonNull String description);
         void showCover(@NonNull MediaCover cover);
         void showSimilarMovies(@NonNull List<MediaCover> covers);
         void showCollection(@NonNull MediaCollection collection);

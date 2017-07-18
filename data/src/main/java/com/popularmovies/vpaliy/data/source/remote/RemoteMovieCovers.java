@@ -71,7 +71,7 @@ public class RemoteMovieCovers implements CoverDataSource<Movie> {
                         .map(wrapper -> convertToMovie(sortType,wrapper));
         }
         return Observable.zip(movieObservable,queryGenres(), (list, genres)->{
-            list.forEach(this::mergeGenres);
+            if(list!=null) list.forEach(this::mergeGenres);
             return list;
         });
     }

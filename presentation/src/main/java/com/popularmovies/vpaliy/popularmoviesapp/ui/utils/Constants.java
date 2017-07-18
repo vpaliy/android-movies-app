@@ -15,6 +15,7 @@ public final class Constants {
     public static final String EXTRA_DATA="extra";
     public static final String EXTRA_TRANSITION_NAME="transitionName";
     public static final String EXTRA_ID="id";
+    public static final String EXTRA_IS_TV="extra_is_tv";
     public static final String EXTRA_SORT_TYPE="sort_type";
     public static final String EXTRA_MEDIA_TYPE="media_type";
     public static final String EXTRA_POSTER_PATH="extra_poster_path";

@@ -3,7 +3,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
@@ -13,17 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.target.ImageViewTarget;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
+import com.popularmovies.vpaliy.domain.model.TVShowSeason;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
@@ -35,6 +32,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieBackdro
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieCastAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieTrailersAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.RelatedMoviesAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.SeasonAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout;
@@ -54,15 +52,12 @@ import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import javax.inject.Inject;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract.Presenter;
 
-public class MediaDetailsFragment extends BaseFragment
+public abstract class MediaDetailsFragment extends BaseFragment
         implements MediaDetailsContract.View {
 
-    private Presenter presenter;
+    protected Presenter presenter;
 
     @BindView(R.id.backdrop_pager)
     protected ParallaxRatioViewPager pager;
@@ -112,7 +107,9 @@ public class MediaDetailsFragment extends BaseFragment
 
 
     public static MediaDetailsFragment newInstance(Bundle args){
-        MediaDetailsFragment fragment=new MediaDetailsFragment();
+        boolean isTvShow=args.getBoolean(Constants.EXTRA_IS_TV,false);
+        MediaDetailsFragment fragment=isTvShow?new TvDetailsFragment():new MovieDetailsFragment();
+        args.getBoolean(Constants.EXTRA_IS_TV,false);
         fragment.setArguments(args);
         return fragment;
     }
@@ -293,15 +290,6 @@ public class MediaDetailsFragment extends BaseFragment
         }
     };
 
-
-    @Override
-    public void initializeDependencies() {
-        DaggerViewComponent.builder()
-                .presenterModule(new PresenterModule())
-                .applicationComponent(App.appInstance().appComponent())
-                .build().inject(this);
-    }
-
     @Override
     public void showBackdrops(@NonNull List<String> backdrops) {
         adapter.appendData(backdrops);
@@ -333,8 +321,8 @@ public class MediaDetailsFragment extends BaseFragment
     }
 
     @Override
-    public void showDetails(@NonNull MovieInfo movieInfo) {
-        mediaDescription.setText(movieInfo.getDescription());
+    public void showDescription(@NonNull String description) {
+        mediaDescription.setText(description);
         detailsParent.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -359,6 +347,13 @@ public class MediaDetailsFragment extends BaseFragment
     }
 
     @Override
+    public void showSeasons(List<TVShowSeason> seasons) {
+        SeasonAdapter adapter=new SeasonAdapter(getContext(),rxBus);
+        adapter.setData(seasons);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_seasons)));
+    }
+
+    @Override
     public void showTrailers(@NonNull List<Trailer> trailers) {
         MovieTrailersAdapter adapter=new MovieTrailersAdapter(getContext());
         adapter.setData(trailers);
@@ -371,14 +366,6 @@ public class MediaDetailsFragment extends BaseFragment
         castAdapter.setData(actorCovers);
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(castAdapter,getString(R.string.cast_title)));
     }
-
-    @Inject
-    @Override
-    public void attachPresenter(@NonNull Presenter presenter) {
-        this.presenter=checkNotNull(presenter);
-        this.presenter.attachView(this);
-    }
-
 
     public static class ParamsFactory{
 

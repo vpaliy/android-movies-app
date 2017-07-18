@@ -16,7 +16,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
@@ -82,7 +81,7 @@ public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
                 break;
         }
         return Observable.zip(tvObservable,queryGenres(),(list,genres)->{
-            list.forEach(this::mergeGenres);
+            if(list!=null) list.forEach(this::mergeGenres);
             return list;
         });
     }

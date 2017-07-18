@@ -14,6 +14,7 @@ import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.MovieWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.ReviewWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import java.util.List;
 import rx.Observable;

@@ -8,12 +8,30 @@ public class TvShowDetailEntity implements HasId {
     private TvShowInfoEntity infoEntity;
     private List<TvShowSeasonEntity> seasons;
     private List<ActorEntity> cast;
+    private List<TrailerEntity> trailers;
+    private List<TvShow> similarTvShows;
 
     public List<TvShowSeasonEntity> getSeasons() { return seasons;}
 
     @Override
     public int id() {
         return tvShowCover.id();
+    }
+
+    public void setTrailers(List<TrailerEntity> trailers) {
+        this.trailers = trailers;
+    }
+
+    public List<TrailerEntity> getTrailers() {
+        return trailers;
+    }
+
+    public void setSimilarTvShows(List<TvShow> similarTvShows) {
+        this.similarTvShows = similarTvShows;
+    }
+
+    public List<TvShow> getSimilarTvShows() {
+        return similarTvShows;
     }
 
     public TvShow getTvShowCover() {

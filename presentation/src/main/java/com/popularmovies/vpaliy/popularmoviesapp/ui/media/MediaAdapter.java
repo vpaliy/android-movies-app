@@ -17,7 +17,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-
 import java.util.List;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;
@@ -49,13 +48,15 @@ public class MediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     lock();
                     Context context=itemView.getContext();
                     Bundle args = new Bundle();
+                    MediaCover cover=at(getAdapterPosition());
                     String transitionName=context.getString(R.string.poster_transition_name)+getAdapterPosition();
-                    args.putInt(Constants.EXTRA_ID, at(getAdapterPosition()).getMediaId());
-                    args.putString(Constants.EXTRA_DATA,at(getAdapterPosition()).getMainBackdrop());
-                    args.putString(Constants.EXTRA_POSTER_PATH,at(getAdapterPosition()).getPosterPath());
+                    args.putInt(Constants.EXTRA_ID, cover.getMediaId());
+                    args.putString(Constants.EXTRA_DATA,cover.getMainBackdrop());
+                    args.putString(Constants.EXTRA_POSTER_PATH,cover.getPosterPath());
                     args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);
+                    args.putBoolean(Constants.EXTRA_IS_TV,cover.isTvShow());
                     ViewCompat.setTransitionName(posterImage,transitionName);
-                    rxBus.send(ExposeEvent.exposeMediaDetails(args,Pair.create(posterImage,transitionName)));
+                    rxBus.send(ExposeEvent.exposeMovieDetails(args, Pair.create(posterImage, transitionName)));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });

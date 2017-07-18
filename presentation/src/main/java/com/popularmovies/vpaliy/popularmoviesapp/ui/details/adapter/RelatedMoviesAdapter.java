@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
-
 import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.BindView;
@@ -50,7 +51,7 @@ public class RelatedMoviesAdapter extends AbstractMediaAdapter<MediaCover> {
                     args.putString(Constants.EXTRA_POSTER_PATH,at(getAdapterPosition()).getPosterPath());
                     args.putString(Constants.EXTRA_TRANSITION_NAME,transitionName);
                     ViewCompat.setTransitionName(posterImage,transitionName);
-                    rxBus.send(ExposeEvent.exposeMediaDetails(args,Pair.create(posterImage,transitionName)));
+                    rxBus.send(ExposeEvent.exposeMovieDetails(args,Pair.create(posterImage,transitionName)));
                     unlockAfter(UNLOCK_TIMEOUT);
                 }
             });
@@ -61,15 +62,13 @@ public class RelatedMoviesAdapter extends AbstractMediaAdapter<MediaCover> {
             MediaCover movieCover=data.get(getAdapterPosition());
             Glide.with(inflater.getContext())
                     .load(movieCover.getPosterPath())
-                    .centerCrop()
+                    .priority(Priority.IMMEDIATE)
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .placeholder(R.drawable.placeholder)
+                    .animate(R.anim.fade_in)
                     .into(posterImage);
-            mediaTitle.setText(data.get(getAdapterPosition()).getMovieTitle());
+            mediaTitle.setText(movieCover.getMovieTitle());
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return data.size();
     }
 
     @Override

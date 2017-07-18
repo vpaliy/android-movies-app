@@ -16,6 +16,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 
 public class MediaDetailsActivity extends BaseActivity {
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

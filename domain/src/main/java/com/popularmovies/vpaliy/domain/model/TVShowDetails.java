@@ -10,10 +10,27 @@ public class TVShowDetails {
     private TVShowInfo tvShowInfo;
     private List<TVShowSeason> seasons;
     private List<ActorCover> cast;
+    private List<Trailer> trailers;
+    private List<MediaCover> similar;
 
+    public void setTrailers(List<Trailer> trailers) {
+        this.trailers = trailers;
+    }
+
+    public void setSimilar(List<MediaCover> similar) {
+        this.similar = similar;
+    }
+
+    public List<MediaCover> getSimilar() {
+        return similar;
+    }
 
     public int getTvShowId() {
         return tvShowId;
+    }
+
+    public List<Trailer> getTrailers() {
+        return trailers;
     }
 
     public List<ActorCover> getCast() {

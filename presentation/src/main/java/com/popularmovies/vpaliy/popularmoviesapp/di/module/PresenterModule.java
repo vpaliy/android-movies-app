@@ -3,12 +3,16 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.actor.ActorContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.actor.ActorPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.DetailsPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MovieDetailsPresenter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.TvDetailsPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaPresenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaContract;
@@ -36,9 +40,18 @@ public class PresenterModule {
         return new MediaPresenter(iCoverRepository,schedulerProvider);
     }
 
-    @ViewScope @Provides
-    MediaDetailsContract.Presenter detailsPresenter(@NonNull DetailsPresenter presenter){
-        return presenter;
+    @ViewScope @Provides @Movies
+    MediaDetailsContract.Presenter movieDetailsPresenter(@Movies ICoverRepository<MediaCover> coverRepository,
+                                                         IDetailsRepository<MovieDetails> detailsRepository,
+                                                         BaseSchedulerProvider schedulerProvider){
+        return new MovieDetailsPresenter(detailsRepository,coverRepository,schedulerProvider);
+    }
+
+    @ViewScope @Provides @TV
+    MediaDetailsContract.Presenter tvDetailsPresenter(@TV ICoverRepository<MediaCover> coverRepository,
+                                                      IDetailsRepository<TVShowDetails> detailsRepository,
+                                                      BaseSchedulerProvider schedulerProvider){
+        return new TvDetailsPresenter(detailsRepository,coverRepository,schedulerProvider);
     }
 
     @ViewScope @Provides @TV

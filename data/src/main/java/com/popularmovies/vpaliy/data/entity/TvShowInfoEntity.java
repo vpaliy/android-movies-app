@@ -18,9 +18,6 @@ public class TvShowInfoEntity {
     @SerializedName("first_air_date")
     private String firstAirDate;
 
-    @SerializedName("genres")
-    private List<Genre> genres;
-
     @SerializedName("homepage")
     private String homepage;
 
@@ -96,7 +93,7 @@ public class TvShowInfoEntity {
     }
 
     public void setGenres(List<Genre> genres) {
-        this.genres = genres;
+        this.genreList = genres;
     }
 
     public void setHomepage(String homepage) {
@@ -196,7 +193,7 @@ public class TvShowInfoEntity {
     }
 
     public List<Genre> getGenres() {
-        return genres;
+        return genreList;
     }
 
     public List<Network> getNetworks() {

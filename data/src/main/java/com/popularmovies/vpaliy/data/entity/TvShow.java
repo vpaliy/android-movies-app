@@ -114,7 +114,7 @@ public class TvShow implements HasId {
     }
 
     public List<BackdropImage> getBackdrops() {
-        if(backdrops==null||!backdrops.isEmpty()){
+        if(backdrops==null||backdrops.isEmpty()){
             if(backdropPath!=null){
                 backdrops= Collections.singletonList(new BackdropImage(backdropPath));
             }

@@ -5,6 +5,7 @@ import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.entity.TvShowInfoEntity;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.BackdropsWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.CastWrapper;
+import com.popularmovies.vpaliy.data.source.remote.wrapper.TrailerWrapper;
 import com.popularmovies.vpaliy.data.source.remote.wrapper.TvShowsWrapper;
 
 import retrofit2.http.GET;
@@ -30,18 +31,24 @@ public interface TvShowService {
     Observable<TvShowsWrapper> queryTopRated(@Query("page") int page);
 
     @GET("tv/{tv_id}")
-    Observable<TvShow> queryTvShow(@Path("id") int id);
+    Observable<TvShow> queryTvShow(@Path("tv_id") int id);
+
+    @GET("tv/{tv_id}/videos")
+    Observable<TrailerWrapper> queryVideos(@Path("tv_id") int id);
 
     @GET("tv/{tv_id}")
-    Observable<TvShowInfoEntity> queryTvShowInfo(@Path("id") int id);
+    Observable<TvShowInfoEntity> queryTvShowInfo(@Path("tv_id") int id);
 
     @GET("tv/{tv_id}/images")
-    Observable<BackdropsWrapper> queryBackdrops(@Path("id") int id);
+    Observable<BackdropsWrapper> queryBackdrops(@Path("tv_id") int id);
 
     @GET("tv/{tv_id}/credits")
-    Observable<CastWrapper> queryCast(@Path("id") int id);
+    Observable<CastWrapper> queryCast(@Path("tv_id") int id);
 
     @GET("tv/{tv_id}/season/{season_number}")
-    Observable<TvShow> querySeason(@Path("id") int tvId, @Path("season_number") int seasonNumber);
+    Observable<TvShow> querySeason(@Path("tv_id") int tvId, @Path("season_number") int seasonNumber);
+
+    @GET("tv/{tv_id}/similar")
+    Observable<TvShowsWrapper> querySimilar(@Path("tv_id") int id);
 
 }

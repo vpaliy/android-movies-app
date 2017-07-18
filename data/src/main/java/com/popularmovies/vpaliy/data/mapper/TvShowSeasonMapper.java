@@ -2,6 +2,8 @@ package com.popularmovies.vpaliy.data.mapper;
 
 
 import android.support.annotation.NonNull;
+
+import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.TvShowEpisodeEntity;
 import com.popularmovies.vpaliy.data.entity.TvShowSeasonEntity;
 import com.popularmovies.vpaliy.domain.model.TVShowEpisode;
@@ -15,16 +17,19 @@ import javax.inject.Singleton;
 public class TvShowSeasonMapper extends Mapper<TVShowSeason,TvShowSeasonEntity>{
 
     private final Mapper<TVShowEpisode,TvShowEpisodeEntity> episodeMapper;
+    private ImageQualityConfiguration qualityConfiguration;
 
     @Inject
-    public TvShowSeasonMapper(@NonNull Mapper<TVShowEpisode,TvShowEpisodeEntity> episodeMapper){
+    public TvShowSeasonMapper(@NonNull Mapper<TVShowEpisode,TvShowEpisodeEntity> episodeMapper,
+                            @NonNull ImageQualityConfiguration configuration){
         this.episodeMapper=episodeMapper;
+        this.qualityConfiguration=configuration;
     }
 
     @Override
     public TVShowSeason map(TvShowSeasonEntity tvShowSeasonEntity) {
         TVShowSeason season=new TVShowSeason();
-        season.setPosterPath(tvShowSeasonEntity.getPosterPath());
+        season.setPosterPath(qualityConfiguration.convertBackdrop(tvShowSeasonEntity.getPosterPath()));
         season.setAirDate(tvShowSeasonEntity.getAirDate());
         season.setEpisodeList(episodeMapper.map(tvShowSeasonEntity.getEpisodes()));
         season.setSeasonId(tvShowSeasonEntity.getId());
@@ -36,7 +41,7 @@ public class TvShowSeasonMapper extends Mapper<TVShowSeason,TvShowSeasonEntity>{
     @Override
     public TvShowSeasonEntity reverseMap(TVShowSeason tvShowSeason) {
         TvShowSeasonEntity entity=new TvShowSeasonEntity();
-        entity.setPosterPath(tvShowSeason.getPosterPath());
+        entity.setPosterPath(qualityConfiguration.extractPath(tvShowSeason.getPosterPath()));
         entity.setSeasonNumber(tvShowSeason.getSeasonNumber());
         entity.setAirDate(tvShowSeason.getAirDate());
         entity.setEpisodes(episodeMapper.reverseMap(tvShowSeason.getEpisodeList()));

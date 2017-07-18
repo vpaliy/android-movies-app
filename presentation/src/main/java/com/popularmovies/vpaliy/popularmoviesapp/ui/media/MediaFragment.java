@@ -39,6 +39,7 @@ public abstract class MediaFragment extends BaseFragment
     @BindView(R.id.media_recycler_view)
     protected RecyclerView mediaList;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

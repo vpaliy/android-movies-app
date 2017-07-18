@@ -6,6 +6,7 @@ import com.popularmovies.vpaliy.domain.configuration.ISortConfiguration;
 import com.popularmovies.vpaliy.domain.model.ActorDetails;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
+import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
@@ -33,6 +34,7 @@ public interface ApplicationComponent {
     BaseSchedulerProvider schedulerProvider();
     IDetailsRepository<ActorDetails> provideActorDetails();
     IDetailsRepository<MovieDetails> provideMovieDetails();
+    IDetailsRepository<TVShowDetails> provideTvDetails();
     @Movies ICoverRepository<MediaCover> moviesRepository();
     @TV ICoverRepository<MediaCover> tvRepository();
 }
