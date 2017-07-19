@@ -13,7 +13,6 @@
         android:id="@+id/media_title"
         style="@style/Widget.Title"
         android:textSize="26sp"
-        android:textStyle="bold"
         android:textColor="@color/white"
         android:transitionName="@string/title_transition_name"
         app:layout_constraintTop_toTopOf="parent"

@@ -21,6 +21,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipsLayout;
@@ -75,6 +76,7 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover> {
                     rxBus.send(ExposeEvent.exposeMediaDetails(args, Pair.create(itemView,context.getString(R.string.background_transition_name)),
                             Pair.create(posterImage,context.getString(R.string.backdrop_transition_name)),
                             Pair.create(mediaTitle,context.getString(R.string.title_transition_name)),
+                            Pair.create(ratings,context.getString(R.string.ratings_transition_name)),
                             Pair.create(releaseYear,context.getString(R.string.date_transition_name)),
                             Pair.create(background,context.getString(R.string.media_details_transition_name)),
                             Pair.create(chipsContainer,context.getString(R.string.tags_transition_name))));
