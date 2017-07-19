@@ -64,7 +64,12 @@ public abstract class MediaFragment extends BaseFragment
             mediaAdapters=new LinkedHashMap<>();
             mediaTypeAdapter=new MediaTypeAdapter(getContext(),rxBus);
             mediaList.setAdapter(mediaTypeAdapter);
-            getSortTypes().forEach(presenter::start);
+            List<SortType> sortTypes=getSortTypes();
+            if(sortTypes!=null) {
+                for (SortType sortType : sortTypes) {
+                    presenter.start(sortType);
+                }
+            }
         }
     }
 

@@ -42,7 +42,7 @@ public class MovieTrailersAdapter extends
         @BindView(R.id.trailerImage)
         ImageView trailerImage;
 
-        @BindView(R.id.trailerTitle)
+        @BindView(R.id.trailer_title)
         TextView trailerText;
 
         public TrailerViewHolder(@NonNull View itemView){

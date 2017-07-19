@@ -53,6 +53,7 @@
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager
+        android:transitionName="@string/backdrop_transition_name"
         android:id="@+id/backdrop_pager"
         android:minHeight="@dimen/shot_collapsed_app_bar_height"
         android:stateListAnimator="@animator/app_bar_pin"

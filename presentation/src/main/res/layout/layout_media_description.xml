@@ -72,11 +72,9 @@
         app:layout_constraintTop_toTopOf="@+id/media_release_year"
         app:layout_constraintBottom_toBottomOf="@+id/media_release_year"
         app:layout_constraintLeft_toRightOf="@+id/media_release_year"
-        android:layout_marginLeft="@dimen/spacing_medium"
-        android:layout_marginRight="@dimen/spacing_medium"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginStart="@dimen/spacing_medium"
-        android:layout_marginEnd="@dimen/spacing_medium" />
+        android:layout_marginLeft="@dimen/spacing_big"
+        android:layout_marginStart="@dimen/spacing_big"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <TextView

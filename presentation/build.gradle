@@ -19,6 +19,7 @@ android {
         testInstrumentationRunner config.testInstrumentationRunner
         vectorDrawables.useSupportLibrary true
         multiDexEnabled true
+
     }
 
     compileOptions {

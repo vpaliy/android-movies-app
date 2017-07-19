@@ -173,6 +173,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                         return true;
                     }
                 });
+                shiftElements();
                 presenter.start(mediaId);
             });
             info.setAdapter(infoAdapter);
@@ -323,7 +324,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
             @Override
             public boolean onPreDraw() {
                 detailsParent.getViewTreeObserver().removeOnPreDrawListener(this);
-                shiftElements();
                 getActivity().supportStartPostponedEnterTransition();
                 return true;
             }

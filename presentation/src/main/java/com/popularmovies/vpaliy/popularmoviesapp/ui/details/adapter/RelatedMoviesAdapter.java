@@ -73,7 +73,7 @@ public class RelatedMoviesAdapter extends AbstractMediaAdapter<MediaCover> {
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root=inflater.inflate(R.layout.adapter_media_item,parent,false);
+        View root=inflater.inflate(R.layout.adapter_related_media_item,parent,false);
         return new MovieViewHolder(root);
     }
 }

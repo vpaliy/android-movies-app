@@ -62,12 +62,16 @@ public class MoreMediaAdapter extends AbstractMediaAdapter<MediaCover> {
                 if(!isLocked()) {
                     lock();
                     Bundle args = new Bundle();
+                    Context context=itemView.getContext();
                     MediaCover cover=at(getAdapterPosition());
                     args.putString(Constants.EXTRA_ID, cover.getMediaId());
                     args.putString(Constants.EXTRA_DATA,cover.getMainBackdrop());
                     args.putBoolean(Constants.EXTRA_IS_TV,cover.isTvShow());
                     ViewCompat.setTransitionName(posterImage,inflater.getContext().getString(R.string.backdrop_transition_name));
-                    Context context=itemView.getContext();
+                    ViewCompat.setTransitionName(mediaTitle,context.getString(R.string.title_transition_name));
+                    ViewCompat.setTransitionName(releaseYear,context.getString(R.string.date_transition_name));
+                    ViewCompat.setTransitionName(background,context.getString(R.string.media_details_transition_name));
+                    ViewCompat.setTransitionName(chipsContainer,context.getString(R.string.tags_transition_name));
                     rxBus.send(ExposeEvent.exposeMediaDetails(args, Pair.create(itemView,context.getString(R.string.background_transition_name)),
                             Pair.create(posterImage,context.getString(R.string.backdrop_transition_name)),
                             Pair.create(mediaTitle,context.getString(R.string.title_transition_name)),

@@ -6,35 +6,42 @@
     android:layout_height="wrap_content">
 
 
-    <ImageView
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
         android:id="@+id/trailerImage"
+        tools:src="@drawable/image"
         android:layout_width="200dp"
-        android:layout_height="115dp"
+        android:layout_height="125dp"
         android:scaleType="centerCrop"
         tools:ignore="ContentDescription"
         />
 
-
-    <net.steamcrafted.materialiconlib.MaterialIconView
+    <ImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:materialIcon="play_circle_outline"
-        app:materialIconColor="#fff"
-        app:materialIconSize="48dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:srcCompat="@drawable/ic_youtube"
         android:scaleType="center"
         android:id="@+id/icon"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp" />
 
-
     <TextView
-        android:id="@+id/trailerTitle"
-        android:layout_below="@+id/trailerImage"
-        android:text="@string/app_name"
-        android:layout_marginTop="16dp"
+        android:id="@+id/trailer_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:textColor="@color/blue_grey_400"
+        style="@style/Widget.Title"
+        tools:text="The Hobbit"
+        android:ellipsize="end"
+        android:lines="2"
+        android:layout_below="@+id/trailerImage"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:maxLines="2"
+        android:maxWidth="140dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" />
 
 </RelativeLayout>

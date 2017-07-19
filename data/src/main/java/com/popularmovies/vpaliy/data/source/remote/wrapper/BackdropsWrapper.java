@@ -11,7 +11,10 @@ public class BackdropsWrapper {
     @SerializedName("backdrops")
     private List<BackdropImage> backdropImages;
 
+    @SerializedName("posters")
+    private List<BackdropImage> posters;
+
     public List<BackdropImage> getBackdropImages() {
-        return backdropImages;
+        return backdropImages!=null?backdropImages:posters;
     }
 }

@@ -1,7 +1,9 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.season;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +13,20 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.Episode;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseFragment;
+
+import java.util.Arrays;
 import java.util.List;
+
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.InfoAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieCastAdapter;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.details.adapter.MovieTrailersAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.season.SeasonContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Constants;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout;
@@ -26,6 +35,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxImageView;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout;
 import com.rd.PageIndicatorView;
+import com.rd.animation.type.AnimationType;
 import com.vpaliy.chips_lover.ChipsLayout;
 
 import javax.inject.Inject;
@@ -49,23 +59,20 @@ public class SeasonFragment extends BaseFragment
     @BindView(R.id.back_wrapper)
     protected View actionBar;
 
+    @BindView(R.id.season_number)
+    protected TextView seasonNumber;
+
     @BindView(R.id.details_background)
     protected TranslatableLayout detailsParent;
 
-    @BindView(R.id.media_title)
-    protected TextView mediaTitle;
+    @BindView(R.id.season_title)
+    protected TextView seasonTitle;
 
-    @BindView(R.id.media_ratings)
-    protected TextView mediaRatings;
+    @BindView(R.id.air_date)
+    protected TextView airDate;
 
-    @BindView(R.id.chipsContainer)
-    protected ChipsLayout tags;
-
-    @BindView(R.id.media_release_year)
-    protected TextView releaseYear;
-
-    @BindView(R.id.media_description)
-    protected TextView mediaDescription;
+    @BindView(R.id.season_overview)
+    protected TextView seasonOverview;
 
     @BindView(R.id.details)
     protected RecyclerView info;
@@ -79,8 +86,7 @@ public class SeasonFragment extends BaseFragment
     @BindView(R.id.parent)
     protected ElasticDismissLayout parent;
 
-    private ImagesAdapter imagesAdapter;
-
+    private InfoAdapter infoAdapter;
     private String seasonId;
     private Presenter presenter;
 
@@ -110,7 +116,10 @@ public class SeasonFragment extends BaseFragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(view!=null){
+            infoAdapter=new InfoAdapter(getContext());
             presenter.start(seasonId);
+            info.setAdapter(infoAdapter);
+            pager.post(SeasonFragment.this::adjustElements);
         }
     }
 
@@ -124,12 +133,22 @@ public class SeasonFragment extends BaseFragment
 
     @Override
     public void showDescription(@NonNull String description) {
-        mediaDescription.setText(description);
+        seasonOverview.setText(description);
+    }
+
+    @Override
+    public void showCover(@NonNull SeasonCover cover) {
+        seasonOverview.setText(cover.getOverview());
+        seasonTitle.setText(cover.getSeasonName());
+        airDate.setText(cover.getAirDate());
+//        seasonNumber.setText(cover.getSeasonNumber());
     }
 
     @Override
     public void showTrailers(@NonNull List<Trailer> trailers) {
-
+        MovieTrailersAdapter adapter=new MovieTrailersAdapter(getContext());
+        adapter.setData(trailers);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_trailers)));
     }
 
     @Override
@@ -151,17 +170,79 @@ public class SeasonFragment extends BaseFragment
     public void showImages(@NonNull List<String> images) {
         ImagesAdapter adapter=new ImagesAdapter(getContext());
         adapter.setData(images);
+        Log.d(SeasonFragment.class.getSimpleName(),Integer.toString(images.size()));
         pager.setAdapter(adapter);
     }
 
     @Override
     public void showCast(@NonNull List<ActorCover> cast) {
-
+        MovieCastAdapter adapter=new MovieCastAdapter(getContext(),rxBus);
+        adapter.setData(cast);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.cast_title)));
     }
 
     @Inject @Override
     public void attachPresenter(@NonNull SeasonContract.Presenter presenter) {
         this.presenter=presenter;
         this.presenter.attachView(this);
+    }
+
+
+    private void adjustElements(){
+        indicatorView.setAnimationType(AnimationType.WORM);
+        indicatorView.setTranslationY(pager.getHeight()-indicatorView.getHeight()*2.5f);
+        detailsParent.setStaticOffset(pager.getHeight());
+        detailsParent.setOffset(pager.getHeight());
+        View blank=infoAdapter.getBlank();
+        ViewGroup.LayoutParams params=blank.getLayoutParams();
+        params.height=detailsParent.getHeight();
+        blank.setLayoutParams(params);
+
+        final float posterOffset=detailsParent.getHeight()/2-poster.getHeight()*.33f;
+        poster.setStaticOffset(posterOffset);
+        poster.setOffset(posterOffset);
+        poster.setPinned(true);
+        toggle.setMinOffset(ViewCompat.getMinimumHeight(pager)-toggle.getHeight()/2);
+        ParamsFactory.shiftElementsFrom(poster, Arrays.asList(seasonTitle,airDate,seasonNumber,seasonOverview));
+    }
+
+    public static class ParamsFactory{
+
+        static void shiftElementsFrom(View target, List<View> shiftElements){
+            final float posterY=target.getY()+target.getHeight();
+            final float posterX=target.getX()+target.getWidth();
+            final int offset=target.getWidth()+target.getResources().getDimensionPixelOffset(R.dimen.spacing_medium);
+            shiftElements.forEach(element->{
+                if(posterX>=element.getX()) {
+                    if (shouldShiftHorizontally(posterY,element)) {
+                        shiftWithMargins(element, offset);
+                    }else if(shouldShiftVertically(posterY,element)){
+                        ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(element.getLayoutParams());
+                        params.topMargin+=posterY-getBottomY(element)+element.getResources().getDimension(R.dimen.spacing_medium);
+                        element.setLayoutParams(params);
+                    }
+                }
+            });
+        }
+
+        static boolean shouldShiftVertically(float y, View target){
+            float targetY=getBottomY(target);
+            return (y-targetY)>=(-target.getResources().getDimension(R.dimen.spacing_medium));
+        }
+
+        static boolean shouldShiftHorizontally(float y, View target){
+            float targetY=getBottomY(target);
+            return y>targetY+target.getHeight()/2;
+        }
+
+        static void shiftWithMargins(View target, int offset){
+            ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(target.getLayoutParams());
+            params.leftMargin+=offset;
+            target.setLayoutParams(params);
+        }
+
+        static float getBottomY(View view){
+            return view.getRootView().getY()+view.getY();
+        }
     }
 }

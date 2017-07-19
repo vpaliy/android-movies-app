@@ -40,7 +40,18 @@ public class SeasonPresenter implements SeasonContract.Presenter{
     private void processData(SeasonDetails details){
         if(details!=null){
             SeasonCover cover=details.getSeasonCover();
+            view.showImages(details.getImages());
             view.showPoster(cover.getPosterPath());
+            view.showCover(cover);
+
+            if(details.getVideos()!=null){
+                view.showTrailers(details.getVideos());
+            }
+
+            if(details.getCast()!=null){
+                view.showCast(details.getCast());
+            }
+
         }
     }
 

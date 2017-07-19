@@ -18,6 +18,8 @@
     <!-- Image -->
     <dimen name="poster_height">200dp</dimen>
     <dimen name="poster_width">140dp</dimen>
+    <dimen name="related_media_height">180dp</dimen>
+    <dimen name="related_media_width">130dp</dimen>
     <dimen name="actor_photo_height">150dp</dimen>
     <dimen name="actor_photo_width">150dp</dimen>
 

@@ -1,10 +1,33 @@
 <resources>
 
+
     <style name="PopMovies" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+
+    </style>
+
+    <style name="PopMovies.Details" parent="PopMovies">
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/scrim</item>
+    </style>
+
+    <style name="PopMovies.Actor" parent="PopMovies">
+    </style>
+
+
+    <style name="PopMovies.MoreMedia" parent="PopMovies">
+
     </style>
 
 
