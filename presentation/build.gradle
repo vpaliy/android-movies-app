@@ -54,6 +54,9 @@ dependencies {
     compile 'com.github.kanytu:ImageWindow:v1.0'
     compile 'com.romandanylyk:pageindicatorview:0.2.0@aar'
     compile 'com.github.florent37:diagonallayout:1.0.6'
+    compile ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
+        transitive = true;
+    }
     compile libs.chipsLover
     compile libs.calligraphy
     compile libs.constraintLayout

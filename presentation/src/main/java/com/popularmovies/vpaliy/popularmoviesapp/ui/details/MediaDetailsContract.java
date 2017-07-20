@@ -21,6 +21,8 @@ public interface MediaDetailsContract {
         void shareWithMovie(@NonNull MovieDetails details);
         void showSeasons(@NonNull List<SeasonCover> seasons);
         void showDescription(@NonNull String description);
+        void showDuration(@NonNull String duration);
+        void showMoney(@NonNull String money);
         void showCover(@NonNull MediaCover cover);
         void showSimilar(@NonNull List<MediaCover> covers);
         void showCollection(@NonNull MediaCollection collection);

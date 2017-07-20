@@ -2,4 +2,12 @@
 <resources>
     <dimen name="poster_height">270dp</dimen>
     <dimen name="poster_width">190dp</dimen>
+
+    <dimen name="related_media_height">250dp</dimen>
+    <dimen name="related_media_width">170dp</dimen>
+    <dimen name="actor_photo_height">200dp</dimen>
+    <dimen name="actor_photo_width">200dp</dimen>
+    <dimen name="details_poster_width">170dp</dimen>
+    <dimen name="details_poster_height">250dp</dimen>
+    <dimen name="details_backdrop_height">500dp</dimen>
 </resources>

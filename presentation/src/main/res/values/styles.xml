@@ -30,6 +30,11 @@
 
     </style>
 
+    <style name="DetailsDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
 
     <style name="SimpleAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>

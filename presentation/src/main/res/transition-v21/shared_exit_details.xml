@@ -16,7 +16,8 @@
             app:finalElevation="-2dp" />
     </transitionSet>
 
-    <transitionSet>
+    <transitionSet
+        android:transitionOrdering="together">
         <targets>
             <target android:targetId="@id/media_title" />
             <target android:targetId="@id/media_release_year" />
@@ -27,8 +28,10 @@
             <target android:targetId="@id/backdrop_pager" />
         </targets>
         <changeBounds android:interpolator="@android:interpolator/fast_out_slow_in" />
-
+        <transition class="com.popularmovies.vpaliy.popularmoviesapp.ui.utils.transitions.TextResizeTransition">
+        </transition>
     </transitionSet>
+
 
 
 </transitionSet>

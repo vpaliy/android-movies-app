@@ -13,6 +13,7 @@
         android:id="@+id/media_title"
         style="@style/Widget.Title"
         android:textSize="26sp"
+        android:textStyle="bold"
         android:textColor="@color/white"
         android:transitionName="@string/title_transition_name"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,6 +40,43 @@
         tools:text="In 7 days"
         app:layout_constraintLeft_toLeftOf="parent" />
 
+
+    <TextView
+        android:id="@+id/media_duration"
+        style="@style/Widget.NumberText"
+        android:textSize="17sp"
+        android:transitionName="@string/date_transition_name"
+        android:textColor="@color/white"
+        android:drawableLeft="@drawable/ic_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/spacing_small"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/spacing_medium"
+        app:layout_constraintTop_toBottomOf="@+id/media_release_year"
+        tools:text="2 hr 10 min"
+        app:layout_constraintLeft_toLeftOf="@+id/media_release_year" />
+
+    <TextView
+        android:id="@+id/media_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:transitionName="@string/ratings_transition_name"
+        style="@style/Widget.NumberText"
+        android:gravity="center"
+        android:drawableStart="@drawable/ic_money"
+        android:drawableLeft="@drawable/ic_money"
+        android:textSize="17sp"
+        tools:text="20123131"
+        android:drawablePadding="@dimen/spacing_small"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/media_duration"
+        app:layout_constraintBottom_toBottomOf="@+id/media_duration"
+        app:layout_constraintLeft_toRightOf="@+id/media_duration"
+        android:layout_marginLeft="@dimen/spacing_big"
+        android:layout_marginStart="@dimen/spacing_big"
+        app:layout_constraintVertical_bias="0.0" />
+
     <com.vpaliy.chips_lover.ChipsLayout
         android:id="@+id/chipsContainer"
         android:transitionName="@string/tags_transition_name"
@@ -52,7 +90,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/spacing_medium"
-        app:layout_constraintTop_toBottomOf="@+id/media_release_year"
+        app:layout_constraintTop_toBottomOf="@+id/media_duration"
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView

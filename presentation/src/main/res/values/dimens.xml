@@ -22,7 +22,9 @@
     <dimen name="related_media_width">130dp</dimen>
     <dimen name="actor_photo_height">150dp</dimen>
     <dimen name="actor_photo_width">150dp</dimen>
-
+    <dimen name="details_poster_width">120dp</dimen>
+    <dimen name="details_poster_height">180dp</dimen>
+    <dimen name="details_backdrop_height">300dp</dimen>
 
     <!-- Z-axis elevations -->
     <dimen name="z_app_bar">4dp</dimen>

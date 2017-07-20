@@ -42,6 +42,8 @@ public class MovieDetailsPresenter extends DetailsPresenter<MovieDetails> {
             view.showTrailers(details.getTrailers());
         }
 
+        view.showDuration(details.getMovieCover().getDuration());
+        view.showMoney(details.getMovieInfo().getRevenue());
         view.showDescription(details.getMovieInfo().getDescription());
     }
 }
