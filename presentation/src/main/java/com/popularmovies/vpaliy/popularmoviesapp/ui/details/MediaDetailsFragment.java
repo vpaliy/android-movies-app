@@ -185,13 +185,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 poster.setPinned(true);
                 toggle.setMinOffset(ViewCompat.getMinimumHeight(pager)-toggle.getHeight()/2);
                 new Palette.Builder(bitmap).generate(MediaDetailsFragment.this::applyPalette);
-                image.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        image.getViewTreeObserver().removeOnPreDrawListener(this);
-                        return true;
-                    }
-                });
                 presenter.start(mediaId);
             });
             info.setAdapter(infoAdapter);
@@ -228,6 +221,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
     }
 
     private void reveal(View dialogView, boolean back, final Dialog dialog) {
+        ViewCompat.setTranslationZ(pager,0);
         final ViewGroup view = ButterKnife.findById(dialogView,R.id.dialog);
         //conceal when is touched
         view.setOnClickListener(v->reveal(dialogView,true,dialog));
@@ -309,7 +303,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
                     dialog.dismiss();
-                    view.setVisibility(View.INVISIBLE);
+                    view.setVisibility(View.GONE);
 
                 }
             });
@@ -477,24 +471,24 @@ public abstract class MediaDetailsFragment extends BaseFragment
     @Override
     public void showDescription(@NonNull String description) {
         mediaDescription.setText(description);
-        detailsParent.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                View blank=infoAdapter.getBlank();
-                ViewGroup.LayoutParams params=blank.getLayoutParams();
-                params.height=pager.getHeight()+detailsParent.getHeight();
-                blank.setLayoutParams(params);
-                int offset = pager.getHeight() + detailsParent.getHeight() - (toggle.getHeight() / 2);
-                toggle.setStaticOffset(offset);
-                toggle.setOffset(offset);
-                detailsParent.removeOnLayoutChangeListener(this);
-            }
-        });
         detailsParent.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 detailsParent.getViewTreeObserver().removeOnPreDrawListener(this);
                 shiftElements();
+                detailsParent.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        View blank=infoAdapter.getBlank();
+                        ViewGroup.LayoutParams params=blank.getLayoutParams();
+                        params.height=pager.getHeight()+detailsParent.getHeight();
+                        blank.setLayoutParams(params);
+                        int offset = pager.getHeight() + detailsParent.getHeight() - (toggle.getHeight() / 2);
+                        toggle.setStaticOffset(offset);
+                        toggle.setOffset(offset);
+                        detailsParent.removeOnLayoutChangeListener(this);
+                    }
+                });
                 getActivity().supportStartPostponedEnterTransition();
                 return true;
             }

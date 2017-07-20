@@ -52,6 +52,8 @@
         tools:listitem="@layout/blank"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
+    <include layout="@layout/layout_media_description"/>
+
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager
         android:transitionName="@string/backdrop_transition_name"
         android:id="@+id/backdrop_pager"
@@ -73,7 +75,6 @@
         app:piv_viewPager="@id/backdrop_pager"
         android:layout_gravity="center_horizontal" />
 
-    <include layout="@layout/layout_media_description"/>
 
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxImageView
         android:layout_marginLeft="@dimen/spacing_medium"

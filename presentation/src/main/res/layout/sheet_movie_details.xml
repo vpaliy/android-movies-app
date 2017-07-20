@@ -2,7 +2,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/transparent"
-    android:translationZ="@dimen/z_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -93,7 +92,7 @@
         <TextView
             android:id="@+id/must_watch_label"
             android:textColor="@color/white_50"
-            style="@style/Widget.Label"
+            style="@style/Widget.Title"
             android:text="@string/add_to_must_watch_lab"
             android:textSize="17sp"
             android:gravity="center"
@@ -156,7 +155,7 @@
         <TextView
             android:id="@+id/share_media_label"
             android:textColor="@color/white_50"
-            style="@style/Widget.Label"
+            style="@style/Widget.Title"
             android:text="@string/share_media_lab"
             android:textSize="17sp"
             android:gravity="center"
@@ -192,7 +191,7 @@
         <TextView
             android:id="@+id/rate_media_label"
             android:textColor="@color/white_50"
-            style="@style/Widget.Label"
+            style="@style/Widget.Title"
             android:text="@string/rate_media_lab"
             android:textSize="17sp"
             android:gravity="center"
@@ -231,7 +230,7 @@
         <TextView
             android:id="@+id/review_label"
             android:textColor="@color/white_50"
-            style="@style/Widget.Label"
+            style="@style/Widget.Title"
             android:text="@string/review_lab"
             android:textSize="17sp"
             android:gravity="center"

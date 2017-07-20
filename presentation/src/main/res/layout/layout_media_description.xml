@@ -61,6 +61,7 @@
         android:id="@+id/media_money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:transitionName="@string/ratings_transition_name"
         style="@style/Widget.NumberText"
         android:gravity="center"
