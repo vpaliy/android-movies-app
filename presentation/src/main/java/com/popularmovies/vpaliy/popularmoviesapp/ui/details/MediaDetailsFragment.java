@@ -242,22 +242,24 @@ public abstract class MediaDetailsFragment extends BaseFragment
     }
 
     private void reveal(View dialogView, boolean back, final Dialog dialog) {
-
-        final ViewGroup view = ButterKnife.findById(dialog,R.id.dialog);
-        //set a color and make it less opaque
-        int color=toggle.getBackgroundTintList().getDefaultColor();
-        color=manipulateColor(color,0.8f);
-        ImageView icon=ButterKnife.findById(view,R.id.add_to_favorite);
-        setDrawableColor(icon,color);
-        icon=ButterKnife.findById(view,R.id.add_to_watched);
-        setDrawableColor(icon,color);
-        icon=ButterKnife.findById(view,R.id.add_to_must_watch);
-        setDrawableColor(icon,color);
+        final ViewGroup view = ButterKnife.findById(dialogView,R.id.dialog);
+        //make the color darker a bit
+        int color=manipulateColor(toggle.getBackgroundTintList().getDefaultColor(),0.8f);
+        List<ImageView> buttons=Arrays.asList(
+                ButterKnife.findById(view,R.id.add_to_watched),
+                ButterKnife.findById(view,R.id.add_to_must_watch),
+                ButterKnife.findById(view,R.id.add_to_favorite));
+        buttons.forEach(button->setDrawableColor(button,color));
+        List<View> labels=Arrays.asList(
+                ButterKnife.findById(view,R.id.favorite_label),
+                ButterKnife.findById(view,R.id.watched_label),
+                ButterKnife.findById(view,R.id.must_watch_label));
         view.setBackgroundColor(toggle.getBackgroundTintList().getDefaultColor());
+        //set the color and make it less opaque
         view.getBackground().setAlpha(220);
+
         int w = view.getWidth();
         int h = view.getHeight();
-
         int endRadius = (int) Math.hypot(w, h);
         int cx = (int) (toggle.getX() + (toggle.getWidth()/2));
         int cy = (int) (toggle.getY())+ toggle.getHeight()/4;
@@ -271,13 +273,16 @@ public abstract class MediaDetailsFragment extends BaseFragment
                     toggle.setVisibility(View.INVISIBLE);
                     super.onAnimationEnd(animation);
                     AnimatorSet scaleSet=new AnimatorSet();
-                    for(int index=0;index<view.getChildCount();index++){
-                        View child=view.getChildAt(index);
+                    for(int index=0;index<buttons.size();index++){
+                        View child=buttons.get(index);
+                        View label=labels.get(index);
                         ObjectAnimator scaleX=ObjectAnimator.ofFloat(child,View.SCALE_X,0,1);
                         ObjectAnimator scaleY=ObjectAnimator.ofFloat(child,View.SCALE_Y,0,1);
+                        ObjectAnimator alphaAnimator=ObjectAnimator.ofFloat(label,View.ALPHA,0,1);
+                        alphaAnimator.setStartDelay(index*100);
                         scaleX.setStartDelay(index*100);
                         scaleY.setStartDelay(index*100);
-                        scaleSet.playTogether(scaleX,scaleY);
+                        scaleSet.playTogether(scaleX,scaleY,alphaAnimator);
                     }
                     scaleSet.setInterpolator(new DecelerateInterpolator());
                     scaleSet.setDuration(300);
@@ -294,9 +299,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
                     dialog.dismiss();
-                    int offset=pager.getOffset()-(toggle.getHeight()/2);
-                    // toggle.setStaticOffset(offset);
-                    toggle.setOffset(offset);
                     toggle.setVisibility(View.VISIBLE);
                     view.setVisibility(View.INVISIBLE);
 
@@ -509,8 +511,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
     public static class ParamsFactory{
 
-        private static final String TAG="Factory";
-
         static void shiftElementsFrom(View target, List<View> shiftElements){
             float posterY=getBottomY(target)+target.getHeight();
             final float posterX=target.getX()+target.getWidth();
@@ -534,10 +534,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
         static boolean shouldShiftVertically(float offsetY, View target, float spacing){
             final float targetY=getBottomY(target);
-            final float targetYSize=targetY+target.getHeight();
             final float offsetDiff=targetY-offsetY;
-            final float offsetSizeDiff=targetYSize-offsetY;
-            //  if(offsetDiff>=0 && offsetDiff<=spacing) return true;
             return offsetDiff>=0 && offsetDiff<=spacing;
         }
 

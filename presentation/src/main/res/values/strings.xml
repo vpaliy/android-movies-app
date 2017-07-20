@@ -45,6 +45,9 @@
     <string name="change_view_action">Change View</string>
     <string name="settingsActivity">Settings</string>
 
+    <string name="add_to_favorite_lab">Favorite</string>
+    <string name="add_to_watched_lab">Watched</string>
+    <string name="add_to_must_watch_lab">Must watch</string>
 
     <string name="checkOutMovie">Check out movie:</string>
     <string name="chooseToWhomToSend">Send to</string>
