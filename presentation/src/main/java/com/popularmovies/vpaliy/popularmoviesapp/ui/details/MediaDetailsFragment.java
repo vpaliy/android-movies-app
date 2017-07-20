@@ -2,23 +2,31 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import butterknife.ButterKnife;
 import io.codetail.animation.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -179,8 +187,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                         ViewGroup.LayoutParams params=blank.getLayoutParams();
                         params.height=image.getHeight()+detailsParent.getHeight();
                         blank.setLayoutParams(params);
-
-                        int offset=image.getHeight()+detailsParent.getHeight()-(toggle.getHeight()/2);
+                        int offset = image.getHeight() + detailsParent.getHeight() - (toggle.getHeight() / 2);
                         toggle.setStaticOffset(offset);
                         toggle.setOffset(offset);
                     }
@@ -216,7 +223,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
     @OnClick(R.id.share_fab)
     public void reveal(){
         View root=View.inflate(getContext(),R.layout.sheet_movie_details,null);
-
         final Dialog dialog=new Dialog(getContext(),R.style.DetailsDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(root);
@@ -237,8 +243,16 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
     private void reveal(View dialogView, boolean back, final Dialog dialog) {
 
-        final View view = dialogView.findViewById(R.id.dialog);
+        final ViewGroup view = ButterKnife.findById(dialog,R.id.dialog);
         //set a color and make it less opaque
+        int color=toggle.getBackgroundTintList().getDefaultColor();
+        color=manipulateColor(color,0.8f);
+        ImageView icon=ButterKnife.findById(view,R.id.add_to_favorite);
+        setDrawableColor(icon,color);
+        icon=ButterKnife.findById(view,R.id.add_to_watched);
+        setDrawableColor(icon,color);
+        icon=ButterKnife.findById(view,R.id.add_to_must_watch);
+        setDrawableColor(icon,color);
         view.setBackgroundColor(toggle.getBackgroundTintList().getDefaultColor());
         view.getBackground().setAlpha(220);
         int w = view.getWidth();
@@ -251,6 +265,26 @@ public abstract class MediaDetailsFragment extends BaseFragment
             Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx,cy, 0, endRadius);
             view.setVisibility(View.VISIBLE);
             revealAnimator.setDuration(400);
+            revealAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    toggle.setVisibility(View.INVISIBLE);
+                    super.onAnimationEnd(animation);
+                    AnimatorSet scaleSet=new AnimatorSet();
+                    for(int index=0;index<view.getChildCount();index++){
+                        View child=view.getChildAt(index);
+                        ObjectAnimator scaleX=ObjectAnimator.ofFloat(child,View.SCALE_X,0,1);
+                        ObjectAnimator scaleY=ObjectAnimator.ofFloat(child,View.SCALE_Y,0,1);
+                        scaleX.setStartDelay(index*100);
+                        scaleY.setStartDelay(index*100);
+                        scaleSet.playTogether(scaleX,scaleY);
+                    }
+                    scaleSet.setInterpolator(new DecelerateInterpolator());
+                    scaleSet.setDuration(300);
+                    scaleSet.start();
+
+                }
+            });
             revealAnimator.start();
 
         } else {
@@ -260,6 +294,10 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
                     dialog.dismiss();
+                    int offset=pager.getOffset()-(toggle.getHeight()/2);
+                    // toggle.setStaticOffset(offset);
+                    toggle.setOffset(offset);
+                    toggle.setVisibility(View.VISIBLE);
                     view.setVisibility(View.INVISIBLE);
 
                 }
@@ -267,6 +305,17 @@ public abstract class MediaDetailsFragment extends BaseFragment
             anim.setDuration(400);
             anim.start();
         }
+    }
+
+    private int manipulateColor(int color, float factor) {
+        int a = Color.alpha(color);
+        int r = Math.round(Color.red(color) * factor);
+        int g = Math.round(Color.green(color) * factor);
+        int b = Math.round(Color.blue(color) * factor);
+        return Color.argb(a,
+                Math.min(r,255),
+                Math.min(g,255),
+                Math.min(b,255));
     }
 
     private void adjustElements(){
@@ -304,6 +353,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
         if(swatch==null) swatch=palette.getDominantSwatch();
         //apply if not null
         if(swatch!=null){
+            toggle.setBackgroundTintList(ColorStateList.valueOf(swatch.getRgb()));
             detailsParent.setBackgroundColor(swatch.getRgb());
             ChipBuilder builder=tags.getChipBuilder()
                     .setBackgroundColor(swatch.getTitleTextColor())
@@ -320,12 +370,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
             setDrawableColor(releaseYear,swatch.getBodyTextColor());
             setDrawableColor(mediaRatings,swatch.getBodyTextColor());
         }
-
-        swatch=palette.getLightMutedSwatch();
-        if(swatch==null) swatch=palette.getLightVibrantSwatch();
-        if(swatch==null) swatch=palette.getDarkMutedSwatch();
-        if(swatch==null) swatch=palette.getDominantSwatch();
-        if(swatch!=null) toggle.setBackgroundTintList(ColorStateList.valueOf(swatch.getRgb()));
     }
 
     private void setDrawableColor(TextView view, int color){
@@ -335,6 +379,14 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 drawable.mutate();
                 DrawableCompat.setTint(drawable,color);
             }
+        }
+    }
+
+    private void setDrawableColor(ImageView view, int color) {
+        Drawable drawable = view.getDrawable();
+        if (drawable != null) {
+            drawable.mutate();
+            DrawableCompat.setTint(drawable, color);
         }
     }
 
@@ -485,7 +537,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
             final float targetYSize=targetY+target.getHeight();
             final float offsetDiff=targetY-offsetY;
             final float offsetSizeDiff=targetYSize-offsetY;
-          //  if(offsetDiff>=0 && offsetDiff<=spacing) return true;
+            //  if(offsetDiff>=0 && offsetDiff<=spacing) return true;
             return offsetDiff>=0 && offsetDiff<=spacing;
         }
 
