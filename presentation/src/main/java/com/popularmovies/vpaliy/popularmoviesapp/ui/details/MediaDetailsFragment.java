@@ -25,7 +25,10 @@ import io.codetail.animation.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
@@ -248,12 +251,18 @@ public abstract class MediaDetailsFragment extends BaseFragment
         List<ImageView> buttons=Arrays.asList(
                 ButterKnife.findById(view,R.id.add_to_watched),
                 ButterKnife.findById(view,R.id.add_to_must_watch),
-                ButterKnife.findById(view,R.id.add_to_favorite));
+                ButterKnife.findById(view,R.id.add_to_favorite),
+                ButterKnife.findById(view,R.id.share_media),
+                ButterKnife.findById(view,R.id.rate_media),
+                ButterKnife.findById(view,R.id.review));
         buttons.forEach(button->setDrawableColor(button,color));
         List<View> labels=Arrays.asList(
                 ButterKnife.findById(view,R.id.favorite_label),
                 ButterKnife.findById(view,R.id.watched_label),
-                ButterKnife.findById(view,R.id.must_watch_label));
+                ButterKnife.findById(view,R.id.must_watch_label),
+                ButterKnife.findById(view,R.id.share_media_label),
+                ButterKnife.findById(view,R.id.rate_media_label),
+                ButterKnife.findById(view,R.id.review_label));
         view.setBackgroundColor(toggle.getBackgroundTintList().getDefaultColor());
         //set the color and make it less opaque
         view.getBackground().setAlpha(220);
@@ -275,16 +284,16 @@ public abstract class MediaDetailsFragment extends BaseFragment
                     AnimatorSet scaleSet=new AnimatorSet();
                     for(int index=0;index<buttons.size();index++){
                         View child=buttons.get(index);
-                        View label=labels.get(index);
+                        View label = labels.get(index);
+                        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(label, View.ALPHA, 0, 1);
+                        alphaAnimator.setStartDelay(index*50);
                         ObjectAnimator scaleX=ObjectAnimator.ofFloat(child,View.SCALE_X,0,1);
                         ObjectAnimator scaleY=ObjectAnimator.ofFloat(child,View.SCALE_Y,0,1);
-                        ObjectAnimator alphaAnimator=ObjectAnimator.ofFloat(label,View.ALPHA,0,1);
-                        alphaAnimator.setStartDelay(index*100);
-                        scaleX.setStartDelay(index*100);
-                        scaleY.setStartDelay(index*100);
+                        scaleX.setStartDelay(index*50);
+                        scaleY.setStartDelay(index*50);
                         scaleSet.playTogether(scaleX,scaleY,alphaAnimator);
                     }
-                    scaleSet.setInterpolator(new DecelerateInterpolator());
+                    scaleSet.setInterpolator(new OvershootInterpolator(1.2f));
                     scaleSet.setDuration(300);
                     scaleSet.start();
 

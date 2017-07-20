@@ -16,14 +16,14 @@
 
         <ImageView
             android:id="@+id/add_to_favorite"
-            app:srcCompat="@drawable/ic_eye_off"
+            app:srcCompat="@drawable/ic_popcorn_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:tint="@color/colorAccent"
             android:scaleY="0"
             android:scaleX="0"
             tools:scaleX="1"
             tools:scaleY="1"
-            tools:tint="@color/colorAccent"
             android:layout_marginEnd="@dimen/spacing_big"
             android:layout_marginRight="@dimen/spacing_big"
             android:background="@drawable/background_white"
@@ -122,16 +122,128 @@
             android:scaleY="0"
             android:scaleX="0"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="87dp"
+
             android:layout_marginLeft="@dimen/spacing_big"
             android:layout_marginStart="@dimen/spacing_big"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_chainStyle="spread_inside" />
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintVertical_bias="0.312" />
 
 
         <ImageView
+            app:srcCompat="@drawable/ic_share"
+            tools:tint="@color/colorAccent"
+            android:id="@+id/share_media"
+            android:background="@drawable/background_white"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:scaleX="1"
+            tools:scaleY="1"
+            android:scaleY="0"
+            android:scaleX="0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintRight_toLeftOf="@+id/rate_media"
+            app:layout_constraintTop_toBottomOf="@+id/favorite_label"
+            app:layout_constraintVertical_bias="0.22"
+            android:layout_marginLeft="9dp"
+            app:layout_constraintLeft_toLeftOf="@+id/favorite_label"
+            app:layout_constraintHorizontal_chainStyle="spread_inside" />
 
+        <TextView
+            android:id="@+id/share_media_label"
+            android:textColor="@color/white_50"
+            style="@style/Widget.Label"
+            android:text="@string/share_media_lab"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:alpha="0"
+            tools:alpha="1"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintTop_toBottomOf="@id/share_media"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="@+id/share_media"
+            app:layout_constraintLeft_toLeftOf="@+id/share_media"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+
+        <ImageView
+            app:srcCompat="@drawable/ic_big_thumb"
+            tools:tint="@color/colorAccent"
+            android:id="@+id/rate_media"
+            android:background="@drawable/background_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:scaleX="1"
+            tools:scaleY="1"
+            android:scaleY="0"
+            android:scaleX="0"
+            app:layout_constraintRight_toLeftOf="@+id/review"
+            app:layout_constraintBottom_toBottomOf="@+id/share_media"
+            app:layout_constraintLeft_toRightOf="@+id/share_media"
+            app:layout_constraintTop_toTopOf="@+id/share_media"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/rate_media_label"
+            android:textColor="@color/white_50"
+            style="@style/Widget.Label"
+            android:text="@string/rate_media_lab"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:alpha="0"
+            tools:alpha="1"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/spacing_medium"
+            app:layout_constraintTop_toBottomOf="@id/rate_media"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="@+id/rate_media"
+            app:layout_constraintLeft_toLeftOf="@+id/rate_media"
+            app:layout_constraintHorizontal_bias="0.0" />
+
+        <ImageView
+            app:srcCompat="@drawable/ic_review"
+            tools:tint="@color/colorAccent"
+            android:id="@+id/review"
+            android:background="@drawable/background_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:scaleX="1"
+            tools:scaleY="1"
+            android:scaleY="0"
+            android:scaleX="0"
+            android:layout_marginEnd="@dimen/spacing_big"
+            android:layout_marginRight="@dimen/spacing_big"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/rate_media"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintLeft_toRightOf="@+id/rate_media"
+            app:layout_constraintTop_toTopOf="@+id/rate_media"
+            app:layout_constraintHorizontal_bias="0.221"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/review_label"
+            android:textColor="@color/white_50"
+            style="@style/Widget.Label"
+            android:text="@string/review_lab"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:alpha="0"
+            tools:alpha="1"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/review"
+            app:layout_constraintRight_toRightOf="@+id/review"
+            app:layout_constraintLeft_toLeftOf="@+id/review"
+            app:layout_constraintHorizontal_bias="0.0" />
     </android.support.constraint.ConstraintLayout>
 </io.codetail.widget.RevealFrameLayout>
