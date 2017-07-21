@@ -147,11 +147,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
     }
 
     @Override
-    public void showMoney(@NonNull String money) {
-        this.money.setText(money);
-    }
-
-    @Override
     public void showDuration(@NonNull String duration) {
         this.duration.setText(duration);
     }
@@ -205,34 +200,16 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
     @OnClick(R.id.share_fab)
     public void reveal(){
-        //View root=View.inflate(getContext(),R.layout.sheet_movie_details,null);
-       /* final Dialog dialog=new Dialog(getContext(),R.style.DetailsDialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(root);
-        dialog.setOnShowListener(d->{
-            reveal(root,false,dialog);
-
-        });
-        dialog.setOnKeyListener((dialog1, keyCode, event) -> {
-            if(keyCode==KeyEvent.KEYCODE_BACK){
-                reveal(root,true,dialog);
-                return true;
-            }
-            return false;
-        });
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();*/
         View dialogView=ButterKnife.findById(parent,R.id.dialog);
         dialogView.setVisibility(View.VISIBLE);
-        reveal(dialogView,false,null);
+        reveal(dialogView,false);
     }
 
-    private void reveal(View dialogView, boolean back, final Dialog dialog) {
+    private void reveal(View dialogView, boolean back) {
         ViewCompat.setTranslationZ(pager,0);
         final ViewGroup view = ButterKnife.findById(dialogView,R.id.dialog);
-        final float toggleAlpha=toggle.getAlpha();
         //conceal when is touched
-        view.setOnClickListener(v->reveal(dialogView,true,dialog));
+        view.setOnClickListener(v->reveal(dialogView,true));
         //make the color darker a bit
         int color=manipulateColor(toggle.getBackgroundTintList().getDefaultColor(),0.8f);
         List<ImageView> buttons=Arrays.asList(
@@ -267,7 +244,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 ButterKnife.findById(view,R.id.review_label));
         view.setBackgroundColor(toggle.getBackgroundTintList().getDefaultColor());
         //set the color and make it less opaque
-        view.getBackground().setAlpha(250);
+        view.getBackground().setAlpha(230);
         int w = view.getWidth();
         int h = view.getHeight();
         int endRadius = (int) Math.hypot(w, h);
@@ -299,9 +276,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
                 }
             });
-            ViewCompat.animate(toggle)
-                    .alpha(0f).setDuration(200)
-                    .start();
             revealAnimator.start();
 
         } else {
@@ -320,9 +294,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
                 }
             });
-            ViewCompat.animate(toggle)
-                    .alpha(toggleAlpha).setDuration(300)
-                    .start();
             anim.setDuration(300);
             anim.start();
         }
@@ -465,7 +436,6 @@ public abstract class MediaDetailsFragment extends BaseFragment
         mediaTitle.setText(mediaCover.getMovieTitle());
         releaseYear.setText(mediaCover.getFormattedDate());
         mediaRatings.setText(mediaCover.getAverageRate());
-        duration.setText(mediaCover.getDuration());
         tags.setTags(mediaCover.getGenres());
         if(sharedPosterPath==null){
             sharedPosterPath=mediaCover.getPosterPath();
