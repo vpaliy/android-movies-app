@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:transitionGroup="false"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:dragDismissDistance="@dimen/drag_dismiss_distance"
@@ -97,5 +96,9 @@
         android:layout_gravity="end"
         android:layout_marginRight="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_medium" />
+
+    <include
+        layout="@layout/sheet_movie_details"/>
+
 
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout>

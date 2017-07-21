@@ -2,7 +2,11 @@ package com.popularmovies.vpaliy.popularmoviesapp;
 
 
 import android.app.Application;
+import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
+
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.ApplicationComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
@@ -13,7 +17,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Application
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private ApplicationComponent applicationComponent;
     private static App INSTANCE;
@@ -23,10 +27,17 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         initializeComponent();
-        configureDefaultFont(ROBOTO_SLAB);
+//        configureDefaultFont(ROBOTO_SLAB);
         INSTANCE=this;
 
     }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 
     private void configureDefaultFont(String robotoSlab) {
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()

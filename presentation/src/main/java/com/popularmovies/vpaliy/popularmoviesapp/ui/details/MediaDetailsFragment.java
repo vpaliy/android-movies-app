@@ -116,6 +116,9 @@ public abstract class MediaDetailsFragment extends BaseFragment
     @BindView(R.id.parent)
     protected ElasticDismissLayout parent;
 
+    @BindView(R.id.dialog)
+    protected ViewGroup dialog;
+
     private InfoAdapter infoAdapter;
     private MovieBackdropsAdapter adapter;
 
@@ -169,6 +172,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 ViewCompat.setTransitionName(poster,getArguments().getString(Constants.EXTRA_TRANSITION_NAME));
                 loadCover();
             }
+            dialog.post(()->dialog.setVisibility(View.GONE));
             getActivity().supportPostponeEnterTransition();
             infoAdapter=new InfoAdapter(getContext());
             adapter=new MovieBackdropsAdapter(getContext());
@@ -201,8 +205,8 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
     @OnClick(R.id.share_fab)
     public void reveal(){
-        View root=View.inflate(getContext(),R.layout.sheet_movie_details,null);
-        final Dialog dialog=new Dialog(getContext(),R.style.DetailsDialog);
+        //View root=View.inflate(getContext(),R.layout.sheet_movie_details,null);
+       /* final Dialog dialog=new Dialog(getContext(),R.style.DetailsDialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(root);
         dialog.setOnShowListener(d->{
@@ -217,12 +221,16 @@ public abstract class MediaDetailsFragment extends BaseFragment
             return false;
         });
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+        dialog.show();*/
+        View dialogView=ButterKnife.findById(parent,R.id.dialog);
+        dialogView.setVisibility(View.VISIBLE);
+        reveal(dialogView,false,null);
     }
 
     private void reveal(View dialogView, boolean back, final Dialog dialog) {
         ViewCompat.setTranslationZ(pager,0);
         final ViewGroup view = ButterKnife.findById(dialogView,R.id.dialog);
+        final float toggleAlpha=toggle.getAlpha();
         //conceal when is touched
         view.setOnClickListener(v->reveal(dialogView,true,dialog));
         //make the color darker a bit
@@ -259,7 +267,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 ButterKnife.findById(view,R.id.review_label));
         view.setBackgroundColor(toggle.getBackgroundTintList().getDefaultColor());
         //set the color and make it less opaque
-        view.getBackground().setAlpha(220);
+        view.getBackground().setAlpha(250);
         int w = view.getWidth();
         int h = view.getHeight();
         int endRadius = (int) Math.hypot(w, h);
@@ -268,7 +276,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
         if(!back){
             Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx,cy, 0, endRadius);
             view.setVisibility(View.VISIBLE);
-            revealAnimator.setDuration(400);
+            revealAnimator.setDuration(300);
             revealAnimator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -302,15 +310,20 @@ public abstract class MediaDetailsFragment extends BaseFragment
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    dialog.dismiss();
+                    for(int index=0;index<buttons.size();index++){
+                        View child=buttons.get(index);
+                        View label = labels.get(index);
+                        child.setScaleY(0);child.setScaleX(0);
+                        label.setAlpha(0);label.setAlpha(0);
+                    }
                     view.setVisibility(View.GONE);
 
                 }
             });
             ViewCompat.animate(toggle)
-                    .alpha(1f).setDuration(300)
+                    .alpha(toggleAlpha).setDuration(300)
                     .start();
-            anim.setDuration(400);
+            anim.setDuration(300);
             anim.start();
         }
     }
