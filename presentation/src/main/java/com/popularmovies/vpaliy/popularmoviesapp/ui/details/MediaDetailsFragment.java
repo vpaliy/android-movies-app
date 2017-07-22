@@ -69,6 +69,8 @@ import android.support.annotation.Nullable;
 //TODO transition from media to details
 //TODO remove lambda
 //TODO fix movie fetching and tv shows as well
+//TODO fix presenters
+//TODO add more styles
 
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract.Presenter;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.ColorUtils.dimColor;
@@ -156,6 +158,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
     @Override
     public void showDuration(@NonNull String duration) {
+        this.duration.setVisibility(View.VISIBLE);
         this.duration.setText(duration);
     }
 
@@ -208,92 +211,96 @@ public abstract class MediaDetailsFragment extends BaseFragment
 
     @OnClick(R.id.share_fab)
     public void reveal(){
-        View dialogView=ButterKnife.findById(parent,R.id.dialog);
-        dialogView.setVisibility(View.VISIBLE);
-        reveal(dialogView,false);
+        if(toggle.getAlpha()>0.1f) {
+            View dialogView = ButterKnife.findById(parent, R.id.dialog);
+            dialogView.setVisibility(View.VISIBLE);
+            reveal(dialogView, false);
+        }
     }
 
     private void reveal(View dialogView, boolean back) {
-        ViewCompat.setTranslationZ(pager,0);
-        final ViewGroup view = ButterKnife.findById(dialogView,R.id.dialog);
-        //conceal when is touched
-        view.setOnClickListener(v->reveal(dialogView,true));
-        //make the color darker a bit
-        int color=dimColor(toggle.getBackgroundTintList().getDefaultColor(),0.8f);
-        List<ImageView> buttons=Arrays.asList(
-                ButterKnife.findById(view,R.id.add_to_watched),
-                ButterKnife.findById(view,R.id.add_to_must_watch),
-                ButterKnife.findById(view,R.id.add_to_favorite),
-                ButterKnife.findById(view,R.id.share_media),
-                ButterKnife.findById(view,R.id.rate_media),
-                ButterKnife.findById(view,R.id.review));
-        buttons.forEach(button->setDrawableColor(button,color));
-        List<View> labels=Arrays.asList(
-                ButterKnife.findById(view,R.id.favorite_label),
-                ButterKnife.findById(view,R.id.watched_label),
-                ButterKnife.findById(view,R.id.must_watch_label),
-                ButterKnife.findById(view,R.id.share_media_label),
-                ButterKnife.findById(view,R.id.rate_media_label),
-                ButterKnife.findById(view,R.id.review_label));
-        view.setBackgroundColor(toggle.getBackgroundTintList().getDefaultColor());
-        //set the color and make it less opaque
-        view.getBackground().setAlpha(210);
-        int w = view.getWidth();
-        int h = view.getHeight();
-        int endRadius = (int) Math.hypot(w, h);
-        int cx = (int) (toggle.getX() + (toggle.getWidth()/2));
-        int cy = (int) (toggle.getY())+ toggle.getHeight()/4;
-        if(!back){
-            toggle.setVisibility(View.INVISIBLE);
-            Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx,cy, 0, endRadius);
-            view.setVisibility(View.VISIBLE);
-            revealAnimator.setDuration(300);
-            revealAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    AnimatorSet scaleSet=new AnimatorSet();
-                    for(int index=0;index<buttons.size();index++){
-                        View child=buttons.get(index);
-                        View label = labels.get(index);
-                        child.setVisibility(View.VISIBLE);
-                        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(label, View.ALPHA, 0, 1);
-                        alphaAnimator.setStartDelay(index*50);
-                        ObjectAnimator scaleX=ObjectAnimator.ofFloat(child,View.SCALE_X,0,1);
-                        ObjectAnimator scaleY=ObjectAnimator.ofFloat(child,View.SCALE_Y,0,1);
-                        scaleX.setStartDelay(index*50);
-                        scaleY.setStartDelay(index*50);
-                        scaleSet.playTogether(scaleX,scaleY,alphaAnimator);
+            ViewCompat.setTranslationZ(pager, 0);
+            final ViewGroup view = ButterKnife.findById(dialogView, R.id.dialog);
+            //conceal when is touched
+            view.setOnClickListener(v -> reveal(dialogView, true));
+            //make the color darker a bit
+            int color = dimColor(toggle.getBackgroundTintList().getDefaultColor(), 0.8f);
+            List<ImageView> buttons = Arrays.asList(
+                    ButterKnife.findById(view, R.id.add_to_watched),
+                    ButterKnife.findById(view, R.id.add_to_must_watch),
+                    ButterKnife.findById(view, R.id.add_to_favorite),
+                    ButterKnife.findById(view, R.id.share_media),
+                    ButterKnife.findById(view, R.id.rate_media),
+                    ButterKnife.findById(view, R.id.review));
+            buttons.forEach(button -> setDrawableColor(button, color));
+            List<View> labels = Arrays.asList(
+                    ButterKnife.findById(view, R.id.favorite_label),
+                    ButterKnife.findById(view, R.id.watched_label),
+                    ButterKnife.findById(view, R.id.must_watch_label),
+                    ButterKnife.findById(view, R.id.share_media_label),
+                    ButterKnife.findById(view, R.id.rate_media_label),
+                    ButterKnife.findById(view, R.id.review_label));
+            view.setBackgroundColor(toggle.getBackgroundTintList().getDefaultColor());
+            //set the color and make it less opaque
+           // view.getBackground().setAlpha(210);
+            int w = view.getWidth();
+            int h = view.getHeight();
+            int endRadius = (int) Math.hypot(w, h);
+            int cx = (int) (toggle.getX() + (toggle.getWidth() / 2));
+            int cy = (int) (toggle.getY()) + toggle.getHeight() / 4;
+            if (!back) {
+                toggle.setVisibility(View.INVISIBLE);
+                Animator revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, endRadius);
+                view.setVisibility(View.VISIBLE);
+                revealAnimator.setDuration(300);
+                revealAnimator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        AnimatorSet scaleSet = new AnimatorSet();
+                        for (int index = 0; index < buttons.size(); index++) {
+                            View child = buttons.get(index);
+                            View label = labels.get(index);
+                            child.setVisibility(View.VISIBLE);
+                            ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(label, View.ALPHA, 0, 1);
+                            alphaAnimator.setStartDelay(index * 50);
+                            ObjectAnimator scaleX = ObjectAnimator.ofFloat(child, View.SCALE_X, 0, 1);
+                            ObjectAnimator scaleY = ObjectAnimator.ofFloat(child, View.SCALE_Y, 0, 1);
+                            scaleX.setStartDelay(index * 50);
+                            scaleY.setStartDelay(index * 50);
+                            scaleSet.playTogether(scaleX, scaleY, alphaAnimator);
+                        }
+                        scaleSet.setInterpolator(new OvershootInterpolator(1.2f));
+                        scaleSet.setDuration(300);
+                        scaleSet.start();
+
                     }
-                    scaleSet.setInterpolator(new OvershootInterpolator(1.2f));
-                    scaleSet.setDuration(300);
-                    scaleSet.start();
+                });
+                revealAnimator.start();
 
-                }
-            });
-            revealAnimator.start();
+            } else {
+                Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, endRadius, 0);
+                anim.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        for (int index = 0; index < buttons.size(); index++) {
+                            View child = buttons.get(index);
+                            View label = labels.get(index);
+                            child.setScaleY(0);
+                            child.setScaleX(0);
+                            label.setAlpha(0);
+                            label.setAlpha(0);
+                            child.setVisibility(View.INVISIBLE);
+                        }
+                        toggle.setVisibility(View.VISIBLE);
+                        view.setVisibility(View.GONE);
 
-        } else {
-            Animator anim =ViewAnimationUtils.createCircularReveal(view, cx, cy, endRadius, 0);
-            anim.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    for(int index=0;index<buttons.size();index++){
-                        View child=buttons.get(index);
-                        View label = labels.get(index);
-                        child.setScaleY(0);child.setScaleX(0);
-                        label.setAlpha(0);label.setAlpha(0);
-                        child.setVisibility(View.INVISIBLE);
                     }
-                    toggle.setVisibility(View.VISIBLE);
-                    view.setVisibility(View.GONE);
-
-                }
-            });
-            anim.setDuration(300);
-            anim.start();
-        }
+                });
+                anim.setDuration(300);
+                anim.start();
+            }
     }
 
     private void applyPalette(Palette palette){

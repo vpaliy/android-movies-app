@@ -42,6 +42,7 @@
 
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/media_duration"
         style="@style/Widget.NumberText"
         android:textSize="17sp"

@@ -1,15 +1,23 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
+import com.popularmovies.vpaliy.domain.model.ActorCover;
+import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
+import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
+
 import com.popularmovies.vpaliy.data.source.qualifier.TV;
+
+import java.util.List;
 
 @ViewScope
 public class TvDetailsPresenter extends DetailsPresenter<TVShowDetails> {
@@ -24,27 +32,53 @@ public class TvDetailsPresenter extends DetailsPresenter<TVShowDetails> {
     @Override
     public void processData(@NonNull TVShowDetails details) {
         MediaCover cover=details.getTvShowCover();
-        if(cover.getBackdrops()!=null){
-            view.showBackdrops(cover.getBackdrops());
+        showBackdrops(cover.getBackdrops());
+        showCast(details.getCast());
+        showSeasons(details.getSeasons());
+        showSimilar(details.getSimilar());
+        showTrailers(details.getTrailers());
+        if(!TextUtils.isEmpty(details.getDuration())) {
+            view.showDuration(details.getDuration());
         }
-
-        if(!isEmpty(details.getCast())){
-            view.showCast(details.getCast());
-        }
-
-        if(!isEmpty(details.getSeasons())){
-            view.showSeasons(details.getSeasons());
-        }
-
-        if(!isEmpty(details.getSimilar())){
-            view.showSimilar(details.getSimilar());
-        }
-
-        if(!isEmpty(details.getTrailers())){
-            view.showTrailers(details.getTrailers());
-        }
-
         view.showDescription(details.getTvShowInfo().getOverview());
+    }
+
+    private void showSeasons(List<SeasonCover> seasons){
+        if(!isEmpty(seasons)){
+            view.showSeasons(seasons);
+        }
+    }
+
+    private void showCast(List<ActorCover> cast){
+        if(!isEmpty(cast)){
+            view.showCast(cast);
+        }
+    }
+
+    private void showCollection(MediaCollection collection){
+        if(collection!=null) {
+            if (!isEmpty(collection.getCovers())) {
+                view.showCollection(collection);
+            }
+        }
+    }
+
+    private void showSimilar(List<MediaCover> similar){
+        if(!isEmpty(similar)){
+            view.showSimilar(similar);
+        }
+    }
+
+    private void showTrailers(List<Trailer> trailers){
+        if(!isEmpty(trailers)){
+            view.showTrailers(trailers);
+        }
+    }
+
+    private void showBackdrops(List<String> backdrops){
+        if(!isEmpty(backdrops)){
+            view.showBackdrops(backdrops);
+        }
     }
 
     @Override

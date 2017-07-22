@@ -15,6 +15,7 @@
     <dimen name="spacing_big">24dp</dimen>
     <dimen name="spacing_huge">32dp</dimen>
     <dimen name="spacing_media_details">8dp</dimen>
+    <dimen name="details_action_padding">16dp</dimen>
 
     <!-- Image -->
     <dimen name="poster_height">200dp</dimen>

@@ -6,6 +6,7 @@ import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.MovieInfo;
+import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
@@ -28,33 +29,17 @@ public class MovieDetailsPresenter extends DetailsPresenter<MovieDetails> {
     }
     public void processData(@NonNull MovieDetails details){
         MediaCover cover=details.getMovieCover();
-        if(cover.getBackdrops()!=null){
-            view.showBackdrops(cover.getBackdrops());
-        }
-
-        if(!isEmpty(details.getCast())){
-            view.showCast(details.getCast());
-        }
-
-        if(details.getCollection()!=null &&
-                !isEmpty(details.getCollection().getCovers())){
-            view.showCollection(details.getCollection());
-        }
-
-        if(!isEmpty(details.getSimilarMovies())){
-            view.showSimilar(details.getSimilarMovies());
-        }
-
-        if(!isEmpty(details.getTrailers())){
-            view.showTrailers(details.getTrailers());
-        }
-
+        showBackdrops(cover.getBackdrops());
+        showCast(details.getCast());
+        showCollection(details.getCollection());
+        showSimilar(details.getSimilarMovies());
+        showTrailers(details.getTrailers());
         if(!TextUtils.isEmpty(cover.getDuration())){
             view.showDuration(cover.getDuration());
         }
-        view.showDuration(details.getMovieCover().getDuration());
         view.showDescription(details.getMovieInfo().getDescription());
     }
+
 
     private void showCast(List<ActorCover> cast){
         if(!isEmpty(cast)){
@@ -67,6 +52,24 @@ public class MovieDetailsPresenter extends DetailsPresenter<MovieDetails> {
             if (!isEmpty(collection.getCovers())) {
                 view.showCollection(collection);
             }
+        }
+    }
+
+    private void showSimilar(List<MediaCover> similar){
+        if(!isEmpty(similar)){
+            view.showSimilar(similar);
+        }
+    }
+
+    private void showTrailers(List<Trailer> trailers){
+        if(!isEmpty(trailers)){
+            view.showTrailers(trailers);
+        }
+    }
+
+    private void showBackdrops(List<String> backdrops){
+        if(!isEmpty(backdrops)){
+            view.showBackdrops(backdrops);
         }
     }
 

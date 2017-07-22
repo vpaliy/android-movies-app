@@ -29,6 +29,18 @@ public class TVShowDetails {
         return tvShowId;
     }
 
+    public String getDuration(){
+        if(tvShowInfo!=null){
+            int[] runtimes=tvShowInfo.getEpisodeRuntime();
+            if(runtimes!=null){
+                int sum=0;
+                for(int runtime:runtimes) sum+=runtime;
+                if(sum!=0) return Integer.toString(sum/runtimes.length)+" min";
+            }
+        }
+        return null;
+    }
+
     public List<Trailer> getTrailers() {
         return trailers;
     }
