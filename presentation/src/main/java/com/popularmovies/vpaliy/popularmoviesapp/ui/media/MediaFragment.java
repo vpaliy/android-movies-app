@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.media;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,18 +11,15 @@ import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaContract.Presenter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.media.MediaTypeAdapter.MediaTypeWrapper;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.RequestMoreEvent;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.MediaType;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+
 import io.reactivex.disposables.CompositeDisposable;
 
-import javax.inject.Inject;
 import butterknife.BindView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

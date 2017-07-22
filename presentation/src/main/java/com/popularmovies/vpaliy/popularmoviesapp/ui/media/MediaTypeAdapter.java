@@ -12,7 +12,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.RequestMoreE
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.AbstractMediaAdapter;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.MediaType;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.ViewAllWrapper;
 import butterknife.ButterKnife;
 import android.support.annotation.NonNull;

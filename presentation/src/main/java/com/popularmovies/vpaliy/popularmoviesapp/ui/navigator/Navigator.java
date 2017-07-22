@@ -10,13 +10,11 @@ import android.support.v4.app.ActivityOptionsCompat;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.actor.ActorActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsFragment;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaActivity;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeDetailsEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.season.SeasonActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.Permission;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.TransitionWrapper;
+
 import android.support.annotation.NonNull;
 
 public class Navigator {

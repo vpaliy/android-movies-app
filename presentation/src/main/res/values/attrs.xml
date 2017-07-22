@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="AspectRatioCardView">
-        <attr name="ratio" format="float" />
-    </declare-styleable>
-
     <declare-styleable name="RoundedImageView">
         <attr name="radius" format="float" />
-    </declare-styleable>
-
-    <declare-styleable name="TicketImageView">
-        <attr name="ticket_color" format="color"/>
-        <attr name="ticket_radius" format="float"/>
-        <attr name="ticket_gap" format="float"/>
-    </declare-styleable>
-
-    <declare-styleable name="RatingsView">
-        <attr name="ratings_size" format="dimension"/>
-        <attr name="ratings_margin" format="dimension"/>
-        <attr name="ratings_color" format="color"/>
-        <attr name="ratings_radius" format="dimension"/>
-        <attr name="image_margin" format="dimension"/>
-        <attr name="ratings_text" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="RatioImageView">

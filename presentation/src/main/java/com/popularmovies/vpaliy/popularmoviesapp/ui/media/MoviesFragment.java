@@ -13,7 +13,7 @@ import java.util.List;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.MediaType;
 
 import javax.inject.Inject;
 

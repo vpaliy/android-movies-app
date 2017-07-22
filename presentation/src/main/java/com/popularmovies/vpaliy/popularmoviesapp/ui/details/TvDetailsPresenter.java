@@ -13,10 +13,8 @@ import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-
 import com.popularmovies.vpaliy.data.source.qualifier.TV;
-
+import android.text.TextUtils;
 import java.util.List;
 
 @ViewScope
@@ -52,14 +50,6 @@ public class TvDetailsPresenter extends DetailsPresenter<TVShowDetails> {
     private void showCast(List<ActorCover> cast){
         if(!isEmpty(cast)){
             view.showCast(cast);
-        }
-    }
-
-    private void showCollection(MediaCollection collection){
-        if(collection!=null) {
-            if (!isEmpty(collection.getCovers())) {
-                view.showCollection(collection);
-            }
         }
     }
 

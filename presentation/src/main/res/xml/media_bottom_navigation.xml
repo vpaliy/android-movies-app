@@ -1,7 +1,7 @@
 <tabs>
     <tab
         id="@+id/movies"
-        icon="@drawable/ic_now_playing"
+        icon="@drawable/ic_movies"
         barColorWhenSelected="#ff6f00"
         badgeHidesWhenActive="true"
         title="Movies" />

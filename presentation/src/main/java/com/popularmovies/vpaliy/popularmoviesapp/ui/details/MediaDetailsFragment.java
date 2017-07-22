@@ -26,7 +26,6 @@ import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
@@ -48,13 +47,11 @@ import com.rd.PageIndicatorView;
 import com.rd.animation.type.AnimationType;
 import com.vpaliy.chips_lover.ChipBuilder;
 import com.vpaliy.chips_lover.ChipsLayout;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -69,8 +66,6 @@ import android.support.annotation.Nullable;
 //TODO transition from media to details
 //TODO remove lambda
 //TODO fix movie fetching and tv shows as well
-//TODO fix presenters
-//TODO add more styles
 
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract.Presenter;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.ColorUtils.dimColor;

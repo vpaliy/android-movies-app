@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.NumberText"
                 android:gravity="center"
-                android:drawableRight="@drawable/ic_thumb_up_black_24dp"
+                android:drawableRight="@drawable/ic_thumb"
                 android:textSize="17sp"
                 tools:text="6.7"
                 android:drawablePadding="@dimen/spacing_small"

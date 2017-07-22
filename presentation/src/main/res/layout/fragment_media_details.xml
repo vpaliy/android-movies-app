@@ -30,7 +30,7 @@
             android:layout_marginRight="@dimen/spacing_large"
             android:layout_marginEnd="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_large"
-            app:srcCompat="@drawable/ic_black_arrow"
+            app:srcCompat="@drawable/ic_back_arrow"
             android:background="@drawable/mid_grey_ripple" />
     </FrameLayout>
 

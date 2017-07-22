@@ -10,7 +10,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.App;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper.MediaType;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.MediaType;
 
 import java.util.Arrays;
 import java.util.List;

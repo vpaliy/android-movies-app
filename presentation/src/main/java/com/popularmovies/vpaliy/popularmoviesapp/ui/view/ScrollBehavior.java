@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.view;
 
-
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;

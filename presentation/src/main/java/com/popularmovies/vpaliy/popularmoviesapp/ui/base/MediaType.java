@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper;
+package com.popularmovies.vpaliy.popularmoviesapp.ui.base;
 
 
 public enum  MediaType {

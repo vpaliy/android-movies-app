@@ -50,13 +50,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="BottomNavigation">
-        <item name="android:background">@color/colorAccent</item>
-        <item name="android:itemBackground">@drawable/bottom_navigation_background</item>
-        <item name="itemIconTint">@color/colorWhite</item>
-        <item name="itemTextColor">@color/colorWhite</item>
-    </style>
-
     <style name="Widget">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -90,7 +83,7 @@
     <style name="Widget.Details.Action">
         <item name="android:scaleX">0</item>
         <item name="android:scaleY">0</item>
-        <item name="android:background">@drawable/background_white</item>
+        <item name="android:background">@drawable/white_oval</item>
         <item name="android:padding">@dimen/details_action_padding</item>
     </style>
 

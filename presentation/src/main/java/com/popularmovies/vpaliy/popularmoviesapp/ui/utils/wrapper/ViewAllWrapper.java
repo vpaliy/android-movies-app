@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.utils.wrapper;
 
 import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.MediaType;
 
 public class ViewAllWrapper {
 
