@@ -6,7 +6,6 @@ import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
-import com.popularmovies.vpaliy.domain.model.MovieDetails;
 import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BasePresenter;
@@ -18,7 +17,7 @@ public interface MediaDetailsContract {
     interface View extends BaseView<Presenter> {
         void attachPresenter(@NonNull Presenter presenter);
         void showBackdrops(@NonNull List<String> backdrops);
-        void shareWithMovie(@NonNull MovieDetails details);
+        void share(@NonNull String shareText);
         void showSeasons(@NonNull List<SeasonCover> seasons);
         void showDescription(@NonNull String description);
         void showDuration(@NonNull String duration);
@@ -32,7 +31,7 @@ public interface MediaDetailsContract {
     interface Presenter extends BasePresenter<View> {
         void attachView(@NonNull View view);
         void make(SortType sortType);
-        void shareWithMovie();
+        void share();
         void start(String id);
         void stop();
     }

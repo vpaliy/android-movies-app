@@ -114,8 +114,7 @@ public class PresentationUtils {
     }
 
 
-    private static List<Boolean> setAncestralClipping(
-            @NonNull View view, boolean clipChildren, List<Boolean> was) {
+    private static List<Boolean> setAncestralClipping(@NonNull View view, boolean clipChildren, List<Boolean> was) {
         if (view instanceof ViewGroup) {
             ViewGroup group = (ViewGroup) view;
             was.add(group.getClipChildren());

@@ -60,9 +60,9 @@ public class MovieDetailsPresenterTest extends BasePresenterTest {
     @Test
     public void testShareWithMovie(){
         when(mockRepository.getDetails(anyInt())).thenReturn(Observable.just(FAKE_MOVIE_DETAILS));
-        presenter.shareWithMovie();
+        presenter.share();
         verify(mockRepository).getDetails(anyInt());
-        verify(mockView).shareWithMovie(FAKE_MOVIE_DETAILS);
+        verify(mockView).share(FAKE_MOVIE_DETAILS);
     }
 
     */

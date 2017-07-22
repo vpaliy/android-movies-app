@@ -14,13 +14,10 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowActionModeOverlay">true</item>
-
         <item name="android:windowExitTransition">@transition/media_exit</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
-
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
-
     </style>
 
     <style name="PopMovies.Details" parent="PopMovies">

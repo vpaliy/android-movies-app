@@ -13,14 +13,15 @@ import rx.subscriptions.CompositeSubscription;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract.View;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presenter {
 
     protected View view;
-    private final IDetailsRepository<T> repository;
-    private final ICoverRepository<MediaCover> iCoverRepository;
-    private final CompositeSubscription subscriptions;
-    private final BaseSchedulerProvider schedulerProvider;
-    private String mediaId;
+    protected final IDetailsRepository<T> repository;
+    protected final ICoverRepository<MediaCover> iCoverRepository;
+    protected final CompositeSubscription subscriptions;
+    protected final BaseSchedulerProvider schedulerProvider;
+    protected String mediaId;
 
     public DetailsPresenter(@NonNull IDetailsRepository<T> repository,
                             @NonNull @Movies ICoverRepository<MediaCover> iCoverRepository,
@@ -29,11 +30,6 @@ public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presen
         this.schedulerProvider=schedulerProvider;
         this.iCoverRepository=iCoverRepository;
         this.subscriptions=new CompositeSubscription();
-    }
-
-    @Override
-    public void shareWithMovie() {
-
     }
 
     @Override
@@ -77,11 +73,11 @@ public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presen
 
     public abstract void processData(@NonNull T details);
 
-    protected <T> boolean isEmpty(List<T> list){
+    <V> boolean isEmpty(List<V> list){
         return list==null || list.isEmpty();
     }
 
-    protected void processCover(@NonNull MediaCover movie){
+    private void processCover(@NonNull MediaCover movie){
         view.showCover(movie);
     }
 

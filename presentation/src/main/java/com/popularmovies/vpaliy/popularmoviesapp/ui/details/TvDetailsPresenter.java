@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
+import com.popularmovies.vpaliy.domain.model.TVShowInfo;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
@@ -44,5 +45,24 @@ public class TvDetailsPresenter extends DetailsPresenter<TVShowDetails> {
         }
 
         view.showDescription(details.getTvShowInfo().getOverview());
+    }
+
+    @Override
+    public void share() {
+        repository.get(mediaId)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(this::shareWith);
+    }
+
+    private void shareWith(TVShowDetails details){
+        if(details!=null) {
+            MediaCover cover = details.getTvShowCover();
+            TVShowInfo info = new TVShowInfo();
+            String text = (cover.getMovieTitle());
+            text += '\n';
+            text += info.getOverview();
+            view.share(text);
+        }
     }
 }
