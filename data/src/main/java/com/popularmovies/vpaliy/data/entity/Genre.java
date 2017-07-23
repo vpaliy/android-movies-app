@@ -8,7 +8,7 @@ import java.util.List;
 public class Genre {
 
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("name")
     private String name;
@@ -20,7 +20,7 @@ public class Genre {
     }
 
     public String getId() {
-        return Integer.toString(id);
+        return id;
     }
 
     public String getName() {
@@ -28,7 +28,7 @@ public class Genre {
     }
 
     public void setId(String id) {
-        this.id = Integer.parseInt(id);
+        this.id = id;
     }
 
     public void setName(String name) {

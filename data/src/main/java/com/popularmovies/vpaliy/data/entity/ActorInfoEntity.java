@@ -5,14 +5,14 @@ import java.util.List;
 
 public class ActorInfoEntity {
 
-    private int actorId;
+    private String actorId;
     private String birthDate;
     private String birthplace;
     private String bioDescription;
     private List<String> imagePaths;
 
     public String getActorId() {
-        return Integer.toString(actorId);
+        return actorId;
     }
 
     public List<String> getImagePaths() {
@@ -32,7 +32,7 @@ public class ActorInfoEntity {
     }
 
     public void setActorId(String actorId) {
-        this.actorId = Integer.parseInt(actorId);
+        this.actorId = actorId;
     }
 
     public void setBioDescription(String bioDescription) {

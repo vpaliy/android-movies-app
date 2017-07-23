@@ -28,6 +28,7 @@ public class SeasonCoverMapper extends Mapper<SeasonCover,SeasonEntity>{
         season.setAirDate(seasonEntity.getAirDate());
         season.setSeasonId(seasonEntity.getId());
         season.setSeasonName(seasonEntity.getName());
+        season.setPosterPath(seasonEntity.getPosterPath());
         season.setOverview(seasonEntity.getOverview());
         season.setSeasonNumber(seasonEntity.getSeasonNumber());
         return season;
@@ -40,6 +41,7 @@ public class SeasonCoverMapper extends Mapper<SeasonCover,SeasonEntity>{
         entity.setSeasonNumber(tvShowSeason.getSeasonNumber());
         entity.setAirDate(tvShowSeason.getAirDate());
         entity.setName(tvShowSeason.getSeasonName());
+        entity.setPosterPath(tvShowSeason.getPosterPath());
         entity.setOverview(tvShowSeason.getOverview());
         entity.setId(tvShowSeason.getSeasonId());
         return entity;

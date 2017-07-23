@@ -16,7 +16,7 @@ public class TvShow implements HasId {
     private Number popularity;
 
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("backdrop_path")
     private String backdropPath;
@@ -54,7 +54,7 @@ public class TvShow implements HasId {
 
     @Override
     public String id() {
-        return Integer.toString(id);
+        return id;
     }
 
     public boolean isWatched() {
@@ -94,7 +94,7 @@ public class TvShow implements HasId {
     }
 
     public String getId() {
-        return Integer.toString(id);
+        return id;
     }
 
     public int getVoteCount() {
@@ -158,7 +158,7 @@ public class TvShow implements HasId {
     }
 
     public void setId(String id) {
-        this.id = Integer.parseInt(id);
+        this.id = id;
     }
 
     public void setBackdropPath(String backdropPath) {

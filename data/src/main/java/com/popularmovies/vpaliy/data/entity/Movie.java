@@ -9,7 +9,7 @@ import java.util.List;
 public class Movie implements HasId {
 
     @SerializedName("id")
-    private int movieId;
+    private String movieId;
 
     @SerializedName("genres")
     private List<Genre> genres;
@@ -76,11 +76,11 @@ public class Movie implements HasId {
 
     @Override
     public String id() {
-        return Integer.toString(movieId);
+        return movieId;
     }
 
     public String getMovieId() {
-        return Integer.toString(movieId);
+        return movieId;
     }
 
     public double getPopularity(){
@@ -196,7 +196,7 @@ public class Movie implements HasId {
     }
 
     public void setMovieId(String movieId) {
-        this.movieId = Integer.parseInt(movieId);
+        this.movieId = movieId;
     }
 
     public void setOriginalLanguage(String originalLanguage) {

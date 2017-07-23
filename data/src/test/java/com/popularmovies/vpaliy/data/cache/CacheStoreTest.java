@@ -2,6 +2,10 @@ package com.popularmovies.vpaliy.data.cache;
 
 
 
+import com.google.common.cache.Cache;
+import com.popularmovies.vpaliy.data.FakeDataProvider;
+import com.popularmovies.vpaliy.domain.model.MediaCover;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,50 +20,48 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class CacheStoreTest {
 
-   /* private static final int FAKE_KEY=123;
+    @Mock
+    private Cache<String,MediaCover> mockCache;
 
     @Mock
-    private Cache<Integer,MovieCover> mockCache;
-
-    @Mock
-    private MovieCover mockCover;
+    private MediaCover mockCover;
 
     @InjectMocks
-    private CacheStore<Integer,MovieCover> cacheStore;
+    private CacheStore<String,MediaCover> cacheStore;
 
     @Before
     public void setUp(){
-        given(mockCache.getIfPresent(FAKE_KEY)).willReturn(mockCover);
+        given(mockCache.getIfPresent(FakeDataProvider.FAKE_MEDIA_ID)).willReturn(mockCover);
         given(mockCache.size()).willReturn(Long.valueOf(1));
-        cacheStore.put(FAKE_KEY,mockCover);
+        cacheStore.put(FakeDataProvider.FAKE_MEDIA_ID,mockCover);
     }
 
     @Test
     public void testGetStream(){
-        cacheStore.getStream(FAKE_KEY)
+        cacheStore.getStream(FakeDataProvider.FAKE_MEDIA_ID)
                 .subscribe(movie->assertThat(movie,is(mockCover)));
 
-        verify(mockCache).getIfPresent(FAKE_KEY);
+        verify(mockCache).getIfPresent(FakeDataProvider.FAKE_MEDIA_ID);
     }
 
     @Test
     public void testIsInCache(){
-        assertThat(cacheStore.isInCache(FAKE_KEY),is(true));
-        assertThat(cacheStore.isInCache(-1),is(false));
+        assertThat(cacheStore.isInCache(FakeDataProvider.FAKE_MEDIA_ID),is(true));
+        assertThat(cacheStore.isInCache(FakeDataProvider.FAKE_ACTOR_ID),is(false));
 
-        verify(mockCache).getIfPresent(FAKE_KEY);
-        verify(mockCache).getIfPresent(-1);
+        verify(mockCache).getIfPresent(FakeDataProvider.FAKE_MEDIA_ID);
+        verify(mockCache).getIfPresent(FakeDataProvider.FAKE_ACTOR_ID);
     }
 
     @Test
     public void testInvalidate(){
-        cacheStore.invalidate(FAKE_KEY);
-        verify(mockCache).invalidate(FAKE_KEY);
+        cacheStore.invalidate(FakeDataProvider.FAKE_MEDIA_ID);
+        verify(mockCache).invalidate(FakeDataProvider.FAKE_MEDIA_ID);
     }
 
     @Test
     public void testSize(){
         assertThat(cacheStore.size(),is(1L));
         verify(mockCache).size();
-    }   */
+    }
 }

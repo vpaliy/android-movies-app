@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class TvShowEpisodeEntity {
 
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("air_date")
     private String airDate;
@@ -30,7 +30,7 @@ public class TvShowEpisodeEntity {
     private int voteCount;
 
     public String getId() {
-        return Integer.toString(id);
+        return id;
     }
 
     public int getEpisodeNumber() {
@@ -62,7 +62,7 @@ public class TvShowEpisodeEntity {
     }
 
     public void setId(String id) {
-        this.id = Integer.parseInt(id);
+        this.id = id;
     }
 
     public void setAirDate(String airDate) {

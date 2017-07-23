@@ -12,7 +12,7 @@ public class ReviewEntity {
     private String reviewId;
 
     @SerializedName("media_id")
-    private int mediaId;
+    private String mediaId;
 
     @SerializedName("author")
     private String author;
@@ -32,11 +32,11 @@ public class ReviewEntity {
     }
 
     public String getMediaId() {
-        return Integer.toString(mediaId);
+        return mediaId;
     }
 
     public void setMediaId(String mediaId) {
-        this.mediaId = Integer.parseInt(mediaId);
+        this.mediaId = mediaId;
     }
 
     public String getUrl() {

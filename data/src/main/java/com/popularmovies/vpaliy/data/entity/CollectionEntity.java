@@ -7,7 +7,7 @@ import java.util.List;
 public class CollectionEntity implements HasId{
 
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @SerializedName("name")
     private String name;
@@ -29,7 +29,7 @@ public class CollectionEntity implements HasId{
     }
 
     public String getId() {
-        return Integer.toString(id);
+        return id;
     }
 
     public List<Movie> getParts() {
@@ -54,7 +54,7 @@ public class CollectionEntity implements HasId{
 
     @Override
     public String id() {
-        return Integer.toString(id);
+        return id;
     }
 
     public void setOverview(String overview) {
@@ -62,7 +62,7 @@ public class CollectionEntity implements HasId{
     }
 
     public void setId(String id) {
-        this.id = Integer.parseInt(id);
+        this.id = id;
     }
 
     public void setName(String name) {

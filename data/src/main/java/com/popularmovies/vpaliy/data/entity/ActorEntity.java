@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName;
 public class ActorEntity implements HasId {
 
     @SerializedName("id")
-    private int actorId;
+    private String actorId;
 
     @SerializedName("cast_id")
-    private int movieId;
+    private String movieId;
 
     @SerializedName("name")
     private String name;
@@ -22,11 +22,11 @@ public class ActorEntity implements HasId {
 
     @Override
     public String id() {
-        return Integer.toString(actorId);
+        return actorId;
     }
 
     public String getActorId() {
-        return Integer.toString(actorId);
+        return actorId;
     }
 
     public String getActorAvatar() {
@@ -38,11 +38,11 @@ public class ActorEntity implements HasId {
     }
 
     public String getMovieId() {
-        return Integer.toString(movieId);
+        return movieId;
     }
 
     public void setMovieId(String movieId) {
-        this.movieId = Integer.parseInt(movieId);
+        this.movieId = movieId;
     }
 
     public String getRole() {
@@ -54,7 +54,7 @@ public class ActorEntity implements HasId {
     }
 
     public void setActorId(String actorId) {
-        this.actorId = Integer.parseInt(actorId);
+        this.actorId = actorId;
     }
 
     public void setName(String name) {

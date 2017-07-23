@@ -8,7 +8,7 @@ import java.util.List;
 public class ActorDetailEntity implements HasId {
 
     @SerializedName("id")
-    private int actorId;
+    private String actorId;
     private ActorEntity actor;
     private List<Movie> movies;
     private List<TvShow> tvShows;
@@ -39,7 +39,7 @@ public class ActorDetailEntity implements HasId {
     public ActorEntity getActorCover() {
         if(actor==null){
             actor=new ActorEntity();
-            actor.setActorId(Integer.toString(actorId));
+            actor.setActorId(actorId);
             actor.setName(name);
             actor.setActorAvatar(profilePath);
         }
@@ -48,7 +48,7 @@ public class ActorDetailEntity implements HasId {
 
     @Override
     public String id() {
-        return Integer.toString(actorId);
+        return actorId;
     }
 
     public String getPopularity() {
@@ -88,7 +88,7 @@ public class ActorDetailEntity implements HasId {
     }
 
     public String getActorId() {
-        return Integer.toString(actorId);
+        return actorId;
     }
 
     public List<Movie> getMovies() {
@@ -108,7 +108,7 @@ public class ActorDetailEntity implements HasId {
     }
 
     public void setActorId(String actorId) {
-        this.actorId = Integer.parseInt(actorId);
+        this.actorId = actorId;
     }
 
     public void setMovies(List<Movie> movies) {

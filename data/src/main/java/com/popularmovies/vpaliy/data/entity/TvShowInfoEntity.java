@@ -7,7 +7,7 @@ import java.util.List;
 public class TvShowInfoEntity {
 
     @SerializedName("id")
-    private int tvShowId;
+    private String tvShowId;
 
     @SerializedName("backdrop_path")
     private String backdrop_path;
@@ -149,7 +149,7 @@ public class TvShowInfoEntity {
     }
 
     public void setTvShowId(String tvShowId) {
-        this.tvShowId = Integer.parseInt(tvShowId);
+        this.tvShowId = tvShowId;
     }
 
     public void setType(String type) {
@@ -185,7 +185,7 @@ public class TvShowInfoEntity {
     }
 
     public String getTvShowId() {
-        return Integer.toString(tvShowId);
+        return tvShowId;
     }
 
     public int[] getEpisodeRuntime() {
