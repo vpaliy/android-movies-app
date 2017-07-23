@@ -65,7 +65,6 @@ import android.support.annotation.Nullable;
 //TODO transition to more
 //TODO transition from media to details
 //TODO remove lambda
-//TODO fix movie fetching and tv shows as well
 
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.details.MediaDetailsContract.Presenter;
 import static com.popularmovies.vpaliy.popularmoviesapp.ui.utils.ColorUtils.dimColor;
@@ -240,7 +239,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                     ButterKnife.findById(view, R.id.review_label));
             view.setBackgroundColor(toggle.getBackgroundTintList().getDefaultColor());
             //set the color and make it less opaque
-           // view.getBackground().setAlpha(210);
+            view.getBackground().setAlpha(230);
             int w = view.getWidth();
             int h = view.getHeight();
             int endRadius = (int) Math.hypot(w, h);
@@ -463,6 +462,12 @@ public abstract class MediaDetailsFragment extends BaseFragment
     public void showSimilar(@NonNull List<MediaCover> covers) {
         RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),covers,rxBus);
         infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_similar_content)));
+    }
+
+    @Override
+    public void showRecommendations(@NonNull List<MediaCover> recommendations) {
+        RelatedMoviesAdapter adapter=new RelatedMoviesAdapter(getContext(),recommendations,rxBus);
+        infoAdapter.addWrapper(InfoAdapter.MovieListWrapper.wrap(adapter,getString(R.string.media_recommendations)));
     }
 
     @Override

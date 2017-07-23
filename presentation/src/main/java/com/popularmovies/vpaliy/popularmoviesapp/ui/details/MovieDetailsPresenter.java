@@ -32,6 +32,7 @@ public class MovieDetailsPresenter extends DetailsPresenter<MovieDetails> {
         showBackdrops(cover.getBackdrops());
         showCast(details.getCast());
         showCollection(details.getCollection());
+        showRecommendations(details.getRecommended());
         showSimilar(details.getSimilarMovies());
         showTrailers(details.getTrailers());
         if(!TextUtils.isEmpty(cover.getDuration())){
@@ -40,36 +41,11 @@ public class MovieDetailsPresenter extends DetailsPresenter<MovieDetails> {
         view.showDescription(details.getMovieInfo().getDescription());
     }
 
-
-    private void showCast(List<ActorCover> cast){
-        if(!isEmpty(cast)){
-            view.showCast(cast);
-        }
-    }
-
     private void showCollection(MediaCollection collection){
         if(collection!=null) {
             if (!isEmpty(collection.getCovers())) {
                 view.showCollection(collection);
             }
-        }
-    }
-
-    private void showSimilar(List<MediaCover> similar){
-        if(!isEmpty(similar)){
-            view.showSimilar(similar);
-        }
-    }
-
-    private void showTrailers(List<Trailer> trailers){
-        if(!isEmpty(trailers)){
-            view.showTrailers(trailers);
-        }
-    }
-
-    private void showBackdrops(List<String> backdrops){
-        if(!isEmpty(backdrops)){
-            view.showBackdrops(backdrops);
         }
     }
 

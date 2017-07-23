@@ -12,6 +12,7 @@ public class MovieDetails {
     private List<Trailer> trailers;
     private List<ActorCover> cast;
     private List<MediaCover> similarMovies;
+    private List<MediaCover> recommended;
     private MediaCollection collection;
 
     public MovieDetails(String movieId){
@@ -20,6 +21,14 @@ public class MovieDetails {
 
     public void setCollection(MediaCollection collection) {
         this.collection = collection;
+    }
+
+    public void setRecommended(List<MediaCover> recommended) {
+        this.recommended = recommended;
+    }
+
+    public List<MediaCover> getRecommended() {
+        return recommended;
     }
 
     public String getMovieId() {

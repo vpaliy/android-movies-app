@@ -61,6 +61,6 @@ public class SeasonPresenter implements SeasonContract.Presenter{
 
     @Override
     public void stop() {
-
+        view=null;
     }
 }

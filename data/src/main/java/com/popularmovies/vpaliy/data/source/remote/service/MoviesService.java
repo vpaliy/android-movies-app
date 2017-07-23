@@ -51,6 +51,9 @@ public interface MoviesService {
     @GET("movie/{id}/similar")
     Observable<MovieWrapper> querySimilarMovies(@Path("id") String id);
 
+    @GET("movie/{movie_id}/recommendations")
+    Observable<MovieWrapper> queryRecommendations(@Path("movie_id") String id);
+
     @GET("movie/{id}/credits")
     Observable<CastWrapper> queryCast(@Path("id") String id);
 

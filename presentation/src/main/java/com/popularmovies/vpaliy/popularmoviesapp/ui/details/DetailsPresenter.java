@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import com.popularmovies.vpaliy.data.source.qualifier.Movies;
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
 import com.popularmovies.vpaliy.domain.configuration.SortType;
+import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
+import com.popularmovies.vpaliy.domain.model.Trailer;
 import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
 import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import java.util.List;
@@ -39,6 +41,7 @@ public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presen
 
     @Override
     public void stop() {
+        view=null;
         subscriptions.clear();
     }
 
@@ -69,6 +72,36 @@ public abstract class DetailsPresenter<T> implements MediaDetailsContract.Presen
                 .subscribe(this::processData,
                         this::handleErrorMessage,
                         ()->{}));
+    }
+
+    protected void showRecommendations(List<MediaCover> recommendations){
+        if(!isEmpty(recommendations)){
+            view.showRecommendations(recommendations);
+        }
+    }
+
+    protected void showCast(List<ActorCover> cast){
+        if(!isEmpty(cast)){
+            view.showCast(cast);
+        }
+    }
+
+    protected void showSimilar(List<MediaCover> similar){
+        if(!isEmpty(similar)){
+            view.showSimilar(similar);
+        }
+    }
+
+    protected void showTrailers(List<Trailer> trailers){
+        if(!isEmpty(trailers)){
+            view.showTrailers(trailers);
+        }
+    }
+
+    protected void showBackdrops(List<String> backdrops){
+        if(!isEmpty(backdrops)){
+            view.showBackdrops(backdrops);
+        }
     }
 
     public abstract void processData(@NonNull T details);

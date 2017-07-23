@@ -43,6 +43,10 @@ public class RemoteMovieDetails implements DetailsDataSource<MovieDetailEntity> 
                 .subscribeOn(schedulerProvider.multi())
                 .map(MovieWrapper::getCoverList);
 
+        Observable<List<Movie>> recommendationObservable = moviesService.queryRecommendations(id)
+                .subscribeOn(schedulerProvider.multi())
+                .map(MovieWrapper::getCoverList);
+
         Observable<Movie> movieObservable = moviesService.queryDetails(id)
                 .map(movie->{
                     CollectionEntity collection=movie.getCollection();
@@ -74,13 +78,15 @@ public class RemoteMovieDetails implements DetailsDataSource<MovieDetailEntity> 
                 .subscribeOn(schedulerProvider.multi())
                 .map(ReviewWrapper::getReviewList);
 
-        return Observable.zip(movieObservable, similarObservable, backdropsObservable, actorsObservable,trailersObservable,reviewsObservable,
+        return Observable.zip(movieObservable, similarObservable, backdropsObservable, actorsObservable,
+                trailersObservable,reviewsObservable,recommendationObservable,
                 (Movie movie, List<Movie> movies, List<BackdropImage> backdropImages,
-                 List<ActorEntity> actorEntities, List<TrailerEntity> trailers, List<ReviewEntity> reviews) -> {
+                 List<ActorEntity> actorEntities, List<TrailerEntity> trailers, List<ReviewEntity> reviews, List<Movie> recommendations) -> {
                     MovieDetailEntity movieDetails = new MovieDetailEntity();
                     movieDetails.setCast(actorEntities);
                     movieDetails.setCollectionEntity(movie.getCollection());
                     movieDetails.setBackdropImages(backdropImages);
+                    movieDetails.setRecommended(recommendations);
                     movie.setBackdropImages(backdropImages);
                     movieDetails.setMovie(movie);
                     movieDetails.setTrailers(trailers);

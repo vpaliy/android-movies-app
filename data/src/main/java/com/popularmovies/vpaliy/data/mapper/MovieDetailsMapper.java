@@ -57,6 +57,7 @@ public class MovieDetailsMapper extends Mapper<MovieDetails,MovieDetailEntity> {
         movieDetails.setMovieCover(movieCoverMapper.map(detailsEntity.getMovie()));
         movieDetails.setTrailers(trailerMapper.map(detailsEntity.getTrailers()));
         movieDetails.setReviews(reviewMapper.map(detailsEntity.getReviews()));
+        movieDetails.setRecommended(movieCoverMapper.map(detailsEntity.getRecommended()));
         movieDetails.setCollection(collectionMapper.map(detailsEntity.getCollectionEntity()));
         return movieDetails;
 
@@ -84,6 +85,7 @@ public class MovieDetailsMapper extends Mapper<MovieDetails,MovieDetailEntity> {
             detailEntity.setBackdropImages(movie.getBackdropImages());
             detailEntity.setFavorite(movie.isFavorite());
         }
+        detailEntity.setRecommended(movieCoverMapper.reverseMap(details.getRecommended()));
         detailEntity.setCollectionEntity(collectionMapper.reverseMap(details.getCollection()));
         detailEntity.setCast(actorEntityMapper.reverseMap(details.getCast()));
         detailEntity.setReviews(reviewMapper.reverseMap(details.getReviews()));

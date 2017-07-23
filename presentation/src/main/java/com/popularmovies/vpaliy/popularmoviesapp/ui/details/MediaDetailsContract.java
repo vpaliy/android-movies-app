@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 
 import android.support.annotation.NonNull;
-
 import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCollection;
@@ -19,6 +18,7 @@ public interface MediaDetailsContract {
         void showBackdrops(@NonNull List<String> backdrops);
         void share(@NonNull String shareText);
         void showSeasons(@NonNull List<SeasonCover> seasons);
+        void showRecommendations(@NonNull List<MediaCover> recommendations);
         void showDescription(@NonNull String description);
         void showDuration(@NonNull String duration);
         void showCover(@NonNull MediaCover cover);

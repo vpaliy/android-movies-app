@@ -61,6 +61,7 @@
     <string name="media_budget">Budget:</string>
     <string name="media_revenue">Revenue:</string>
     <string name="media_similar_content">Similar Content</string>
+    <string name="media_recommendations">Recommendations</string>
     <string name="media_trailers">Trailers</string>
     <string name="media_genres">Genres</string>
     <string name="media_review_author">Author</string>

@@ -12,6 +12,7 @@ public class MovieDetailEntity implements HasId{
     private List<Movie> similarMovies;
     private List<BackdropImage> backdropImages;
     private List<Genre> genres;
+    private List<Movie> recommended;
     private CollectionEntity collectionEntity;
 
     @Override
@@ -22,6 +23,14 @@ public class MovieDetailEntity implements HasId{
 
     public void setCollectionEntity(CollectionEntity collectionEntity) {
         this.collectionEntity = collectionEntity;
+    }
+
+    public void setRecommended(List<Movie> recommended) {
+        this.recommended = recommended;
+    }
+
+    public List<Movie> getRecommended() {
+        return recommended;
     }
 
     public CollectionEntity getCollectionEntity() {

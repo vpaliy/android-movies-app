@@ -47,30 +47,6 @@ public class TvDetailsPresenter extends DetailsPresenter<TVShowDetails> {
         }
     }
 
-    private void showCast(List<ActorCover> cast){
-        if(!isEmpty(cast)){
-            view.showCast(cast);
-        }
-    }
-
-    private void showSimilar(List<MediaCover> similar){
-        if(!isEmpty(similar)){
-            view.showSimilar(similar);
-        }
-    }
-
-    private void showTrailers(List<Trailer> trailers){
-        if(!isEmpty(trailers)){
-            view.showTrailers(trailers);
-        }
-    }
-
-    private void showBackdrops(List<String> backdrops){
-        if(!isEmpty(backdrops)){
-            view.showBackdrops(backdrops);
-        }
-    }
-
     @Override
     public void share() {
         repository.get(mediaId)

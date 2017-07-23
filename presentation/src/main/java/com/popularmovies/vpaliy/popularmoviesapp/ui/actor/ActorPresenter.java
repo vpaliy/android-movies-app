@@ -61,6 +61,6 @@ public class ActorPresenter implements ActorContract.Presenter{
 
     @Override
     public void stop() {
-
+        view=null;
     }
 }
