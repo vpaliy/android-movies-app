@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.View;
@@ -30,7 +31,7 @@ public class MediaDetailsActivity extends BaseActivity {
             savedInstanceState=getIntent().getExtras();
             setEnterTransition(savedInstanceState);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frame,MediaDetailsFragment.newInstance(savedInstanceState))
+                    .replace(R.id.frame,MediaDetailsFragment.newInstance(savedInstanceState),Constants.MOVIE_DETAILS_TAG)
                     .commit();
         }
     }
@@ -48,6 +49,19 @@ public class MediaDetailsActivity extends BaseActivity {
                 getWindow().setSharedElementReturnTransition(transition);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment=getSupportFragmentManager().findFragmentByTag(Constants.MOVIE_DETAILS_TAG);
+        if(fragment!=null){
+            MovieDetailsFragment detailsFragment=MovieDetailsFragment.class.cast(fragment);
+            if(detailsFragment.isDialogOn()){
+                detailsFragment.turnOffDialog();
+                return;
+            }
+        }
+        super.onBackPressed();
     }
 
     @Override

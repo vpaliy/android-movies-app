@@ -121,7 +121,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
     @BindView(R.id.parent)
     protected ElasticDismissLayout parent;
 
-    @BindView(R.id.dialog)
+    @BindView(R.id.dialogParent)
     protected ViewGroup dialog;
 
     private InfoAdapter infoAdapter;
@@ -179,7 +179,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
             adapter=new MovieBackdropsAdapter(getContext());
             adapter.setData(Collections.singletonList(sharedPath));
             adapter.setCallback((image,bitmap)->{
-                indicatorView.setAnimationType(AnimationType.WORM);
+                indicatorView.setAnimationType(AnimationType.THIN_WORM);
                 indicatorView.setTranslationY(image.getHeight()-indicatorView.getHeight()*2.5f);
                 detailsParent.setStaticOffset(image.getHeight());
                 detailsParent.setOffset(image.getHeight());
@@ -207,10 +207,13 @@ public abstract class MediaDetailsFragment extends BaseFragment
     @OnClick(R.id.share_fab)
     public void reveal(){
         if(toggle.getAlpha()>0.1f) {
-            View dialogView = ButterKnife.findById(parent, R.id.dialog);
-            dialogView.setVisibility(View.VISIBLE);
-            reveal(dialogView, false);
+            dialog.setVisibility(View.VISIBLE);
+            reveal(dialog, false);
         }
+    }
+
+    public boolean isDialogOn(){
+        return dialog.getVisibility()==View.VISIBLE;
     }
 
     private void reveal(View dialogView, boolean back) {
@@ -288,6 +291,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                             label.setAlpha(0);
                             child.setVisibility(View.INVISIBLE);
                         }
+                        dialogView.setVisibility(View.GONE);
                         toggle.setVisibility(View.VISIBLE);
                         view.setVisibility(View.GONE);
 
@@ -320,6 +324,10 @@ public abstract class MediaDetailsFragment extends BaseFragment
             setDrawableColor(releaseYear,swatch.getBodyTextColor());
             setDrawableColor(mediaRatings,swatch.getBodyTextColor());
         }
+    }
+
+    public void turnOffDialog(){
+        reveal(dialog,true);
     }
 
     private RecyclerView.OnFlingListener flingListener = new RecyclerView.OnFlingListener() {
@@ -483,8 +491,8 @@ public abstract class MediaDetailsFragment extends BaseFragment
         static void shiftElementsFrom(View target, List<View> shiftElements){
             float posterY=getBottomY(target)+target.getHeight();
             final float posterX=target.getX()+target.getWidth();
-            final float offset=target.getWidth()+target.getResources().getDimensionPixelOffset(R.dimen.spacing_media_details);
             final float spacing=target.getResources().getDimension(R.dimen.spacing_media_details);
+            final float offset=target.getWidth()+spacing;
             for(int index=0;index<shiftElements.size();index++){
                 View element=shiftElements.get(index);
                 if(posterX>=element.getX() && (posterY+spacing)>=getBottomY(element)) {
