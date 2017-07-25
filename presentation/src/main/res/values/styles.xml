@@ -1,6 +1,5 @@
 <resources>
 
-
     <style name="PopMovies" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
@@ -22,14 +21,11 @@
         <item name="android:windowBackground">@color/scrim</item>
     </style>
 
-    <style name="PopMovies.Actor" parent="PopMovies">
-    </style>
+    <style name="PopMovies.Actor" parent="PopMovies"/>
 
+    <style name="PopMovies.MoreMedia" parent="PopMovies"/>
 
-    <style name="PopMovies.MoreMedia" parent="PopMovies">
-
-    </style>
-
+    <style name="PopMovies.Settings"/>
 
     <style name="SimpleAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -37,7 +33,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
-
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light" >
         <item name="android:windowBackground">@drawable/app_logo</item>

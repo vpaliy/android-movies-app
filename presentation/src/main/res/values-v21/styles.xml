@@ -20,6 +20,11 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
+    <style name="PopMovies.Settings">
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+    </style>
+
     <style name="PopMovies.Details" parent="PopMovies">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>

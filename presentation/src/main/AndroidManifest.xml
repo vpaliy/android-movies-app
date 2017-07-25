@@ -34,8 +34,8 @@
             android:theme="@style/PopMovies.MoreMedia"/>
 
         <activity
-            android:name=".ui.base.SettingsActivity"
-            android:theme="@style/PopMovies"
+            android:name=".ui.settings.SettingsActivity"
+            android:theme="@style/PopMovies.Settings"
             android:parentActivityName=".ui.media.MediaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

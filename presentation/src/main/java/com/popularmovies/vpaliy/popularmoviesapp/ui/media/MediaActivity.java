@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.popularmovies.vpaliy.popularmoviesapp.R;
 import com.popularmovies.vpaliy.popularmoviesapp.App;
-import com.popularmovies.vpaliy.popularmoviesapp.ui.base.SettingsActivity;
+import com.popularmovies.vpaliy.popularmoviesapp.ui.settings.SettingsActivity;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ExposeEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.events.ViewAllEvent;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity;
