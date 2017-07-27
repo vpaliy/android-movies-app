@@ -75,12 +75,12 @@ public class RemoteTvShowDetails implements DetailsDataSource<TvShowDetailEntity
 
     private void appendId(List<SeasonEntity> list, String id){
         if(list!=null){
-            list.forEach(seasonEntity -> {
+            for(SeasonEntity entity:list){
                 StringBuilder builder=new StringBuilder(id);
                 builder.append("/");
-                builder.append(seasonEntity.getSeasonNumber());
-                seasonEntity.setId(builder.toString());
-            });
+                builder.append(entity.getSeasonNumber());
+                entity.setId(builder.toString());
+            }
         }
     }
 

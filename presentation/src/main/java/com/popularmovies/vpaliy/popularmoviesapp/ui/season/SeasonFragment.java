@@ -206,43 +206,51 @@ public class SeasonFragment extends BaseFragment
         ParamsFactory.shiftElementsFrom(poster, Arrays.asList(seasonTitle,airDate,seasonNumber,seasonOverview));
     }
 
-    public static class ParamsFactory{
+    private static class ParamsFactory{
 
         static void shiftElementsFrom(View target, List<View> shiftElements){
-            final float posterY=target.getY()+target.getHeight();
+            float posterY=getBottomY(target)+target.getHeight();
             final float posterX=target.getX()+target.getWidth();
-            final int offset=target.getWidth()+target.getResources().getDimensionPixelOffset(R.dimen.spacing_medium);
-            shiftElements.forEach(element->{
-                if(posterX>=element.getX()) {
-                    if (shouldShiftHorizontally(posterY,element)) {
-                        shiftWithMargins(element, offset);
-                    }else if(shouldShiftVertically(posterY,element)){
-                        ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(element.getLayoutParams());
-                        params.topMargin+=posterY-getBottomY(element)+element.getResources().getDimension(R.dimen.spacing_medium);
-                        element.setLayoutParams(params);
+            final float spacing=target.getResources().getDimension(R.dimen.spacing_media_details);
+            final float offset=target.getWidth()+spacing;
+            for(int index=0;index<shiftElements.size();index++){
+                View element=shiftElements.get(index);
+                if(posterX>=element.getX() && (posterY+spacing)>=getBottomY(element)) {
+                    if (index != 0 && shouldShiftVertically(posterY, element,spacing)) {
+                        posterY=shiftVertically(element,posterY);
+                    } else {
+                        shiftHorizontally(element, offset);
                     }
                 }
-            });
+            }
         }
 
-        static boolean shouldShiftVertically(float y, View target){
-            float targetY=getBottomY(target);
-            return (y-targetY)>=(-target.getResources().getDimension(R.dimen.spacing_medium));
+        static boolean shouldShiftVertically(float offsetY, View target, float spacing){
+            final float targetY=getBottomY(target);
+            final float offsetDiff=targetY-offsetY;
+            return offsetDiff>=0 && offsetDiff<=spacing;
         }
 
-        static boolean shouldShiftHorizontally(float y, View target){
-            float targetY=getBottomY(target);
-            return y>targetY+target.getHeight()/2;
+        static float shiftVertically(View target, float posterY){
+            final float spacing=target.getResources().getDimension(R.dimen.spacing_media_details);
+            ViewGroup.MarginLayoutParams params = ViewGroup.MarginLayoutParams.class.cast(target.getLayoutParams());
+            final float offsetY = posterY - getBottomY(target) + spacing;
+            params.topMargin += offsetY;
+            posterY -= offsetY;
+            target.setLayoutParams(params);
+            return posterY;
         }
 
-        static void shiftWithMargins(View target, int offset){
+        static void shiftHorizontally(View target, float offset){
             ViewGroup.MarginLayoutParams params=ViewGroup.MarginLayoutParams.class.cast(target.getLayoutParams());
             params.leftMargin+=offset;
             target.setLayoutParams(params);
         }
 
         static float getBottomY(View view){
-            return view.getRootView().getY()+view.getY();
+            int[] screenLocation=new int[2];
+            view.getLocationOnScreen(screenLocation);
+            return screenLocation[1];
         }
     }
 }

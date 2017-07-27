@@ -6,6 +6,7 @@ import android.util.Log;
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.ActorDetailEntity;
 import com.popularmovies.vpaliy.data.entity.ActorEntity;
+import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
@@ -48,17 +49,17 @@ public class ActorDetailsMapper extends Mapper<ActorDetails,ActorDetailEntity>  
         details.setBirthday(actorDetailEntity.getBirthday());
         if(actorDetailEntity.getImages()!=null) {
             List<String> images = new ArrayList<>(actorDetailEntity.getImages().size());
-            actorDetailEntity.getImages().forEach(image -> {
+            for(String image:actorDetailEntity.getImages()){
                 images.add(qualityConfiguration.convertBackdrop(image));
-            });
+            }
             details.setImages(images);
         }
 
         if(actorDetailEntity.getTaggedImages()!=null){
             List<String> images = new ArrayList<>(actorDetailEntity.getTaggedImages().size());
-            actorDetailEntity.getTaggedImages().forEach(image -> {
+            for(String image:actorDetailEntity.getTaggedImages()){
                 images.add(qualityConfiguration.convertBackdrop(image));
-            });
+            }
             details.setTaggedImages(images);
         }
         details.setDeathday(actorDetailEntity.getDeathday());

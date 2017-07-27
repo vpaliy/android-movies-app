@@ -13,7 +13,7 @@ public class CastImagesWrapper {
     public static List<String> unwrap(List<Profile> profiles){
         if(profiles==null) return null;
         List<String> paths=new ArrayList<>(profiles.size());
-        profiles.forEach(profile->paths.add(profile.path));
+        for(Profile profile:profiles) paths.add(profile.path);
         return paths;
     }
 

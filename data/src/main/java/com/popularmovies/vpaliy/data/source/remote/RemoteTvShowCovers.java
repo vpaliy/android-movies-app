@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.data.source.remote;
 
 import com.popularmovies.vpaliy.data.entity.Genre;
+import com.popularmovies.vpaliy.data.entity.Movie;
 import com.popularmovies.vpaliy.data.entity.TvShow;
 import com.popularmovies.vpaliy.data.source.CoverDataSource;
 import com.popularmovies.vpaliy.data.source.remote.service.GenresService;
@@ -81,7 +82,7 @@ public class RemoteTvShowCovers implements CoverDataSource<TvShow> {
                 break;
         }
         return Observable.zip(tvObservable,queryGenres(),(list,genres)->{
-            if(list!=null) list.forEach(this::mergeGenres);
+            for(TvShow tvShow:list) mergeGenres(tvShow);
             return list;
         });
     }

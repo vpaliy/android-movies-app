@@ -229,7 +229,7 @@ public abstract class MediaDetailsFragment extends BaseFragment
                     ButterKnife.findById(view, R.id.share_media),
                     ButterKnife.findById(view, R.id.rate_media),
                     ButterKnife.findById(view, R.id.review));
-            buttons.forEach(button -> setDrawableColor(button, color));
+            for(ImageView button:buttons) setDrawableColor(button,color);
             List<View> labels = Arrays.asList(
                     ButterKnife.findById(view, R.id.favorite_label),
                     ButterKnife.findById(view, R.id.watched_label),

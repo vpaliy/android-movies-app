@@ -46,6 +46,4 @@ public class MovieUriMatcher {
         }
         return codeMap.get(code).contentType;
     }
-
-
 }

@@ -13,7 +13,7 @@ public class TaggedImagesWrapper {
     public static List<String> unwrap(List<Result> results){
         if(results==null) return null;
         List<String> backdrops=new ArrayList<>(results.size());
-        results.forEach(result -> backdrops.add(result.path));
+        for(Result result:results) backdrops.add(result.path);
         return backdrops;
     }
 

@@ -13,10 +13,10 @@ public abstract class Mapper<To, From> {
     public abstract To map(From from);
     public abstract From reverseMap(To to);
 
-    public List<To> map(List<From> from){
-        if(from!=null){
-            List<To> result=new ArrayList<>(from.size());
-            from.forEach(item->result.add(map(item)));
+    public List<To> map(List<From> froms){
+        if(froms!=null){
+            List<To> result=new ArrayList<>(froms.size());
+            for(From from:froms) result.add(map(from));
             return result;
         }
         return null;
@@ -25,7 +25,7 @@ public abstract class Mapper<To, From> {
     public List<From> reverseMap(List<To> toList){
         if(toList!=null){
             List<From> result=new ArrayList<>(toList.size());
-            toList.forEach(item->result.add(reverseMap(item)));
+            for(To to:toList) result.add(reverseMap(to));
             return result;
         }
         return null;

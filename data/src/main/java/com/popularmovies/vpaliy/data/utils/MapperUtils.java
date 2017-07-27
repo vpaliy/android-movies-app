@@ -69,18 +69,19 @@ public class MapperUtils {
     public static List<String> convert(List<BackdropImage> images, ImageQualityConfiguration configuration){
         if(images==null) return null;
         List<String> paths=new LinkedList<>();
-        images.forEach(backdropImage ->paths.add(configuration.
-                convertBackdrop(backdropImage.getBackdropPath())));
+        for(BackdropImage image:images){
+            paths.add(configuration.convertBackdrop(image.getBackdropPath()));
+        }
         return paths;
     }
 
     public static List<BackdropImage> convertToBackdrops(List<String> backdrops, ImageQualityConfiguration configuration){
         if(backdrops==null) return null;
         List<BackdropImage> images=new LinkedList<>();
-        backdrops.forEach(string->{
-            String result=configuration.extractPath(string);
+        for(String backdrop:backdrops){
+            String result=configuration.extractPath(backdrop);
             images.add(new BackdropImage(result));
-        });
+        }
         return images;
     }
 
@@ -104,28 +105,30 @@ public class MapperUtils {
     public static List<String> convertToString(List<Network> networks){
         if(networks==null) return null;
         List<String> result=new ArrayList<>(networks.size());
-        networks.forEach(network -> result.add(network.getName()));
+        for(Network network:networks){
+            result.add(network.getName());
+        }
         return result;
     }
 
     public static List<Network> convertToNetworks(List<String> strings){
         if(strings==null) return null;
         List<Network> networks=new ArrayList<>(strings.size());
-        strings.forEach(string->networks.add(new Network(string)));
+        for(String string:strings) networks.add(new Network(string));
         return networks;
     }
 
     public static List<String> convert(List<Genre> genres){
         if(genres==null) return null;
         List<String> result=new LinkedList<>();
-        genres.forEach(genre -> result.add(genre.getName()));
+        for(Genre genre:genres) result.add(genre.getName());
         return result;
     }
 
     public static List<Genre> convertToGenres(List<String> stringList){
         if(stringList==null) return null;
         List<Genre> genres=new LinkedList<>();
-        stringList.forEach(string->genres.add(new Genre(string)));
+        for(String string:stringList) genres.add(new Genre(string));
         return genres;
     }
 

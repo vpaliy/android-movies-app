@@ -43,6 +43,6 @@ public class Navigator {
     public void viewAll(@NonNull Activity activity, @NonNull ViewAllEvent event){
         Intent intent=new Intent(activity, MoreMediaActivity.class);
         intent.putExtras(event.getExtras());
-        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+        activity.startActivity(intent);
     }
 }

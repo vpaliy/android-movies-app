@@ -14,7 +14,6 @@ import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.v7.graphics.Palette;
 import android.util.DisplayMetrics;
-import android.util.IntProperty;
 import android.util.Property;
 import android.view.View;
 import android.view.ViewGroup;
@@ -183,30 +182,16 @@ public class PresentationUtils {
 
 
     public static <T> Property<T, Integer> createIntProperty(final IntProp<T> impl) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return new IntProperty<T>(impl.name) {
-                @Override
-                public Integer get(T object) {
-                    return impl.get(object);
-                }
+        return new Property<T, Integer>(Integer.class, impl.name) {
+            @Override
+            public Integer get(T object) {
+                return impl.get(object);
+            }
 
-                @Override
-                public void setValue(T object, int value) {
-                    impl.set(object, value);
-                }
-            };
-        } else {
-            return new Property<T, Integer>(Integer.class, impl.name) {
-                @Override
-                public Integer get(T object) {
-                    return impl.get(object);
-                }
-
-                @Override
-                public void set(T object, Integer value) {
-                    impl.set(object, value);
-                }
-            };
-        }
+            @Override
+            public void set(T object, Integer value) {
+                impl.set(object, value);
+            }
+        };
     }
 }

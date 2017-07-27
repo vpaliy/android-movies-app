@@ -74,7 +74,7 @@
     </style>
 
     <style name="Widget.Details"/>
-    
+
     <style name="Widget.Details.Action">
         <item name="android:scaleX">0</item>
         <item name="android:scaleY">0</item>
@@ -85,8 +85,17 @@
     <style name="Widget.Label.ActionLabel">
         <item name="android:alpha">0</item>
         <item name="android:textSize">17sp</item>
-        <item name="android:textAlignment">center</item>
         <item name="android:textColor">@color/white_50</item>
     </style>
 
+    <style name="Widget.NumberText">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>

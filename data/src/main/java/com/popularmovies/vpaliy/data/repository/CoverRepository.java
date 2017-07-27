@@ -62,7 +62,7 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
 
     private void cacheData(List<F> list){
         if(list!=null){
-            list.forEach(fake->cache(fake.id(),fake));
+            for(F fake:list) cache(fake.id(),fake);
         }
     }
 
@@ -74,7 +74,7 @@ public class CoverRepository<T,F extends HasId> extends AbstractRepository<F>
 
     private boolean save(List<F> covers, SortType type){
         if(covers!=null){
-            covers.forEach(cover->localSource.insert(cover,type));
+            for(F fake:covers) localSource.insert(fake,type);
             return true;
         }
         return false;
