@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 
 def config=rootProject.ext.configuration;
@@ -26,7 +27,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    def API_KEY='"INSERT_THE_KEY"'
+    def API_KEY='"de3cafdd4958ef2352dfcd262ef1aef3"'
+
 
     buildTypes {
         release {
@@ -89,4 +91,8 @@ dependencies {
     testCompile testLibs.mockito
     testCompile testLibs.espresso
     testCompile testLibs.jUnit
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

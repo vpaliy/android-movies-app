@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 
 
@@ -31,7 +32,7 @@ dependencies {
 
     compile project(":domain")
     compile libs.supportAppCompat
-
+    compile 'com.github.vpaliyX:tmdb-sdk:-SNAPSHOT'
     compile libs.RxJava
     compile libs.guava
     compile libs.retrofit
@@ -53,6 +54,10 @@ dependencies {
     testCompile "org.powermock:powermock-module-junit4-rule:1.6.4"
     testCompile "org.powermock:powermock-api-mockito2:1.7.0"
     testCompile "org.powermock:powermock-classloading-xstream:1.7.0"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
 
+}
+repositories {
+    mavenCentral()
 }
