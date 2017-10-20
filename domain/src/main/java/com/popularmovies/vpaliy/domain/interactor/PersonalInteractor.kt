@@ -7,8 +7,8 @@ import com.popularmovies.vpaliy.domain.interactor.utils.PersonalArg
 import com.popularmovies.vpaliy.domain.repository.PersonalRepository
 
 abstract class PersonalInteractor<T>
-constructor(private val repository: PersonalRepository<T>,
-            private val scheduler: BaseScheduler){
+constructor(private val repository: PersonalRepository<T>, baseScheduler: BaseScheduler)
+    :Interactor(baseScheduler){
 
     fun insert(success:()->Unit, error:(Throwable)->Unit,arg: PersonalArg<T>){
         repository.insert(arg.arg,arg.type)

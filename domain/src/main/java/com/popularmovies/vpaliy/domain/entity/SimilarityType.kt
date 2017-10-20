@@ -1,4 +1,6 @@
 package com.popularmovies.vpaliy.domain.entity
 
 
-enum class SimilarityType
+enum class SimilarityType{
+    SIMILAR,RECOMMENDATION
+}

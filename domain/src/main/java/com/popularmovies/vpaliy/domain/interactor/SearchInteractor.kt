@@ -6,7 +6,7 @@ import com.popularmovies.vpaliy.domain.repository.SearchRepository
 
 abstract class SearchInteractor<out T>
 constructor(private val repository:SearchRepository<T>,
-            private val scheduler: BaseScheduler){
+            scheduler: BaseScheduler):Interactor(scheduler){
 
     fun query(consumer: Consumer<List<T>>, query:String){
         repository.query(query)
