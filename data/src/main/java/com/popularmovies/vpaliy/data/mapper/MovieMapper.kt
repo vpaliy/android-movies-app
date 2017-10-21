@@ -8,7 +8,7 @@ class MovieMapper:Mapper<Movie, MovieEntity>{
 
     override fun map(fake: MovieEntity): Movie {
         val movie=Movie()
-        val entity=fake.movie?:fake.details
+        val entity=fake.details?:fake.movie
         entity?.let {
             movie.id=it.id.toString()
             movie.backdropImage=it.backdrop_path

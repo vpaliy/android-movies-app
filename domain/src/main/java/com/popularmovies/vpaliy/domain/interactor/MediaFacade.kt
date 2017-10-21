@@ -1,11 +1,11 @@
 package com.popularmovies.vpaliy.domain.interactor
 
 import com.popularmovies.vpaliy.domain.entity.MediaSet
+import com.popularmovies.vpaliy.domain.entity.Review
 import com.popularmovies.vpaliy.domain.entity.Role
 import com.popularmovies.vpaliy.domain.entity.Trailer
-import com.popularmovies.vpaliy.domain.interactor.utils.Consumer
-import com.popularmovies.vpaliy.domain.model.Review
-import com.popularmovies.vpaliy.domain.interactor.utils.MediaPage
+import com.popularmovies.vpaliy.domain.interactor.params.Consumer
+import com.popularmovies.vpaliy.domain.interactor.params.MediaPage
 import javax.inject.Inject
 
 class MediaFacade<T,in Params:MediaPage> @Inject

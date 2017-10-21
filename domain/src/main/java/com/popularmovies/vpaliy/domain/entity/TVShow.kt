@@ -1,14 +1,23 @@
 package com.popularmovies.vpaliy.domain.entity
 
-data class TVShow(val id:String,
-                  var title:String,
-                  var averageVote:Double,
-                  var director:String,
-                  var budget:String,
-                  var revenue:String,
-                  var description:String,
-                  var releaseDate:String,
-                  var backdropImage:String,
-                  var poster:String,
-                  var releaseYear:String,
-                  var genres:List<String>)
+class TVShow{
+    var id:String?=null
+    var title:String?=null
+    var averageVote:Double?=null
+    var director:String?=null
+    var budget:String?=null
+    var revenue:String?=null
+    var description:String?=null
+    var lastAirTime:String?=null
+    var firstAirTime:String?=null
+    var backdropImage:String?=null
+    var poster:String?=null
+    var genres:List<String>?=null
+    var images:List<String>?=null
+    var isWatched=false
+    var isMust=false
+    var isFavorite=false
+    var releaseYear:String?=null        //TODO extract year from first air time
+        private set
+        get() = firstAirTime
+}

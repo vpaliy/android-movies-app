@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.domain.interactor.utils
+package com.popularmovies.vpaliy.domain.interactor.params
 
 import com.popularmovies.vpaliy.domain.entity.PersonalType
 

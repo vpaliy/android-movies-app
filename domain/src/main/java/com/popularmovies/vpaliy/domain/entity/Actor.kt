@@ -1,9 +1,11 @@
 package com.popularmovies.vpaliy.domain.entity
 
-data class Actor(val id:String,
-                 val birthday:String,
-                 val deathday:String,
-                 val bio:String,
-                 val avatarPath:String,
-                 val name:String,
-                 val images:List<String>)
+class Actor{
+    var id:String?=null
+    var birthday:String?=null
+    var deathday:String?=null
+    var bio:String?=null
+    var avatarPath:String?=null
+    var name:String?=null
+    var images:List<String>?=null
+}
