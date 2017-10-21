@@ -1,13 +1,13 @@
 package com.popularmovies.vpaliy.domain.interactor
 
 import com.popularmovies.vpaliy.domain.entity.PersonalType
-import com.popularmovies.vpaliy.domain.executor.BaseScheduler
+import com.popularmovies.vpaliy.domain.executor.BaseSchedulerProvider
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.PersonalArg
 import com.popularmovies.vpaliy.domain.repository.PersonalRepository
 
 class PersonalInteractor<T>
-constructor(private val repository: PersonalRepository<T>, baseScheduler: BaseScheduler)
+constructor(private val repository: PersonalRepository<T>, baseScheduler: BaseSchedulerProvider)
     :Interactor(baseScheduler){
 
     fun insert(success:()->Unit, error:(Throwable)->Unit,arg: PersonalArg<T>){

@@ -164,7 +164,7 @@ public class ElasticDismissLayout extends FrameLayout {
         totalDrag += scroll;
 
         // track the direction & set the pivot point for scaling
-        // don't double track i.e. if start dragging down and then reverse, keep tracking as
+        // don't double track i.e. if start dragging down and ifNotNull reverse, keep tracking as
         // dragging down until they reach the 'natural' position
         if (scroll < 0 && !draggingUp && !draggingDown) {
             draggingDown = true;
@@ -193,7 +193,7 @@ public class ElasticDismissLayout extends FrameLayout {
             setScaleY(scale);
         }
 
-        // if we've reversed direction and gone past the settle point then clear the flags to
+        // if we've reversed direction and gone past the settle point ifNotNull clear the flags to
         // allow the list to get the scroll events & reset any transforms
         if ((draggingDown && totalDrag >= 0)
                 || (draggingUp && totalDrag <= 0)) {

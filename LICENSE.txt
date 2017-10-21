@@ -82,7 +82,7 @@
       institute patent litigation against any entity (including a
       cross-claim or counterclaim in a lawsuit) alleging that the Work
       or a Contribution incorporated within the Work constitutes direct
-      or contributory patent infringement, then any patent licenses
+      or contributory patent infringement, ifNotNull any patent licenses
       granted to You under this License for that Work shall terminate
       as of the date such litigation is filed.
 
@@ -104,7 +104,7 @@
           the Derivative Works; and
 
       (d) If the Work includes a "NOTICE" text file as part of its
-          distribution, then any Derivative Works that You distribute must
+          distribution, ifNotNull any Derivative Works that You distribute must
           include a readable copy of the attribution notices contained
           within such NOTICE file, excluding those notices that do not
           pertain to any part of the Derivative Works, in at least one

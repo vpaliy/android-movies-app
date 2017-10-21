@@ -1,11 +1,11 @@
 package com.popularmovies.vpaliy.domain.interactor
 
-import com.popularmovies.vpaliy.domain.executor.BaseScheduler
+import com.popularmovies.vpaliy.domain.executor.BaseSchedulerProvider
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import io.reactivex.Single
 
 abstract class SingleInteractor<T,in Params>
-constructor(scheduler: BaseScheduler):Interactor(scheduler){
+constructor(scheduler: BaseSchedulerProvider):Interactor(scheduler){
 
     open fun execute(consumer: Consumer<T>, params: Params?=null)= {
         buildUseCase(params)
