@@ -1,15 +1,20 @@
 package com.popularmovies.vpaliy.domain.entity
 
-data class Movie(val id:String,
-                 var title:String,
-                 var averageVote:Double,
-                 var director:String,
-                 var budget:String,
-                 var revenue:String,
-                 var description:String,
-                 var releaseDate:String,
-                 var backdropImage:String,
-                 var poster:String,
-                 var releaseYear:String,
-                 var backdrops:List<String>,
-                 var genres:List<String>)
+class Movie{
+    var id:String?=null
+    var title:String?=null
+    var averageVote:Double?=null
+    var director:String?=null
+    var budget:String?=null
+    var homepage:String?=null
+    var revenue:String?=null
+    var description:String?=null
+    var releaseDate:String?=null
+    var backdropImage:String?=null
+    var poster:String?=null
+    var backdrops:List<String>?=null
+    var genres:List<String>?=null
+    var releaseYear:String?=null
+        private set
+        get() = releaseDate
+}
