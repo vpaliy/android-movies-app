@@ -2,8 +2,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.module;
 
 import android.app.Application;
 import android.content.Context;
-import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.data.utils.scheduler.SchedulerProvider;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.bus.RxBus;
 import com.popularmovies.vpaliy.popularmoviesapp.ui.navigator.Navigator;
 import javax.inject.Singleton;
@@ -38,9 +36,4 @@ public class ApplicationModule {
         return new RxBus();
     }
 
-    @Singleton
-    @Provides
-    BaseSchedulerProvider provideSchedulers(){
-        return new SchedulerProvider();
-    }
 }

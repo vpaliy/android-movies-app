@@ -1,15 +1,10 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.details;
 
 import com.popularmovies.vpaliy.data.utils.scheduler.BaseSchedulerProvider;
-import com.popularmovies.vpaliy.domain.model.ActorCover;
-import com.popularmovies.vpaliy.domain.model.MediaCollection;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.SeasonCover;
 import com.popularmovies.vpaliy.domain.model.TVShowDetails;
 import com.popularmovies.vpaliy.domain.model.TVShowInfo;
-import com.popularmovies.vpaliy.domain.model.Trailer;
-import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
-import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope;
 import javax.inject.Inject;
 import android.support.annotation.NonNull;

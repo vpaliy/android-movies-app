@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.data.source.local;
 
 import com.popularmovies.vpaliy.data.entity.SeasonEntity;
-import com.popularmovies.vpaliy.data.source.DetailsDataSource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

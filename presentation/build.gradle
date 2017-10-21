@@ -2,10 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 
-def config=rootProject.ext.configuration;
-def libs=rootProject.ext.dependencies;
-def testLibs=rootProject.ext.testDependencies;
-
+def config=rootProject.ext.configuration
+def libs=rootProject.ext.dependencies
+def testLibs=rootProject.ext.testDependencies
 
 android {
     compileSdkVersion config.compileSdkVersion
@@ -27,8 +26,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    def API_KEY='"de3cafdd4958ef2352dfcd262ef1aef3"'
-
 
     buildTypes {
         release {
@@ -36,10 +33,6 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    buildTypes.each {
-        it.buildConfigField "String", "MOVIE_DATABASE_API_KEY", API_KEY
     }
 
     packagingOptions {
@@ -51,47 +44,50 @@ dependencies {
     compile project(':data')
     compile project(':domain')
     compile files('libs/fab-revealing-api-1.0.jar')
-    compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
-    compile 'com.roughike:bottom-bar:2.3.1'
-    compile 'com.github.kanytu:ImageWindow:v1.0'
-    compile 'com.romandanylyk:pageindicatorview:0.2.0@aar'
-    compile 'com.github.florent37:diagonallayout:1.0.6'
-    compile ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
-        transitive = true;
+    implementation 'com.aurelhubert:ahbottomnavigation:2.0.6'
+    implementation 'com.roughike:bottom-bar:2.3.1'
+    implementation 'com.github.kanytu:ImageWindow:v1.0'
+    implementation 'com.romandanylyk:pageindicatorview:0.2.0@aar'
+    implementation 'com.github.florent37:diagonallayout:1.0.6'
+    implementation ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
+        transitive = true
     }
-    compile libs.chipsLover
-    compile libs.calligraphy
-    compile libs.constraintLayout
-    compile libs.multiDex
-    compile libs.materialIconLib
-    compile libs.preferenceCompat7
-    compile libs.cardView
-    compile libs.expandableTextView
-    compile libs.leakCanary
-    compile libs.recyclerView
-    compile libs.supportDesign
-    compile libs.supportAppCompat
-    compile libs.textDrawable
-    compile libs.circleImage
-    compile libs.ottoEventBus
-    compile libs.butterKnife
-    compile libs.Dagger2
-    compile libs.circleIndicator
-    compile libs.glide
-    compile libs.RxJava
-    compile libs.RxAndroid
-    compile libs.circleIndicator
-    compile libs.palette
-    compile libs.rxRelay
-    annotationProcessor libs.Dagger2Compiler
-    annotationProcessor libs.butterKnifeCompiler
+    implementation libs.chipsLover
+    implementation libs.calligraphy
+    implementation libs.constraintLayout
+    implementation libs.multiDex
+    implementation libs.materialIconLib
+    implementation libs.preferenceCompat7
+    implementation libs.cardView
+    implementation libs.expandableTextView
+    implementation libs.leakCanary
+    implementation libs.recyclerView
+    implementation libs.supportDesign
+    implementation libs.supportAppCompat
+    implementation libs.textDrawable
+    implementation libs.circleImage
+    implementation libs.ottoEventBus
+    implementation libs.butterKnife
+    implementation libs.Dagger2
+    implementation libs.circleIndicator
+    implementation libs.glide
+    implementation libs.retrofit
+    implementation libs.retrofitConverter
+    implementation libs.retrofitAdapter
+    implementation libs.RxJava
+    implementation libs.RxAndroid
+    implementation libs.circleIndicator
+    implementation libs.palette
+    implementation libs.rxRelay
+    kapt libs.Dagger2Compiler
+    kapt libs.butterKnifeCompiler
     provided libs.javaxAnnotation
 
     /* Testing Libraries */
-    testCompile testLibs.mockito
-    testCompile testLibs.espresso
-    testCompile testLibs.jUnit
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    testImplementation testLibs.mockito
+    testImplementation testLibs.espresso
+    testImplementation testLibs.jUnit
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()

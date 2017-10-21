@@ -13,6 +13,6 @@ constructor(val repository: Repository<Movie>, scheduler: BaseScheduler)
     :PagerInteractor<Movie,SimilarPage>(scheduler){
 
     override fun fetchPage(consumer: Consumer<MediaSet<Movie>>, params: SimilarPage) {
-
+        //repository.fetchBasedOn(null,params)
     }
 }

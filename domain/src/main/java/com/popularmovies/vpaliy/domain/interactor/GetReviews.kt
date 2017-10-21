@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.domain.interactor
 import com.popularmovies.vpaliy.domain.entity.Review
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.repository.Repository
-import rx.Single
+import io.reactivex.Single
 import javax.inject.Inject
 
 class GetReviews<T> @Inject
@@ -14,6 +14,6 @@ constructor(val repository: Repository<T>, scheduler: BaseScheduler)
         params?.let {
             return repository.fetchReviews(params)
         }
-        return Single.create {  }
+        return Single.error(IllegalArgumentException())
     }
 }

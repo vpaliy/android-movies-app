@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.data.repository
 
 import com.popularmovies.vpaliy.domain.entity.Actor
 import com.popularmovies.vpaliy.domain.repository.SearchRepository
-import rx.Single
+import io.reactivex.Single
 
 class ActorSearchRepository:SearchRepository<Actor>{
     override fun query(query: String): Single<List<Actor>> {

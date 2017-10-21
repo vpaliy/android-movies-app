@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.domain.interactor
 import com.popularmovies.vpaliy.domain.entity.Trailer
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.repository.Repository
-import rx.Single
+import io.reactivex.Single
 import javax.inject.Inject
 
 class GetTrailers<T> @Inject
@@ -14,6 +14,6 @@ constructor(val repository: Repository<T>, scheduler: BaseScheduler)
         params?.let {
             return repository.fetchTrailers(params)
         }
-        return Single.create {  }
+        return Single.error(IllegalArgumentException())
     }
 }

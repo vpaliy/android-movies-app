@@ -1,8 +1,8 @@
 package com.popularmovies.vpaliy.domain.executor
 
-import rx.Scheduler
+import io.reactivex.Scheduler
 
 interface BaseScheduler{
-    fun io():Scheduler
+    fun io(): Scheduler
     fun ui():Scheduler
 }

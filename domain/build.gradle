@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 
-
 def config=rootProject.ext.configuration;
 def libs=rootProject.ext.dependencies;
 def testLibs=rootProject.ext.testDependencies;
@@ -21,26 +20,20 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
-
 dependencies {
-
-    compile libs.supportAppCompat
-
-    compile libs.RxJava
-    compile libs.RxAndroid
-    compile libs.Dagger2
-    annotationProcessor libs.Dagger2Compiler
+    implementation libs.supportAppCompat
+    implementation libs.RxJava
+    implementation libs.RxAndroid
+    implementation libs.Dagger2
+    kapt libs.Dagger2Compiler
     provided libs.javaxAnnotation
 
     /* Testing Libraries */
-    testCompile testLibs.mockito
-    testCompile testLibs.jUnit
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
-
+    testImplementation testLibs.mockito
+    testImplementation testLibs.jUnit
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()

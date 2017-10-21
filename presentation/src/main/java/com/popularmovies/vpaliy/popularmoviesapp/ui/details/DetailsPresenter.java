@@ -8,8 +8,7 @@ import com.popularmovies.vpaliy.domain.configuration.SortType;
 import com.popularmovies.vpaliy.domain.model.ActorCover;
 import com.popularmovies.vpaliy.domain.model.MediaCover;
 import com.popularmovies.vpaliy.domain.model.Trailer;
-import com.popularmovies.vpaliy.domain.repository.ICoverRepository;
-import com.popularmovies.vpaliy.domain.repository.IDetailsRepository;
+
 import java.util.List;
 import rx.subscriptions.CompositeSubscription;
 import static com.google.common.base.Preconditions.checkNotNull;
