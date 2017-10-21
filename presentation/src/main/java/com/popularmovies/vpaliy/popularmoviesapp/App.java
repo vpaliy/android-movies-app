@@ -10,10 +10,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule;
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-/**
- * Application
- */
-
 public class App extends MultiDexApplication {
 
     private ApplicationComponent applicationComponent;
@@ -33,13 +29,6 @@ public class App extends MultiDexApplication {
         MultiDex.install(this);
     }
 
-
-    private void configureDefaultFont(String robotoSlab) {
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath(robotoSlab)
-                .setFontAttrId(R.attr.fontPath)
-                .build());
-    }
 
     private void initializeComponent(){
         applicationComponent= DaggerApplicationComponent.builder()
