@@ -1,3 +1,3 @@
 package com.popularmovies.vpaliy.domain.interactor.params
 
-data class Consumer<in T>(val success:(T)->Unit, val error:(Throwable)->Unit)
+class Consumer<in Request,in Result>(val success:(Response<Request, Result>)->Unit,val error:(Throwable)->Unit)

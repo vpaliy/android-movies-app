@@ -2,17 +2,17 @@ package com.popularmovies.vpaliy.domain.interactor
 
 import com.popularmovies.vpaliy.domain.executor.BaseSchedulerProvider
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
-import io.reactivex.Single
+import com.popularmovies.vpaliy.domain.interactor.params.Stream
 
-abstract class SingleInteractor<T,in Params>
+abstract class RequestInteractor<Request,Result>
 constructor(scheduler: BaseSchedulerProvider):Interactor(scheduler){
 
-    open fun execute(consumer: Consumer<T>, params: Params?=null)= {
-        buildUseCase(params)
+    fun execute(consumer: Consumer<Request,Result>, params: Request?=null)= {
+        buildUseCase(params).single
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .subscribe(consumer.success, consumer.error)
     }
 
-    protected abstract fun buildUseCase(params:Params?=null): Single<T>
+    protected abstract fun buildUseCase(params:Request?=null): Stream<Request, Result>
 }

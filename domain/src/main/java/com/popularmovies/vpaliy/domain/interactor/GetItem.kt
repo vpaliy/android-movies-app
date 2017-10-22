@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.domain.interactor
 
-import com.popularmovies.vpaliy.domain.entity.Trailer
 import com.popularmovies.vpaliy.domain.error
 import com.popularmovies.vpaliy.domain.executor.BaseSchedulerProvider
 import com.popularmovies.vpaliy.domain.ifNotNull
@@ -9,10 +8,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetTrailers<Request> @Inject
-constructor(val repository: MediaRepository<Request>, scheduler: BaseSchedulerProvider)
-    : RequestInteractor<Request, List<Trailer>>(scheduler){
+class GetItem<T> @Inject
+constructor(val repository: MediaRepository<T>, scheduler: BaseSchedulerProvider)
+        :RequestInteractor<String,T>(scheduler){
 
-    override fun buildUseCase(params: Request?)
-            =params.ifNotNull(repository::fetchTrailers,error())
+    override fun buildUseCase(params: String?)
+            =params.ifNotNull(repository::fetchItem,error())
 }
