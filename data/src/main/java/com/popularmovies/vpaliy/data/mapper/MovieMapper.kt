@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.data.mapper
 
 import com.popularmovies.vpaliy.data.entity.MovieEntity
 import com.popularmovies.vpaliy.domain.entity.Movie
-import com.vpaliy.tmdb.model.TMDBMovieDetails
+import com.vpaliy.tmdb.model.MovieDetails
 
 class MovieMapper:Mapper<Movie, MovieEntity>{
 
@@ -18,7 +18,7 @@ class MovieMapper:Mapper<Movie, MovieEntity>{
             movie.genres=fake.genres
             movie.backdrops=fake.images
             movie.averageVote=it.vote_average
-            if(it is TMDBMovieDetails){
+            if(it is MovieDetails){
                 movie.homepage=it.homepage
                 movie.revenue=it.revenue.toString()
                 movie.budget=it.budget.toString()
@@ -30,7 +30,7 @@ class MovieMapper:Mapper<Movie, MovieEntity>{
 
     override fun reverse(real: Movie): MovieEntity{
         val result=MovieEntity()
-        val details=TMDBMovieDetails()
+        val details=MovieDetails()
         result.images=real.backdrops
         result.genres=real.genres
         details.budget=real.budget?.toInt()

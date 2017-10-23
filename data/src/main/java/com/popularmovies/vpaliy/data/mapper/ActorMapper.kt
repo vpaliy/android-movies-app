@@ -1,14 +1,29 @@
 package com.popularmovies.vpaliy.data.mapper
 
-import com.popularmovies.vpaliy.data.entity.ActorEntity
 import com.popularmovies.vpaliy.domain.entity.Actor
+import com.vpaliy.tmdb.model.ActorModel
+import javax.inject.Singleton
 
-class ActorMapper:Mapper<Actor, ActorEntity>{
-    override fun map(fake: ActorEntity): Actor {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+@Singleton
+class ActorMapper:Mapper<Actor, ActorModel>{
+    override fun map(fake: ActorModel): Actor {
+        val actor=Actor()
+        actor.avatarPath=fake.profile_path
+        actor.bio=fake.biography
+        actor.birthday=fake.birthday
+        actor.deathday=fake.deathday
+        actor.id=fake.id.toString()
+        actor.name=fake.name
+        return actor
     }
 
-    override fun reverse(real: Actor): ActorEntity {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun reverse(real: Actor): ActorModel {
+        val model=ActorModel()
+        model.biography=real.bio?:""
+        model.birthday=real.birthday
+        model.deathday=real.deathday
+        model.id=real.id?.toInt()?:0
+        model.profile_path=real.avatarPath
+        return model
     }
 }

@@ -1,14 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'me.tatarka.retrolambda'
 
 def config=rootProject.ext.configuration
 def libs=rootProject.ext.dependencies
-def testLibs=rootProject.ext.testDependencies
 
 android {
-    compileSdkVersion config.compileSdkVersion
-    buildToolsVersion config.buildToolsVersion
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId config.applicationId
@@ -43,50 +41,28 @@ android {
 dependencies {
     compile project(':data')
     compile project(':domain')
-    compile files('libs/fab-revealing-api-1.0.jar')
     implementation 'com.aurelhubert:ahbottomnavigation:2.0.6'
     implementation 'com.roughike:bottom-bar:2.3.1'
     implementation 'com.github.kanytu:ImageWindow:v1.0'
     implementation 'com.romandanylyk:pageindicatorview:0.2.0@aar'
-    implementation 'com.github.florent37:diagonallayout:1.0.6'
-    implementation ('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
+    implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true
     }
-    implementation libs.chipsLover
-    implementation libs.calligraphy
-    implementation libs.constraintLayout
-    implementation libs.multiDex
-    implementation libs.materialIconLib
     implementation libs.preferenceCompat7
-    implementation libs.cardView
-    implementation libs.expandableTextView
-    implementation libs.leakCanary
+    implementation libs.constraintLayout
     implementation libs.recyclerView
     implementation libs.supportDesign
     implementation libs.supportAppCompat
-    implementation libs.textDrawable
     implementation libs.circleImage
-    implementation libs.ottoEventBus
-    implementation libs.butterKnife
     implementation libs.Dagger2
     implementation libs.circleIndicator
     implementation libs.glide
-    implementation libs.retrofit
-    implementation libs.retrofitConverter
-    implementation libs.retrofitAdapter
     implementation libs.RxJava
     implementation libs.RxAndroid
     implementation libs.circleIndicator
     implementation libs.palette
-    implementation libs.rxRelay
     kapt libs.Dagger2Compiler
-    kapt libs.butterKnifeCompiler
     provided libs.javaxAnnotation
-
-    /* Testing Libraries */
-    testImplementation testLibs.mockito
-    testImplementation testLibs.espresso
-    testImplementation testLibs.jUnit
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {

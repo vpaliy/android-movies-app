@@ -1,14 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'me.tatarka.retrolambda'
 
 def config=rootProject.ext.configuration
 def libs=rootProject.ext.dependencies
-def testLibs=rootProject.ext.testDependencies
 
 android {
-    compileSdkVersion config.compileSdkVersion
-    buildToolsVersion config.buildToolsVersion
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion config.minSdkVersion
@@ -24,33 +22,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
-
 dependencies {
-    implementation project(":domain")
+    implementation project(':domain')
+    implementation 'com.github.vpaliyX:tmdb-sdk:master-SNAPSHOT'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation libs.supportAppCompat
-    implementation 'com.github.vpaliyX:tmdb-sdk:-SNAPSHOT'
     implementation libs.RxJava
-    implementation libs.guava
-    implementation libs.retrofit
-    implementation libs.retrofitAdapter
-    implementation libs.retrofitConverter
-    implementation libs.okHttp
     implementation libs.gson
     implementation libs.RxAndroid
     implementation libs.Dagger2
     kapt libs.Dagger2Compiler
     provided libs.javaxAnnotation
-
-    testImplementation testLibs.mockito
-    testImplementation testLibs.robolectric
-    testImplementation testLibs.jUnit
-    testImplementation "org.powermock:powermock-module-junit4:1.6.4"
-    testImplementation "org.powermock:powermock-module-junit4-rule:1.6.4"
-    testImplementation "org.powermock:powermock-api-mockito2:1.7.0"
-    testImplementation "org.powermock:powermock-classloading-xstream:1.7.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()

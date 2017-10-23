@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.data.utils;
 
-import com.google.common.annotations.VisibleForTesting;
+/*import com.google.common.annotations.VisibleForTesting;
 import com.popularmovies.vpaliy.data.configuration.ImageQualityConfiguration;
 import com.popularmovies.vpaliy.data.entity.BackdropImage;
 import com.popularmovies.vpaliy.data.entity.Genre;
@@ -133,3 +133,4 @@ public class MapperUtils {
     }
 
 }
+*/

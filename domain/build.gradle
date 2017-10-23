@@ -1,14 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'me.tatarka.retrolambda'
 
-def config=rootProject.ext.configuration;
-def libs=rootProject.ext.dependencies;
-def testLibs=rootProject.ext.testDependencies;
+def config=rootProject.ext.configuration
+def libs=rootProject.ext.dependencies
+def testLibs=rootProject.ext.testDependencies
 
 android {
-    compileSdkVersion config.compileSdkVersion
-    buildToolsVersion config.buildToolsVersion
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion config.minSdkVersion
@@ -20,6 +19,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
@@ -29,7 +29,6 @@ dependencies {
     implementation libs.Dagger2
     kapt libs.Dagger2Compiler
     provided libs.javaxAnnotation
-
     /* Testing Libraries */
     testImplementation testLibs.mockito
     testImplementation testLibs.jUnit
