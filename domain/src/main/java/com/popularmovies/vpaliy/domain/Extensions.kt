@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.domain
 
+import com.popularmovies.vpaliy.domain.interactor.params.MediaPage
 import com.popularmovies.vpaliy.domain.interactor.params.Response
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
 import io.reactivex.Single

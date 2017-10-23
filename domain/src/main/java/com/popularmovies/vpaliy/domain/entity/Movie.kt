@@ -1,7 +1,7 @@
 package com.popularmovies.vpaliy.domain.entity
 
 class Movie{
-    var id:String?=null
+    lateinit var id:String
     var title:String?=null
     var averageVote:Double?=null
     var director:String?=null

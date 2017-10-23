@@ -1,5 +1,5 @@
 package com.popularmovies.vpaliy.domain.entity
 
 enum class MovieType{
-    POPULAR,TOP,UPCOMING,AIRING
+    POPULAR,TOP,UPCOMING,AIRING,NOW_PLAYING
 }

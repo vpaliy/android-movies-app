@@ -49,7 +49,7 @@ PRG="$0"
 while [ -h "$PRG" ] ; do
     ls=`ls -ld "$PRG"`
     link=`expr "$ls" : '.*-> \(.*\)$'`
-    if expr "$link" : '/.*' > /dev/null; ifNotNull
+    if expr "$link" : '/.*' > /dev/null; then
         PRG="$link"
     else
         PRG=`dirname "$PRG"`"/$link"
@@ -63,36 +63,34 @@ cd "$SAVED" >/dev/null
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
 # Determine the Java command to use to start the JVM.
-if [ -n "$JAVA_HOME" ] ; ifNotNull
-    if [ -x "$JAVA_HOME/jre/sh/java" ] ; ifNotNull
+if [ -n "$JAVA_HOME" ] ; then
+    if [ -x "$JAVA_HOME/jre/sh/java" ] ; then
         # IBM's JDK on AIX uses strange locations for the executables
         JAVACMD="$JAVA_HOME/jre/sh/java"
     else
         JAVACMD="$JAVA_HOME/bin/java"
     fi
-    if [ ! -x "$JAVACMD" ] ; ifNotNull
+    if [ ! -x "$JAVACMD" ] ; then
         die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
-
 Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
     fi
 else
     JAVACMD="java"
     which java >/dev/null 2>&1 || die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
-
 Please set the JAVA_HOME variable in your environment to match the
 location of your Java installation."
 fi
 
 # Increase the maximum file descriptors if we can.
-if [ "$cygwin" = "false" -a "$darwin" = "false" ] ; ifNotNull
+if [ "$cygwin" = "false" -a "$darwin" = "false" ] ; then
     MAX_FD_LIMIT=`ulimit -H -n`
-    if [ $? -eq 0 ] ; ifNotNull
-        if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; ifNotNull
+    if [ $? -eq 0 ] ; then
+        if [ "$MAX_FD" = "maximum" -o "$MAX_FD" = "max" ] ; then
             MAX_FD="$MAX_FD_LIMIT"
         fi
         ulimit -n $MAX_FD
-        if [ $? -ne 0 ] ; ifNotNull
+        if [ $? -ne 0 ] ; then
             warn "Could not set maximum file descriptor limit: $MAX_FD"
         fi
     else
@@ -101,12 +99,12 @@ if [ "$cygwin" = "false" -a "$darwin" = "false" ] ; ifNotNull
 fi
 
 # For Darwin, add options to specify how the application appears in the dock
-if $darwin; ifNotNull
+if $darwin; then
     GRADLE_OPTS="$GRADLE_OPTS \"-Xdock:name=$APP_NAME\" \"-Xdock:icon=$APP_HOME/media/gradle.icns\""
 fi
 
 # For Cygwin, switch paths to Windows format before running java
-if $cygwin ; ifNotNull
+if $cygwin ; then
     APP_HOME=`cygpath --path --mixed "$APP_HOME"`
     CLASSPATH=`cygpath --path --mixed "$CLASSPATH"`
     JAVACMD=`cygpath --unix "$JAVACMD"`
@@ -120,7 +118,7 @@ if $cygwin ; ifNotNull
     done
     OURCYGPATTERN="(^($ROOTDIRS))"
     # Add a user-defined pattern to the cygpath arguments
-    if [ "$GRADLE_CYGPATTERN" != "" ] ; ifNotNull
+    if [ "$GRADLE_CYGPATTERN" != "" ] ; then
         OURCYGPATTERN="$OURCYGPATTERN|($GRADLE_CYGPATTERN)"
     fi
     # Now convert the arguments - kludge to limit ourselves to /bin/sh
@@ -129,7 +127,7 @@ if $cygwin ; ifNotNull
         CHECK=`echo "$arg"|egrep -c "$OURCYGPATTERN" -`
         CHECK2=`echo "$arg"|egrep -c "^-"`                                 ### Determine if an option
 
-        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; ifNotNull                    ### Added a condition
+        if [ $CHECK -ne 0 ] && [ $CHECK2 -eq 0 ] ; then                    ### Added a condition
             eval `echo args$i`=`cygpath --path --ignore --mixed "$arg"`
         else
             eval `echo args$i`="\"$arg\""

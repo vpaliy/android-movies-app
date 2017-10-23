@@ -25,8 +25,7 @@ android {
 }
 dependencies {
     implementation project(':domain')
-    implementation 'com.github.vpaliyX:tmdb-sdk:master-SNAPSHOT'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.github.vpaliyX:tmdb-sdk:master-SNAPSHOT'
     implementation libs.supportAppCompat
     implementation libs.RxJava
     implementation libs.gson
@@ -34,6 +33,7 @@ dependencies {
     implementation libs.Dagger2
     kapt libs.Dagger2Compiler
     provided libs.javaxAnnotation
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()

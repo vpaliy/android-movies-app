@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.data.repository
 
 import com.popularmovies.vpaliy.data.GenreKeeper
+import com.popularmovies.vpaliy.data.buildQuery
 import com.popularmovies.vpaliy.data.entity.MovieEntity
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.*
@@ -10,7 +11,6 @@ import com.popularmovies.vpaliy.domain.interactor.params.TypePage
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
 import com.popularmovies.vpaliy.domain.toStream
 import com.vpaliy.tmdb.model.*
-import com.vpaliy.tmdb.query.QueryBuilder
 import com.vpaliy.tmdb.service.MovieService
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -21,6 +21,7 @@ import javax.inject.Singleton
 class MovieRepository @Inject
 constructor(val mapper:Mapper<Movie,MovieEntity>,
             val reviewMapper:Mapper<Review,ReviewModel>,
+            val trailerMapper:Mapper<Trailer,VideoModel>,
             val roleMapper:Mapper<Role,CastModel>,
             val genreKeeper: GenreKeeper,
             val service:MovieService):MediaRepository<Movie>{
@@ -44,34 +45,39 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
 
 
     override fun fetchList(request: TypePage): Stream<TypePage, List<Movie>> {
-        val query=QueryBuilder()
-                .query("limit",request.limit.toString())
-                .query("page", request.current.toString())
         val result=when(request.type){
-            MovieType.POPULAR->service.getPopular(query.build())
-            else->service.getUpcoming(query.build())
+            MovieType.POPULAR->service.getPopular(request.buildQuery())
+            MovieType.TOP->service.getTopRated(request.buildQuery())
+            MovieType.UPCOMING->service.getUpcoming(request.buildQuery())
+            else->service.getNowPlaying(request.buildQuery())
         }
         return result.map{MovieEntity.build(it.results,genreKeeper)}
                 .map(mapper::map).toStream(request)
     }
 
     override fun fetchReviews(item: Movie): Stream<Movie, List<Review>> {
-        return service.getReviews(item.id.toString())
+        return service.getReviews(item.id)
                 .map{reviewMapper.map(it.results.toList())}
                 .toStream(item)
     }
 
     override fun fetchRoles(item: Movie): Stream<Movie, List<Role>> {
-        return service.getCredits(item.id!!)
+        return service.getCredits(item.id)
                 .map{roleMapper.map(it.cast.toList())}
                 .toStream(item)
     }
 
     override fun fetchSuggested(request: Suggestion<Movie>): Stream<Suggestion<Movie>, List<Movie>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return when(request.type){
+            SimilarityType.RECOMMENDATION -> service.getRecommendations(request.item.id,request.buildQuery())
+            else-> service.getSimilar(request.item.id,request.buildQuery())
+        }.map{MovieEntity.build(it.results,genreKeeper)}
+                .map(mapper::map).toStream(request)
     }
 
     override fun fetchTrailers(item: Movie): Stream<Movie, List<Trailer>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return service.getVideos(item.id)
+                .map({trailerMapper.map(it.results.toList())})
+                .toStream(item)
     }
 }

@@ -12,8 +12,7 @@ constructor(schedulerProvider: BaseSchedulerProvider, service:GenreService){
 
     private val genresMap=HashMap<Int,String>()
 
-    init{
-        service.getMovieGenres()
+    init{ service.getMovieGenres()
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::handleGenres)
@@ -33,9 +32,7 @@ constructor(schedulerProvider: BaseSchedulerProvider, service:GenreService){
 
     fun getGenres(ids:IntArray?):List<String>{
         val result= arrayListOf<String>()
-        ids?.forEach {
-            genresMap[it]?.let { result.add(it) }
-        }
+        ids?.forEach { genresMap[it]?.let{ result.add(it) }}
         return result
     }
 }
