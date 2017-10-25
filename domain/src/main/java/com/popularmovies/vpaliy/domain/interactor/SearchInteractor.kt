@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class SearchInteractor<T> @Inject
 constructor(var repository: SearchRepository<T>,scheduler: BaseSchedulerProvider)
-    : RequestInteractor<MediaPage,List<T>>(scheduler){
+    :RequestInteractor<MediaPage,List<T>>(scheduler){
 
     override fun buildUseCase(params: MediaPage?)
             =params.ifNotNull(repository::search, error())

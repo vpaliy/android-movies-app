@@ -1,28 +1,27 @@
 package com.popularmovies.vpaliy.popularmoviesapp
 
-import android.support.multidex.MultiDexApplication
+import android.app.Application
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.ApplicationComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule
 
-class App : MultiDexApplication() {
+class App : Application() {
 
-    private val applicationComponent: ApplicationComponent? = null
+    val component:ApplicationComponent by lazy {
+        DaggerApplicationComponent.builder()
+                .applicationModule(ApplicationModule(this))
+                .build()
+    }
 
     override fun onCreate() {
         super.onCreate()
-        INSTANCE = this
-        Melophile.
-    }
-
-    fun appComponent(): ApplicationComponent {
-        return applicationComponent
+        instance=this
     }
 
     companion object {
-        private var INSTANCE: App? = null
-
-        fun appInstance(): App {
-            return INSTANCE
+        private var instance:App?=null
+        val component by lazy {
+            instance?.component
         }
     }
-
 }
