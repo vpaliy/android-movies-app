@@ -1,5 +1,4 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.popularmovies.vpaliy.popularmoviesapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -13,47 +12,13 @@
         android:supportsRtl="true"
         android:name=".App"
         android:theme="@style/PopMovies">
-
         <activity
-            android:name=".ui.base.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:noHistory="true"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:name=".ui.home.HomeActivity"
+            android:theme="@style/PopMovies">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ui.media.MediaActivity"
-            android:theme="@style/PopMovies"/>
-
-        <activity
-            android:name=".ui.more.MoreMediaActivity"
-            android:theme="@style/PopMovies.MoreMedia"/>
-
-        <activity
-            android:name=".ui.settings.SettingsActivity"
-            android:theme="@style/PopMovies.Settings"
-            android:parentActivityName=".ui.media.MediaActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.media.MediaActivity"/>
-        </activity>
-
-        <activity android:name=".ui.season.SeasonActivity"
-            android:theme="@style/PopMovies.Actor"/>
-
-        <activity android:name=".ui.details.MediaDetailsActivity"
-            android:theme="@style/PopMovies.Details"/>
-
-        <activity android:name=".ui.actor.ActorActivity"
-            android:theme="@style/PopMovies.Actor"/>
-
-        <provider
-            android:exported="false"
-            android:authorities="com.popularmovies.vpaliy"
-            android:name="com.popularmovies.vpaliy.data.source.local.MovieProvider"/>
     </application>
 </manifest>

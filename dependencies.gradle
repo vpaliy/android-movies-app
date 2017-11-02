@@ -36,9 +36,6 @@ ext {
     glideVersion = "3.7.0"
     textDrawableVersion="1.0.1"
     circleImageVersion="2.1.0"
-    retrofitVersion="2.2.0"
-    retrofitConverterVersion="2.1.0"
-    retrofitAdapterVersion="2.1.0"
     picassoVersion="2.5.2"
     guavaVersion="14.0"
     materialIconLibVersion="1.1.3"
@@ -80,9 +77,6 @@ ext {
             cardView           : "com.android.support:cardview-v7:${supportVersion}",
             gson               : "com.google.code.gson:gson:${gsonVersion}",
             okHttp             : "com.squareup.okhttp:okhttp:${okHttpVersion}",
-            retrofit           : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
-            retrofitConverter  : "com.squareup.retrofit2:converter-gson:${retrofitConverterVersion}",
-            retrofitAdapter    : "com.squareup.retrofit2:adapter-rxjava:${retrofitAdapterVersion}",
             picasso            : "com.squareup.picasso:picasso:${picassoVersion}",
             guava              : "com.google.guava:guava:${guavaVersion}",
             leakCanary         :"com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",

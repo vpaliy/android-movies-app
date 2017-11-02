@@ -1,19 +1,19 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import android.support.annotation.StringRes
-import com.popularmovies.vpaliy.domain.entity.MovieType
-import com.popularmovies.vpaliy.popularmoviesapp.ui.model.Media
+import com.popularmovies.vpaliy.domain.entity.MediaType
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 
 object HomeContract{
     interface Presenter{
         fun stop()
-        fun start(types:Array<MovieType>)
-        fun more(type:MovieType)
+        fun start(types:Array<MediaType>)
+        fun more(type: MediaType)
         fun attach(view:View)
     }
 
     interface View{
-        fun show(data:List<Media>,type: MovieType)
+        fun show(data:List<MediaModel>, type: MediaType)
         fun error()
         fun empty()
         fun message(@StringRes resource:Int)

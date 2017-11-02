@@ -2,16 +2,11 @@ package com.popularmovies.vpaliy.popularmoviesapp
 
 import android.app.Application
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.ApplicationComponent
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.ApplicationModule
 
 class App : Application() {
 
-    val component:ApplicationComponent by lazy {
-        DaggerApplicationComponent.builder()
-                .applicationModule(ApplicationModule(this))
-                .build()
-    }
+    val component:ApplicationComponent?=null
 
     override fun onCreate() {
         super.onCreate()

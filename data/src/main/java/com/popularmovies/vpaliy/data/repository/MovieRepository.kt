@@ -46,9 +46,9 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
 
     override fun fetchList(request: TypePage): Stream<TypePage, List<Movie>> {
         val result=when(request.type){
-            MovieType.POPULAR->service.getPopular(request.buildQuery())
-            MovieType.TOP->service.getTopRated(request.buildQuery())
-            MovieType.UPCOMING->service.getUpcoming(request.buildQuery())
+            MediaType.POPULAR->service.getPopular(request.buildQuery())
+            MediaType.TOP->service.getTopRated(request.buildQuery())
+            MediaType.UPCOMING->service.getUpcoming(request.buildQuery())
             else->service.getNowPlaying(request.buildQuery())
         }
         return result.map{MovieEntity.build(it.results,genreKeeper)}

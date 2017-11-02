@@ -1,26 +1,26 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import com.popularmovies.vpaliy.data.mapper.Mapper
-import com.popularmovies.vpaliy.domain.entity.MovieType
+import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.domain.interactor.RequestInteractor
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.Response
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
-import com.popularmovies.vpaliy.popularmoviesapp.ui.model.Media
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 
 abstract class HomePresenter<T>(val request:RequestInteractor<TypePage,List<T>>,
-                                val mapper: Mapper<Media,T>):HomeContract.Presenter {
+                                val mapper: Mapper<MediaModel,T>):HomeContract.Presenter {
 
-    private val map= mutableMapOf<MovieType,TypePage>()
+    private val map= mutableMapOf<MediaType,TypePage>()
     private lateinit var view:HomeContract.View
 
-    override fun more(type: MovieType) {
+    override fun more(type: MediaType) {
         map[type]?.let {
             request.execute(Consumer(this::onSuccess,this::onError),it)
         }
     }
 
-    override fun start(types: Array<MovieType>) {
+    override fun start(types: Array<MediaType>) {
         types.forEach {
             map[it]= TypePage(it)
             request.execute(Consumer(this::onSuccess,this::onError),map[it])

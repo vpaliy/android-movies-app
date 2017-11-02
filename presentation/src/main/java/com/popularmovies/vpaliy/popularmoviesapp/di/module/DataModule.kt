@@ -16,17 +16,17 @@ import javax.inject.Singleton
 class DataModule{
     @Provides
     @Singleton
-    internal fun repository(repository: MovieRepository):MediaRepository<Movie> =repository
+    internal fun movieRepository(repository: MovieRepository):MediaRepository<Movie> =repository
 
     @Provides
     @Singleton
-    internal fun repository(repository:TVRepository):MediaRepository<TVShow> =repository
+    internal fun tvRepository(repository:TVRepository):MediaRepository<TVShow> =repository
 
     @Provides
     @Singleton
-    internal fun repository(repository:TVSearchRepository):SearchRepository<TVShow> =repository
+    internal fun tvSearchRepository(repository:TVSearchRepository):SearchRepository<TVShow> =repository
 
     @Provides
     @Singleton
-    internal fun repository(repository:MovieSearchRepository):SearchRepository<Movie> =repository
+    internal fun movieSearchRepository(repository:MovieSearchRepository):SearchRepository<Movie> =repository
 }

@@ -1,0 +1,35 @@
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
+        android:id="@+id/poster"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="@dimen/poster_height"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/kong_poster"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="@dimen/spacing_large"/>
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        android:textColor="@color/blue_grey_400"
+        style="@style/Widget.Title"
+        tools:text="The Hobbit"
+        android:ellipsize="end"
+        android:lines="2"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:maxLines="2"
+        android:maxWidth="140dp"
+        app:layout_constraintTop_toBottomOf="@+id/poster"
+        app:layout_constraintLeft_toLeftOf="@+id/poster"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/poster" />
+</android.support.constraint.ConstraintLayout>

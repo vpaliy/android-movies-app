@@ -8,4 +8,4 @@ inline fun <T,R> MutableList<R>.copy(array: Array<T>, copy:(T)->R):List<R>{
     return this
 }
 
-fun MediaPage.buildQuery()=QueryBuilder().limit(limit).page(current).build()
+fun MediaPage.buildQuery()=QueryBuilder().page(current).build()
