@@ -6,14 +6,16 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.Media
 
 object HomeContract{
     interface Presenter{
-        fun start()
         fun stop()
+        fun start(types:Array<MovieType>)
         fun more(type:MovieType)
         fun attach(view:View)
     }
 
     interface View{
         fun show(data:List<Media>,type: MovieType)
+        fun error()
+        fun empty()
         fun message(@StringRes resource:Int)
     }
 }
