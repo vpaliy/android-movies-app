@@ -35,7 +35,7 @@ class MovieMapper:Mapper<Movie, MovieEntity>{
         result.genres=real.genres
         details.budget=real.budget?.toInt()
         details.homepage=real.homepage
-        details.id=real.id?.toInt()
+        details.id=real.id.toInt()
         details.backdrop_path=real.backdropImage
         details.poster_path=real.poster
         details.title=real.title

@@ -4,6 +4,9 @@ import com.popularmovies.vpaliy.data.entity.MovieEntity
 import com.popularmovies.vpaliy.data.entity.TVEntity
 import com.popularmovies.vpaliy.data.mapper.*
 import com.popularmovies.vpaliy.domain.entity.*
+import com.popularmovies.vpaliy.popularmoviesapp.ui.mapper.MediaMovieMapper
+import com.popularmovies.vpaliy.popularmoviesapp.ui.mapper.MediaTVMappper
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.vpaliy.tmdb.model.ActorModel
 import com.vpaliy.tmdb.model.CastModel
 import com.vpaliy.tmdb.model.ReviewModel
@@ -37,4 +40,12 @@ class MapperModule{
     @Singleton
     @Provides
     internal fun reviewMapper(mapper:ReviewMapper):Mapper<Review,ReviewModel> =mapper
+
+    @Singleton
+    @Provides
+    internal fun mediaMovieMapper(mapper:MediaMovieMapper):Mapper<MediaModel,Movie> = mapper
+
+    @Singleton
+    @Provides
+    internal fun mediaTVMapper(mapper:MediaTVMappper):Mapper<MediaModel,TVShow> = mapper
 }

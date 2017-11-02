@@ -17,7 +17,6 @@ android {
         versionName config.versionName
         testInstrumentationRunner config.testInstrumentationRunner
         vectorDrawables.useSupportLibrary true
-        multiDexEnabled true
     }
 
     compileOptions {
@@ -26,12 +25,11 @@ android {
     }
 
 
-    buildTypes {
-        release {
-            debuggable true
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+    kapt {
+        generateStubs = true
+    }
+    androidExtensions {
+        experimental = true
     }
 
     packagingOptions {

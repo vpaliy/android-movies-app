@@ -29,7 +29,7 @@ class HomeActivity: BaseActivity(){
     }
 
     override fun inject() {
-
+        //TODO fix injection
     }
 
     private fun setDrawer(){

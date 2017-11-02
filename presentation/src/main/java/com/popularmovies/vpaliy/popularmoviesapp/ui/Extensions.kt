@@ -7,3 +7,5 @@ import android.view.ViewGroup
 fun ViewGroup.inflate(resource:Int)= context.inflater().inflate(resource,this,false)
 
 fun Context.inflater()=LayoutInflater.from(this)!!
+
+fun <T> Boolean.then(item:T)=if(this) item else null
