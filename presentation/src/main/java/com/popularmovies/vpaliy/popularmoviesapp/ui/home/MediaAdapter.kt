@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.adapter_media_item.view.*
 class MediaAdapter(context: Context, data:MutableList<MediaModel>?=null)
     :BaseAdapter<MediaModel>(context){
 
-    init { data?.let { this.data=it}}
+    init {data?.let { this.data=it}}
 
     inner class MediaViewHolder(itemView: View)
         :BaseViewHolder(itemView){

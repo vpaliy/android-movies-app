@@ -4,7 +4,7 @@ import com.popularmovies.vpaliy.domain.entity.MediaType
 import javax.inject.Inject
 
 class MoviesFragment:HomeFragment(){
-    override fun types()= arrayOf(MediaType.POPULAR)
+    override fun types()= arrayOf(MediaType.POPULAR,MediaType.TOP,MediaType.UPCOMING)
 
     override fun getColor(type: MediaType): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

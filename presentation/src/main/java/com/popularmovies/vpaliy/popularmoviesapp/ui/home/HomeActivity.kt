@@ -12,7 +12,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils
 import android.animation.AnimatorListenerAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 
-
 class HomeActivity: BaseActivity(){
 
     private val drawerToggle by lazy {
@@ -25,6 +24,7 @@ class HomeActivity: BaseActivity(){
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         setDrawer()
         setActionBar()
+        setMediaPager()
         setBottomNavigation()
     }
 
@@ -38,7 +38,6 @@ class HomeActivity: BaseActivity(){
             it.isChecked=true
             when (it.itemId) {
                 R.id.settings -> {
-                   // startActivity(Intent(this, SettingsActivity::class.java))
                     return@next true
                 }
             }
@@ -61,6 +60,11 @@ class HomeActivity: BaseActivity(){
         toolbar.setPadding(0, statusBarHeight, 0, 0)
         setSupportActionBar(toolbar)
         navigation.setCheckedItem(R.id.movies)
+    }
+
+    private fun setMediaPager(){
+        mediaPager.adapter = MediaPageAdapter(supportFragmentManager, this)
+        mediaPager.offscreenPageLimit = 3
     }
 
     private fun setBottomNavigation() {
