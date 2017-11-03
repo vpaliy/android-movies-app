@@ -2,10 +2,11 @@ package com.popularmovies.vpaliy.data.mapper
 
 import com.popularmovies.vpaliy.domain.entity.Trailer
 import com.vpaliy.tmdb.model.VideoModel
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TrailerMapper:Mapper<Trailer, VideoModel>{
+class TrailerMapper @Inject constructor():Mapper<Trailer, VideoModel>{
 
     override fun map(fake: VideoModel)=Trailer(fake.site,fake.id,fake.name)
 

@@ -7,8 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GenreKeeper @Inject
-constructor(scheduler: BaseScheduler, service:GenreService){
+class GenreKeeper @Inject constructor(scheduler: BaseScheduler, service:GenreService){
 
     private val genresMap=HashMap<Int,String>()
 

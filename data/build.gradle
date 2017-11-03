@@ -22,10 +22,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    kapt {
+        generateStubs = true
+    }
 }
 dependencies {
     implementation project(':domain')
-    compile 'com.github.vpaliyX:tmdb-sdk:master-SNAPSHOT'
     implementation libs.supportAppCompat
     implementation libs.RxJava
     implementation libs.gson
@@ -34,6 +37,7 @@ dependencies {
     kapt libs.Dagger2Compiler
     provided libs.javaxAnnotation
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.github.vpaliyX:tmdb-sdk:master-SNAPSHOT'
 }
 repositories {
     mavenCentral()

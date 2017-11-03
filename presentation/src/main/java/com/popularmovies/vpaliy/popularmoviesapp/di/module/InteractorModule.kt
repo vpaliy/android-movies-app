@@ -13,7 +13,6 @@ import javax.inject.Singleton
 
 @Module
 class InteractorModule{
-
     @Singleton
     @Provides
     internal fun movies(repository:MediaRepository<Movie>, scheduler: BaseScheduler)

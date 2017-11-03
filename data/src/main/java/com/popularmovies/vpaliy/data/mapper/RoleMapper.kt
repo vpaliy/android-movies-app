@@ -2,10 +2,11 @@ package com.popularmovies.vpaliy.data.mapper
 
 import com.popularmovies.vpaliy.domain.entity.Role
 import com.vpaliy.tmdb.model.CastModel
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RoleMapper:Mapper<Role,CastModel> {
+class RoleMapper @Inject constructor():Mapper<Role,CastModel> {
 
     override fun map(fake: CastModel) = Role(fake.credit_id, fake.name, fake.profile_path, fake.character)
 

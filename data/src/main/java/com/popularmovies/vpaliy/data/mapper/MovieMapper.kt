@@ -3,8 +3,9 @@ package com.popularmovies.vpaliy.data.mapper
 import com.popularmovies.vpaliy.data.entity.MovieEntity
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.vpaliy.tmdb.model.MovieDetails
+import javax.inject.Inject
 
-class MovieMapper:Mapper<Movie, MovieEntity>{
+class MovieMapper @Inject constructor():Mapper<Movie, MovieEntity>{
 
     override fun map(fake: MovieEntity): Movie {
         val movie=Movie()

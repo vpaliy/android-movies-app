@@ -4,10 +4,10 @@ import android.net.Uri
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
+import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class MediaMovieMapper:Mapper<MediaModel,Movie>{
+@Singleton class MediaMovieMapper @Inject constructor():Mapper<MediaModel,Movie>{
     override fun map(fake: Movie): MediaModel {
         val poster=fake.poster?: Uri.parse("R.drawable.popcorn").toString()
         val backdrop=fake.backdropImage?:poster

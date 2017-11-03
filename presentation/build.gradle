@@ -24,7 +24,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-
     kapt {
         generateStubs = true
     }
@@ -38,8 +37,8 @@ android {
 }
 
 dependencies {
-    compile project(':data')
-    compile project(':domain')
+    implementation project(':data')
+    implementation project(':domain')
     implementation 'com.aurelhubert:ahbottomnavigation:2.0.6'
     implementation 'com.roughike:bottom-bar:2.3.1'
     implementation 'com.github.kanytu:ImageWindow:v1.0'
@@ -47,6 +46,7 @@ dependencies {
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true
     }
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation libs.preferenceCompat7
     implementation libs.constraintLayout
     implementation libs.recyclerView

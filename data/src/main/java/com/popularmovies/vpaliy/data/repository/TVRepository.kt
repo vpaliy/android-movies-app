@@ -8,8 +8,11 @@ import com.popularmovies.vpaliy.domain.interactor.params.Stream
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TVRepository:MediaRepository<TVShow>{
+@Singleton
+class TVRepository @Inject constructor():MediaRepository<TVShow>{
     override fun fetchItem(id: String): Stream<String, TVShow> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -2,8 +2,9 @@ package com.popularmovies.vpaliy.data.mapper
 
 import com.popularmovies.vpaliy.data.entity.TVEntity
 import com.popularmovies.vpaliy.domain.entity.TVShow
+import javax.inject.Inject
 
-class TVMapper:Mapper<TVShow,TVEntity>{
+class TVMapper @Inject constructor():Mapper<TVShow,TVEntity>{
 
     override fun map(fake: TVEntity): TVShow {
         val tv=TVShow()

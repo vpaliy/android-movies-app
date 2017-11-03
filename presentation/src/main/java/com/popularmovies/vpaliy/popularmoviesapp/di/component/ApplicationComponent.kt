@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.di.component
 import android.content.Context
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.domain.entity.TVShow
+import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.interactor.GetPage
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
 import com.popularmovies.vpaliy.domain.repository.SearchRepository
@@ -18,6 +19,7 @@ import dagger.Component
 interface ApplicationComponent {
     fun inject(activity:BaseActivity)
     fun context(): Context
+    fun scheduler():BaseScheduler
     fun movieRepository():MediaRepository<Movie>
     fun tvRepository():MediaRepository<TVShow>
     fun movieSearch():SearchRepository<Movie>

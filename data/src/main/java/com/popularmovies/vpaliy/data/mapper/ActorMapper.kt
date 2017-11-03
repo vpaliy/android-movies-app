@@ -2,10 +2,11 @@ package com.popularmovies.vpaliy.data.mapper
 
 import com.popularmovies.vpaliy.domain.entity.Actor
 import com.vpaliy.tmdb.model.ActorModel
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ActorMapper:Mapper<Actor, ActorModel>{
+class ActorMapper @Inject constructor():Mapper<Actor, ActorModel>{
     override fun map(fake: ActorModel): Actor {
         val actor=Actor()
         actor.avatarPath=fake.profile_path

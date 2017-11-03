@@ -34,15 +34,6 @@ class HomeActivity: BaseActivity(){
 
     private fun setDrawer(){
         drawerLayout.setDrawerListener(drawerToggle)
-        next@navigation.setNavigationItemSelectedListener {
-            it.isChecked=true
-            when (it.itemId) {
-                R.id.settings -> {
-                    return@next true
-                }
-            }
-            false
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
