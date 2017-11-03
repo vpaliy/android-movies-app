@@ -1,8 +1,8 @@
 package com.popularmovies.vpaliy.domain.entity
 
 class TVShow{
-    var id:String?=null
-    var title:String?=null
+    lateinit var id:String
+    lateinit var title:String
     var averageVote:Double?=null
     var director:String?=null
     var budget:String?=null
