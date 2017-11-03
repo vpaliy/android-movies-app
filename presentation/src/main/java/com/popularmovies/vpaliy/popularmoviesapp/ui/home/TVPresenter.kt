@@ -9,6 +9,5 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import javax.inject.Inject
 
 @ViewScope
-class TVPresenter @Inject
-constructor(request:RequestInteractor<TypePage,List<TVShow>>,
+class TVPresenter(request:RequestInteractor<TypePage,List<TVShow>>,
             mapper:Mapper<MediaModel,TVShow>) :HomePresenter<TVShow>(request,mapper)

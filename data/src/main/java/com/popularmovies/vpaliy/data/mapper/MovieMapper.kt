@@ -4,7 +4,9 @@ import com.popularmovies.vpaliy.data.entity.MovieEntity
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.vpaliy.tmdb.model.MovieDetails
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MovieMapper @Inject constructor():Mapper<Movie, MovieEntity>{
 
     override fun map(fake: MovieEntity): Movie {

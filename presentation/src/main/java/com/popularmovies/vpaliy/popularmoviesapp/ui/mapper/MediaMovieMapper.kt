@@ -7,7 +7,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton class MediaMovieMapper @Inject constructor():Mapper<MediaModel,Movie>{
+@Singleton
+class MediaMovieMapper @Inject constructor():Mapper<MediaModel,Movie>{
     override fun map(fake: Movie): MediaModel {
         val poster=fake.poster?: Uri.parse("R.drawable.popcorn").toString()
         val backdrop=fake.backdropImage?:poster

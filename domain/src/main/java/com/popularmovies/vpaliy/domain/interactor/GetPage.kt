@@ -9,8 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetPage<T> @Inject
-constructor(val repository: MediaRepository<T>, scheduler: BaseScheduler)
+class GetPage<T>(val repository: MediaRepository<T>, scheduler: BaseScheduler)
     :RequestInteractor<TypePage,List<T>>(scheduler){
 
     override fun buildUseCase(params: TypePage?)

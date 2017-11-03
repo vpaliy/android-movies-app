@@ -10,6 +10,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils
 import android.animation.AnimatorListenerAdapter
+import com.popularmovies.vpaliy.popularmoviesapp.App
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 
 class HomeActivity: BaseActivity(){
@@ -26,10 +28,11 @@ class HomeActivity: BaseActivity(){
         setActionBar()
         setMediaPager()
         setBottomNavigation()
+        setSupportActionBar(toolbar)
     }
 
     override fun inject() {
-        //TODO fix injection
+        App.component?.inject(this)
     }
 
     private fun setDrawer(){
@@ -69,15 +72,15 @@ class HomeActivity: BaseActivity(){
                             super.onAnimationEnd(animation)
                             when (tabId) {
                                 R.id.movies -> {
-                                    actionBar.setTitle(R.string.movies)
+                                    toolbar.setTitle(R.string.movies)
                                     mediaPager.setCurrentItem(0, false)
                                 }
                                 R.id.tv_shows -> {
-                                    actionBar.setTitle(R.string.tv_shows)
+                                    toolbar.setTitle(R.string.tv_shows)
                                     mediaPager.setCurrentItem(1, false)
                                 }
                                 R.id.personal -> {
-                                    actionBar.setTitle(R.string.personal)
+                                    toolbar.setTitle(R.string.personal)
                                     mediaPager.setCurrentItem(2, false)
                                 }
                             }

@@ -6,10 +6,11 @@ import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.PersonalArg
 import com.popularmovies.vpaliy.domain.interactor.params.SimpleConsumer
 import com.popularmovies.vpaliy.domain.repository.PersonalRepository
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PersonalInteractor<T>
+class PersonalInteractor<T> @Inject
 constructor(private val repository: PersonalRepository<T>, baseScheduler: BaseScheduler)
     :Interactor(baseScheduler){
 

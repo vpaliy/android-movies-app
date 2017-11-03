@@ -3,7 +3,9 @@ package com.popularmovies.vpaliy.data.mapper
 import com.popularmovies.vpaliy.data.entity.TVEntity
 import com.popularmovies.vpaliy.domain.entity.TVShow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TVMapper @Inject constructor():Mapper<TVShow,TVEntity>{
 
     override fun map(fake: TVEntity): TVShow {

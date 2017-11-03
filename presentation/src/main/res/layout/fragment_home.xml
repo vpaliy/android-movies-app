@@ -1,5 +1,5 @@
 <android.support.v7.widget.RecyclerView
-    android:id="@+id/media_recycler_view"
+    android:id="@+id/list"
     app:layoutManager="@string/media_layout_manager"
     tools:listitem="@layout/adapter_media_type_item"
     android:layout_width="match_parent"

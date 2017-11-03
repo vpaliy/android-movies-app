@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,16 +10,29 @@ import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ViewWrapper
+import kotlinx.android.synthetic.main.fragment_home.*
+import javax.inject.Inject
 
 abstract class HomeFragment:Fragment(),HomeContract.View{
 
-    lateinit var presenter:HomeContract.Presenter
+    abstract var presenter:HomeContract.Presenter?
 
     private val adapter by lazy { HomeAdapter(context) }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        inject()
+    }
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        inject()
+        list.adapter=adapter
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("HomeFragment","Is Null${presenter==null}")
+        presenter?.start(types())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)

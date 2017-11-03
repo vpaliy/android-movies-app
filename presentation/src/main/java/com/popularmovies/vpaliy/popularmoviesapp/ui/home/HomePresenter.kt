@@ -1,13 +1,16 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
+import android.util.Log
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.domain.interactor.RequestInteractor
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.Response
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 
+@ViewScope
 abstract class HomePresenter<T>(val request:RequestInteractor<TypePage,List<T>>,
                                 val mapper: Mapper<MediaModel,T>):HomeContract.Presenter {
 
@@ -28,6 +31,7 @@ abstract class HomePresenter<T>(val request:RequestInteractor<TypePage,List<T>>,
     }
 
     private fun onSuccess(response:Response<TypePage,List<T>>){
+        Log.d("HomePresenter",response.data.toString())
         if(response.data.isNotEmpty()){
             view.show(mapper.map(response.data),response.type.type)
         }else view.empty()

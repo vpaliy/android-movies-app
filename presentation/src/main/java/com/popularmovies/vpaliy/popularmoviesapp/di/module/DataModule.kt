@@ -10,37 +10,40 @@ import com.popularmovies.vpaliy.domain.entity.TVShow
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
 import com.popularmovies.vpaliy.domain.repository.SearchRepository
 import com.vpaliy.tmdb.TMDB
-import com.vpaliy.tmdb.model.Genres
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DataModule{
+class DataModule {
 
-    private val client=TMDB(Config.API_KEY)
-
-    @Provides
-    @Singleton
-    internal fun movieRepository(repository: MovieRepository):MediaRepository<Movie> =repository
+    private val client = TMDB(Config.API_KEY)
 
     @Provides
     @Singleton
-    internal fun tvRepository(repository:TVRepository):MediaRepository<TVShow> =repository
+    internal fun movieRepository(repository: MovieRepository)
+            :MediaRepository<Movie> = repository
 
     @Provides
     @Singleton
-    internal fun tvSearchRepository(repository:TVSearchRepository):SearchRepository<TVShow> =repository
+    internal fun tvRepository(repository: TVRepository)
+            :MediaRepository<TVShow> = repository
 
     @Provides
     @Singleton
-    internal fun movieSearchRepository(repository:MovieSearchRepository):SearchRepository<Movie> =repository
+    internal fun tvSearchRepository(repository: TVSearchRepository)
+            :SearchRepository<TVShow> = repository
 
     @Provides
     @Singleton
-    internal fun genreService()=client.genreService
+    internal fun movieSearchRepository(repository: MovieSearchRepository)
+            :SearchRepository<Movie> = repository
 
     @Provides
     @Singleton
-    internal fun moviesService()=client.moviesService
+    internal fun genreService() = client.genreService
+
+    @Provides
+    @Singleton
+    internal fun moviesService() = client.moviesService
 }

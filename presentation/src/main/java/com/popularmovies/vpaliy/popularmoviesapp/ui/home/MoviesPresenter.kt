@@ -6,9 +6,7 @@ import com.popularmovies.vpaliy.domain.interactor.RequestInteractor
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
-import javax.inject.Inject
 
 @ViewScope
-class MoviesPresenter @Inject
-constructor(request:RequestInteractor<TypePage,List<Movie>>,
-            mapper:Mapper<MediaModel,Movie>) :HomePresenter<Movie>(request,mapper)
+class MoviesPresenter(request:RequestInteractor<TypePage,List<Movie>>, mapper:Mapper<MediaModel,Movie>)
+    :HomePresenter<Movie>(request,mapper)

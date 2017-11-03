@@ -63,6 +63,7 @@ ext {
             supportDesign      : "com.android.support:design:${supportVersion}",
             Dagger2Compiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
             Dagger2            : "com.google.dagger:dagger:${daggerVersion}",
+            Dagger2Processor   : "com.google.dagger:dagger-android-processor:${daggerVersion}",
             butterKnife        : "com.jakewharton:butterknife:${butterKnifeVersion}",
             butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
             recyclerView       : "com.android.support:recyclerview-v7:${supportVersion}",

@@ -9,8 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchInteractor<T> @Inject
-constructor(var repository: SearchRepository<T>,scheduler: BaseScheduler)
+class SearchInteractor<T> @Inject constructor(var repository: SearchRepository<T>,scheduler: BaseScheduler)
     :RequestInteractor<MediaPage,List<T>>(scheduler){
 
     override fun buildUseCase(params: MediaPage?)
