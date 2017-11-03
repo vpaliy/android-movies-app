@@ -1,11 +1,11 @@
 package com.popularmovies.vpaliy.domain.interactor
 
-import com.popularmovies.vpaliy.domain.executor.BaseSchedulerProvider
+import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
 
 abstract class RequestInteractor<Request,Result>
-constructor(scheduler: BaseSchedulerProvider):Interactor(scheduler){
+constructor(scheduler: BaseScheduler):Interactor(scheduler){
 
     fun execute(consumer: Consumer<Request,Result>, params: Request?=null)= {
         buildUseCase(params).single

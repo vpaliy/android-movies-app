@@ -1,6 +1,6 @@
 package com.popularmovies.vpaliy.data
 
-import com.popularmovies.vpaliy.domain.executor.BaseSchedulerProvider
+import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.vpaliy.tmdb.model.Genres
 import com.vpaliy.tmdb.service.GenreService
 import javax.inject.Inject
@@ -8,13 +8,13 @@ import javax.inject.Singleton
 
 @Singleton
 class GenreKeeper @Inject
-constructor(schedulerProvider: BaseSchedulerProvider, service:GenreService){
+constructor(scheduler: BaseScheduler, service:GenreService){
 
     private val genresMap=HashMap<Int,String>()
 
     init{ service.getMovieGenres()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
                 .subscribe(this::handleGenres)
     }
 

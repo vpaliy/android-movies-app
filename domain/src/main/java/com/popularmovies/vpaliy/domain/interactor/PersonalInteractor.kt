@@ -1,7 +1,7 @@
 package com.popularmovies.vpaliy.domain.interactor
 
 import com.popularmovies.vpaliy.domain.entity.PersonalType
-import com.popularmovies.vpaliy.domain.executor.BaseSchedulerProvider
+import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.PersonalArg
 import com.popularmovies.vpaliy.domain.interactor.params.SimpleConsumer
@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class PersonalInteractor<T>
-constructor(private val repository: PersonalRepository<T>, baseScheduler: BaseSchedulerProvider)
+constructor(private val repository: PersonalRepository<T>, baseScheduler: BaseScheduler)
     :Interactor(baseScheduler){
 
     fun insert(consumer: SimpleConsumer,arg: PersonalArg<T>){

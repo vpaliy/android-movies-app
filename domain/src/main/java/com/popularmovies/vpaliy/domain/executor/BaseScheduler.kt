@@ -2,7 +2,7 @@ package com.popularmovies.vpaliy.domain.executor
 
 import io.reactivex.Scheduler
 
-interface BaseSchedulerProvider {
+interface BaseScheduler {
     fun io(): Scheduler
     fun ui():Scheduler
 }

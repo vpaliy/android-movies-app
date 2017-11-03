@@ -13,7 +13,7 @@ class MovieMapper:Mapper<Movie, MovieEntity>{
             movie.id=it.id.toString()
             movie.backdropImage=it.backdrop_path
             movie.poster=it.poster_path
-            movie.title=it.title
+            movie.title=it.title!!
             movie.releaseDate=it.release_date
             movie.genres=fake.genres
             movie.backdrops=fake.images

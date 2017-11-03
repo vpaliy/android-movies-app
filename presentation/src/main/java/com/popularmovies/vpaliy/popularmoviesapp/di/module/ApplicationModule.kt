@@ -10,5 +10,5 @@ import dagger.Provides
 class ApplicationModule(private val application: Application) {
     @Singleton
     @Provides
-    fun context():Context = application
+    internal fun context():Context = application
 }
