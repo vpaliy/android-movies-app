@@ -36,7 +36,7 @@ dependencies {
     kapt libs.Dagger2Compiler
     provided libs.javaxAnnotation
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    api 'com.github.vpaliyX:tmdb-sdk:40942cb27e'
+    compile 'com.github.vpaliyX:tmdb-sdk:52fa8bc75b'
 
 }
 repositories {

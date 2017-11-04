@@ -1,13 +1,12 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.view
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 
 import com.popularmovies.vpaliy.popularmoviesapp.R
 
-class RatioImageView constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0):
+class RatioImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0):
         AppCompatImageView(context, attrs, defStyle) {
 
     //16:9

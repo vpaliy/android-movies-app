@@ -15,6 +15,8 @@ class HomeAdapter(context:Context): BaseAdapter<ViewWrapper>(context){
             val item=this@HomeAdapter[adapterPosition]
             title.text=item.title
             media.adapter=item.adapter
+            media.isNestedScrollingEnabled=false
+            more.setTextColor(item.color)
         }
     }
 

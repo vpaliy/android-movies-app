@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.view
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Path
 import android.graphics.RectF
@@ -10,17 +9,17 @@ import android.util.AttributeSet
 
 import com.popularmovies.vpaliy.popularmoviesapp.R
 
-open class RoundedImageView
-constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AppCompatImageView(context, attrs, defStyle) {
+open class RoundedImageView @JvmOverloads
+constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
+    :AppCompatImageView(context, attrs, defStyle) {
 
-    var radius = 18.0f
+    private var radius = 18.0f
     private var path: Path? = null
     private var rect: RectF? = null
 
     init {
         if (attrs != null) {
-            val array = getContext().obtainStyledAttributes(attrs,
-                    R.styleable.RoundedImageView)
+            val array = getContext().obtainStyledAttributes(attrs,R.styleable.RoundedImageView)
             val N = array.indexCount
             for (i in 0..N - 1) {
                 val attr = array.getIndex(i)

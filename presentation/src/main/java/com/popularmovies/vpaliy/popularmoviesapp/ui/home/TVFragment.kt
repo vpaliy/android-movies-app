@@ -15,12 +15,18 @@ class TVFragment:HomeFragment(){
             field=value
             field?.attach(this)
         }
-    override fun types()=arrayOf(MediaType.UPCOMING, MediaType.TOP, MediaType.POPULAR)
+    override fun types()=arrayOf(MediaType.TOP)
 
-    override fun getColor(type: MediaType)=color(R.color.red_color)
+    override fun getColor(type: MediaType)=color(R.color.colorTvShows)
 
     override fun getTitle(type: MediaType): String {
-        return "Upcoming"
+        return when(type){
+            MediaType.POPULAR -> getString(R.string.popular_media)
+            MediaType.NOW_PLAYING -> getString(R.string.now_playing_media)
+            MediaType.UPCOMING -> getString(R.string.upcoming_media)
+            MediaType.TOP -> getString(R.string.top_rated_media)
+            else -> throw IllegalArgumentException()
+        }
     }
 
     override fun inject() {

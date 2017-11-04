@@ -6,7 +6,7 @@ import android.view.View
 
 import com.popularmovies.vpaliy.popularmoviesapp.R
 
-class ParallaxImageView constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0):
+class ParallaxImageView constructor(context: Context, attrs: AttributeSet, defStyle: Int = 0):
         RoundedImageView(context, attrs, defStyle) {
 
     var isChecked = false

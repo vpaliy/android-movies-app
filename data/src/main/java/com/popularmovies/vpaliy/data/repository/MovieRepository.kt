@@ -1,10 +1,10 @@
 package com.popularmovies.vpaliy.data.repository
 
-import android.util.Log
 import com.popularmovies.vpaliy.data.GenreKeeper
 import com.popularmovies.vpaliy.data.buildQuery
 import com.popularmovies.vpaliy.data.entity.MovieEntity
 import com.popularmovies.vpaliy.data.mapper.Mapper
+import com.popularmovies.vpaliy.data.utils.Constants
 import com.popularmovies.vpaliy.domain.entity.*
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
@@ -52,7 +52,9 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
             MediaType.UPCOMING->service.getUpcoming(request.buildQuery())
             else->service.getNowPlaying(request.buildQuery())
         }
-        return result.map{MovieEntity.build(it.results,genreKeeper)}
+        return result
+                .map{Constants.filter(it.results.toList())}
+                .map{MovieEntity.build(it.toTypedArray(),genreKeeper)}
                 .map(mapper::map).toStream(request)
     }
 

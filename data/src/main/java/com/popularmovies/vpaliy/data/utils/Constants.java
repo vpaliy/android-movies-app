@@ -1,4 +1,9 @@
 package com.popularmovies.vpaliy.data.utils;
+
+import com.vpaliy.tmdb.model.MovieModel;
+
+import java.util.List;
+
 public class Constants {
 
     public final static String BASE_MOVIE_URL = "http://image.tmdb.org/t/p/";
@@ -23,5 +28,13 @@ public class Constants {
     public static String appendBackdropSize(String backdropPath){
         if(backdropPath==null)return null;
         return appendBaseMovieURL(IMAGE_SIZE_W780)+backdropPath;
+    }
+
+    public static List<MovieModel> filter(List<MovieModel> models){
+        for(MovieModel model:models){
+            model.setBackdrop_path(appendBackdropSize(model.getBackdrop_path()));
+            model.setPoster_path(appendPosterSize(model.getPoster_path()));
+        }
+        return models;
     }
 }
