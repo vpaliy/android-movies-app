@@ -1,0 +1,18 @@
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/refresher"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/media_list"
+        app:layoutManager="@string/more_movies_layout_manager"
+        tools:listitem="@layout/adapter_more_item"
+        app:spanCount="@integer/span_count"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+</android.support.v4.widget.SwipeRefreshLayout>

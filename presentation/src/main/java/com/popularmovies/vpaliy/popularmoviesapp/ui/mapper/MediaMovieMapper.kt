@@ -12,7 +12,10 @@ class MediaMovieMapper @Inject constructor():Mapper<MediaModel,Movie>{
     override fun map(fake: Movie): MediaModel {
         val poster=fake.poster?: Uri.parse("R.drawable.popcorn").toString()
         val backdrop=fake.backdropImage?:poster
-        return MediaModel(fake.id,poster,fake.title,backdrop)
+        val release=fake.releaseYear?:""
+        val ratings=fake.averageVote.toString()
+        val tags=fake.genres?: emptyList()
+        return MediaModel(fake.id,poster,fake.title,backdrop,release,ratings,tags)
     }
 
     override fun reverse(real: MediaModel)=Movie().apply {
@@ -20,5 +23,7 @@ class MediaMovieMapper @Inject constructor():Mapper<MediaModel,Movie>{
         this.backdropImage=real.backdrop
         this.title=real.title
         this.poster=real.poster
+        this.genres=real.tags
+        this.averageVote=real.ratings.toDoubleOrNull()
     }
 }

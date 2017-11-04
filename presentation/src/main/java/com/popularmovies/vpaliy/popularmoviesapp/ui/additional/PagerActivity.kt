@@ -20,9 +20,7 @@ class PagerActivity:BaseActivity(),PagerContract.View{
         setContentView(R.layout.activity_home)
     }
 
-    override fun append(data: List<MediaModel>) {
-        adapter.append(data)
-    }
+    override fun append(data: List<MediaModel>)= adapter.append(data)
 
     override fun empty() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
