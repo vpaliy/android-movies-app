@@ -8,6 +8,8 @@ import com.popularmovies.vpaliy.domain.interactor.params.Stream
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
+import com.popularmovies.vpaliy.domain.toStream
+import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,7 +20,7 @@ class TVRepository @Inject constructor():MediaRepository<TVShow>{
     }
 
     override fun fetchList(request: TypePage): Stream<TypePage, List<TVShow>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Single.error<List<TVShow>>(IllegalArgumentException()).toStream(request)
     }
 
     override fun fetchReviews(item: TVShow): Stream<TVShow, List<Review>> {

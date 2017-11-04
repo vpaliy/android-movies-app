@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.data.entity
 
+import android.util.Log
 import com.popularmovies.vpaliy.data.GenreKeeper
 import com.popularmovies.vpaliy.data.copy
 import com.vpaliy.tmdb.model.MovieDetails

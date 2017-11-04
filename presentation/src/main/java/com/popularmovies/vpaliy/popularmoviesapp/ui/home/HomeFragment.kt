@@ -31,7 +31,6 @@ abstract class HomeFragment:Fragment(),HomeContract.View{
 
     override fun onStart() {
         super.onStart()
-        Log.d("HomeFragment","Is Null${presenter==null}")
         presenter?.start(types())
     }
 
@@ -45,7 +44,6 @@ abstract class HomeFragment:Fragment(),HomeContract.View{
     }
 
     override fun error() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun empty() {

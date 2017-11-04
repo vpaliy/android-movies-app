@@ -31,7 +31,6 @@ abstract class HomePresenter<T>(val request:RequestInteractor<TypePage,List<T>>,
     }
 
     private fun onSuccess(response:Response<TypePage,List<T>>){
-        Log.d("HomePresenter",response.data.toString())
         if(response.data.isNotEmpty()){
             view.show(mapper.map(response.data),response.type.type)
         }else view.empty()

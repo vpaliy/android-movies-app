@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.data.repository
 
+import android.util.Log
 import com.popularmovies.vpaliy.data.GenreKeeper
 import com.popularmovies.vpaliy.data.buildQuery
 import com.popularmovies.vpaliy.data.entity.MovieEntity

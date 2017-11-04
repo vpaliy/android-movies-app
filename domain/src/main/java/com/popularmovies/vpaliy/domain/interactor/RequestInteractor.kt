@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.domain.interactor
 
+import android.util.Log
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
@@ -7,7 +8,7 @@ import com.popularmovies.vpaliy.domain.interactor.params.Stream
 abstract class RequestInteractor<Request,Result>
 constructor(scheduler: BaseScheduler):Interactor(scheduler){
 
-    fun execute(consumer: Consumer<Request,Result>, params: Request?=null)= {
+    fun execute(consumer: Consumer<Request,Result>, params: Request?=null){
         buildUseCase(params).single
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())

@@ -3,6 +3,7 @@ package com.popularmovies.vpaliy.domain.interactor
 import com.popularmovies.vpaliy.domain.error
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.ifNotNull
+import com.popularmovies.vpaliy.domain.interactor.params.Stream
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
 import javax.inject.Inject
