@@ -2,7 +2,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,16 @@ import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ViewWrapper
 import kotlinx.android.synthetic.main.fragment_home.*
-import javax.inject.Inject
 
 abstract class HomeFragment:Fragment(),HomeContract.View{
 
     abstract var presenter:HomeContract.Presenter?
 
-    private val adapter by lazy { HomeAdapter(context) }
+    private val adapter by lazy {
+        HomeAdapter(context,this::showMore).apply { request={presenter?.more(it)} }
+    }
+
+    private val adapterMap by lazy { HashMap<MediaType,MediaAdapter>() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +42,12 @@ abstract class HomeFragment:Fragment(),HomeContract.View{
 
     override fun show(data: List<MediaModel>, type: MediaType) {
         val mediaAdapter=MediaAdapter(context,data.toMutableList())
-        adapter.add(ViewWrapper(mediaAdapter,getTitle(type),getColor(type)))
+        adapterMap[type]=mediaAdapter
+        adapter.add(ViewWrapper(mediaAdapter,getTitle(type),getColor(type),type))
+    }
+
+    override fun append(data: List<MediaModel>, type: MediaType) {
+        adapterMap[type]?.append(data)
     }
 
     override fun error() {
@@ -53,6 +60,8 @@ abstract class HomeFragment:Fragment(),HomeContract.View{
     override fun message(resource: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    private fun showMore(type:MediaType){}
 
     abstract fun getTitle(type:MediaType):String
     abstract fun getColor(type:MediaType):Int

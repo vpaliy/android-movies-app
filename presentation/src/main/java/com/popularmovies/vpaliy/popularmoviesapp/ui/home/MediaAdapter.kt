@@ -31,6 +31,11 @@ class MediaAdapter(context: Context, data:MutableList<MediaModel>?=null)
         }
     }
 
+    fun append(appended:List<MediaModel>){
+        data.addAll(appended)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)
             :MediaViewHolder
             =MediaViewHolder(inflater.inflate(R.layout.adapter_media_item,parent,false))

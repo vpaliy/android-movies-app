@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
-import android.util.Log
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.domain.interactor.RequestInteractor
@@ -19,7 +18,8 @@ abstract class HomePresenter<T>(val request:RequestInteractor<TypePage,List<T>>,
 
     override fun more(type: MediaType) {
         map[type]?.let {
-            request.execute(Consumer(this::onSuccess,this::onError),it)
+            it.next()
+            request.execute(Consumer(this::onAppend,this::onError),it)
         }
     }
 
@@ -33,6 +33,12 @@ abstract class HomePresenter<T>(val request:RequestInteractor<TypePage,List<T>>,
     private fun onSuccess(response:Response<TypePage,List<T>>){
         if(response.data.isNotEmpty()){
             view.show(mapper.map(response.data),response.type.type)
+        }else view.empty()
+    }
+
+    private fun onAppend(response:Response<TypePage,List<T>>){
+        if(response.data.isNotEmpty()){
+            view.append(mapper.map(response.data),response.type.type)
         }else view.empty()
     }
 

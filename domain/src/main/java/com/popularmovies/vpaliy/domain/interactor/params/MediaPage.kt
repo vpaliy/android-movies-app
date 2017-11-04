@@ -1,5 +1,5 @@
 package com.popularmovies.vpaliy.domain.interactor.params
 
-open class MediaPage(val current:Int=1){
-    fun next()=MediaPage(current+1)
+open class MediaPage(var current:Int=1){
+    fun next()=apply { ++current }
 }

@@ -1,21 +1,38 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ViewWrapper
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
 import kotlinx.android.synthetic.main.adapter_media_type_item.view.*
 
-class HomeAdapter(context:Context): BaseAdapter<ViewWrapper>(context){
+class HomeAdapter(context:Context, val click:(MediaType)->Unit): BaseAdapter<ViewWrapper>(context){
+
+    lateinit var request:(MediaType)->Unit
 
     inner class WrapperViewHolder(root:View):BaseViewHolder(root){
+        init {
+            val list=itemView.media
+            itemView.media.isNestedScrollingEnabled=false
+            itemView.more.setOnClickListener {
+                click(this@HomeAdapter[adapterPosition].type)
+            }
+            list.addOnScrollListener(object : OnReachBottomListener(list.layoutManager) {
+                override fun onLoadMore() {
+                    Log.d("HomeAdapter","onLoadMore")
+                    request(this@HomeAdapter[adapterPosition].type)
+                }
+            })
+        }
         override fun bind()= with(itemView){
             val item=this@HomeAdapter[adapterPosition]
             title.text=item.title
             media.adapter=item.adapter
-            media.isNestedScrollingEnabled=false
             more.setTextColor(item.color)
         }
     }
