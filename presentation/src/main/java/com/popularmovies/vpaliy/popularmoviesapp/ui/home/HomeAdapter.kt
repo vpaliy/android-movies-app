@@ -24,7 +24,6 @@ class HomeAdapter(context:Context, val click:(MediaType)->Unit): BaseAdapter<Vie
             }
             list.addOnScrollListener(object : OnReachBottomListener(list.layoutManager) {
                 override fun onLoadMore() {
-                    Log.d("HomeAdapter","onLoadMore")
                     request(this@HomeAdapter[adapterPosition].type)
                 }
             })

@@ -7,13 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.R
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.Navigator
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ViewWrapper
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_IS_MOVIES
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_TYPE
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.packHeavyObject
 import kotlinx.android.synthetic.main.fragment_home.*
+import javax.inject.Inject
 
 abstract class HomeFragment:Fragment(),HomeContract.View{
 
     abstract var presenter:HomeContract.Presenter?
+
+    @Inject lateinit var navigator:Navigator
 
     private val adapter by lazy {
         HomeAdapter(context,this::showMore).apply { request={presenter?.more(it)} }
@@ -61,7 +68,11 @@ abstract class HomeFragment:Fragment(),HomeContract.View{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun showMore(type:MediaType){}
+    private fun showMore(type:MediaType){
+        val extras=Bundle().packHeavyObject(EXTRA_TYPE,type)
+        extras.putBoolean(EXTRA_IS_MOVIES,this is MoviesFragment)
+        navigator.navigateToMore(activity,extras)
+    }
 
     abstract fun getTitle(type:MediaType):String
     abstract fun getColor(type:MediaType):Int

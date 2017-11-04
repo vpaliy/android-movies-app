@@ -10,7 +10,7 @@ import android.widget.TextView
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import java.util.Arrays
 
-class Chips (context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
+class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     :ViewGroup(context, attrs, defStyle) {
 
     private var chips= mutableListOf<TextView>()

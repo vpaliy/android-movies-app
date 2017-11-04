@@ -21,12 +21,12 @@ public class Constants {
     }
 
     public static String appendPosterSize(String posterPath){
-        if(posterPath==null)return null;
+        if(posterPath==null) return null;
         return appendBaseMovieURL(IMAGE_SIZE_W185)+posterPath;
     }
 
     public static String appendBackdropSize(String backdropPath){
-        if(backdropPath==null)return null;
+        if(backdropPath==null) return null;
         return appendBaseMovieURL(IMAGE_SIZE_W780)+backdropPath;
     }
 

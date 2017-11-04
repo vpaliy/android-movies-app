@@ -22,7 +22,7 @@
         <android.support.constraint.ConstraintLayout
             android:orientation="vertical"
             android:padding="@dimen/spacing_large"
-            android:id="@+id/background"
+            android:id="@+id/details"
             android:background="@color/grey_200"
             android:layout_below="@+id/poster"
             android:layout_width="match_parent"
@@ -59,10 +59,9 @@
             <com.popularmovies.vpaliy.popularmoviesapp.ui.view.Chips
                 android:id="@+id/chips"
                 android:orientation="horizontal"
-                app:chip_layout_horizontal_margin="@dimen/spacing_small"
-                app:chip_layout_vertical_margin="@dimen/spacing_small"
-                app:chipTextColor="@color/blue_grey_700"
-                app:chipTextStyle="@style/Widget.HashTag"
+                app:horizontal_spacing="@dimen/spacing_small"
+                app:vertical_spacing="@dimen/spacing_small"
+                app:text_style="@style/Widget.HashTag"
                 android:layout_width="0dp"
                 app:layout_constraintWidth_default="wrap"
                 android:layout_height="wrap_content"

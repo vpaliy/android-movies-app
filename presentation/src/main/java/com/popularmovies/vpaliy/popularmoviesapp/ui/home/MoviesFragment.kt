@@ -3,15 +3,14 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerViewComponent
-import com.popularmovies.vpaliy.popularmoviesapp.di.module.PresenterModule
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerMovieComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.MovieModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.color
-import com.popularmovies.vpaliy.popularmoviesapp.di.qualifier.Movies
 import javax.inject.Inject
 
 class MoviesFragment:HomeFragment(){
     override var presenter: HomeContract.Presenter?=null
-        @Inject set(@Movies value) {
+        @Inject set(value) {
             field=value
             field?.attach(this)
         }
@@ -31,9 +30,9 @@ class MoviesFragment:HomeFragment(){
     }
 
     override fun inject() {
-        DaggerViewComponent.builder()
+        DaggerMovieComponent.builder()
                 .applicationComponent(App.component)
-                .presenterModule(PresenterModule())
+                .movieModule(MovieModule())
                 .build().inject(this)
     }
 }

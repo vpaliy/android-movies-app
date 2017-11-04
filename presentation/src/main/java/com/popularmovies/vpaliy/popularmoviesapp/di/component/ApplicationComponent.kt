@@ -14,6 +14,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.DataModule
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.InteractorModule
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.MapperModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.Navigator
 import com.popularmovies.vpaliy.popularmoviesapp.ui.mapper.MediaMovieMapper
 import com.popularmovies.vpaliy.popularmoviesapp.ui.mapper.MediaTVMapper
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
@@ -27,6 +28,7 @@ interface ApplicationComponent {
     fun inject(activity:BaseActivity)
     fun context(): Context
     fun scheduler():BaseScheduler
+    fun navigator():Navigator
     fun movieRepository():MediaRepository<Movie>
     fun tvRepository():MediaRepository<TVShow>
     fun movieSearch():SearchRepository<Movie>

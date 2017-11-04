@@ -53,6 +53,7 @@ dependencies {
     implementation libs.supportDesign
     implementation libs.supportAppCompat
     implementation libs.circleImage
+    implementation libs.cardView
     compile libs.Dagger2
     implementation libs.circleIndicator
     implementation libs.glide
