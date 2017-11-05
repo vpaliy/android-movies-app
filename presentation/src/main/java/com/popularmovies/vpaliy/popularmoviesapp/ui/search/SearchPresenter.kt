@@ -5,10 +5,12 @@ import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.domain.entity.TVShow
 import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchContract.View
 import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.SearchType
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.SearchFacade
 import com.popularmovies.vpaliy.popularmoviesapp.ui.then
 
+@ViewScope
 class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
 
     private lateinit var page:SearchPage
@@ -62,6 +64,11 @@ class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
         }
     }
 
+    override fun attachView(view: View) {
+        this.view=view
+    }
+
     private fun onError(ex:Throwable){
+        ex.printStackTrace()
     }
 }

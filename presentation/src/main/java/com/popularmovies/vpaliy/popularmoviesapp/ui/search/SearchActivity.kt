@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
+import android.os.Bundle
 import com.popularmovies.vpaliy.domain.entity.Actor
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.domain.entity.TVShow
@@ -10,6 +11,11 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchContract.Presen
 class SearchActivity:BaseActivity(),SearchContract.View{
 
     lateinit var presenter:Presenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun appendMovies(data: List<Movie>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

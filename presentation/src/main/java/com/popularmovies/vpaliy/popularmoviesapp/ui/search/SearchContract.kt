@@ -21,5 +21,6 @@ object SearchContract{
         fun query(query:String)
         fun more(type: SearchType)
         fun stop()
+        fun attachView(view:View)
     }
 }
