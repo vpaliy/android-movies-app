@@ -24,15 +24,21 @@ class MorePresenter<T>(private val interactor:PagerFacade<T>) :Presenter{
     }
 
     override fun more() {
+        view.showLoading()
         page.next()
         interactor.execute(this::onSuccess,this::onError,page)
     }
 
-    override fun start()= interactor.execute(this::onSuccess,this::onError,page)
+    override fun start() {
+        page.current=1
+        view.showLoading()
+        interactor.execute(this::onSuccess, this::onError, page)
+    }
 
     override fun stop(){}
 
     private fun onSuccess(page:TypePage,data:List<MediaModel>){
+        view.hideLoading()
         if(data.isNotEmpty()){
             if(page.current > 1)
                 view.append(data)
@@ -43,6 +49,7 @@ class MorePresenter<T>(private val interactor:PagerFacade<T>) :Presenter{
 
     private fun onError(ex:Throwable){
         ex.printStackTrace()
+        view.hideLoading()
         view.error()
     }
 

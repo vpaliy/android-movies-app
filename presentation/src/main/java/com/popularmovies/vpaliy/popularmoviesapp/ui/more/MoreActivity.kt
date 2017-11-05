@@ -12,10 +12,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.TVModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract.Presenter
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_IS_MOVIES
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_TYPE
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.fetchHeavyObject
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.*
 import kotlinx.android.synthetic.main.activity_more.*
 import javax.inject.Inject
 
@@ -32,12 +29,16 @@ class MoreActivity :BaseActivity(), MoreContract.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_more)
-        val type=intent.extras.fetchHeavyObject<MediaType>(EXTRA_TYPE,
-                object:TypeToken<MediaType>(){}.type)
+        setSupportActionBar(toolbar)
+        start()
+    }
 
+    private fun start(){
+        val type=intent.extras.fetchHeavyObject<MediaType>(EXTRA_TYPE, object:TypeToken<MediaType>(){}.type)
         presenter?.let {
             it.attachType(type!!)
             it.start()
+            refresher.setOnRefreshListener(it::start)
             list.addOnScrollListener(object:OnReachBottomListener(list.layoutManager){
                 override fun onLoadMore()=it.more()
             })
@@ -53,8 +54,16 @@ class MoreActivity :BaseActivity(), MoreContract.View{
     override fun message(resource: Int) {}
 
     override fun show(data: List<MediaModel>) {
-        list.adapter=adapter
+        if(list.adapter!==adapter) list.adapter=adapter
         adapter.data=data.toMutableList()
+    }
+
+    override fun showLoading() {
+        refresher.isRefreshing=true
+    }
+
+    override fun hideLoading() {
+        refresher.isRefreshing=false
     }
 
     //TODO fix that :(

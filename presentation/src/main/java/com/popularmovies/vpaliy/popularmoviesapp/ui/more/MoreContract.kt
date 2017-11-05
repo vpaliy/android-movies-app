@@ -17,6 +17,8 @@ object MoreContract {
         fun show(data:List<MediaModel>)
         fun append(data:List<MediaModel>)
         fun message(@StringRes resource:Int)
+        fun showLoading()
+        fun hideLoading()
         fun error()
         fun empty()
     }

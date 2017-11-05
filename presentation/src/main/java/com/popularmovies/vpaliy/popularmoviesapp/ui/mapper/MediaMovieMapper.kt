@@ -15,7 +15,7 @@ class MediaMovieMapper @Inject constructor():Mapper<MediaModel,Movie>{
         val release=fake.releaseYear?:""
         val ratings=fake.averageVote.toString()
         val tags=fake.genres?: emptyList()
-        return MediaModel(fake.id,poster,fake.title,backdrop,release,ratings,tags)
+        return MediaModel(fake.id,poster,fake.title,backdrop,release,ratings,tags,true)
     }
 
     override fun reverse(real: MediaModel)=Movie().apply {
