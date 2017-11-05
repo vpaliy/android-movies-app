@@ -14,6 +14,8 @@ fun Context.inflater()=LayoutInflater.from(this)!!
 
 fun <T> Boolean.then(item:T)=if(this) item else null
 
+fun <T> Boolean.then(result:()->T)=if(this) result() else null
+
 fun Context.getCompatDrawable(@DrawableRes id:Int)=ContextCompat.getDrawable(this,id)
 
 fun Context.color(@ColorRes id:Int)=ContextCompat.getColor(this,id)
