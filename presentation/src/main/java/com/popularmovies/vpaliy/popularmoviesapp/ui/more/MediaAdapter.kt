@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.pager
+package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import android.content.Context
 import android.graphics.Bitmap

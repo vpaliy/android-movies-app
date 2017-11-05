@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.pager
+package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import android.os.Bundle
 import com.google.gson.reflect.TypeToken
@@ -11,7 +11,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.MovieModule
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.TVModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
-import com.popularmovies.vpaliy.popularmoviesapp.ui.pager.PagerContract.Presenter
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract.Presenter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_IS_MOVIES
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_TYPE
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
@@ -19,7 +19,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.fetchHeavyObject
 import kotlinx.android.synthetic.main.activity_more.*
 import javax.inject.Inject
 
-class PagerActivity:BaseActivity(),PagerContract.View{
+class MoreActivity :BaseActivity(), MoreContract.View{
 
     internal var presenter:Presenter?=null
         @Inject set(value) {
@@ -46,21 +46,18 @@ class PagerActivity:BaseActivity(),PagerContract.View{
 
     override fun append(data: List<MediaModel>)= adapter.append(data)
 
-    override fun empty() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun empty() {}
 
     override fun error() {}
 
-    override fun message(resource: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun message(resource: Int) {}
 
     override fun show(data: List<MediaModel>) {
         list.adapter=adapter
         adapter.data=data.toMutableList()
     }
 
+    //TODO fix that :(
     override fun inject() {
         val isMovies=intent.getBooleanExtra(EXTRA_IS_MOVIES,false)
         if(!isMovies){

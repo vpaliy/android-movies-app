@@ -1,18 +1,15 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.pager
+package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import com.popularmovies.vpaliy.domain.entity.MediaType
-import com.popularmovies.vpaliy.domain.interactor.params.Response
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.PagerFacade
-import com.popularmovies.vpaliy.popularmoviesapp.ui.pager.PagerContract.View
-import com.popularmovies.vpaliy.popularmoviesapp.ui.pager.PagerContract.Presenter
-import javax.inject.Inject
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract.View
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract.Presenter
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 
 @ViewScope
-class PagerPresenter<T> @Inject
-constructor(private val interactor:PagerFacade<T>) :Presenter{
+class MorePresenter<T>(private val interactor:PagerFacade<T>) :Presenter{
 
     private lateinit var type:MediaType
     private lateinit var view:View
@@ -46,6 +43,7 @@ constructor(private val interactor:PagerFacade<T>) :Presenter{
 
     private fun onError(ex:Throwable){
         ex.printStackTrace()
+        view.error()
     }
 
 }

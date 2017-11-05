@@ -13,6 +13,7 @@ import android.animation.AnimatorListenerAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.getStatusBarHeight
 
 class HomeActivity: BaseActivity(){
 
@@ -49,7 +50,7 @@ class HomeActivity: BaseActivity(){
             = drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
 
     private fun setActionBar() {
-        val statusBarHeight = PresentationUtils.getStatusBarHeight(resources)
+        val statusBarHeight = getStatusBarHeight(resources)
         toolbar.layoutParams.height += statusBarHeight
         toolbar.setPadding(0, statusBarHeight, 0, 0)
         setSupportActionBar(toolbar)

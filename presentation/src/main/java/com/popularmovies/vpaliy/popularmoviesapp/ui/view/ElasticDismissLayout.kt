@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.FrameLayout
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.isNavBarOnBottom
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.modifyAlpha
 import java.util.ArrayList
 
 
@@ -198,23 +200,23 @@ constructor(context: Context, attrs: AttributeSet?=null,
     class SystemChromeFader(private val activity: Activity) : ElasticDragDismissCallback() {
         private val statusBarAlpha=Color.alpha(activity.window.statusBarColor)
         private val navBarAlpha=Color.alpha(activity.window.navigationBarColor)
-        private val fadeNavBar=PresentationUtils.isNavBarOnBottom(activity)
+        private val fadeNavBar=isNavBarOnBottom(activity)
 
         public override fun onDrag(elasticOffset: Float, elasticOffsetPixels: Float,
                                    rawOffset: Float, rawOffsetPixels: Float) {
             if (elasticOffsetPixels > 0) {
                 // dragging downward, fade the status bar in proportion
-                activity.window.statusBarColor = PresentationUtils.modifyAlpha(activity.window
+                activity.window.statusBarColor = modifyAlpha(activity.window
                         .statusBarColor, ((1f - rawOffset) * statusBarAlpha).toInt())
             } else if (elasticOffsetPixels == 0f) {
                 // reset
-                activity.window.statusBarColor = PresentationUtils.modifyAlpha(
+                activity.window.statusBarColor = modifyAlpha(
                         activity.window.statusBarColor, statusBarAlpha)
-                activity.window.navigationBarColor = PresentationUtils.modifyAlpha(
+                activity.window.navigationBarColor = modifyAlpha(
                         activity.window.navigationBarColor, navBarAlpha)
             } else if (fadeNavBar) {
                 // dragging upward, fade the navigation bar in proportion
-                activity.window.navigationBarColor = PresentationUtils.modifyAlpha(activity.window.navigationBarColor,
+                activity.window.navigationBarColor = modifyAlpha(activity.window.navigationBarColor,
                         ((1f - rawOffset) * navBarAlpha).toInt())
             }
         }

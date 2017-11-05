@@ -6,7 +6,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.PagerFacade
 import com.popularmovies.vpaliy.popularmoviesapp.ui.home.HomeContract.View
 
-class HomePresenter<T>(val interactor:PagerFacade<T>) :HomeContract.Presenter{
+class HomePresenter<T>(private val interactor:PagerFacade<T>) :HomeContract.Presenter{
 
     private val map= mutableMapOf<MediaType,TypePage>()
     private lateinit var view:View

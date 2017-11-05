@@ -8,8 +8,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.home.HomeContract
 import com.popularmovies.vpaliy.popularmoviesapp.ui.home.HomePresenter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.PagerFacade
-import com.popularmovies.vpaliy.popularmoviesapp.ui.pager.PagerContract
-import com.popularmovies.vpaliy.popularmoviesapp.ui.pager.PagerPresenter
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MorePresenter
 import dagger.Module
 import dagger.Provides
 
@@ -26,8 +26,8 @@ class TVModule{
     @ViewScope
     @Provides
     fun more(interactor: GetPage<TVShow>, mapper: Mapper<MediaModel,TVShow>)
-            :PagerContract.Presenter{
+            : MoreContract.Presenter{
         val facade=PagerFacade(interactor,mapper)
-        return PagerPresenter(facade)
+        return MorePresenter(facade)
     }
 }

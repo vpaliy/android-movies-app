@@ -1,10 +1,10 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.pager
+package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import android.support.annotation.StringRes
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 
-object PagerContract {
+object MoreContract {
     interface Presenter{
         fun attachView(view:View)
         fun attachType(type: MediaType)

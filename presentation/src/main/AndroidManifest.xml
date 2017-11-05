@@ -20,6 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.pager.PagerActivity"/>
+        <activity android:name=".ui.more.MoreActivity"/>
     </application>
 </manifest>

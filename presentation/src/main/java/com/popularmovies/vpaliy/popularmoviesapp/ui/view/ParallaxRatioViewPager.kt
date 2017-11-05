@@ -14,6 +14,7 @@ import android.view.View
 
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.modifyAlpha
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class ParallaxRatioViewPager constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ViewPager(context, attrs) {
@@ -80,7 +81,7 @@ class ParallaxRatioViewPager constructor(context: Context, attrs: AttributeSet? 
     fun setScrimAlpha(@FloatRange(from = 0.0, to = 1.0) alpha: Float) {
         if (scrimAlpha != alpha) {
             scrimAlpha = alpha
-            scrimPaint.color = PresentationUtils.modifyAlpha(scrimColor, scrimAlpha);
+            scrimPaint.color = modifyAlpha(scrimColor, scrimAlpha);
             postInvalidateOnAnimation()
         }
     }
