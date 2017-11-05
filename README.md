@@ -1,9 +1,14 @@
 
 Converting to Kotlin..
 
+# Demo #
+
+![](https://github.com/vpaliyX/PopularMovies/blob/master/art/ezgif-2-48f8bfad51.gif)
+
 ## License ##
 
 ``````
+
 Apache License
 
 Copyright (c) 2017 Vasyl Paliy
