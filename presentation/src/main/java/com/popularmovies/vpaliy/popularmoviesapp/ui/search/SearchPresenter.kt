@@ -1,14 +1,13 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
 import com.popularmovies.vpaliy.domain.entity.Actor
-import com.popularmovies.vpaliy.domain.entity.Movie
-import com.popularmovies.vpaliy.domain.entity.TVShow
 import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchContract.View
 import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.SearchType
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.SearchFacade
 import com.popularmovies.vpaliy.popularmoviesapp.ui.then
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 
 @ViewScope
 class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
@@ -37,7 +36,7 @@ class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
         page.invalidate()
     }
 
-    private fun onMovieSuccess(page:SearchPage,data:List<Movie>){
+    private fun onMovieSuccess(page:SearchPage,data:List<MediaModel>){
         if(data.isNotEmpty()){
             page.isFirst.then({view.showMovies(data)})
                     ?:view.appendMovies(data)
@@ -55,7 +54,7 @@ class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
         }
     }
 
-    private fun onTVSuccess(page:SearchPage,data:List<TVShow>){
+    private fun onTVSuccess(page:SearchPage,data:List<MediaModel>){
         if(data.isNotEmpty()){
             page.isFirst.then({view.showTV(data)})
                     ?:view.appendTV(data)

@@ -2,9 +2,9 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
 import android.os.Bundle
 import com.popularmovies.vpaliy.domain.entity.Actor
-import com.popularmovies.vpaliy.domain.entity.Movie
-import com.popularmovies.vpaliy.domain.entity.TVShow
+import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.SearchType
 import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchContract.Presenter
 
@@ -12,12 +12,14 @@ class SearchActivity:BaseActivity(),SearchContract.View{
 
     lateinit var presenter:Presenter
 
+    private val adapter by lazy { SearchAdapter(supportFragmentManager) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(R.layout.activity_search)
     }
 
-    override fun appendMovies(data: List<Movie>) {
+    override fun appendMovies(data: List<MediaModel>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -25,7 +27,7 @@ class SearchActivity:BaseActivity(),SearchContract.View{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun appendTV(data: List<TVShow>) {
+    override fun appendTV(data: List<MediaModel>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -37,7 +39,7 @@ class SearchActivity:BaseActivity(),SearchContract.View{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showMovies(data: List<Movie>) {
+    override fun showMovies(data: List<MediaModel>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -45,7 +47,7 @@ class SearchActivity:BaseActivity(),SearchContract.View{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showTV(data: List<TVShow>) {
+    override fun showTV(data: List<MediaModel>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
