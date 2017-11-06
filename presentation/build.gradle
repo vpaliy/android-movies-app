@@ -47,6 +47,7 @@ dependencies {
     implementation('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true
     }
+    implementation 'com.github.armcha:PlayTabLayout:1.2.4'
     implementation libs.preferenceCompat7
     implementation libs.constraintLayout
     implementation libs.recyclerView
