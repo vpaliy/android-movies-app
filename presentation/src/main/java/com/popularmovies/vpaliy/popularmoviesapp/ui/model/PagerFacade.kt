@@ -18,6 +18,6 @@ class PagerFacade<T>(private val interactor:RequestInteractor<TypePage,List<T>>,
     }
 
     private fun onSuccess(response: Response<TypePage,List<T>>) {
-        success?.invoke(response.type, mapper.map(response.data))
+        success?.invoke(response.request, mapper.map(response.data))
     }
 }

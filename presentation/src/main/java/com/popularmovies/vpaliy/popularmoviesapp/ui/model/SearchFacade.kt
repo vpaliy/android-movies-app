@@ -15,38 +15,50 @@ class SearchFacade(private val movieSearch:SearchInteractor<Movie>,
                    private val tvMapper:Mapper<MediaModel,TVShow>,
                    private val movieMapper:Mapper<MediaModel,Movie>){
 
-    var onMovie:((page:SearchPage, List<MediaModel>)->Unit)?=null
-    var onTV:((page:SearchPage, List<MediaModel>)->Unit)?=null
-    var onPeople:((page:SearchPage, List<Actor>)->Unit)?=null
-    var onError:((Throwable)->Unit)?=null
+    var onError:((type:SearchType, Throwable)->Unit)?=null
+    var onPeople:((result: QueryResult<Actor>)->Unit)?=null
+    var onSuccess:((result: QueryResult<MediaModel>)->Unit)?=null
 
     fun search(page:SearchPage,type: SearchType = SearchType.ALL){
         when(type){
             SearchType.ALL->{
-                movieSearch.execute(Consumer(this::onMovieSuccess,this::onError),page)
-                tvSearch.execute(Consumer(this::onTVSuccess,this::onError),page)
-                peopleSearch.execute(Consumer(this::onPeopleSuccess,this::onError),page)
+                movieSearch.execute(Consumer(this::onMovie,this::onMovieError),page)
+                tvSearch.execute(Consumer(this::onTV,this::onTVError),page)
+                peopleSearch.execute(Consumer(this::onPeople,this::onPeopleError),page)
             }
-            SearchType.MOVIE-> movieSearch.execute(Consumer(this::onMovieSuccess,this::onError),page)
-            SearchType.PEOPLE-> peopleSearch.execute(Consumer(this::onPeopleSuccess,this::onError),page)
-            SearchType.TV-> tvSearch.execute(Consumer(this::onTVSuccess,this::onError),page)
+            SearchType.MOVIE-> movieSearch.execute(Consumer(this::onMovie,this::onMovieError),page)
+            SearchType.PEOPLE-> peopleSearch.execute(Consumer(this::onPeople,this::onPeopleError),page)
+            SearchType.TV-> tvSearch.execute(Consumer(this::onTV,this::onTVError),page)
         }
     }
 
-    private fun onMovieSuccess(response: Response<SearchPage,List<Movie>>){
-        onMovie?.invoke(response.type,movieMapper.map(response.data))
+    private fun onMovie(response: Response<SearchPage,List<Movie>>){
+        val data=movieMapper.map(response.data)
+        onSuccess?.invoke(QueryResult(response.request,SearchType.MOVIE,data))
     }
 
-    private fun onTVSuccess(response: Response<SearchPage,List<TVShow>>){
-        onTV?.invoke(response.type,tvMapper.map(response.data))
+    private fun onTV(response: Response<SearchPage,List<TVShow>>){
+        val data=tvMapper.map(response.data)
+        onSuccess?.invoke(QueryResult(response.request,SearchType.MOVIE,data))
     }
 
-    private fun onPeopleSuccess(response:Response<SearchPage, List<Actor>>){
-        onPeople?.invoke(response.type,response.data)
+    private fun onPeople(response:Response<SearchPage, List<Actor>>){
+        val result= QueryResult(response.request,SearchType.PEOPLE,response.data)
+        onPeople?.invoke(result)
     }
 
-    private fun onError(ex:Throwable){
+    private fun onPeopleError(ex:Throwable){
         ex.printStackTrace()
-        onError?.invoke(ex)
+        onError?.invoke(SearchType.PEOPLE,ex)
+    }
+
+    private fun onMovieError(ex:Throwable){
+        ex.printStackTrace()
+        onError?.invoke(SearchType.MOVIE,ex)
+    }
+
+    private fun onTVError(ex:Throwable){
+        ex.printStackTrace()
+        onError?.invoke(SearchType.TV,ex)
     }
 }

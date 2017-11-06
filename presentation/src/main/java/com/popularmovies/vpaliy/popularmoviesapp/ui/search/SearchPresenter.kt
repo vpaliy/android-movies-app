@@ -6,8 +6,8 @@ import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.SearchType
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.SearchFacade
-import com.popularmovies.vpaliy.popularmoviesapp.ui.then
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.QueryResult
 
 @ViewScope
 class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
@@ -17,9 +17,8 @@ class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
 
     init {
         searchFacade.onError=this::onError
-        searchFacade.onPeople=this::onPeopleSuccess
-        searchFacade.onTV=this::onTVSuccess
-        searchFacade.onMovie=this::onMovieSuccess
+        searchFacade.onPeople=this::onPeople
+        searchFacade.onSuccess=this::onMedia
     }
 
     override fun query(query: String) {
@@ -36,30 +35,23 @@ class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
         page.invalidate()
     }
 
-    private fun onMovieSuccess(page:SearchPage,data:List<MediaModel>){
+    private fun onPeople(result: QueryResult<Actor>){
+        val data=result.data
         if(data.isNotEmpty()){
-            page.isFirst.then({view.showMovies(data)})
-                    ?:view.appendMovies(data)
-        }else {
-            view.empty(SearchType.MOVIE)
+            if(result.isFirst)
+                view.showPeople(result.data)
+            else
+                view.showPeople(result.data)
         }
     }
 
-    private fun onPeopleSuccess(page:SearchPage,data:List<Actor>){
+    private fun onMedia(result: QueryResult<MediaModel>){
+        val data=result.data
         if(data.isNotEmpty()){
-            page.isFirst.then({view.showPeople(data)})
-                    ?:view.appendPeople(data)
-        }else {
-            view.empty(SearchType.PEOPLE)
-        }
-    }
-
-    private fun onTVSuccess(page:SearchPage,data:List<MediaModel>){
-        if(data.isNotEmpty()){
-            page.isFirst.then({view.showTV(data)})
-                    ?:view.appendTV(data)
-        }else {
-            view.empty(SearchType.TV)
+            if(result.isFirst)
+                view.showMedia(result.type,result.data)
+            else
+                view.appendMedia(result.type,result.data)
         }
     }
 
@@ -67,7 +59,8 @@ class SearchPresenter(val searchFacade: SearchFacade):SearchContract.Presenter{
         this.view=view
     }
 
-    private fun onError(ex:Throwable){
+    private fun onError(type:SearchType, ex:Throwable){
         ex.printStackTrace()
+        view.error(type)
     }
 }
