@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
+import android.util.Log
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.popularmoviesapp.App
@@ -7,6 +8,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerSearchCompon
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.SearchModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MediaAdapter
+import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
 class MovieResult:SearchResult<Movie>(){
@@ -22,6 +24,7 @@ class MovieResult:SearchResult<Movie>(){
     private val adapter by lazy { MediaAdapter(context,{}) }
 
     override fun showResult(data: List<Movie>) {
+        result.adapter=adapter
         adapter.data=mapper.map(data).toMutableList()
     }
 

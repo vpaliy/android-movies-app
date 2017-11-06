@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
+import android.util.Log
 import com.popularmovies.vpaliy.domain.interactor.SearchInteractor
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.Response
@@ -24,9 +25,7 @@ class SearchPresenter<T>(val search:SearchInteractor<T>):SearchContract.Presente
         search.execute(Consumer(this::onSuccess,this::onError),page)
     }
 
-    override fun stop() {
-
-    }
+    override fun stop() {}
 
     private fun onSuccess(response:Response<SearchPage,List<T>>){
         val page=response.request

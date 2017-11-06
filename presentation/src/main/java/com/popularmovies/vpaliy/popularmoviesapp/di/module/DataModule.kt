@@ -48,4 +48,8 @@ class DataModule {
     @Provides
     @Singleton
     internal fun moviesService() = client.moviesService
+
+    @Provides
+    @Singleton
+    internal fun searchService() = client.searchService
 }
