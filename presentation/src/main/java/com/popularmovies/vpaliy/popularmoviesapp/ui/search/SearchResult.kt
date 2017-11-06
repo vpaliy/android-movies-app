@@ -16,6 +16,7 @@ abstract class SearchResult<T>:Fragment(),SearchContract.View<T>,QueryListener{
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        inject()
         result.addOnScrollListener(object:OnReachBottomListener(result.layoutManager){
             override fun onLoadMore() {
                 presenter?.more()
@@ -30,4 +31,6 @@ abstract class SearchResult<T>:Fragment(),SearchContract.View<T>,QueryListener{
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
             :View?
             =inflater?.inflate(R.layout.fragment_search,container,false)
+
+    abstract fun inject()
 }

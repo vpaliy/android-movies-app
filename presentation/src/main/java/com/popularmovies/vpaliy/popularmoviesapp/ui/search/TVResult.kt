@@ -1,25 +1,44 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
+import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.TVShow
+import com.popularmovies.vpaliy.popularmoviesapp.App
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerSearchComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.SearchModule
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MediaAdapter
+import kotlinx.android.synthetic.main.fragment_search.*
+import javax.inject.Inject
 
 class TVResult:SearchResult<TVShow>(){
 
     override var presenter: SearchContract.Presenter<TVShow>?=null
-        set(value) {}
+        @Inject set(value) {
+            field=value
+            field?.attachView(this)
+        }
+
+    @Inject lateinit var mapper: Mapper<MediaModel, TVShow>
+
+    private val adapter by lazy { MediaAdapter(context,{}) }
 
     override fun appendResult(data: List<TVShow>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        adapter.append(mapper.map(data).toMutableList())
     }
 
-    override fun empty() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun empty() {}
 
-    override fun error() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun error() {}
 
     override fun showResult(data: List<TVShow>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        result.adapter=adapter
+        adapter.data=mapper.map(data).toMutableList()
+    }
+
+    override fun inject() {
+        DaggerSearchComponent.builder()
+                .applicationComponent(App.component)
+                .searchModule(SearchModule())
+                .build().inject(this)
     }
 }
