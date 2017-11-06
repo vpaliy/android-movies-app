@@ -11,7 +11,7 @@ class SearchPresenter<T>(val search:SearchInteractor<T>):SearchContract.Presente
     private lateinit var view: SearchContract.View<T>
 
     override fun attachView(view: SearchContract.View<T>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        this.view=view
     }
 
     override fun more() {
@@ -37,6 +37,7 @@ class SearchPresenter<T>(val search:SearchInteractor<T>):SearchContract.Presente
     }
 
     private fun onError(ex:Throwable){
+        ex.printStackTrace()
         view.error()
     }
 }

@@ -23,7 +23,9 @@
         <activity
             android:theme="@style/PopMovies.MoreMedia"
             android:name=".ui.more.MoreActivity"/>
-        <activity android:name=".ui.search.SearchActivity">
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:theme="@style/PopMovies.Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

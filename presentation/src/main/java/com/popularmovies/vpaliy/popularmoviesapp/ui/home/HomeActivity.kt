@@ -40,14 +40,28 @@ class HomeActivity: BaseActivity(){
         drawerLayout.setDrawerListener(drawerToggle)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menuInflater.inflate(R.menu.menu_movies, menu)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main,menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem)
-            = drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
+    override fun onPostCreate(savedInstanceState: Bundle?){
+        super.onPostCreate(savedInstanceState)
+        drawerToggle.syncState()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.search-> {
+                val search =toolbar.findViewById<View>(R.id.search)
+                //search.transitionName=getString(R.string.search_trans)
+                //navigator.search(this, Pair(search, getString(R.string.search_trans)))
+                navigator.navigateToSearch(this)
+                return true
+            }
+        }
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item)
+    }
 
     private fun setActionBar() {
         val statusBarHeight = getStatusBarHeight(resources)
