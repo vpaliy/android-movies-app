@@ -17,5 +17,4 @@ class SearchActivity:BaseActivity(){
     override fun inject() {
         App.component?.inject(this)
     }
-
 }

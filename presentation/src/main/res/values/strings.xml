@@ -76,6 +76,7 @@
 
     <string name="NA">N/A</string>
 
+    <string name="search_hint">Type your query</string>
 
     <!-- Transition names -->
     <string name="background_transition_name" translatable="false">background_trans_name</string>
@@ -89,5 +90,6 @@
     <string name="tags_transition_name" translatable="false">tags_transition_name</string>
     <string name="button_transition_name" translatable="false">fab_button_trans_name</string>
     <string name="actor_poster_transition_name" translatable="false">actor_poster_trans_name</string>
+    <string name="search_trans" translatable="false">search_trans</string>
 
 </resources>

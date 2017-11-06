@@ -63,6 +63,17 @@
 
     </style>
 
+    <style name="Widget.SearchView" parent="android:style/Widget.Material.SearchView">
+        <item name="android:searchIcon">@android:color/transparent</item>
+        <item name="android:queryBackground">@android:color/transparent</item>
+        <item name="android:submitBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="SearchTheme" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
+        <item name="colorControlActivated">?android:colorAccent</item>
+        <item name="android:searchViewStyle">@style/Widget.SearchView</item>
+    </style>
+
     <style name="Widget.NumberText" parent="@android:style/TextAppearance.Material.Caption">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">14sp</item>
@@ -87,7 +98,6 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-
     <style name="Widget.ToolbarText">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFeatureSettings">smcp</item>
@@ -96,5 +106,4 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
-
 </resources>
