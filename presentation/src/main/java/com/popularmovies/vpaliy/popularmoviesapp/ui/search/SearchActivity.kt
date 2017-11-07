@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -28,14 +29,8 @@ class SearchActivity:BaseActivity(){
         setContentView(R.layout.activity_search)
         setupSearch()
         setupTransition()
-        playTabLayout.colors= intArrayOf(R.color.colorMovies,
-                R.color.colorTvShows,R.color.colorFavorite)
         results.adapter=adapter
-        with(playTabLayout.tabLayout){
-            setupWithViewPager(results)
-            setSelectedTabIndicatorColor(Color.WHITE)
-            setSelectedTabIndicatorHeight(7)
-        }
+        playTabLayout.setupWithViewPager(results)
     }
 
     private fun setupTransition(){

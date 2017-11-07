@@ -21,6 +21,12 @@ class SearchAdapter(manager:FragmentManager)
 
     override fun getCount()=3
 
+    override fun getPageTitle(position: Int)=when(position){
+        0->"Movies"
+        1->"TV"
+        else->"People"
+    }
+
     override fun queryTyped(query: String){
         listeners.forEach { it.queryTyped(query) }
     }

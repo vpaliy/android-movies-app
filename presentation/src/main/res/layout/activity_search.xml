@@ -15,10 +15,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
-    <io.armcha.playtablayout.core.PlayTabLayout
+    <android.support.design.widget.TabLayout
         android:id="@+id/playTabLayout"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/searchToolbar"
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="0dp"
