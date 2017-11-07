@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity:BaseActivity(){
 
-    private val adapter by lazy { SearchAdapter(supportFragmentManager) }
+    private val adapter by lazy { SearchAdapter(this,supportFragmentManager) }
 
     private var checked=false
 
@@ -30,7 +30,7 @@ class SearchActivity:BaseActivity(){
         setupSearch()
         setupTransition()
         results.adapter=adapter
-        playTabLayout.setupWithViewPager(results)
+        tabLayout.setup(results,adapter)
     }
 
     private fun setupTransition(){

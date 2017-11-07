@@ -3,9 +3,13 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.support.constraint.ConstraintLayout
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.*
@@ -22,16 +26,16 @@ class ChipTabLayout @JvmOverloads constructor(context:Context, attrs: AttributeS
     var selected=0
     var horizontalSpacing=0
     var verticalSpacing=0
-    var scaleFactor=0f
+    var scaleFactor=1.1f
     var scaleDuration=200L
     var scaleDelay=0L
 
-    private val layout =LinearLayout(context,attrs).apply {
-        orientation=LinearLayout.HORIZONTAL
-    }
+    private val layout =ConstraintLayout(context,attrs)
 
     init {
-        addView(layout, LayoutParams(MATCH_PARENT, MATCH_PARENT))
+        isFillViewport=true
+        layout.layoutParams= LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        addView(layout, layout.layoutParams)
         attrs?.let {
             val array=context.obtainStyledAttributes(it,R.styleable.ChipTabLayout)
             horizontalSpacing=array.getDimensionPixelOffset(R.styleable.ChipTabLayout_horizontal_space,horizontalSpacing)
@@ -56,6 +60,8 @@ class ChipTabLayout @JvmOverloads constructor(context:Context, attrs: AttributeS
 
     internal fun select(position:Int){
         if(tabs.size > position){
+            tabs[selected].isSelected=false
+            tabs[position].isSelected=true
             tabs[selected].animate()
                     .scale(1f)
                     .apply {
@@ -68,6 +74,7 @@ class ChipTabLayout @JvmOverloads constructor(context:Context, attrs: AttributeS
                         duration=scaleDuration
                         startDelay=scaleDelay
                     }.start()
+            selected=position
         }
     }
 
@@ -75,16 +82,34 @@ class ChipTabLayout @JvmOverloads constructor(context:Context, attrs: AttributeS
         layout.removeAllViews()
         tabs.clear()
         selected=0
+        var prev:Pair<View,ConstraintLayout.LayoutParams>?=null
         builders?.forEachIndexed { index, builder ->
             val tab=builder.build(context)
+            tab.id=index+1
+            val params=ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+            if(prev!=null){
+                prev?.let {
+                    it.second.endToStart=tab.id
+                    params.topToTop=it.first.id
+                    params.bottomToBottom=it.first.id
+                    params.startToEnd=it.first.id
+                }
+                if(index==builders.size-1){
+                    params.endToEnd=ConstraintLayout.LayoutParams.PARENT_ID
+                }
+            }else{
+                params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
+                params.bottomToBottom=ConstraintLayout.LayoutParams.PARENT_ID
+                params.topToTop=ConstraintLayout.LayoutParams.PARENT_ID
+                params.horizontalChainStyle=ConstraintLayout.LayoutParams.CHAIN_SPREAD
+            }
             tab.clickListener={ pager?.setCurrentItem(tabs.indexOf(tab),true) }
-            val params=LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
             tab.layoutParams=params
-            val spacing=(index!=0) then(horizontalSpacing)?:0
-            params.setMargins(spacing,verticalSpacing,spacing,verticalSpacing)
             tabs.add(tab)
             layout.addView(tab,params)
+            prev=Pair(tab,params)
         }
+        select(selected)
     }
 }
 
@@ -107,8 +132,7 @@ class ChipTab(context: Context, builder: Builder):TextView(context),View.OnClick
         setOnClickListener(this)
         text=builder.text
         background = getDrawable(R.drawable.ring)
-        setDrawableColor(this,colorBackground)
-
+        setDrawableColor(background,colorBackground)
     }
 
     override fun setSelected(selected: Boolean) {
@@ -116,7 +140,7 @@ class ChipTab(context: Context, builder: Builder):TextView(context),View.OnClick
         var color=(selected then selectedTextColor)?:colorText
         setTextColor(color)
         color=(selected then selectedBackgroundColor)?:colorBackground
-        setDrawableColor(this,color)
+        setDrawableColor(background,color)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -145,10 +169,10 @@ class ChipTab(context: Context, builder: Builder):TextView(context),View.OnClick
     }
 }
 
-abstract class ChipPagerAdapter:PagerAdapter(){
+abstract class ChipPagerAdapter(manager:FragmentManager):FragmentPagerAdapter(manager){
     internal fun build():List<ChipTab.Builder>{
         val result= mutableListOf<ChipTab.Builder>()
-        (0..count).forEach {
+        (0 until count).forEach {
             val style=styleFor(it)
             val text=getPageTitle(it).toString()
             val builder= ChipTab.Builder(text,style)

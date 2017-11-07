@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.utils
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.support.annotation.CheckResult
 import android.support.annotation.ColorInt
 import android.support.annotation.FloatRange
@@ -44,6 +45,13 @@ fun dimColor(color: Int, factor: Float): Int {
 
 fun setDrawableColor(view: ImageView, color: Int) {
     val drawable = view.drawable
+    if (drawable != null) {
+        drawable.mutate()
+        DrawableCompat.setTint(drawable, color)
+    }
+}
+
+fun setDrawableColor(drawable:Drawable?, color: Int) {
     if (drawable != null) {
         drawable.mutate()
         DrawableCompat.setTint(drawable, color)
