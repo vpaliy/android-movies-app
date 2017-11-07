@@ -1,27 +1,33 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
 import android.app.SearchManager
+import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
+import com.popularmovies.vpaliy.popularmoviesapp.ui.then
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity:BaseActivity(){
 
     private val adapter by lazy { SearchAdapter(supportFragmentManager) }
 
+    private var checked=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setupSearch()
+        setupTransition()
         playTabLayout.colors= intArrayOf(R.color.colorMovies,
                 R.color.colorTvShows,R.color.colorFavorite)
         results.adapter=adapter
@@ -30,6 +36,18 @@ class SearchActivity:BaseActivity(){
             setSelectedTabIndicatorColor(Color.WHITE)
             setSelectedTabIndicatorHeight(7)
         }
+    }
+
+    private fun setupTransition(){
+        setEnterSharedElementCallback(object : SharedElementCallback(){
+            override fun onSharedElementStart(sharedElementNames: MutableList<String>?,
+                                              sharedElements: MutableList<View>?,
+                                              sharedElementSnapshots: MutableList<View>?) {
+                checked=!checked
+                back.setImageState(intArrayOf(android.R.attr.state_checked * (checked.then(1)?:-1)),true)
+                super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
+            }
+        })
     }
 
     private fun setupSearch(){

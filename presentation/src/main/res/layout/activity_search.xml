@@ -25,6 +25,7 @@
         android:layout_height="60dp"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/results"
+        android:transitionGroup="false"
         app:layout_constraintTop_toBottomOf="@+id/playTabLayout"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -46,7 +47,8 @@
         <View
             android:id="@+id/searchBackground"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="#fff"/>
         <SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
@@ -68,7 +70,7 @@
                 android:transitionName="@string/search_trans"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_back_arrow"
+                android:src="@drawable/asl_trimclip_searchback"
                 tools:ignore="ContentDescription" />
         </FrameLayout>
         <View

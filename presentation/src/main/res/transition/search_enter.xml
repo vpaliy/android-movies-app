@@ -1,6 +1,5 @@
 <transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <transitionSet android:duration="400">
         <targets>
             <target android:targetId="@id/background" />

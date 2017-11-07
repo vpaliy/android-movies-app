@@ -8,10 +8,9 @@ import com.popularmovies.vpaliy.popularmoviesapp.R
 import kotlinx.android.synthetic.main.activity_home.*
 import android.view.Menu
 import android.view.MenuItem
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils
 import android.animation.AnimatorListenerAdapter
+import android.support.v4.util.Pair
 import com.popularmovies.vpaliy.popularmoviesapp.App
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerApplicationComponent
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.getStatusBarHeight
 
@@ -55,8 +54,7 @@ class HomeActivity: BaseActivity(){
             R.id.search-> {
                 val search =toolbar.findViewById<View>(R.id.search)
                 search.transitionName=getString(R.string.search_trans)
-                //navigator.search(this, Pair(search, getString(R.string.search_trans)))
-                navigator.navigateToSearch(this)
+                navigator.navigateToSearch(this, Pair(search, getString(R.string.search_trans)))
                 return true
             }
         }
