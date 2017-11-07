@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChipTabLayout">
+        <attr name="vertical_space" format="dimension"/>
+        <attr name="horizontal_space" format="dimension"/>
+        <attr name="scale" format="float"/>
+        <attr name="anim_delay" format="integer"/>
+        <attr name="anim_duration" format="integer"/>
+    </declare-styleable>
+</resources>

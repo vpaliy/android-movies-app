@@ -11,6 +11,7 @@ import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
 
 fun ViewGroup.inflate(resource:Int)= context.inflater().inflate(resource,this,false)
 
@@ -21,6 +22,8 @@ infix fun <T> Boolean.then(item:T)=if(this) item else null
 infix fun <T> Boolean.then(result:()->T)=if(this) result() else null
 
 fun Context.getCompatDrawable(@DrawableRes id:Int)=ContextCompat.getDrawable(this,id)
+
+fun View.getDrawable(@DrawableRes id:Int)=ContextCompat.getDrawable(context,id)
 
 fun Context.color(@ColorRes id:Int)=ContextCompat.getColor(this,id)
 
@@ -33,3 +36,13 @@ fun View.getDimens(@DimenRes id:Int)=resources.getDimension(id)
 fun View.getColor(@ColorRes color:Int)= ContextCompat.getColor(context,color)
 
 fun View.assignBackground(drawable: Drawable)= ViewCompat.setBackground(this,drawable)
+
+fun View.setScale(factor:Float)=apply {
+    scaleX=factor
+    scaleY=factor
+}
+
+fun ViewPropertyAnimator.scale(factor:Float)=apply {
+    scaleX(factor)
+    scaleY(factor)
+}
