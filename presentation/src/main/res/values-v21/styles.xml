@@ -60,6 +60,7 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/grey_800</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowBackground">@color/scrim</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -67,6 +68,10 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowSharedElementsUseOverlay">true</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/shared_search_enter</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/shared_search_return</item>
+        <item name="android:windowEnterTransition">@transition/search_enter</item>
+        <item name="android:windowReturnTransition">@transition/search_return</item>
     </style>
 
     <style name="PopMovies.MoreMedia" parent="PopMovies">
@@ -85,8 +90,9 @@
         <item name="android:submitBackground">@android:color/transparent</item>
     </style>
 
-    <style name="SearchTheme" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
+    <style name="SearchTheme" parent="@android:style/ThemeOverlay.Material.ActionBar">
         <item name="colorControlActivated">?android:colorAccent</item>
+        <item name="android:background">#fff</item>
         <item name="android:searchViewStyle">@style/Widget.SearchView</item>
     </style>
 

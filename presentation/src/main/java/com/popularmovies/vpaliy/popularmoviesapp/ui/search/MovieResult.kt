@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
-import android.util.Log
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.popularmoviesapp.App

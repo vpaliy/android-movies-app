@@ -11,13 +11,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/scrim"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
     <io.armcha.playtablayout.core.PlayTabLayout
         android:id="@+id/playTabLayout"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/searchToolbar"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

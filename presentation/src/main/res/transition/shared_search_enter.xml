@@ -1,0 +1,7 @@
+<changeBounds
+    android:duration="300"
+    android:startDelay="50"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <targets
+        android:targetId="@id/back"/>
+</changeBounds>

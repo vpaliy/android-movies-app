@@ -54,7 +54,7 @@ class HomeActivity: BaseActivity(){
         when(item?.itemId){
             R.id.search-> {
                 val search =toolbar.findViewById<View>(R.id.search)
-                //search.transitionName=getString(R.string.search_trans)
+                search.transitionName=getString(R.string.search_trans)
                 //navigator.search(this, Pair(search, getString(R.string.search_trans)))
                 navigator.navigateToSearch(this)
                 return true
