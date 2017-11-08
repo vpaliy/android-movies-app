@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#fff"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
+        android:id="@+id/poster"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/kong_poster"
+        android:scaleType="centerCrop"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="130dp"
+        android:layout_height="180dp" />
+
+    <TextView
+        android:id="@+id/title"
+        app:layout_constraintTop_toTopOf="@+id/poster"
+        app:layout_constraintStart_toEndOf="@+id/poster"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        tools:text="Kong"
+        style="@style/Widget.BigTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/Widget.NumberText"
+        android:textSize="17sp"
+        android:drawableLeft="@drawable/ic_date"
+        android:drawableStart="@drawable/ic_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:drawablePadding="@dimen/spacing_small"
+        android:gravity="center"
+        tools:text="2017"
+        android:drawableTint="@color/grey_800"
+        app:layout_constraintStart_toStartOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <TextView
+        android:id="@+id/ratings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.NumberText"
+        android:gravity="center"
+        android:drawableRight="@drawable/ic_thumb"
+        android:drawableTint="@color/grey_800"
+        android:textSize="17sp"
+        tools:text="6.7"
+        android:drawablePadding="@dimen/spacing_small"
+        app:layout_constraintTop_toTopOf="@+id/date"
+        app:layout_constraintBottom_toBottomOf="@+id/date"
+        app:layout_constraintLeft_toRightOf="@+id/date"
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:layout_marginRight="@dimen/spacing_medium"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.Chips
+        android:id="@+id/chips"
+        app:horizontal_spacing="@dimen/spacing_small"
+        app:vertical_spacing="@dimen/spacing_small"
+        app:text_style="@style/Widget.SearchChip"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="@+id/date"
+        app:layout_constraintWidth_default="wrap"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/poster"
+        app:layout_constraintTop_toBottomOf="@+id/date"
+        android:layout_marginTop="@dimen/spacing_large">
+    </com.popularmovies.vpaliy.popularmoviesapp.ui.view.Chips>
+</android.support.constraint.ConstraintLayout>
