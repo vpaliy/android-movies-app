@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.color
+import com.popularmovies.vpaliy.popularmoviesapp.ui.getDimen
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipPagerAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipTab
 
@@ -26,10 +27,10 @@ class SearchAdapter(val context: Context, manager:FragmentManager)
 
     override fun getCount()=3
 
-    override fun getPageTitle(position: Int)=when(position){
-        0->"Movies"
-        1->"TV Shows"
-        else->"People"
+    override fun getPageTitle(position: Int):String=when(position){
+        0->context.getString(R.string.movies)
+        1->context.getString(R.string.tv_shows)
+        else->context.getString(R.string.personal)
     }
 
     override fun queryTyped(query: String){
@@ -38,10 +39,12 @@ class SearchAdapter(val context: Context, manager:FragmentManager)
 
     override fun styleFor(position: Int): ChipTab.StyleBuilder {
         return ChipTab.StyleBuilder().apply {
-            this.textColor=context.color(R.color.colorTvShows)
+            this.textColor=context.color(R.color.colorReveal)
             this.background= Color.TRANSPARENT
             this.selectedBackgroundColor=textColor
             this.selectedTextColor=Color.WHITE
+            this.textAppearance=R.style.Widget_SearchChip
+            this.selectedElevation=context.getDimen(R.dimen.z_app_bar)
         }
     }
 }

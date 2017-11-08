@@ -39,7 +39,6 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:outlineProvider="bounds"
-        android:elevation="@dimen/z_app_bar"
         android:transitionGroup="false"
         android:theme="@style/SearchTheme"
         app:layout_constraintTop_toTopOf="parent"

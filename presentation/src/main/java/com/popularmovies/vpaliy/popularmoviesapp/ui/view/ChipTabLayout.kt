@@ -8,13 +8,12 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
+import android.support.v4.widget.TextViewCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.HorizontalScrollView
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.*
@@ -46,7 +45,7 @@ class ChipTabLayout @JvmOverloads constructor(context:Context, attrs: AttributeS
         }
     }
 
-    private val tabs= mutableListOf<ChipTab>()
+    val tabs= mutableListOf<ChipTab>()
 
     private var pager:ViewPager?=null
 
@@ -59,7 +58,7 @@ class ChipTabLayout @JvmOverloads constructor(context:Context, attrs: AttributeS
     }
 
     internal fun select(position:Int){
-        if(tabs.size > position){
+        if(tabs.size > position && (position >= 0)){
             tabs[selected].isSelected=false
             tabs[position].isSelected=true
             tabs[selected].animate()
@@ -121,6 +120,7 @@ class ChipTab(context: Context, builder: Builder):TextView(context),View.OnClick
     private var selectedBackgroundColor=builder.style.selectedBackgroundColor
     private var colorBackground=builder.style.background
     private var colorText=builder.style.textColor
+    private var selectedElevation=builder.style.selectedElevation
 
     var clickListener:((ChipTab)->Unit)?=null
 
@@ -133,6 +133,9 @@ class ChipTab(context: Context, builder: Builder):TextView(context),View.OnClick
         text=builder.text
         background = getDrawable(R.drawable.ring)
         setDrawableColor(background,colorBackground)
+        if(builder.style.textAppearance!=-1) {
+            TextViewCompat.setTextAppearance(this,builder.style.textAppearance)
+        }
     }
 
     override fun setSelected(selected: Boolean) {
@@ -141,6 +144,8 @@ class ChipTab(context: Context, builder: Builder):TextView(context),View.OnClick
         setTextColor(color)
         color=(selected then selectedBackgroundColor)?:colorBackground
         setDrawableColor(background,color)
+        val elevation=(selected then selectedElevation)?:0f
+        setElevation(elevation)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -162,6 +167,8 @@ class ChipTab(context: Context, builder: Builder):TextView(context),View.OnClick
         var textColor=Color.BLACK
         var selectedBackgroundColor=Color.WHITE
         var selectedTextColor=Color.BLACK
+        var textAppearance=-1
+        var selectedElevation=0f
     }
 
     data class Builder(val text:String,val style:StyleBuilder){

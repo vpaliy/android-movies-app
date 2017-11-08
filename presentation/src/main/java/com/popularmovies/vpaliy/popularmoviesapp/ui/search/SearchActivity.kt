@@ -15,6 +15,8 @@ import android.widget.SearchView
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
+import com.popularmovies.vpaliy.popularmoviesapp.ui.scale
+import com.popularmovies.vpaliy.popularmoviesapp.ui.setScale
 import com.popularmovies.vpaliy.popularmoviesapp.ui.then
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -31,6 +33,7 @@ class SearchActivity:BaseActivity(){
         setupTransition()
         results.adapter=adapter
         tabLayout.setup(results,adapter)
+        tabLayout.tabs.forEach { it.setScale(0f) }
     }
 
     private fun setupTransition(){
@@ -41,6 +44,20 @@ class SearchActivity:BaseActivity(){
                 checked=!checked
                 back.setImageState(intArrayOf(android.R.attr.state_checked * (checked.then(1)?:-1)),true)
                 super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
+            }
+
+            override fun onSharedElementEnd(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
+                super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots)
+                tabLayout.tabs.forEach {
+                    it.animate().scale(1f)
+                            .apply {
+                                duration=300
+                                start()
+                            }
+                }
+                tabLayout.postDelayed({
+                    tabLayout.select(0)
+                },300)
             }
         })
     }

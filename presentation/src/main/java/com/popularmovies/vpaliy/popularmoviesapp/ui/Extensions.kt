@@ -37,6 +37,8 @@ fun View.getColor(@ColorRes color:Int)= ContextCompat.getColor(context,color)
 
 fun View.assignBackground(drawable: Drawable)= ViewCompat.setBackground(this,drawable)
 
+fun Context.getDimen(@DimenRes id:Int)=resources.getDimension(id)
+
 fun View.setScale(factor:Float)=apply {
     scaleX=factor
     scaleY=factor
