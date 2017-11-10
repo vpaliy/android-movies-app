@@ -26,6 +26,10 @@ class MovieResult:SearchResult<Movie>(){
         adapter.data=mapper.map(data).toMutableList()
     }
 
+    override fun onCleared() {
+        adapter.clear()
+    }
+
     override fun appendResult(data: List<Movie>) {
         adapter.append(mapper.map(data).toMutableList())
     }

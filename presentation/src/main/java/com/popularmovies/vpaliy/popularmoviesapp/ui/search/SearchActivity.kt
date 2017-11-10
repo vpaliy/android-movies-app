@@ -71,8 +71,10 @@ class SearchActivity:BaseActivity(){
         searchView.imeOptions = searchView.imeOptions or EditorInfo.IME_ACTION_SEARCH or
                 EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
         searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextChange(p0: String?): Boolean {
-                //TODO implement this
+            override fun onQueryTextChange(query: String?): Boolean {
+                if(query.isNullOrEmpty()){
+                    adapter.onCleared()
+                }
                 return true
             }
             override fun onQueryTextSubmit(query: String?): Boolean {

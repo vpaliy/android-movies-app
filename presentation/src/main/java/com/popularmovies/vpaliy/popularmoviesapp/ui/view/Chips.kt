@@ -18,12 +18,14 @@ class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = n
     var horizontalSpacing: Int = 0
     var verticalSpacing: Int = 0
     private var textAppearance: Int = 0
+    private var chipBackground:Int=R.drawable.ring
 
     init {
         attrs?.let {
             val array = context.obtainStyledAttributes(it, R.styleable.Chips)
             horizontalSpacing = array.getDimension(R.styleable.Chips_horizontal_spacing, 1f).toInt()
             verticalSpacing = array.getDimension(R.styleable.Chips_vertical_spacing, 1f).toInt()
+            chipBackground=array.getResourceId(R.styleable.Chips_chip_background,R.drawable.ring)
             textAppearance = array.getResourceId(R.styleable.Chips_text_style, -1)
             val arrayRes = array.getResourceId(R.styleable.Chips_array, -1)
             if (arrayRes != -1) {
@@ -127,7 +129,7 @@ class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = n
             val diff = tags.size - chips.size
             for (index in 0..diff - 1) {
                 val chip = TextView(context)
-                chip.background = ContextCompat.getDrawable(context, R.drawable.ring)
+                chip.background = ContextCompat.getDrawable(context, chipBackground)
                 if (textAppearance != -1) {
                     chip.setTextAppearance(context, textAppearance)
                 }

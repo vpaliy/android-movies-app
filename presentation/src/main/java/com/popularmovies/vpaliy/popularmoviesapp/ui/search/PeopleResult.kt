@@ -21,6 +21,8 @@ class PeopleResult:SearchResult<Actor>(){
 
     override fun error() {}
 
+    override fun onCleared() {}
+
     override fun showResult(data: List<Actor>) {}
 
     override fun inject() {

@@ -33,6 +33,11 @@ abstract class BaseAdapter<T>(context:Context)
         notifyDataSetChanged()   //TODO fix that
     }
 
+    fun clear(){
+        data.clear()
+        notifyDataSetChanged()
+    }
+
     fun append(appended:List<T>){
         data.addAll(appended)
         notifyDataSetChanged()

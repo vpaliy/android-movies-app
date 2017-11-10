@@ -30,6 +30,8 @@ class TVResult:SearchResult<TVShow>(){
 
     override fun error() {}
 
+    override fun onCleared() {}
+
     override fun showResult(data: List<TVShow>) {
         result.adapter=adapter
         adapter.data=mapper.map(data).toMutableList()

@@ -37,6 +37,10 @@ class SearchAdapter(val context: Context, manager:FragmentManager)
         listeners.forEach { it.queryTyped(query) }
     }
 
+    override fun onCleared() {
+        listeners.forEach{it.onCleared()}
+    }
+
     override fun styleFor(position: Int): ChipTab.StyleBuilder {
         return ChipTab.StyleBuilder().apply {
             this.textColor=context.color(R.color.colorReveal)

@@ -4,6 +4,7 @@
         <attr name="vertical_spacing" format="dimension"/>
         <attr name="horizontal_spacing" format="dimension"/>
         <attr name="text_style" format="reference"/>
+        <attr name="chip_background" format="reference"/>
         <attr name="array" format="reference"/>
     </declare-styleable>
 </resources>
