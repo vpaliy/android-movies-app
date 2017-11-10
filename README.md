@@ -1,5 +1,5 @@
 
-https://travis-ci.org/vpaliyX/PopularMovies.svg?branch=master
+[![Build Status](https://travis-ci.org/vpaliyX/PopularMovies.svg?branch=master)](https://travis-ci.org/vpaliyX/PopularMovies)
 
 Converting to Kotlin..
 
