@@ -1,4 +1,6 @@
 
+https://travis-ci.org/vpaliyX/PopularMovies.svg?branch=master
+
 Converting to Kotlin..
 
 # Demo #
