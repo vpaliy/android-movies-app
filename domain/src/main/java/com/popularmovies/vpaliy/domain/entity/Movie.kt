@@ -1,5 +1,9 @@
 package com.popularmovies.vpaliy.domain.entity
 
+import android.text.format.DateUtils
+import android.text.format.Time
+
+
 class Movie{
     lateinit var id:String
     lateinit var title:String
@@ -16,5 +20,11 @@ class Movie{
     var genres:List<String>?=null
     var releaseYear:String?=null
         private set
-        get() = releaseDate
+        get(){
+            val time = Time()
+            time.parse3339(releaseDate)
+            return DateUtils.getRelativeTimeSpanString(time.toMillis(false),
+                    System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                    DateUtils.FORMAT_ABBREV_ALL).toString()
+        }
 }

@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#fff"
+    android:layout_margin="8dp"
+    android:background="@drawable/search_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:elevation="@dimen/z_app_bar"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
         android:id="@+id/poster"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/kong_poster"
         android:scaleType="centerCrop"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_width="130dp"
-        android:layout_height="180dp" />
-
+        android:layout_width="115dp"
+        android:layout_height="145dp" />
     <TextView
         android:id="@+id/title"
-        app:layout_constraintTop_toTopOf="@+id/poster"
-        app:layout_constraintStart_toEndOf="@+id/poster"
+        style="@style/Widget.Title"
+        android:textSize="20sp"
+        android:textColor="#000"
+        app:layout_constraintVertical_bias="0.3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
-        tools:text="Kong"
-        style="@style/Widget.BigTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        app:layout_constraintStart_toEndOf="@+id/poster"
+        app:layout_constraintTop_toTopOf="@+id/poster"
+        tools:text="Kong" />
     <TextView
         android:id="@+id/date"
         style="@style/Widget.NumberText"
-        android:textSize="17sp"
+        android:textSize="15sp"
+        android:textColor="@color/grey_800"
         android:drawableLeft="@drawable/ic_date"
         android:drawableStart="@drawable/ic_date"
         android:layout_width="wrap_content"
@@ -53,7 +55,7 @@
         android:gravity="center"
         android:drawableRight="@drawable/ic_thumb"
         android:drawableTint="@color/grey_800"
-        android:textSize="17sp"
+        android:textSize="15sp"
         tools:text="6.7"
         android:drawablePadding="@dimen/spacing_small"
         app:layout_constraintTop_toTopOf="@+id/date"
@@ -67,6 +69,7 @@
         android:id="@+id/chips"
         app:horizontal_spacing="@dimen/spacing_small"
         app:vertical_spacing="@dimen/spacing_small"
+        android:visibility="gone"
         app:text_style="@style/Widget.SearchChip"
         android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="@+id/date"

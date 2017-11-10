@@ -20,7 +20,7 @@ class MediaResultAdapter(context: Context): BaseAdapter<MediaModel>(context){
         override fun bind()= with(itemView){
             val item=this@MediaResultAdapter[adapterPosition]
             Glide.with(itemView.context)
-                    .load(item.backdrop)
+                    .load(item.poster)
                     .asBitmap()
                     .priority(Priority.IMMEDIATE)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
