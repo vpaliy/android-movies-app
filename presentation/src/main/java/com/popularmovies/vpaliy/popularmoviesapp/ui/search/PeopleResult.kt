@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
-import android.util.Log
 import com.popularmovies.vpaliy.domain.entity.Actor
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerSearchComponent
@@ -12,10 +11,11 @@ class PeopleResult:SearchResult<Actor>(){
 
     override var presenter:SearchContract.Presenter<Actor>?=null
         @Inject set(value) {
-            Log.d("PeopleResult",(value==null).toString())
             field=value
             field?.attachView(this)
         }
+
+    private val adapter by lazy { ActorResultAdapter(context) }
 
     override fun appendResult(data: List<Actor>) {}
 
@@ -26,7 +26,8 @@ class PeopleResult:SearchResult<Actor>(){
     override fun onCleared() {}
 
     override fun showResult(data: List<Actor>) {
-        Log.d("PeopleResult",data.size.toString())
+        adapter.data=data.toMutableList()
+        result.adapter=adapter
     }
 
     override fun inject() {

@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.data.repository
 
 import com.popularmovies.vpaliy.data.mapper.Mapper
+import com.popularmovies.vpaliy.data.utils.filterOut
 import com.popularmovies.vpaliy.domain.entity.Actor
 import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
@@ -19,7 +20,7 @@ constructor(private val service:SearchService,
         return service.searchPeople(page.query){
                     query("page",page.current.toString())
                 }
-                .map {mapper.map(it.results.toList())}
+                .map {mapper.map(it.results.filterOut())}
                 .toStream(page)
     }
 }

@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.data.repository
 import com.popularmovies.vpaliy.data.GenreKeeper
 import com.popularmovies.vpaliy.data.entity.MovieEntity
 import com.popularmovies.vpaliy.data.mapper.Mapper
-import com.popularmovies.vpaliy.data.utils.Constants
+import com.popularmovies.vpaliy.data.utils.filterOut
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
@@ -21,7 +21,7 @@ constructor(val service:SearchService,
 
     override fun search(page: SearchPage): Stream<SearchPage, List<Movie>> {
         return service.searchMovie(page.query){ query("page",page.current.toString()) }
-                .map{Constants.filter(it.results.toList())}
+                .map{it.results.filterOut()}
                 .map{MovieEntity.build(it.toTypedArray(),genreKeeper)}
                 .map(mapper::map).toStream(page)
     }

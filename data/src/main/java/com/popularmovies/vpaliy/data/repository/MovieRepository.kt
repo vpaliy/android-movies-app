@@ -4,7 +4,7 @@ import com.popularmovies.vpaliy.data.GenreKeeper
 import com.popularmovies.vpaliy.data.buildQuery
 import com.popularmovies.vpaliy.data.entity.MovieEntity
 import com.popularmovies.vpaliy.data.mapper.Mapper
-import com.popularmovies.vpaliy.data.utils.Constants
+import com.popularmovies.vpaliy.data.utils.filterOut
 import com.popularmovies.vpaliy.domain.entity.*
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
@@ -53,7 +53,7 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
             else->service.getNowPlaying(request.buildQuery())
         }
         return result
-                .map{Constants.filter(it.results.toList())}
+                .map{it.results.filterOut()}
                 .map{MovieEntity.build(it.toTypedArray(),genreKeeper)}
                 .map(mapper::map).toStream(request)
     }
