@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.data.utils
 
 import com.vpaliy.tmdb.model.ActorModel
 import com.vpaliy.tmdb.model.MovieModel
+import com.vpaliy.tmdb.model.TVShowModel
 
 const val BASE_MOVIE_URL = "http://image.tmdb.org/t/p/"
 const val IMAGE_SIZE_W185 = "w185/"
@@ -23,6 +24,15 @@ fun Array<ActorModel>.filterOut():List<ActorModel>{
 
 @JvmName("filterMovies")
 fun Array<MovieModel>.filterOut():List<MovieModel>{
+    forEach {
+        it.backdrop_path= buildBackdrop(it.backdrop_path)
+        it.poster_path= buildPoster(it.poster_path)
+    }
+    return this.toList()
+}
+
+@JvmName("filterTV")
+fun Array<TVShowModel>.filterOut():List<TVShowModel>{
     forEach {
         it.backdrop_path= buildBackdrop(it.backdrop_path)
         it.poster_path= buildPoster(it.poster_path)

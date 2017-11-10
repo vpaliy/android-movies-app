@@ -10,7 +10,7 @@ class TVMapper @Inject constructor():Mapper<TVShow,TVEntity>{
 
     override fun map(fake: TVEntity): TVShow {
         val tv=TVShow()
-        val entity=fake.details
+        val entity=fake.tv
         tv.images=fake.images
         tv.genres=fake.genres
         entity?.let {
@@ -20,7 +20,7 @@ class TVMapper @Inject constructor():Mapper<TVShow,TVEntity>{
             tv.backdropImage=it.backdrop_path
             tv.poster=it.poster_path
             tv.firstAirTime=it.first_air_date
-            tv.lastAirTime=it.last_air_date
+            //tv.lastAirTime=it.last_air_date
             tv.title=it.name
         }
         return tv

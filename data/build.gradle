@@ -27,7 +27,6 @@ android {
         abortOnError false
     }
 
-
     kapt {
         generateStubs = true
     }
@@ -41,7 +40,7 @@ dependencies {
     kapt libs.Dagger2Compiler
     compileOnly libs.javaxAnnotation
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile 'com.github.vpaliyX:tmdb-sdk:5c0c8b7b7a'
+    compile 'com.github.vpaliyX:tmdb-sdk:24c9054c3b'
 
 }
 repositories {

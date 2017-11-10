@@ -52,4 +52,8 @@ class DataModule {
     @Provides
     @Singleton
     internal fun searchService() = client.searchService
+
+    @Provides
+    @Singleton
+    internal fun tvService() = client.tvService
 }
