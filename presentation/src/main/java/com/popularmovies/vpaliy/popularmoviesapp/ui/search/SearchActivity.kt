@@ -32,6 +32,7 @@ class SearchActivity:BaseActivity(){
         setupSearch()
         setupTransition()
         results.adapter=adapter
+        results.offscreenPageLimit=3
         tabLayout.setup(results,adapter)
         tabLayout.tabs.forEach { it.setScale(0f) }
     }

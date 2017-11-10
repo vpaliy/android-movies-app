@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.di.module
 
+import com.popularmovies.vpaliy.domain.entity.Actor
 import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.domain.entity.TVShow
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
@@ -31,5 +32,10 @@ class InteractorModule{
     @Singleton
     @Provides
     internal fun searchTV(repository: SearchRepository<TVShow>,scheduler: BaseScheduler)
+            =SearchInteractor(repository,scheduler)
+
+    @Singleton
+    @Provides
+    internal fun searchPeople(repository: SearchRepository<Actor>, scheduler: BaseScheduler)
             =SearchInteractor(repository,scheduler)
 }

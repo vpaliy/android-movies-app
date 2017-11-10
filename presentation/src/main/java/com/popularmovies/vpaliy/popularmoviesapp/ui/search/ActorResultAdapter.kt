@@ -11,6 +11,7 @@ class ActorResultAdapter(context:Context):BaseAdapter<Actor>(context){
 
     inner class ActorViewHolder(itemView:View):BaseViewHolder(itemView){
         override fun bind()=with(itemView){
+            val item=data[adapterPosition]
 
         }
     }

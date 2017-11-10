@@ -39,7 +39,7 @@ dependencies {
     implementation libs.RxAndroid
     implementation libs.Dagger2
     kapt libs.Dagger2Compiler
-    provided libs.javaxAnnotation
+    compileOnly libs.javaxAnnotation
     /* Testing Libraries */
     testImplementation testLibs.mockito
     testImplementation testLibs.jUnit

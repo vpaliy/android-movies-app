@@ -59,7 +59,7 @@ dependencies {
     implementation libs.supportAppCompat
     implementation libs.circleImage
     implementation libs.cardView
-    compile libs.Dagger2
+    implementation libs.Dagger2
     implementation libs.circleIndicator
     implementation libs.glide
     implementation libs.RxJava
@@ -67,7 +67,7 @@ dependencies {
     implementation libs.circleIndicator
     implementation libs.palette
     kapt libs.Dagger2Compiler
-    provided libs.javaxAnnotation
+    compileOnly libs.javaxAnnotation
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 }
 repositories {
