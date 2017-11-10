@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.TextViewCompat
+import android.support.v7.widget.AppCompatTextView
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
@@ -114,7 +115,7 @@ class ChipTabLayout @JvmOverloads constructor(context:Context, attrs: AttributeS
 
 
 @SuppressLint("ViewConstructor")
-class ChipTab(context: Context, builder: Builder):TextView(context),View.OnClickListener{
+class ChipTab(context: Context, builder: Builder):AppCompatTextView(context),View.OnClickListener{
 
     private var selectedTextColor=builder.style.selectedTextColor
     private var selectedBackgroundColor=builder.style.selectedBackgroundColor
