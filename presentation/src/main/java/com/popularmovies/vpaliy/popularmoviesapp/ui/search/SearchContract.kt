@@ -4,6 +4,8 @@ object SearchContract{
     interface View<in T>{
         fun showResult(data:List<T>)
         fun appendResult(data:List<T>)
+        fun showLoading()
+        fun hideLoading()
         fun empty()
         fun error()
     }

@@ -19,7 +19,7 @@ class TVResult:SearchResult<TVShow>(){
 
     @Inject lateinit var mapper: Mapper<MediaModel, TVShow>
 
-    private val adapter by lazy { MediaResultAdapter(context) }
+    private val adapter by lazy { MediaAdapter(context) }
 
     override fun appendResult(data: List<TVShow>) {
         adapter.append(mapper.map(data).toMutableList())

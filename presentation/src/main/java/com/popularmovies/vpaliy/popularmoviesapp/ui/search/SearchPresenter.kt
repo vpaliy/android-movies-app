@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
-import android.util.Log
 import com.popularmovies.vpaliy.domain.interactor.SearchInteractor
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.Response
@@ -17,6 +16,7 @@ class SearchPresenter<T>(val search:SearchInteractor<T>):SearchContract.Presente
 
     override fun more() {
         page.next()
+        view.showLoading()
         search.execute(Consumer(this::onSuccess,this::onError),page)
     }
 
@@ -28,6 +28,7 @@ class SearchPresenter<T>(val search:SearchInteractor<T>):SearchContract.Presente
     override fun stop() {}
 
     private fun onSuccess(response:Response<SearchPage,List<T>>){
+        view.hideLoading()
         val page=response.request
         if(page.isFirst)
             view.showResult(response.data)
@@ -37,6 +38,7 @@ class SearchPresenter<T>(val search:SearchInteractor<T>):SearchContract.Presente
 
     private fun onError(ex:Throwable){
         ex.printStackTrace()
+        view.hideLoading()
         view.error()
     }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.DrawableRes
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,7 @@ infix fun <T> Boolean.then(result:()->T)=if(this) result() else null
 
 fun Context.getCompatDrawable(@DrawableRes id:Int)=ContextCompat.getDrawable(this,id)
 
-fun View.getDrawable(@DrawableRes id:Int)=ContextCompat.getDrawable(context,id)
+fun View.getDrawable(@DrawableRes id:Int): Drawable =ContextCompat.getDrawable(context,id)
 
 fun Context.color(@ColorRes id:Int)=ContextCompat.getColor(this,id)
 
@@ -38,6 +39,8 @@ fun View.getColor(@ColorRes color:Int)= ContextCompat.getColor(context,color)
 fun View.assignBackground(drawable: Drawable)= ViewCompat.setBackground(this,drawable)
 
 fun Context.getDimen(@DimenRes id:Int)=resources.getDimension(id)
+
+fun SwipeRefreshLayout.turnOff()=setOnRefreshListener { isRefreshing=false }
 
 fun View.setScale(factor:Float)=apply {
     scaleX=factor

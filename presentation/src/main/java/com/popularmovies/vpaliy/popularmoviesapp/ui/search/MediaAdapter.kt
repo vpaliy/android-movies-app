@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
 import android.content.Context
-import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -9,16 +8,15 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
-import com.popularmovies.vpaliy.popularmoviesapp.ui.getColor
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import kotlinx.android.synthetic.main.adapter_media_search_item.view.*
 
 
-class MediaResultAdapter(context: Context): BaseAdapter<MediaModel>(context){
+class MediaAdapter(context: Context): BaseAdapter<MediaModel>(context){
 
     inner class MediaViewHolder(itemView: View): BaseViewHolder(itemView){
         override fun bind()= with(itemView){
-            val item=this@MediaResultAdapter[adapterPosition]
+            val item=this@MediaAdapter[adapterPosition]
             Glide.with(itemView.context)
                     .load(item.poster)
                     .asBitmap()

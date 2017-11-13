@@ -3,7 +3,6 @@ package com.popularmovies.vpaliy.domain.entity
 import android.text.format.DateUtils
 import android.text.format.Time
 
-
 class Movie{
     lateinit var id:String
     lateinit var title:String
@@ -21,6 +20,7 @@ class Movie{
     var releaseYear:String?=null
         private set
         get(){
+            if(releaseDate.isNullOrEmpty()) return null
             val time = Time()
             time.parse3339(releaseDate)
             return DateUtils.getRelativeTimeSpanString(time.toMillis(false),
