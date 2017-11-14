@@ -42,6 +42,8 @@ fun Context.getDimen(@DimenRes id:Int)=resources.getDimension(id)
 
 fun SwipeRefreshLayout.turnOff()=setOnRefreshListener { isRefreshing=false }
 
+fun View.getMinHeight()=ViewCompat.getMinimumHeight(this)
+
 fun View.setScale(factor:Float)=apply {
     scaleX=factor
     scaleY=factor

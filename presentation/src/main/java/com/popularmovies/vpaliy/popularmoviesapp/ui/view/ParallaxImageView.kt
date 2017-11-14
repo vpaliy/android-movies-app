@@ -6,9 +6,8 @@ import android.view.View
 
 import com.popularmovies.vpaliy.popularmoviesapp.R
 
-class ParallaxImageView constructor(context: Context, attrs: AttributeSet, defStyle: Int = 0):
-        RoundedImageView(context, attrs, defStyle) {
-
+class ParallaxImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
+    :RoundedImageView(context, attrs, defStyle) {
     var isChecked = false
         set(isChecked) {
             if (this.isChecked != isChecked) {
@@ -17,8 +16,8 @@ class ParallaxImageView constructor(context: Context, attrs: AttributeSet, defSt
             }
         }
 
-    private var minOffset: Float = 0f
-    private var staticOffset: Float = 0f
+    var minOffset: Float = 0f
+    var staticOffset: Float = 0f
 
     var isPinned = false
         set(isPinned) {
@@ -34,17 +33,9 @@ class ParallaxImageView constructor(context: Context, attrs: AttributeSet, defSt
 
     fun setOffset(offset: Float) {
         if (offset != translationY) {
-            translationY = Math.max(minOffset, offset)
+            translationY= Math.max(minOffset, offset)
         }
     }
-
-    val offset: Int
-        get() = translationY.toInt()
-
-    fun setMinOffset(minOffset: Float) {
-        this.minOffset = minOffset
-    }
-
 
     override fun onCreateDrawableState(extraSpace: Int): IntArray {
         val drawableState = super.onCreateDrawableState(extraSpace + 1)
