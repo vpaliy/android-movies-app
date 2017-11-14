@@ -3,7 +3,10 @@ package com.popularmovies.vpaliy.data.repository
 import com.popularmovies.vpaliy.data.GenreKeeper
 import com.popularmovies.vpaliy.data.buildQuery
 import com.popularmovies.vpaliy.data.entity.MovieEntity
+import com.popularmovies.vpaliy.data.log
 import com.popularmovies.vpaliy.data.mapper.Mapper
+import com.popularmovies.vpaliy.data.utils.buildBackdrop
+import com.popularmovies.vpaliy.data.utils.buildPoster
 import com.popularmovies.vpaliy.data.utils.filterOut
 import com.popularmovies.vpaliy.domain.entity.*
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
@@ -34,10 +37,17 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
                 BiFunction{ details, images ->
                     val entity=MovieEntity()
                     entity.details=details
+                    details.poster_path= buildPoster(details.poster_path)
                     entity.genres=genreKeeper.getGenres(details.genre_ids)
                     images.backdrops?.let {
                         val list= arrayListOf<String>()
-                        it.forEach { list.add(it.file_path) }
+                        it.forEach {
+                            val backdrop= buildBackdrop(it.file_path)
+                            log(backdrop)
+                            if(backdrop!=null){
+                                list.add(backdrop)
+                            }
+                        }
                         entity.images=list
                     }
                     entity
@@ -65,7 +75,7 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
 
     override fun fetchRoles(id: String): Single<List<Role>> {
         return service.getCredits(id)
-                .map{roleMapper.map(it.cast.toList())}
+                .map{roleMapper.map(it.cast.filterOut())}
     }
 
     override fun fetchTrailers(id: String): Single<List<Trailer>> {

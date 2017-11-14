@@ -1,6 +1,8 @@
 package com.popularmovies.vpaliy.data.utils
 
+import com.popularmovies.vpaliy.domain.entity.Role
 import com.vpaliy.tmdb.model.ActorModel
+import com.vpaliy.tmdb.model.CastModel
 import com.vpaliy.tmdb.model.MovieModel
 import com.vpaliy.tmdb.model.TVShowModel
 
@@ -19,7 +21,7 @@ fun Array<ActorModel>.filterOut():List<ActorModel>{
     forEach {
         it.profile_path= buildPoster(it.profile_path)
     }
-    return this.toList()
+    return toList()
 }
 
 @JvmName("filterMovies")
@@ -28,7 +30,13 @@ fun Array<MovieModel>.filterOut():List<MovieModel>{
         it.backdrop_path= buildBackdrop(it.backdrop_path)
         it.poster_path= buildPoster(it.poster_path)
     }
-    return this.toList()
+    return toList()
+}
+
+@JvmName("filterRoles")
+fun Array<CastModel>.filterOut():List<CastModel>{
+    forEach { it.profile_path= buildPoster(it.profile_path) }
+    return toList()
 }
 
 @JvmName("filterTV")
@@ -37,7 +45,7 @@ fun Array<TVShowModel>.filterOut():List<TVShowModel>{
         it.backdrop_path= buildBackdrop(it.backdrop_path)
         it.poster_path= buildPoster(it.poster_path)
     }
-    return this.toList()
+    return toList()
 }
 
 private infix fun String?.add(path:String):String?{

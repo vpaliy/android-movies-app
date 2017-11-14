@@ -8,16 +8,18 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
+import com.popularmovies.vpaliy.popularmoviesapp.ui.click
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import kotlinx.android.synthetic.main.adapter_media_item.view.*
 
-class MediaAdapter(context: Context, data:MutableList<MediaModel>?=null)
+class MediaAdapter(context: Context, val click:(MediaModel)->Unit)
     :BaseAdapter<MediaModel>(context){
-
-    init {data?.let { this.data=it}}
 
     inner class MediaViewHolder(itemView: View)
         :BaseViewHolder(itemView){
+        init {
+            itemView.click { click(data[adapterPosition]) }
+        }
         override fun bind()= with(itemView){
             val item=this@MediaAdapter[adapterPosition]
             Glide.with(itemView.context)

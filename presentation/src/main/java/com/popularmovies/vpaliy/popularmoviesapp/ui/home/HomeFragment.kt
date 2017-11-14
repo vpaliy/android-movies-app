@@ -17,13 +17,14 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
 abstract class HomeFragment:Fragment(),HomeContract.View{
-
     abstract var presenter:HomeContract.Presenter?
 
     @Inject lateinit var navigator:Navigator
 
     private val adapter by lazy {
-        HomeAdapter(context,this::showMore).apply { request={presenter?.more(it)} }
+        HomeAdapter(context,this::showMore).apply {
+            request={presenter?.more(it)}
+        }
     }
 
     private val adapterMap by lazy { HashMap<MediaType,MediaAdapter>() }
@@ -48,7 +49,8 @@ abstract class HomeFragment:Fragment(),HomeContract.View{
             =inflater.inflate(R.layout.fragment_home,container,false)
 
     override fun show(data: List<MediaModel>, type: MediaType) {
-        val mediaAdapter=MediaAdapter(context,data.toMutableList())
+        val mediaAdapter=MediaAdapter(context,this::click)
+        mediaAdapter.data=data.toMutableList()
         adapterMap[type]=mediaAdapter
         adapter.add(ViewWrapper(mediaAdapter,getTitle(type),getColor(type),type))
     }
@@ -66,6 +68,10 @@ abstract class HomeFragment:Fragment(),HomeContract.View{
 
     override fun message(resource: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun click(item:MediaModel){
+        navigator.navigateToDetails(activity,item)
     }
 
     private fun showMore(type:MediaType){

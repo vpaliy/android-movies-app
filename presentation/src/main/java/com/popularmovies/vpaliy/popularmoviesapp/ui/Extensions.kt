@@ -41,6 +41,8 @@ fun SwipeRefreshLayout.turnOff()=setOnRefreshListener { isRefreshing=false }
 
 fun View.getMinHeight()=ViewCompat.getMinimumHeight(this)
 
+fun View.click(callback: () -> Unit)=setOnClickListener { callback() }
+
 fun View.addTemporaryOnPreDraw(callback:()->Unit){
     viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener{
         override fun onPreDraw(): Boolean {

@@ -17,7 +17,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.modifyAlpha
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class ParallaxRatioViewPager constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ViewPager(context, attrs) {
+class ParallaxRatioViewPager @JvmOverloads
+constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : ViewPager(context, attrs) {
 
     private var imageRatio = .5625f
     private val scrimPaint: Paint

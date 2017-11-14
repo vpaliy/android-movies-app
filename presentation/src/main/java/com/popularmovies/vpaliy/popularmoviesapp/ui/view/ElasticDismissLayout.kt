@@ -16,8 +16,8 @@ import java.util.ArrayList
 
 
 class ElasticDismissLayout @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-constructor(context: Context, attrs: AttributeSet?=null,
-            defStyleAttr: Int=0, defStyleRes: Int=0) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+@JvmOverloads constructor(context: Context, attrs: AttributeSet?=null, defStyleAttr: Int=0, defStyleRes: Int=0)
+    :FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private var dragDismissDistance = java.lang.Float.MAX_VALUE
     private var dragDismissFraction = -1f

@@ -18,6 +18,7 @@ object DetailContract{
 
     interface Presenter{
         fun attachView(view:View)
+        fun attachId(id:String)
         fun more(type: SimilarityType)
         fun start()
         fun stop()

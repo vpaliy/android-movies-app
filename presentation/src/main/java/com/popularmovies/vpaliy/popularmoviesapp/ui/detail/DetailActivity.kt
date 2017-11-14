@@ -22,8 +22,23 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.popularmovies.vpaliy.popularmoviesapp.App
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerMovieComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.MovieModule
+import com.popularmovies.vpaliy.popularmoviesapp.ui.detail.DetailContract.Presenter
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_ID
+import javax.inject.Inject
 
 class DetailActivity:BaseActivity(),DetailContract.View{
+
+    var presenter:Presenter?=null
+        @Inject set(value) {
+            field=value
+            field?.let {
+                it.attachView(this)
+                it.attachId(intent.getStringExtra(EXTRA_ID))
+            }
+        }
 
     private val adapter by lazy {
         DetailAdapter(this)
@@ -40,6 +55,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
         backdropPager.adapter=backdropAdapter
         details.onFlingListener=flingListener
         details.addOnScrollListener(listener)
+        presenter?.start()
     }
 
     private fun onLoaded(image:ImageView, bitmap: Bitmap){
@@ -116,7 +132,10 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     }
 
     override fun inject() {
-
+        DaggerMovieComponent.builder()
+                .applicationComponent(App.component)
+                .movieModule(MovieModule())
+                .build().inject(this)
     }
 
     private val flingListener = object : RecyclerView.OnFlingListener() {

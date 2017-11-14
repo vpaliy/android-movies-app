@@ -5,12 +5,12 @@ import com.popularmovies.vpaliy.domain.entity.Role
 import com.popularmovies.vpaliy.domain.entity.Trailer
 import com.popularmovies.vpaliy.domain.interactor.GetDetail
 
-class MediaFacade<T>(val id:String,
-                     val getItem: GetDetail<T>,
-                     val getReviews: GetDetail<List<Review>>,
-                     val getTrailers: GetDetail<List<Trailer>>,
-                     val getRoles: GetDetail<List<Role>>){
+class MediaFacade<out T>(private val getItem: GetDetail<T>,
+                         private val getReviews: GetDetail<List<Review>>,
+                         private val getTrailers: GetDetail<List<Trailer>>,
+                         private val getRoles: GetDetail<List<Role>>){
 
+    lateinit var id:String
 
     fun fetchItem(success:(T)->Unit,error:(Throwable)->Unit){
         getItem.execute(success,error,id)
