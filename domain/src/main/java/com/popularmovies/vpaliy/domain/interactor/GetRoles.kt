@@ -1,18 +1,19 @@
 package com.popularmovies.vpaliy.domain.interactor
 
 import com.popularmovies.vpaliy.domain.entity.Role
-import com.popularmovies.vpaliy.domain.error
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
-import com.popularmovies.vpaliy.domain.ifNotNull
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
+import com.popularmovies.vpaliy.domain.then
+import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GetRoles<Params> @Inject
-constructor(val repository: MediaRepository<Params>, scheduler: BaseScheduler)
-    : RequestInteractor<Params,List<Role>>(scheduler){
+class GetRoles<T> @Inject constructor(val repository: MediaRepository<T>, scheduler: BaseScheduler)
+    :SingleInteractor<String,List<Role>>(scheduler){
 
-    override fun buildUseCase(params: Params?)
-            =params.ifNotNull(repository::fetchRoles,error())
+    override fun buildUseCase(params: String?): Single<List<Role>> {
+        return params then(repository::fetchRoles)
+                ?: Single.error(IllegalArgumentException())
+    }
 }

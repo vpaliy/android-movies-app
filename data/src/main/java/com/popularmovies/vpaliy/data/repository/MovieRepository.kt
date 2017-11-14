@@ -27,7 +27,7 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
             val genreKeeper: GenreKeeper,
             val service:MovieService):MediaRepository<Movie>{
 
-    override fun fetchItem(id: String): Stream<String, Movie> {
+    override fun fetchItem(id: String): Single<Movie> {
         return Single.zip<MovieDetails, MediaImages, MovieEntity>(
                 service.getDetails(id),
                 service.getImages(id),
@@ -41,7 +41,7 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
                         entity.images=list
                     }
                     entity
-                }).map(mapper::map).toStream(id)
+                }).map(mapper::map)
     }
 
 
@@ -58,29 +58,28 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
                 .map(mapper::map).toStream(request)
     }
 
-    override fun fetchReviews(item: Movie): Stream<Movie, List<Review>> {
-        return service.getReviews(item.id)
+    override fun fetchReviews(id: String): Single<List<Review>> {
+        return service.getReviews(id)
                 .map{reviewMapper.map(it.results.toList())}
-                .toStream(item)
     }
 
-    override fun fetchRoles(item: Movie): Stream<Movie, List<Role>> {
-        return service.getCredits(item.id)
+    override fun fetchRoles(id: String): Single<List<Role>> {
+        return service.getCredits(id)
                 .map{roleMapper.map(it.cast.toList())}
-                .toStream(item)
+    }
+
+    override fun fetchTrailers(id: String): Single<List<Trailer>> {
+        return service.getVideos(id)
+                .map({trailerMapper.map(it.results.toList())})
     }
 
     override fun fetchSuggested(request: Suggestion<Movie>): Stream<Suggestion<Movie>, List<Movie>> {
         return when(request.type){
-            SimilarityType.RECOMMENDATION -> service.getRecommendations(request.item.id,request.buildQuery())
-            else-> service.getSimilar(request.item.id,request.buildQuery())
+            SimilarityType.RECOMMENDATION ->
+                service.getRecommendations(request.item.id,request.buildQuery())
+            else->
+                service.getSimilar(request.item.id,request.buildQuery())
         }.map{MovieEntity.build(it.results,genreKeeper)}
                 .map(mapper::map).toStream(request)
-    }
-
-    override fun fetchTrailers(item: Movie): Stream<Movie, List<Trailer>> {
-        return service.getVideos(item.id)
-                .map({trailerMapper.map(it.results.toList())})
-                .toStream(item)
     }
 }

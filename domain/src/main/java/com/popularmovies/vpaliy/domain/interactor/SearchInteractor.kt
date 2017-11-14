@@ -2,10 +2,9 @@ package com.popularmovies.vpaliy.domain.interactor
 
 import com.popularmovies.vpaliy.domain.error
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
-import com.popularmovies.vpaliy.domain.ifNotNull
-import com.popularmovies.vpaliy.domain.interactor.params.MediaPage
 import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
 import com.popularmovies.vpaliy.domain.repository.SearchRepository
+import com.popularmovies.vpaliy.domain.then
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,5 +13,5 @@ class SearchInteractor<T> @Inject constructor(var repository: SearchRepository<T
     :RequestInteractor<SearchPage,List<T>>(scheduler){
 
     override fun buildUseCase(params: SearchPage?)
-            =params.ifNotNull(repository::search, error())
+            =params then (repository::search)?: error()
 }

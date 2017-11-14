@@ -6,6 +6,8 @@ import io.reactivex.Single
 
 inline fun <T,Type> Type?.ifNotNull(source:(Type)->T, default:T) =if(this!=null) source(this) else default
 
+infix inline fun <T,Type> Type?.then(source:(Type)->T)=if(this!=null) source(this) else null
+
 fun <Request,Result> Single<Response<Request, Result>>.toStream()= Stream(this)
 
 fun<Request,Result> error() =Single.error<Response<Request, Result>>(IllegalArgumentException()).toStream()

@@ -81,6 +81,16 @@ class DetailActivity:BaseActivity(),DetailContract.View{
                 .placeholder(R.drawable.placeholder)
                 .animate(R.anim.fade_in)
                 .into(poster)
+        adjustPlaceholder()
+    }
+
+    private fun adjustPlaceholder(){
+        val layoutParams=adapter.placeholder.layoutParams
+        layoutParams.height=backdropPager.height+descriptionRoot.height
+        adapter.placeholder.layoutParams=layoutParams
+        val offset=backdropPager.height+descriptionRoot.height+shareButton.height/2
+        shareButton.staticOffset=offset
+        shareButton.setOffset(offset.toFloat())
     }
 
     override fun showMessage(resource: Int) {

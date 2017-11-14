@@ -4,12 +4,13 @@ import com.popularmovies.vpaliy.domain.entity.*
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
+import io.reactivex.Single
 
 interface MediaRepository<T>{
     fun fetchList(request:TypePage): Stream<TypePage,List<T>>
-    fun fetchItem(id:String): Stream<String,T>
-    fun fetchRoles(item:T): Stream<T,List<Role>>
-    fun fetchTrailers(item: T): Stream<T,List<Trailer>>
-    fun fetchReviews(item: T): Stream<T,List<Review>>
     fun fetchSuggested(request:Suggestion<T>): Stream<Suggestion<T>,List<T>>
+    fun fetchItem(id:String): Single<T>
+    fun fetchRoles(id:String): Single<List<Role>>
+    fun fetchTrailers(id:String): Single<List<Trailer>>
+    fun fetchReviews(id:String): Single<List<Review>>
 }

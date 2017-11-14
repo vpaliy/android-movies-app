@@ -21,10 +21,6 @@ class TVRepository
 @Inject constructor(val mapper: Mapper<TVShow, TVEntity>,
                     val genreKeeper: GenreKeeper,
                     val service:TvShowService):MediaRepository<TVShow>{
-    override fun fetchItem(id: String): Stream<String, TVShow> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun fetchList(request: TypePage): Stream<TypePage, List<TVShow>> {
         val result=when(request.type){
             MediaType.POPULAR->service.getPopular(request.buildQuery())
@@ -39,11 +35,11 @@ class TVRepository
                 .toStream(request)
     }
 
-    override fun fetchReviews(item: TVShow): Stream<TVShow, List<Review>> {
+    override fun fetchReviews(id: String): Single<List<Review>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchRoles(item: TVShow): Stream<TVShow, List<Role>> {
+    override fun fetchRoles(id: String): Single<List<Role>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -51,7 +47,11 @@ class TVRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun fetchTrailers(item: TVShow): Stream<TVShow, List<Trailer>> {
+    override fun fetchTrailers(id: String): Single<List<Trailer>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun fetchItem(id: String): Single<TVShow> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

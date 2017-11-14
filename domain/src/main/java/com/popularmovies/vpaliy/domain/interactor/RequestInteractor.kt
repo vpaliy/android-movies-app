@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.domain.interactor
 
-import android.util.Log
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.interactor.params.Consumer
 import com.popularmovies.vpaliy.domain.interactor.params.Stream
