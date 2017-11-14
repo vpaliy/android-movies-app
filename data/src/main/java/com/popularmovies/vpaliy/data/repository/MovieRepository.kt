@@ -38,7 +38,7 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
                     val entity=MovieEntity()
                     entity.details=details
                     details.poster_path= buildPoster(details.poster_path)
-                    entity.genres=genreKeeper.getGenres(details.genre_ids)
+                    entity.genres=details.genres.filterOut()
                     images.backdrops?.let {
                         val list= arrayListOf<String>()
                         it.forEach {

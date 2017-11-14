@@ -38,7 +38,8 @@
                 android:resource="@xml/searchable">
             </meta-data>
         </activity>
-        <activity android:name=".ui.detail.DetailActivity">
+        <activity android:name=".ui.detail.DetailActivity"
+                android:theme="@style/PopMovies.Details">
         </activity>
     </application>
 </manifest>

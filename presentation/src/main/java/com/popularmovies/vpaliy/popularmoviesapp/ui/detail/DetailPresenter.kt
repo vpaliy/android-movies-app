@@ -16,7 +16,7 @@ class DetailPresenter(private val facade: MediaFacade<Movie>):DetailContract.Pre
 
     override fun start() {
         facade.fetchItem(view::showMedia,this::handleError)
-        facade.fetchReviews(view::showReviews,this::handleError)
+      //  facade.fetchReviews(view::showReviews,this::handleError)
         facade.fetchRoles(view::showCast,this::handleError)
         facade.fetchTrailers(view::showTrailers,this::handleError)
     }

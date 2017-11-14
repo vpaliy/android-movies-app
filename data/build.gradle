@@ -40,7 +40,7 @@ dependencies {
     kapt libs.Dagger2Compiler
     compileOnly libs.javaxAnnotation
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile 'com.github.vpaliyX:tmdb-sdk:24c9054c3b'
+    compile 'com.github.vpaliyX:tmdb-sdk:8bcd79ff9b'
 
 }
 repositories {

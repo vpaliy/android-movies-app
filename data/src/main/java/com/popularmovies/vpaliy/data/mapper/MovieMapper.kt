@@ -23,6 +23,7 @@ class MovieMapper @Inject constructor():Mapper<Movie, MovieEntity>{
             movie.averageVote=it.vote_average
             if(it is MovieDetails){
                 movie.homepage=it.homepage
+                movie.description=it.overview
                 movie.revenue=it.revenue.toString()
                 movie.budget=it.budget.toString()
                 //movie.director=it.
@@ -42,6 +43,7 @@ class MovieMapper @Inject constructor():Mapper<Movie, MovieEntity>{
         details.backdrop_path=real.backdropImage
         details.poster_path=real.poster
         details.title=real.title
+        details.overview=real.description
         details.release_date=real.releaseDate
         details.revenue=real.revenue?.toInt()
         result.details=details
