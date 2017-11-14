@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Singleton
 class GetItem<T> @Inject constructor(val repository: MediaRepository<T>, scheduler: BaseScheduler)
-    :SingleInteractor<String,T>(scheduler){
+    :GetDetail<T>(scheduler){
 
     override fun buildUseCase(params: String?): Single<T> {
         return params then(repository::fetchItem)

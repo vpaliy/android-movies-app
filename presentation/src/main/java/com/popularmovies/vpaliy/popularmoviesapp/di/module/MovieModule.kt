@@ -9,9 +9,9 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.PagerFacade
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MorePresenter
+import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 import dagger.Module
 import dagger.Provides
-import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 
 @Module
 class MovieModule{

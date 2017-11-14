@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 class GetReviews<T> @Inject constructor(val repository: MediaRepository<T>, scheduler: BaseScheduler)
-    :SingleInteractor<String,List<Review>>(scheduler){
+    :GetDetail<List<Review>>(scheduler){
 
     override fun buildUseCase(params: String?): Single<List<Review>> {
         return params then(repository::fetchReviews)

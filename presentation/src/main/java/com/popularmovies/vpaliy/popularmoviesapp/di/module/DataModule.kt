@@ -38,7 +38,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    internal fun peopleSearch(repository:PeopleSearchRepository)
+    internal fun peopleSearch(repository: PeopleRepository)
             :SearchRepository<Actor> =repository
 
     @Provides
