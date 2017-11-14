@@ -9,8 +9,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 
 class ReviewAdapter(context:Context):BaseAdapter<Review>(context){
     inner class ReviewViewHolder(itemView:View):BaseViewHolder(itemView){
-        override fun bind() {
-
+        override fun bind()=with(itemView){
+            TODO("Implement")
         }
     }
 

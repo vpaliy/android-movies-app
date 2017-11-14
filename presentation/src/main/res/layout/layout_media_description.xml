@@ -10,7 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/name"
         style="@style/Widget.Title"
         android:textSize="26sp"
         android:textStyle="bold"
@@ -36,11 +36,9 @@
         android:layout_marginTop="@dimen/spacing_medium"
         android:drawablePadding="@dimen/spacing_small"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/name"
         tools:text="In 7 days"
         app:layout_constraintLeft_toLeftOf="parent" />
-
-
     <TextView
         android:visibility="gone"
         android:id="@+id/duration"
@@ -56,7 +54,6 @@
         app:layout_constraintTop_toBottomOf="@+id/release"
         tools:text="2 hr 10 min"
         app:layout_constraintLeft_toLeftOf="@+id/release" />
-
     <TextView
         android:id="@+id/budget"
         android:layout_width="wrap_content"
@@ -76,7 +73,6 @@
         android:layout_marginLeft="@dimen/spacing_big"
         android:layout_marginStart="@dimen/spacing_big"
         app:layout_constraintVertical_bias="0.0" />
-
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.Chips
         android:id="@+id/chips"
         android:transitionName="@string/tags_transition_name"
@@ -92,7 +88,6 @@
         android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintTop_toBottomOf="@+id/duration"
         app:layout_constraintLeft_toLeftOf="parent" />
-
     <TextView
         android:id="@+id/ratings"
         android:layout_width="wrap_content"

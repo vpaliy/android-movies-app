@@ -80,7 +80,6 @@
         android:layout_width="@dimen/details_poster_width"
         android:layout_height="@dimen/details_poster_height" />
 
-
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.FABToggle
         android:id="@+id/shareButton"
         app:fabSize="normal"
@@ -91,7 +90,5 @@
         android:layout_gravity="end"
         android:layout_marginRight="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_medium" />
-
     <!--<include layout="@layout/sheet_movie_details"/> -->
-
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout>

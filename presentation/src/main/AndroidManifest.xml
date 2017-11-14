@@ -38,5 +38,7 @@
                 android:resource="@xml/searchable">
             </meta-data>
         </activity>
+        <activity android:name=".ui.detail.DetailActivity">
+        </activity>
     </application>
 </manifest>

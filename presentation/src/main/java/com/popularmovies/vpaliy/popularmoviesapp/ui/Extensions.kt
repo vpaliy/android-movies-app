@@ -9,10 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.widget.SwipeRefreshLayout
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewPropertyAnimator
+import android.view.*
 
 fun ViewGroup.inflate(resource:Int)= context.inflater().inflate(resource,this,false)
 
@@ -43,6 +40,16 @@ fun Context.getDimen(@DimenRes id:Int)=resources.getDimension(id)
 fun SwipeRefreshLayout.turnOff()=setOnRefreshListener { isRefreshing=false }
 
 fun View.getMinHeight()=ViewCompat.getMinimumHeight(this)
+
+fun View.addTemporaryOnPreDraw(callback:()->Unit){
+    viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener{
+        override fun onPreDraw(): Boolean {
+            viewTreeObserver.removeOnPreDrawListener(this)
+            callback()
+            return true
+        }
+    })
+}
 
 fun View.setScale(factor:Float)=apply {
     scaleX=factor

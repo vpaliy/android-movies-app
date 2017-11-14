@@ -16,6 +16,12 @@ import com.rd.animation.type.AnimationType
 import kotlinx.android.synthetic.main.activity_media_details.*
 import kotlinx.android.synthetic.main.layout_media_description.*
 import android.support.v7.widget.RecyclerView
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ListWrapper
+import android.view.ViewGroup
+import android.view.View
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 class DetailActivity:BaseActivity(),DetailContract.View{
 
@@ -54,11 +60,27 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     }
 
     override fun showCast(data: List<Role>) {
-
+        val castAdapter=CastAdapter(this).apply {
+            this.data=data.toMutableList()
+        }
+        adapter.add(ListWrapper(castAdapter,getString(R.string.cast_title)))
     }
 
-    override fun showMedia(media: MediaModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun showMedia(movie: Movie) {
+        name.text=movie.title
+        release.text=movie.releaseYear
+        ratings.text=movie.averageVote.toString()
+        description.text=movie.description
+        chips.setTags(movie.genres)
+        budget.text=movie.budget
+        Glide.with(this)
+                .load(movie.poster)
+                .asBitmap()
+                .priority(Priority.IMMEDIATE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .placeholder(R.drawable.placeholder)
+                .animate(R.anim.fade_in)
+                .into(poster)
     }
 
     override fun showMessage(resource: Int) {
@@ -66,24 +88,25 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     }
 
     override fun showReviews(data: List<Review>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val reviewAdapter=ReviewAdapter(this).apply {
+            this.data=data.toMutableList()
+        }
+        adapter.add(ListWrapper(reviewAdapter,getString(R.string.review_title)))
     }
 
     override fun showSuggested(type: Suggestion<Movie>, data: List<MediaModel>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showTags(data: List<String>) {
-        chips.setTags(data)
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun showTrailers(data: List<Trailer>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val trailerAdapter=TrailerAdapter(this).apply {
+            this.data=data.toMutableList()
+        }
+        adapter.add(ListWrapper(trailerAdapter,getString(R.string.trailer_title)))
     }
 
     override fun inject() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     private val flingListener = object : RecyclerView.OnFlingListener() {
@@ -119,6 +142,52 @@ class DetailActivity:BaseActivity(),DetailContract.View{
             min = pageIndicator.translationY + pageIndicator.height
             //hide the indicator as well
             pageIndicator.alpha=((backdropPager.offset + backdropPager.height - min) / (max - min))
+        }
+    }
+
+    private object ParamsFactory {
+        internal fun shiftElementsFrom(target: View, shiftElements: List<View>) {
+            var posterY = getBottomY(target) + target.height
+            val posterX = target.x + target.width
+            val spacing = target.resources.getDimension(R.dimen.spacing_media_details)
+            val offset = target.width + spacing
+            for (index in shiftElements.indices) {
+                val element = shiftElements[index]
+                if (posterX >= element.x && posterY + spacing >= getBottomY(element)) {
+                    if (index != 0 && shouldShiftVertically(posterY, element, spacing)) {
+                        posterY = shiftVertically(element, posterY)
+                    } else {
+                        shiftHorizontally(element, offset)
+                    }
+                }
+            }
+        }
+
+        internal fun shouldShiftVertically(offsetY: Float, target: View, spacing: Float): Boolean {
+            val targetY = getBottomY(target)
+            val offsetDiff = targetY - offsetY
+            return offsetDiff in 0f..spacing
+        }
+
+        internal fun shiftVertically(target: View, posterY: Float): Float {
+            val spacing = target.resources.getDimension(R.dimen.spacing_media_details)
+            val params = target.layoutParams as ViewGroup.MarginLayoutParams
+            val offsetY = posterY - getBottomY(target) + spacing
+            params.topMargin += offsetY.toInt()
+            target.layoutParams=params
+            return posterY-offsetY
+        }
+
+        internal fun shiftHorizontally(target: View, offset: Float) {
+            val params = target.layoutParams as ViewGroup.MarginLayoutParams
+            params.leftMargin += offset.toInt()
+            target.layoutParams=params
+        }
+
+        internal fun getBottomY(view: View): Float {
+            val screenLocation = IntArray(2)
+            view.getLocationOnScreen(screenLocation)
+            return screenLocation[1].toFloat()
         }
     }
 }
