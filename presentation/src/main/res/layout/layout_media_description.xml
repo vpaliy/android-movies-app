@@ -1,0 +1,125 @@
+<com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout
+    android:padding="@dimen/spacing_large"
+    android:id="@+id/descriptionRoot"
+    android:background="@color/blue_grey_400"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:transitionName="@string/media_details_transition_name"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/Widget.Title"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:transitionName="@string/title_transition_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="Fantastic beasts and where to find them "
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/release"
+        style="@style/Widget.NumberText"
+        android:textSize="17sp"
+        android:transitionName="@string/date_transition_name"
+        android:textColor="@color/white"
+        android:drawableLeft="@drawable/ic_date"
+        android:drawableStart="@drawable/ic_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:drawablePadding="@dimen/spacing_small"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="In 7 days"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/duration"
+        style="@style/Widget.NumberText"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        android:drawableLeft="@drawable/ic_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/spacing_small"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/spacing_medium"
+        app:layout_constraintTop_toBottomOf="@+id/release"
+        tools:text="2 hr 10 min"
+        app:layout_constraintLeft_toLeftOf="@+id/release" />
+
+    <TextView
+        android:id="@+id/budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        style="@style/Widget.NumberText"
+        android:gravity="center"
+        android:drawableStart="@drawable/ic_money"
+        android:drawableLeft="@drawable/ic_money"
+        android:textSize="17sp"
+        tools:text="20123131"
+        android:drawablePadding="@dimen/spacing_small"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/duration"
+        app:layout_constraintBottom_toBottomOf="@+id/duration"
+        app:layout_constraintLeft_toRightOf="@+id/duration"
+        android:layout_marginLeft="@dimen/spacing_big"
+        android:layout_marginStart="@dimen/spacing_big"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.popularmovies.vpaliy.popularmoviesapp.ui.view.Chips
+        android:id="@+id/chips"
+        android:transitionName="@string/tags_transition_name"
+        android:orientation="horizontal"
+        app:chip_layout_horizontal_margin="@dimen/spacing_small"
+        app:chip_layout_vertical_margin="@dimen/spacing_small"
+        app:chipTextColor="@color/blue_grey_700"
+        app:chipTextStyle="@style/Widget.HashTag"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_default="wrap"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/spacing_medium"
+        app:layout_constraintTop_toBottomOf="@+id/duration"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/ratings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:transitionName="@string/ratings_transition_name"
+        style="@style/Widget.NumberText"
+        android:gravity="center"
+        android:drawableEnd="@drawable/ic_thumb"
+        android:drawableRight="@drawable/ic_thumb"
+        android:textSize="17sp"
+        tools:text="6.7"
+        android:drawablePadding="@dimen/spacing_small"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/release"
+        app:layout_constraintBottom_toBottomOf="@+id/release"
+        app:layout_constraintLeft_toRightOf="@+id/release"
+        android:layout_marginLeft="@dimen/spacing_big"
+        android:layout_marginStart="@dimen/spacing_big"
+        app:layout_constraintVertical_bias="0.0" />
+    <TextView
+        android:id="@+id/description"
+        tools:text="@string/dummy_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/spacing_medium"
+        style="@style/Widget.Title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chips"/>
+</com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout>

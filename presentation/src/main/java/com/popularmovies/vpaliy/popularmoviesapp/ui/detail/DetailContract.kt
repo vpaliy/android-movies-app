@@ -19,7 +19,6 @@ object DetailContract{
 
     interface Presenter{
         fun attachView(view:View)
-        fun attachMedia(media:MediaModel)
         fun more(type: SimilarityType)
         fun start()
         fun stop()

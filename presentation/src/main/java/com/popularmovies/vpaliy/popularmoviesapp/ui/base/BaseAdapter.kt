@@ -48,4 +48,8 @@ abstract class BaseAdapter<T>(context:Context)
     operator fun BaseAdapter<T>.set(index:Int, item: T){
         data[index]=item
     }
+
+    inner class Empty(itemView: View):BaseViewHolder(itemView){
+        override fun bind() {}
+    }
 }
