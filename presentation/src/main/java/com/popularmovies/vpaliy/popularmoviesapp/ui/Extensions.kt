@@ -48,6 +48,8 @@ fun Any.log(message:Any?){
     Log.d(this.javaClass.name,message.toString())
 }
 
+fun View.endY()=y+height
+
 fun View.addTemporaryOnPreDraw(callback:()->Unit){
     viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener{
         override fun onPreDraw(): Boolean {

@@ -10,7 +10,6 @@ import com.popularmovies.vpaliy.domain.entity.Trailer
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
-import com.popularmovies.vpaliy.popularmoviesapp.ui.getMinHeight
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.rd.animation.type.AnimationType
 import kotlinx.android.synthetic.main.activity_media_details.*
@@ -22,16 +21,16 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.target.ImageViewTarget
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerMovieComponent
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.MovieModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.detail.DetailContract.Presenter
-import com.popularmovies.vpaliy.popularmoviesapp.ui.log
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_ID
 import javax.inject.Inject
 import android.content.res.ColorStateList
+import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
+import com.popularmovies.vpaliy.popularmoviesapp.ui.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
 
 
@@ -97,7 +96,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
             shareButton.backgroundTintList = ColorStateList.valueOf(swatch.rgb)
             descriptionRoot.setBackgroundColor(swatch.rgb)
             chips.setChipsColors(swatch.bodyTextColor,swatch.titleTextColor)
-            name.setTextColor(swatch.bodyTextColor)
+            movieTitle.setTextColor(swatch.bodyTextColor)
             release.setTextColor(swatch.bodyTextColor)
             ratings.setTextColor(swatch.bodyTextColor)
             description.setTextColor(swatch.bodyTextColor)
@@ -112,13 +111,13 @@ class DetailActivity:BaseActivity(),DetailContract.View{
 
     override fun showMedia(movie: Movie) {
         showBackdrops(movie.backdrops!!)
-        log(movie.description)
-        name.text=movie.title
+        log(movie.title)
+        movieTitle.text=movie.title
         release.text=movie.releaseYear
         ratings.text=movie.averageVote.toString()
         description.text=movie.description
         chips.setTags(movie.genres)
-        budget.text=movie.budget
+        //budget.text=movie.budget
         Glide.with(this)
                 .load(movie.poster)
                 .asBitmap()
@@ -126,13 +125,11 @@ class DetailActivity:BaseActivity(),DetailContract.View{
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .placeholder(R.drawable.placeholder)
                 .animate(R.anim.fade_in)
-                .into(object : ImageViewTarget<Bitmap>(poster) {
-                    override fun setResource(resource: Bitmap) {
-                        poster.setImageBitmap(resource)
-                        ParamsFactory.shiftElementsFrom(poster, arrayListOf(name,release,chips,description))
-                    }
-                })
-        adjustPlaceholder()
+                .into(poster)
+        description.post{
+            adjustDescription()
+            adjustPlaceholder()
+        }
     }
 
     private fun adjustPlaceholder(){
@@ -142,6 +139,53 @@ class DetailActivity:BaseActivity(),DetailContract.View{
         val offset=backdropPager.height+descriptionRoot.height+shareButton.height/2
         shareButton.staticOffset=offset
         shareButton.setOffset(offset.toFloat())
+    }
+
+    private fun adjustDescription(){
+        if((description.endY() > dummy.endY())){
+            if((dummy.endY() - duration.endY()) < 0){
+                var params=release.layoutParams as ConstraintLayout.LayoutParams
+                params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
+                params.leftToRight=ConstraintLayout.LayoutParams.UNSET
+                params.topToBottom=dummy.id
+                //  params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
+                release.layoutParams=params
+
+                params=duration.layoutParams as ConstraintLayout.LayoutParams
+                params.startToStart=movieTitle.id
+                params.topToBottom=movieTitle.id
+                //  params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
+                duration.layoutParams=params
+
+                params=chips.layoutParams as ConstraintLayout.LayoutParams
+                params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
+                params.leftToRight=ConstraintLayout.LayoutParams.UNSET
+                params.topToBottom=release.id
+                //  params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
+                chips.layoutParams=params
+
+                params=description.layoutParams as ConstraintLayout.LayoutParams
+                params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
+                params.leftToRight=ConstraintLayout.LayoutParams.UNSET
+                params.topToBottom=chips.id
+                params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
+                description.layoutParams=params
+            }else if((dummy.endY()-duration.endY()) <= (2* duration.height)){
+                var params=chips.layoutParams as ConstraintLayout.LayoutParams
+                params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
+                params.leftToRight=ConstraintLayout.LayoutParams.UNSET
+                params.topToBottom=dummy.id
+                //  params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
+                chips.layoutParams=params
+
+                params=description.layoutParams as ConstraintLayout.LayoutParams
+                params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
+                params.leftToRight=ConstraintLayout.LayoutParams.UNSET
+                params.topToBottom=chips.id
+                params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
+                description.layoutParams=params
+            }
+        }
     }
 
     override fun showMessage(resource: Int) {
@@ -182,6 +226,11 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     }
 
     private val listener = object : RecyclerView.OnScrollListener() {
+
+        private val posterHeight by lazy(LazyThreadSafetyMode.NONE) {
+            getDimen(R.dimen.details_poster_height)
+        }
+
         override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             poster.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
@@ -200,6 +249,9 @@ class DetailActivity:BaseActivity(),DetailContract.View{
             var max = descriptionRoot.staticOffset + descriptionRoot.height
             //hide the poster as it goes up
             val alpha = (descriptionRoot.offset + descriptionRoot.height - min) / (max - min)
+            val params=poster.layoutParams
+            params.height=(posterHeight * alpha).toInt()
+            poster.layoutParams=params
             poster.alpha=(alpha)
             shareButton.alpha=(1-alpha)
             max = backdropPager.height.toFloat()

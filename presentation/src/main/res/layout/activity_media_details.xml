@@ -69,11 +69,9 @@
         app:piv_viewPager="@id/backdropPager"
         android:layout_gravity="center_horizontal" />
 
-
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxImageView
         android:layout_marginLeft="@dimen/spacing_medium"
         android:id="@+id/poster"
-        android:minHeight="@dimen/shot_collapsed_app_bar_height"
         android:transitionName="@string/poster_transition_name"
         android:stateListAnimator="@animator/app_bar_pin"
         android:scaleType="centerCrop"
@@ -90,5 +88,4 @@
         android:layout_gravity="end"
         android:layout_marginRight="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_medium" />
-    <!--<include layout="@layout/sheet_movie_details"/> -->
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.ElasticDismissLayout>

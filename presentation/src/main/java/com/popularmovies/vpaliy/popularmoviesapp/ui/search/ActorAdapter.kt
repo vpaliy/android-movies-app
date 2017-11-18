@@ -29,5 +29,5 @@ class ActorAdapter(context:Context):BaseAdapter<Actor>(context){
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)
             :ActorViewHolder
-            = ActorViewHolder(inflater.inflate(R.layout.adapter_search_actor,parent,false))
+            =ActorViewHolder(inflater.inflate(R.layout.adapter_search_actor,parent,false))
 }

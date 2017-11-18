@@ -8,21 +8,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <ImageView
+        android:id="@+id/dummy"
+        android:layout_width="120dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.405"
+        tools:src="@drawable/kong_poster" />
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/movieTitle"
         style="@style/Widget.Title"
         android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:transitionName="@string/title_transition_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/dummy"
         android:layout_width="0dp"
+        app:layout_constraintHorizontal_bias="0.0"
         android:layout_height="wrap_content"
-        tools:text="Fantastic beasts and where to find them "
+        app:layout_constraintWidth_default="wrap"
+        android:text="Fantastic beasts and where to find them "
         app:layout_constraintRight_toRightOf="parent" />
-
     <TextView
         android:id="@+id/release"
         style="@style/Widget.NumberText"
@@ -36,11 +46,11 @@
         android:layout_marginTop="@dimen/spacing_medium"
         android:drawablePadding="@dimen/spacing_small"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintTop_toBottomOf="@+id/movieTitle"
         tools:text="In 7 days"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toRightOf="@+id/dummy" />
     <TextView
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/duration"
         style="@style/Widget.NumberText"
         android:textSize="17sp"
@@ -52,7 +62,7 @@
         android:gravity="center"
         android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintTop_toBottomOf="@+id/release"
-        tools:text="2 hr 10 min"
+        android:text="2 hr 10 min"
         app:layout_constraintLeft_toLeftOf="@+id/release" />
     <TextView
         android:id="@+id/budget"
@@ -86,7 +96,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintTop_toBottomOf="@+id/duration"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toRightOf="@+id/dummy" />
     <TextView
         android:id="@+id/ratings"
         android:layout_width="wrap_content"
@@ -109,11 +119,12 @@
     <TextView
         android:id="@+id/description"
         tools:text="@string/dummy_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:layout_marginTop="@dimen/spacing_medium"
         style="@style/Widget.Title"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chips"/>
+        app:layout_constraintTop_toBottomOf="@+id/chips"
+        app:layout_constraintLeft_toRightOf="@+id/dummy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"/>
 </com.popularmovies.vpaliy.popularmoviesapp.ui.view.TranslatableLayout>
