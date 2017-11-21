@@ -37,6 +37,7 @@
         android:importantForAccessibility="no" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/details"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -46,7 +47,9 @@
         tools:listitem="@layout/blank"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
-    <include layout="@layout/layout_media_description"/>
+    <include
+        android:visibility="invisible"
+        layout="@layout/layout_media_description"/>
 
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxRatioViewPager
         android:transitionName="@string/backdrop_transition_name"
@@ -60,28 +63,29 @@
         app:maxScrimAlpha="0.4"
         android:layout_width="match_parent"
         android:layout_height="@dimen/details_backdrop_height"/>
-
     <com.rd.PageIndicatorView
         android:id="@+id/pageIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:piv_dynamicCount="true"
+        android:visibility="invisible"
         app:piv_viewPager="@id/backdropPager"
         android:layout_gravity="center_horizontal" />
 
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.ParallaxImageView
         android:layout_marginLeft="@dimen/spacing_medium"
         android:id="@+id/poster"
+        android:visibility="invisible"
         android:transitionName="@string/poster_transition_name"
         android:stateListAnimator="@animator/app_bar_pin"
         android:scaleType="centerCrop"
         android:layout_width="@dimen/details_poster_width"
         android:layout_height="@dimen/details_poster_height" />
-
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.FABToggle
         android:id="@+id/shareButton"
         app:fabSize="normal"
         android:alpha="0"
+        android:visibility="invisible"
         app:srcCompat="@drawable/ic_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

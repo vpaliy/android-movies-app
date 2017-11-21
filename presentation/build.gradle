@@ -68,6 +68,7 @@ dependencies {
     implementation libs.palette
     kapt libs.Dagger2Compiler
     compileOnly libs.javaxAnnotation
+    implementation 'com.github.vpaliyX:android-extensions:b3c79325bb'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 }
 repositories {

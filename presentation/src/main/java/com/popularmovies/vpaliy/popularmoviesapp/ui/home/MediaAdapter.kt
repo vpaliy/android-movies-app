@@ -8,8 +8,8 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
-import com.popularmovies.vpaliy.popularmoviesapp.ui.click
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
+import com.vpaliy.kotlin_extensions.click
 import kotlinx.android.synthetic.main.adapter_media_item.view.*
 
 class MediaAdapter(context: Context, val click:(MediaModel)->Unit)

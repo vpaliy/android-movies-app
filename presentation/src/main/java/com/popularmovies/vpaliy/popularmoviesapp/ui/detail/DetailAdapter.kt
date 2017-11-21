@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ListWrapper
-import com.popularmovies.vpaliy.popularmoviesapp.ui.then
+import com.vpaliy.kotlin_extensions.then
 import kotlinx.android.synthetic.main.adapter_detail_item.view.*
 
 class DetailAdapter(context: Context):BaseAdapter<ListWrapper>(context){

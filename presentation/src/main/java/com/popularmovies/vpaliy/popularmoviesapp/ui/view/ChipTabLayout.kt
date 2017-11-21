@@ -15,10 +15,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup.LayoutParams.*
 import android.widget.HorizontalScrollView
-import android.widget.TextView
 import com.popularmovies.vpaliy.popularmoviesapp.R
-import com.popularmovies.vpaliy.popularmoviesapp.ui.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
+import com.vpaliy.kotlin_extensions.getDimensionPixelOffset
+import com.vpaliy.kotlin_extensions.getDrawable
+import com.vpaliy.kotlin_extensions.scale
+import com.vpaliy.kotlin_extensions.then
 
 class ChipTabLayout @JvmOverloads constructor(context:Context, attrs: AttributeSet? = null, defStyle: Int = 0)
     :HorizontalScrollView(context,attrs,defStyle){
@@ -127,7 +129,7 @@ class ChipTab(context: Context, builder: Builder):AppCompatTextView(context),Vie
 
     init {
         setTextColor(colorText)
-        val padding=getDimensInt(R.dimen.chip_text_margin)
+        val padding=getDimensionPixelOffset(R.dimen.chip_text_margin)
         setPadding(padding,0,padding,0)
         gravity=Gravity.CENTER
         setOnClickListener(this)
@@ -151,7 +153,7 @@ class ChipTab(context: Context, builder: Builder):AppCompatTextView(context),Vie
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        layoutParams.height = getDimensInt(R.dimen.chip_height)
+        layoutParams.height = getDimensionPixelOffset(R.dimen.chip_height)
         layoutParams.width = WRAP_CONTENT
     }
 

@@ -5,7 +5,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerTVComponent
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.TVModule
-import com.popularmovies.vpaliy.popularmoviesapp.ui.color
+import com.vpaliy.kotlin_extensions.getColor
 import javax.inject.Inject
 
 class TVFragment:HomeFragment(){
@@ -16,7 +16,7 @@ class TVFragment:HomeFragment(){
         }
     override fun types()=arrayOf(MediaType.TOP)
 
-    override fun getColor(type: MediaType)=color(R.color.colorTvShows)
+    override fun getColor(type: MediaType)=getColor(R.color.colorTvShows)
 
     override fun getTitle(type: MediaType): String {
         return when(type){

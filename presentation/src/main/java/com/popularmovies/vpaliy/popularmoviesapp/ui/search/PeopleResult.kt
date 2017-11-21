@@ -8,7 +8,6 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
 class PeopleResult:SearchResult<Actor>(){
-
     override var presenter:SearchContract.Presenter<Actor>?=null
         @Inject set(value) {
             field=value

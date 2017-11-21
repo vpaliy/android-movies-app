@@ -5,14 +5,13 @@ import android.graphics.Color
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import com.popularmovies.vpaliy.popularmoviesapp.R
-import com.popularmovies.vpaliy.popularmoviesapp.ui.color
-import com.popularmovies.vpaliy.popularmoviesapp.ui.getDimen
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipPagerAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipTab
+import com.vpaliy.kotlin_extensions.getCompatColor
+import com.vpaliy.kotlin_extensions.getDimension
 
 class SearchAdapter(val context: Context, manager:FragmentManager)
     :ChipPagerAdapter(manager),QueryListener{
-
     private val listeners= mutableListOf<QueryListener>()
 
     override fun getItem(position: Int):Fragment{
@@ -43,12 +42,12 @@ class SearchAdapter(val context: Context, manager:FragmentManager)
 
     override fun styleFor(position: Int): ChipTab.StyleBuilder {
         return ChipTab.StyleBuilder().apply {
-            this.textColor=context.color(R.color.colorReveal)
+            this.textColor=context.getCompatColor(R.color.colorReveal)
             this.background= Color.TRANSPARENT
             this.selectedBackgroundColor=textColor
             this.selectedTextColor=Color.WHITE
             this.textAppearance=R.style.Widget_SearchChip
-            this.selectedElevation=context.getDimen(R.dimen.z_app_bar)
+            this.selectedElevation=context.getDimension(R.dimen.z_app_bar)
         }
     }
 }

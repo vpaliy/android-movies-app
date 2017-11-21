@@ -10,7 +10,6 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
 class TVResult:SearchResult<TVShow>(){
-
     override var presenter: SearchContract.Presenter<TVShow>?=null
         @Inject set(value) {
             field=value

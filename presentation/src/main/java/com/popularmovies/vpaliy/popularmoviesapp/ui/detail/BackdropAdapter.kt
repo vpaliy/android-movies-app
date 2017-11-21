@@ -13,7 +13,7 @@ import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import com.popularmovies.vpaliy.popularmoviesapp.ui.then
+import com.vpaliy.kotlin_extensions.then
 
 class BackdropAdapter(context:Context, val callback:(ImageView,Bitmap)->Unit):PagerAdapter(){
     private var isLoaded=false

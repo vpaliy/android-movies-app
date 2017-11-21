@@ -13,9 +13,8 @@ import android.widget.SearchView
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
-import com.popularmovies.vpaliy.popularmoviesapp.ui.scale
-import com.popularmovies.vpaliy.popularmoviesapp.ui.setScale
-import com.popularmovies.vpaliy.popularmoviesapp.ui.then
+import com.vpaliy.kotlin_extensions.scale
+import com.vpaliy.kotlin_extensions.then
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity:BaseActivity(){
@@ -32,7 +31,7 @@ class SearchActivity:BaseActivity(){
         results.adapter=adapter
         results.offscreenPageLimit=3
         tabLayout.setup(results,adapter)
-        tabLayout.tabs.forEach { it.setScale(0f) }
+        tabLayout.tabs.forEach { it.scale(0f) }
     }
 
     private fun setupTransition(){

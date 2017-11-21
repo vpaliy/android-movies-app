@@ -28,8 +28,11 @@ import javax.inject.Inject
 import android.content.res.ColorStateList
 import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
+import android.view.View
+import com.bumptech.glide.request.target.ImageViewTarget
 import com.popularmovies.vpaliy.popularmoviesapp.ui.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
+import com.vpaliy.kotlin_extensions.*
 
 class DetailActivity:BaseActivity(),DetailContract.View{
 
@@ -41,6 +44,10 @@ class DetailActivity:BaseActivity(),DetailContract.View{
                 it.attachId(intent.getStringExtra(EXTRA_ID))
             }
         }
+
+    private val hidden by lazy(LazyThreadSafetyMode.NONE){
+        listOf(shareButton,poster,pageIndicator,descriptionRoot,poster,details)
+    }
 
     private val adapter by lazy {
         DetailAdapter(this)
@@ -72,6 +79,8 @@ class DetailActivity:BaseActivity(),DetailContract.View{
         poster.isPinned=true
         shareButton.setMinOffset(backdropPager.getMinHeight()-shareButton.height/2f)
         applyPalette(Palette.from(bitmap).generate())
+
+        hidden.forEach(View::show)
     }
 
     override fun showBackdrops(data: List<String>) {
@@ -164,7 +173,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
                 params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
                 params.leftToRight=ConstraintLayout.LayoutParams.UNSET
                 params.topToBottom=chips.id
-                params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
+                params.topMargin=getDimensionPixelOffset(R.dimen.spacing_medium)
                 description.layoutParams=params
             }else if((dummy.endY()-duration.endY()) <= (2* duration.height)){
                 var params=chips.layoutParams as ConstraintLayout.LayoutParams
@@ -178,7 +187,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
                 params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
                 params.leftToRight=ConstraintLayout.LayoutParams.UNSET
                 params.topToBottom=chips.id
-                params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
+                params.topMargin=getDimensionPixelOffset(R.dimen.spacing_medium)
                 description.layoutParams=params
             }
         }
@@ -224,7 +233,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     private val listener = object : RecyclerView.OnScrollListener() {
 
         private val posterHeight by lazy(LazyThreadSafetyMode.NONE) {
-            getDimen(R.dimen.details_poster_height)
+            getDimension(R.dimen.details_poster_height)
         }
 
         override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
@@ -247,7 +256,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
             val alpha = (descriptionRoot.offset + descriptionRoot.height - min) / (max - min)
             val params=poster.layoutParams
             //TODO make the image disappear on scroll
-           // params.height=(posterHeight * alpha).toInt()
+            // params.height=(posterHeight * alpha).toInt()
             poster.layoutParams=params
             poster.alpha=(alpha)
             shareButton.alpha=(1-alpha)

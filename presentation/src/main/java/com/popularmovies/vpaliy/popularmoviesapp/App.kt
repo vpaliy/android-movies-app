@@ -9,8 +9,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.InteractorModule
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.MapperModule
 
 class App : Application() {
-
-    val component:ApplicationComponent by lazy {
+    val component:ApplicationComponent by lazy(LazyThreadSafetyMode.NONE){
         DaggerApplicationComponent
                 .builder()
                 .applicationModule(ApplicationModule(this))
@@ -27,7 +26,7 @@ class App : Application() {
 
     companion object {
         private var instance:App?=null
-        val component by lazy {
+        val component by lazy(LazyThreadSafetyMode.NONE){
             instance?.component
         }
     }

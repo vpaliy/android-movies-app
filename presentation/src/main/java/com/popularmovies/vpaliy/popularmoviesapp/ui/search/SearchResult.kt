@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.popularmovies.vpaliy.popularmoviesapp.R
-import com.popularmovies.vpaliy.popularmoviesapp.ui.turnOff
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
+import com.vpaliy.kotlin_extensions.turnOff
 import kotlinx.android.synthetic.main.fragment_search.*
 
 abstract class SearchResult<T>:Fragment(),SearchContract.View<T>,QueryListener{

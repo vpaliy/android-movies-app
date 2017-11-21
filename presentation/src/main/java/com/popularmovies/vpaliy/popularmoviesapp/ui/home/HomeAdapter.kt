@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import com.popularmovies.vpaliy.domain.entity.MediaType
@@ -9,6 +8,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ViewWrapper
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
+import com.vpaliy.kotlin_extensions.click
 import kotlinx.android.synthetic.main.adapter_media_type_item.view.*
 
 class HomeAdapter(context:Context, val click:(MediaType)->Unit): BaseAdapter<ViewWrapper>(context){
@@ -19,8 +19,8 @@ class HomeAdapter(context:Context, val click:(MediaType)->Unit): BaseAdapter<Vie
         init {
             val list=itemView.media
             itemView.media.isNestedScrollingEnabled=false
-            itemView.more.setOnClickListener {
-                click(this@HomeAdapter[adapterPosition].type)
+            itemView.more.click {
+                click(data[adapterPosition].type)
             }
             list.addOnScrollListener(object : OnReachBottomListener(list.layoutManager) {
                 override fun onLoadMore() {
