@@ -44,7 +44,7 @@
                     android:valueFrom="@fraction/searchback_arrow_head_search_trim_end"
                     android:valueTo="@fraction/searchback_arrow_head_search_trim_end"/>
 
-                <!-- Then run the animation after a delay. -->
+                <!-- Then run the animatafterPostfter a delay. -->
                 <objectAnimator
                     android:duration="@integer/searchback_show_hide_arrow_head_duration"
                     android:interpolator="@android:interpolator/fast_out_slow_in"
@@ -66,7 +66,7 @@
                     android:valueFrom="@fraction/searchback_arrow_head_search_trim_end"
                     android:valueTo="@fraction/searchback_arrow_head_search_trim_end"/>
 
-                <!-- Then run the animation after a delay. -->
+                <!-- Then run the animatafterPostfter a delay. -->
                 <objectAnimator
                     android:duration="@integer/searchback_show_hide_arrow_head_duration"
                     android:interpolator="@android:interpolator/fast_out_slow_in"
@@ -88,7 +88,7 @@
                     android:valueFrom="8"
                     android:valueTo="8"/>
 
-                <!-- Then run the animation after a delay. -->
+                <!-- Then run the animatafterPostfter a delay. -->
                 <objectAnimator
                     android:duration="@integer/searchback_show_hide_arrow_head_duration"
                     android:interpolator="@android:interpolator/linear_out_slow_in"

@@ -4,7 +4,7 @@ import com.popularmovies.vpaliy.domain.error
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
 import com.popularmovies.vpaliy.domain.repository.SearchRepository
-import com.popularmovies.vpaliy.domain.then
+import com.vpaliy.kotlin_extensions.then
 import javax.inject.Inject
 import javax.inject.Singleton
 

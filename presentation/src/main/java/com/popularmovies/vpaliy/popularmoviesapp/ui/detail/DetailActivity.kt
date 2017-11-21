@@ -16,8 +16,6 @@ import kotlinx.android.synthetic.main.activity_media_details.*
 import kotlinx.android.synthetic.main.layout_media_description.*
 import android.support.v7.widget.RecyclerView
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ListWrapper
-import android.view.ViewGroup
-import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -32,7 +30,6 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
 import com.popularmovies.vpaliy.popularmoviesapp.ui.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
-
 
 class DetailActivity:BaseActivity(),DetailContract.View{
 
@@ -85,7 +82,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
         val castAdapter=CastAdapter(this).apply {
             this.data=data.toMutableList()
         }
-        adapter.add(ListWrapper(castAdapter,getString(R.string.cast_title)))
+        adapter.addFirst(ListWrapper(castAdapter,getString(R.string.cast_title)))
     }
 
     private fun applyPalette(palette: Palette) {
@@ -111,7 +108,6 @@ class DetailActivity:BaseActivity(),DetailContract.View{
 
     override fun showMedia(movie: Movie) {
         showBackdrops(movie.backdrops!!)
-        log(movie.title)
         movieTitle.text=movie.title
         release.text=movie.releaseYear
         ratings.text=movie.averageVote.toString()
@@ -126,9 +122,9 @@ class DetailActivity:BaseActivity(),DetailContract.View{
                 .placeholder(R.drawable.placeholder)
                 .animate(R.anim.fade_in)
                 .into(poster)
-        description.post{
+        description.afterPost {
             adjustDescription()
-            adjustPlaceholder()
+            post(this@DetailActivity::adjustPlaceholder)
         }
     }
 
@@ -207,7 +203,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
         val trailerAdapter=TrailerAdapter(this).apply {
             this.data=data.toMutableList()
         }
-        adapter.add(ListWrapper(trailerAdapter,getString(R.string.trailer_title)))
+        adapter.addLast(ListWrapper(trailerAdapter,getString(R.string.trailer_title)))
     }
 
     override fun inject() {
@@ -250,7 +246,8 @@ class DetailActivity:BaseActivity(),DetailContract.View{
             //hide the poster as it goes up
             val alpha = (descriptionRoot.offset + descriptionRoot.height - min) / (max - min)
             val params=poster.layoutParams
-            params.height=(posterHeight * alpha).toInt()
+            //TODO make the image disappear on scroll
+           // params.height=(posterHeight * alpha).toInt()
             poster.layoutParams=params
             poster.alpha=(alpha)
             shareButton.alpha=(1-alpha)
@@ -258,52 +255,6 @@ class DetailActivity:BaseActivity(),DetailContract.View{
             min = pageIndicator.translationY + pageIndicator.height
             //hide the indicator as well
             pageIndicator.alpha=((backdropPager.offset + backdropPager.height - min) / (max - min))
-        }
-    }
-
-    private object ParamsFactory {
-        internal fun shiftElementsFrom(target: View, shiftElements: List<View>) {
-            var posterY = getBottomY(target) + target.height
-            val posterX = target.x + target.width
-            val spacing = target.resources.getDimension(R.dimen.spacing_media_details)
-            val offset = target.width + spacing
-            for (index in shiftElements.indices) {
-                val element = shiftElements[index]
-                if (posterX >= element.x && posterY + spacing >= getBottomY(element)) {
-                    if (index != 0 && shouldShiftVertically(posterY, element, spacing)) {
-                        posterY = shiftVertically(element, posterY)
-                    } else {
-                        shiftHorizontally(element, offset)
-                    }
-                }
-            }
-        }
-
-        internal fun shouldShiftVertically(offsetY: Float, target: View, spacing: Float): Boolean {
-            val targetY = getBottomY(target)
-            val offsetDiff = targetY - offsetY
-            return offsetDiff in 0f..spacing
-        }
-
-        internal fun shiftVertically(target: View, posterY: Float): Float {
-            val spacing = target.resources.getDimension(R.dimen.spacing_media_details)
-            val params = target.layoutParams as ViewGroup.MarginLayoutParams
-            val offsetY = posterY - getBottomY(target) + spacing
-            params.topMargin += offsetY.toInt()
-            target.layoutParams=params
-            return posterY-offsetY
-        }
-
-        internal fun shiftHorizontally(target: View, offset: Float) {
-            val params = target.layoutParams as ViewGroup.MarginLayoutParams
-            params.leftMargin += offset.toInt()
-            target.layoutParams=params
-        }
-
-        internal fun getBottomY(view: View): Float {
-            val screenLocation = IntArray(2)
-            view.getLocationOnScreen(screenLocation)
-            return screenLocation[1].toFloat()
         }
     }
 }

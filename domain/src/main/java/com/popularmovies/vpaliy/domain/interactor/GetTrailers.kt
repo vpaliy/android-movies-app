@@ -3,7 +3,7 @@ package com.popularmovies.vpaliy.domain.interactor
 import com.popularmovies.vpaliy.domain.entity.Trailer
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
-import com.popularmovies.vpaliy.domain.then
+import com.vpaliy.kotlin_extensions.then
 import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton

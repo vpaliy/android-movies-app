@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.popularmovies.vpaliy.popularmoviesapp.ui.inflater
+import com.popularmovies.vpaliy.popularmoviesapp.ui.then
 
 abstract class BaseAdapter<T>(context:Context)
     :RecyclerView.Adapter<BaseAdapter<T>.BaseViewHolder>(){
@@ -42,6 +43,10 @@ abstract class BaseAdapter<T>(context:Context)
         data.addAll(appended)
         notifyDataSetChanged()
     }
+
+    fun addFirst(item:T):Unit =data.add(0,item)
+
+    fun addLast(item:T):Unit =data.add(data.isNotEmpty() then (data.size-1)?:0,item)
 
     operator fun BaseAdapter<T>.get(index:Int)=data[index]
 

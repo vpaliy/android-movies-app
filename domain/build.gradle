@@ -38,6 +38,7 @@ dependencies {
     implementation libs.RxJava
     implementation libs.RxAndroid
     implementation libs.Dagger2
+    implementation 'com.github.vpaliyX:android-extensions:-SNAPSHOT'
     kapt libs.Dagger2Compiler
     compileOnly libs.javaxAnnotation
     /* Testing Libraries */

@@ -44,11 +44,9 @@ fun View.getMinHeight()=ViewCompat.getMinimumHeight(this)
 
 fun View.click(callback: () -> Unit)=setOnClickListener { callback() }
 
-fun Any.log(message:Any?){
-    Log.d(this.javaClass.name,message.toString())
-}
-
 fun View.endY()=y+height
+
+inline fun View.afterPost(crossinline callback:View.() -> Unit)=apply { post{ callback() } }
 
 fun View.addTemporaryOnPreDraw(callback:()->Unit){
     viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener{
