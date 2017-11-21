@@ -14,6 +14,7 @@ object DetailContract{
         fun showMedia(movie:Movie)
         fun showMessage(@StringRes resource:Int)
         fun showSuggested(type:Suggestion<Movie>, data:List<MediaModel>)
+        fun appendSuggested(type:Suggestion<Movie>, data:List<MediaModel>)
     }
 
     interface Presenter{

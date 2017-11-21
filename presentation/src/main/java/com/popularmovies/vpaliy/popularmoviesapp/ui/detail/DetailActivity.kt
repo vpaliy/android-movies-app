@@ -3,10 +3,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.detail
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.ImageView
-import com.popularmovies.vpaliy.domain.entity.Movie
-import com.popularmovies.vpaliy.domain.entity.Review
-import com.popularmovies.vpaliy.domain.entity.Role
-import com.popularmovies.vpaliy.domain.entity.Trailer
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
@@ -30,7 +26,9 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
 import android.view.View
 import com.bumptech.glide.request.target.ImageViewTarget
+import com.popularmovies.vpaliy.domain.entity.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.*
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
 import com.vpaliy.kotlin_extensions.*
 
@@ -49,13 +47,15 @@ class DetailActivity:BaseActivity(),DetailContract.View{
         listOf(shareButton,poster,pageIndicator,descriptionRoot,poster,details)
     }
 
-    private val adapter by lazy {
+    private val adapter by lazy(LazyThreadSafetyMode.NONE){
         DetailAdapter(this)
     }
 
-    private val backdropAdapter by lazy {
+    private val backdropAdapter by lazy(LazyThreadSafetyMode.NONE){
         BackdropAdapter(this,this::onLoaded)
     }
+
+    private val suggestionMap= mutableMapOf<SimilarityType,BaseAdapter<MediaModel>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,11 +141,12 @@ class DetailActivity:BaseActivity(),DetailContract.View{
         val layoutParams=adapter.placeholder.layoutParams
         layoutParams.height=backdropPager.height+descriptionRoot.height
         adapter.placeholder.layoutParams=layoutParams
-        val offset=backdropPager.height+descriptionRoot.height+shareButton.height/2
+        val offset=backdropPager.height+descriptionRoot.height-shareButton.height/2
         shareButton.staticOffset=offset
         shareButton.setOffset(offset.toFloat())
     }
 
+    //TODO find a generic way to accomplish this
     private fun adjustDescription(){
         if((description.endY() > dummy.endY())){
             if((dummy.endY() - duration.endY()) < 0){
@@ -205,7 +206,17 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     }
 
     override fun showSuggested(type: Suggestion<Movie>, data: List<MediaModel>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val suggestedAdapter=SuggestedAdapter(this)
+        suggestedAdapter.data=data.toMutableList()
+        suggestionMap.put(type.type,suggestedAdapter)
+        val title=(type.type == SimilarityType.SIMILAR) then getString(R.string.media_similar_content)
+                ?:getString(R.string.media_recommendations)
+        val wrapper=ListWrapper(suggestedAdapter,title)
+        adapter.add(wrapper)
+    }
+
+    override fun appendSuggested(type: Suggestion<Movie>, data: List<MediaModel>) {
+        suggestionMap[type.type]?.append(data.toMutableList())
     }
 
     override fun showTrailers(data: List<Trailer>) {
@@ -248,7 +259,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
             backdropPager.offset=scrollY
             poster.setOffset(poster.staticOffset + scrollY)
             descriptionRoot.offset=(descriptionRoot.staticOffset + scrollY)
-            shareButton.staticOffset=(shareButton.staticOffset + scrollY)
+            shareButton.setOffset(shareButton.staticOffset+scrollY.toFloat())
 
             var min = poster.translationY + poster.height
             var max = descriptionRoot.staticOffset + descriptionRoot.height
