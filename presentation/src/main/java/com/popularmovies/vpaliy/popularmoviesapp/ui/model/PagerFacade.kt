@@ -10,9 +10,7 @@ class PagerFacade<T>(private val interactor:RequestInteractor<TypePage,List<T>>,
                      private val mapper: Mapper<MediaModel,T>){
     private var success:((TypePage,List<MediaModel>)->Unit)?=null
 
-    fun execute(success:(TypePage,List<MediaModel>)->Unit,
-                error:(Throwable)->Unit,
-                page: TypePage?){
+    fun execute(success:(TypePage, List<MediaModel>)->Unit, error:(Throwable)->Unit, page: TypePage?){
         this.success=success
         interactor.execute(Consumer(this::onSuccess,error),page)
     }

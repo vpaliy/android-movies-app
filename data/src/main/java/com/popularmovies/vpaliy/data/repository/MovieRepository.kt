@@ -86,10 +86,10 @@ constructor(val mapper:Mapper<Movie,MovieEntity>,
     override fun fetchSuggested(request: Suggestion<Movie>): Stream<Suggestion<Movie>, List<Movie>> {
         return when(request.type){
             SimilarityType.RECOMMENDATION ->
-                service.getRecommendations(request.item.id,request.buildQuery())
+                service.getRecommendations(request.id,request.buildQuery())
             else->
-                service.getSimilar(request.item.id,request.buildQuery())
-        }.map{MovieEntity.build(it.results,genreKeeper)}
+                service.getSimilar(request.id,request.buildQuery())
+        }.map{it.results.filterOut()}.map{MovieEntity.build(it.toTypedArray(),genreKeeper)}
                 .map(mapper::map).toStream(request)
     }
 }

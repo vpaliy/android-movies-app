@@ -13,8 +13,8 @@ object DetailContract{
         fun showCast(data:List<Role>)
         fun showMedia(movie:Movie)
         fun showMessage(@StringRes resource:Int)
-        fun showSuggested(type:Suggestion<Movie>, data:List<MediaModel>)
-        fun appendSuggested(type:Suggestion<Movie>, data:List<MediaModel>)
+        fun showSuggested(type:SimilarityType, data:List<MediaModel>)
+        fun appendSuggested(type:SimilarityType, data:List<MediaModel>)
     }
 
     interface Presenter{

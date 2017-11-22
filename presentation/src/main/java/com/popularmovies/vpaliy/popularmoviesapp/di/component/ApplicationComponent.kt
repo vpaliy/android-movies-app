@@ -35,6 +35,7 @@ interface ApplicationComponent {
     fun tvInteractor():GetPage<TVShow>
     fun movieReviews():GetReviews<Movie>
     fun movieTrailers():GetTrailers<Movie>
+    fun suggestions():GetSuggestion<Movie>
     fun movieRoles():GetRoles<Movie>
     fun movieItem():GetItem<Movie>
     fun mapper():Mapper<MediaModel,Movie>

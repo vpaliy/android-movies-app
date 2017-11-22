@@ -5,6 +5,7 @@ import com.popularmovies.vpaliy.domain.entity.Movie
 import com.popularmovies.vpaliy.domain.entity.TVShow
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.interactor.GetPage
+import com.popularmovies.vpaliy.domain.interactor.GetSuggestion
 import com.popularmovies.vpaliy.domain.interactor.SearchInteractor
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
 import com.popularmovies.vpaliy.domain.repository.SearchRepository
@@ -18,6 +19,11 @@ class InteractorModule{
     @Provides
     internal fun movies(repository:MediaRepository<Movie>, scheduler: BaseScheduler)
             :GetPage<Movie> =GetPage(repository,scheduler)
+
+    @Singleton
+    @Provides
+    internal fun suggestions(repository: MediaRepository<Movie>, scheduler: BaseScheduler)
+            :GetSuggestion<Movie> = GetSuggestion(repository,scheduler)
 
     @Singleton
     @Provides

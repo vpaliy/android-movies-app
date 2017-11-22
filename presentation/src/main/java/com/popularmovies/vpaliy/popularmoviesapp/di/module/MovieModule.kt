@@ -36,9 +36,9 @@ class MovieModule{
 
     @ViewScope
     @Provides
-    fun details(item: GetItem<Movie>,reviews:GetReviews<Movie>,trailers: GetTrailers<Movie>,roles: GetRoles<Movie>)
-                :DetailContract.Presenter{
-        val facade=MediaFacade(item,reviews,trailers,roles)
-        return DetailPresenter(facade)
+    fun details(item: GetItem<Movie>,reviews:GetReviews<Movie>,trailers: GetTrailers<Movie>, roles: GetRoles<Movie>,
+                suggestion: GetSuggestion<Movie>, mapper:Mapper<MediaModel,Movie>):DetailContract.Presenter{
+        val facade=MediaFacade(item,reviews,trailers,roles,suggestion)
+        return DetailPresenter(facade,mapper)
     }
 }
