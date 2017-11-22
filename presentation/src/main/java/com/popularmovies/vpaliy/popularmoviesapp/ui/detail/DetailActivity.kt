@@ -29,6 +29,7 @@ import com.bumptech.glide.request.target.ImageViewTarget
 import com.popularmovies.vpaliy.domain.entity.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
 import com.vpaliy.kotlin_extensions.*
 
@@ -211,7 +212,7 @@ class DetailActivity:BaseActivity(),DetailContract.View{
         suggestionMap.put(type.type,suggestedAdapter)
         val title=(type.type == SimilarityType.SIMILAR) then getString(R.string.media_similar_content)
                 ?:getString(R.string.media_recommendations)
-        val wrapper=ListWrapper(suggestedAdapter,title)
+        val wrapper=ListWrapper(suggestedAdapter,title, { presenter?.more(type.type) })
         adapter.add(wrapper)
     }
 
