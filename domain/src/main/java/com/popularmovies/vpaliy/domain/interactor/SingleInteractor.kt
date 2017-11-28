@@ -3,15 +3,17 @@ package com.popularmovies.vpaliy.domain.interactor
 import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import io.reactivex.Single
 
-abstract class SingleInteractor<in Request,Result>
-constructor(scheduler: BaseScheduler):Interactor(scheduler) {
+abstract class SingleInteractor<Request,Response> constructor(scheduler: BaseScheduler):Interactor(scheduler) {
+  fun execute(success:(Response)->Unit,error:(Throwable)->Unit, params: Request?=null){
+    buildSingle(params)
+            .subscribeOn(scheduler.io())
+            .observeOn(scheduler.ui())
+            .subscribe(success, error)
+  }
 
-    fun execute(success:(Result)->Unit,error:(Throwable)->Unit, params: Request?=null){
-        buildUseCase(params)
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .subscribe(success, error)
-    }
+  fun execute(success: (Request?,Response) -> Unit, error: (Throwable) -> Unit, params: Request?=null){
+    execute({response:Response-> success.invoke(params,response) },error,params)
+  }
 
-    protected abstract fun buildUseCase(params:Request?=null): Single<Result>
+  protected abstract fun buildSingle(params:Request?=null): Single<Response>
 }

@@ -12,21 +12,21 @@ import dagger.Provides
 
 @Module
 class SearchModule{
-    @ViewScope
-    @Provides
-    internal fun searchMovies(interactor:SearchInteractor<Movie>)
-            :SearchContract.Presenter<Movie>
-            =SearchPresenter(interactor)
+  @ViewScope
+  @Provides
+  internal fun searchMovies(interactor:SearchInteractor<Movie>)
+          :SearchContract.Presenter<Movie>
+          =SearchPresenter(interactor)
 
-    @ViewScope
-    @Provides
-    internal fun searchTV(interactor:SearchInteractor<TVShow>)
-            :SearchContract.Presenter<TVShow>
-            =SearchPresenter(interactor)
+  @ViewScope
+  @Provides
+  internal fun searchTV(interactor:SearchInteractor<TVShow>)
+          :SearchContract.Presenter<TVShow>
+          =SearchPresenter(interactor)
 
-    @ViewScope
-    @Provides
-    internal fun searchPeople(interactor:SearchInteractor<Actor>)
-            :SearchContract.Presenter<Actor>
-            =SearchPresenter(interactor)
+  @ViewScope
+  @Provides
+  internal fun searchPeople(interactor:SearchInteractor<Actor>)
+          :SearchContract.Presenter<Actor>
+          =SearchPresenter(interactor)
 }

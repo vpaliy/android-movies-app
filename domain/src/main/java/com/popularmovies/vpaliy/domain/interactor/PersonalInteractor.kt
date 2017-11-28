@@ -36,9 +36,9 @@ constructor(private val repository: PersonalRepository<T>, baseScheduler: BaseSc
     }
 
     fun fetch(consumer: Consumer<PersonalType,T>, type:PersonalType){
-        repository.fetch(type).single
+        repository.fetch(type)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
-                .subscribe(consumer.success,consumer.error)
+                //.subscribe(consumer.success,consumer.error)
     }
 }

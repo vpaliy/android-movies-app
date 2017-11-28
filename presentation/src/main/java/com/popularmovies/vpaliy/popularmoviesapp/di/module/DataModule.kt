@@ -14,46 +14,46 @@ import javax.inject.Singleton
 
 @Module
 class DataModule {
-    private val client = TMDB(Config.API_KEY)
+  private val client = TMDB(Config.API_KEY)
 
-    @Provides
-    @Singleton
-    internal fun movieRepository(repository: MovieRepository)
-            :MediaRepository<Movie> = repository
+  @Provides
+  @Singleton
+  internal fun movieRepository(repository: MovieRepository)
+          :MediaRepository<Movie> = repository
 
-    @Provides
-    @Singleton
-    internal fun tvRepository(repository: TVRepository)
-            :MediaRepository<TVShow> = repository
+  @Provides
+  @Singleton
+  internal fun tvRepository(repository: TVRepository)
+          :MediaRepository<TVShow> = repository
 
-    @Provides
-    @Singleton
-    internal fun tvSearch(repository: TVSearchRepository)
-            :SearchRepository<TVShow> = repository
+  @Provides
+  @Singleton
+  internal fun tvSearch(repository: TVSearchRepository)
+          :SearchRepository<TVShow> = repository
 
-    @Provides
-    @Singleton
-    internal fun movieSearch(repository: MovieSearchRepository)
-            :SearchRepository<Movie> = repository
+  @Provides
+  @Singleton
+  internal fun movieSearch(repository: MovieSearchRepository)
+          :SearchRepository<Movie> = repository
 
-    @Provides
-    @Singleton
-    internal fun peopleSearch(repository: PeopleRepository)
-            :SearchRepository<Actor> =repository
+  @Provides
+  @Singleton
+  internal fun peopleSearch(repository: PeopleRepository)
+          :SearchRepository<Actor> =repository
 
-    @Provides
-    @Singleton
-    internal fun genreService() = client.genreService
+  @Provides
+  @Singleton
+  internal fun genreService() = client.genreService
 
-    @Provides
-    @Singleton
-    internal fun moviesService() = client.moviesService
+  @Provides
+  @Singleton
+  internal fun moviesService() = client.moviesService
 
-    @Provides
-    @Singleton
-    internal fun searchService() = client.searchService
+  @Provides
+  @Singleton
+  internal fun searchService() = client.searchService
 
-    @Provides
-    @Singleton
-    internal fun tvService() = client.tvService
+  @Provides
+  @Singleton
+  internal fun tvService() = client.tvService
 }

@@ -9,29 +9,29 @@ import com.vpaliy.kotlin_extensions.getColor
 import javax.inject.Inject
 
 class TVFragment:HomeFragment(){
-    override var presenter: HomeContract.Presenter?=null
-        @Inject set(value) {
-            field=value
-            field?.attach(this)
-        }
-    override fun types()=arrayOf(MediaType.TOP)
-
-    override fun getColor(type: MediaType)=getColor(R.color.colorTvShows)
-
-    override fun getTitle(type: MediaType): String {
-        return when(type){
-            MediaType.POPULAR -> getString(R.string.popular_media)
-            MediaType.NOW_PLAYING -> getString(R.string.now_playing_media)
-            MediaType.UPCOMING -> getString(R.string.upcoming_media)
-            MediaType.TOP -> getString(R.string.top_rated_media)
-            else -> throw IllegalArgumentException()
-        }
+  override var presenter: HomeContract.Presenter?=null
+    @Inject set(value) {
+      field=value
+      field?.attach(this)
     }
+  override fun types()=arrayOf(MediaType.TOP)
 
-    override fun inject() {
-        DaggerTVComponent.builder()
-                .applicationComponent(App.component)
-                .tVModule(TVModule())
-                .build().inject(this)
+  override fun getColor(type: MediaType)=getColor(R.color.colorTvShows)
+
+  override fun getTitle(type: MediaType): String {
+    return when(type){
+      MediaType.POPULAR -> getString(R.string.popular_media)
+      MediaType.NOW_PLAYING -> getString(R.string.now_playing_media)
+      MediaType.UPCOMING -> getString(R.string.upcoming_media)
+      MediaType.TOP -> getString(R.string.top_rated_media)
+      else -> throw IllegalArgumentException()
     }
+  }
+
+  override fun inject() {
+    DaggerTVComponent.builder()
+            .applicationComponent(App.component)
+            .tVModule(TVModule())
+            .build().inject(this)
+  }
 }

@@ -11,35 +11,35 @@ import javax.inject.Inject
 
 class MovieResult:SearchResult<Movie>(){
 
-    override var presenter: SearchContract.Presenter<Movie>?=null
-        @Inject set(value) {
-            field=value
-            field?.attachView(this)
-        }
-
-    @Inject lateinit var mapper: Mapper<MediaModel,Movie>
-
-    private val adapter by lazy { MediaAdapter(context) }
-
-    override fun showResult(data: List<Movie>) {
-        result.adapter=adapter
-        adapter.data=mapper.map(data).toMutableList()
+  override var presenter: SearchContract.Presenter<Movie>?=null
+    @Inject set(value) {
+      field=value
+      field?.attachView(this)
     }
 
-    override fun onCleared() =adapter.clear()
+  @Inject lateinit var mapper: Mapper<MediaModel,Movie>
 
-    override fun appendResult(data: List<Movie>) {
-        adapter.append(mapper.map(data))
-    }
+  private val adapter by lazy { MediaAdapter(context) }
 
-    override fun error() {}
+  override fun showResult(data: List<Movie>) {
+    result.adapter=adapter
+    adapter.data=mapper.map(data).toMutableList()
+  }
 
-    override fun empty() {}
+  override fun onCleared() =adapter.clear()
 
-    override fun inject() {
-        DaggerSearchComponent.builder()
-                .applicationComponent(App.component)
-                .searchModule(SearchModule())
-                .build().inject(this)
-    }
+  override fun appendResult(data: List<Movie>) {
+    adapter.append(mapper.map(data))
+  }
+
+  override fun error() {}
+
+  override fun empty() {}
+
+  override fun inject() {
+    DaggerSearchComponent.builder()
+            .applicationComponent(App.component)
+            .searchModule(SearchModule())
+            .build().inject(this)
+  }
 }

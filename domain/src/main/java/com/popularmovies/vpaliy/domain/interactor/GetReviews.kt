@@ -5,16 +5,13 @@ import com.popularmovies.vpaliy.domain.executor.BaseScheduler
 import com.popularmovies.vpaliy.domain.repository.MediaRepository
 import com.popularmovies.vpaliy.domain.wrongArgument
 import com.vpaliy.kotlin_extensions.then
-import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class GetReviews<T> @Inject constructor(val repository: MediaRepository<T>, scheduler: BaseScheduler)
-    :GetDetail<List<Review>>(scheduler){
+  :GetDetail<List<Review>>(scheduler){
 
-    override fun buildUseCase(params: String?): Single<List<Review>> {
-        return params then(repository::fetchReviews)
-                ?: wrongArgument()
-    }
+  override fun buildSingle(params: String?)=
+          params then(repository::fetchReviews) ?: wrongArgument()
 }

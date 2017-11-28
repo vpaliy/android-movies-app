@@ -17,35 +17,35 @@ import javax.inject.Singleton
 
 @Module
 class MapperModule{
-    @Singleton
-    @Provides
-    internal fun movieMapper(mapper:MovieMapper): Mapper<Movie, MovieEntity> =mapper
+  @Singleton
+  @Provides
+  internal fun movieMapper(mapper:MovieMapper): Mapper<Movie, MovieEntity> =mapper
 
-    @Singleton
-    @Provides
-    internal fun tvMapper(mapper:TVMapper):Mapper<TVShow,TVEntity> =mapper
+  @Singleton
+  @Provides
+  internal fun tvMapper(mapper:TVMapper):Mapper<TVShow,TVEntity> =mapper
 
-    @Singleton
-    @Provides
-    internal fun actorMapper(mapper:ActorMapper):Mapper<Actor,ActorModel> =mapper
+  @Singleton
+  @Provides
+  internal fun actorMapper(mapper:ActorMapper):Mapper<Actor,ActorModel> =mapper
 
-    @Singleton
-    @Provides
-    internal fun roleMapper(mapper:RoleMapper):Mapper<Role,CastModel> =mapper
+  @Singleton
+  @Provides
+  internal fun roleMapper(mapper:RoleMapper):Mapper<Role,CastModel> =mapper
 
-    @Singleton
-    @Provides
-    internal fun trailerMapper(mapper:TrailerMapper):Mapper<Trailer,VideoModel> =mapper
+  @Singleton
+  @Provides
+  internal fun trailerMapper(mapper:TrailerMapper):Mapper<Trailer,VideoModel> =mapper
 
-    @Singleton
-    @Provides
-    internal fun reviewMapper(mapper:ReviewMapper):Mapper<Review,ReviewModel> =mapper
+  @Singleton
+  @Provides
+  internal fun reviewMapper(mapper:ReviewMapper):Mapper<Review,ReviewModel> =mapper
 
-    @Singleton
-    @Provides
-    internal fun mediaMovieMapper(mapper:MediaMovieMapper):Mapper<MediaModel,Movie> = mapper
+  @Singleton
+  @Provides
+  internal fun mediaMovieMapper(mapper:MediaMovieMapper):Mapper<MediaModel,Movie> = mapper
 
-    @Singleton
-    @Provides
-    internal fun mediaTVMapper(mapper: MediaTVMapper):Mapper<MediaModel,TVShow> = mapper
+  @Singleton
+  @Provides
+  internal fun mediaTVMapper(mapper: MediaTVMapper):Mapper<MediaModel,TVShow> = mapper
 }

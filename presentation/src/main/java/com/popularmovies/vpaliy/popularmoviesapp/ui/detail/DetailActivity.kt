@@ -3,7 +3,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.detail
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.widget.ImageView
-import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
@@ -25,11 +24,9 @@ import android.content.res.ColorStateList
 import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
 import android.view.View
-import com.bumptech.glide.request.target.ImageViewTarget
 import com.popularmovies.vpaliy.domain.entity.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
 import com.vpaliy.kotlin_extensions.*
 

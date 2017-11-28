@@ -12,22 +12,22 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 import kotlinx.android.synthetic.main.adapter_role.view.*
 
 class CastAdapter(context: Context):BaseAdapter<Role>(context){
-    inner class RoleViewHolder(itemView:View):BaseViewHolder(itemView){
-        override fun bind()= with(itemView){
-            val item=data[adapterPosition]
-            Glide.with(itemView.context)
-                    .load(item.picture)
-                    .asBitmap()
-                    .priority(Priority.IMMEDIATE)
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(R.drawable.placeholder)
-                    .animate(R.anim.fade_in)
-                    .into(photo)
-            name.text=item.actor
-        }
+  inner class RoleViewHolder(itemView:View):BaseViewHolder(itemView){
+    override fun bind()= with(itemView){
+      val item=data[adapterPosition]
+      Glide.with(itemView.context)
+              .load(item.picture)
+              .asBitmap()
+              .priority(Priority.IMMEDIATE)
+              .diskCacheStrategy(DiskCacheStrategy.RESULT)
+              .placeholder(R.drawable.placeholder)
+              .animate(R.anim.fade_in)
+              .into(photo)
+      name.text=item.actor
     }
+  }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)
-            :RoleViewHolder
-            =RoleViewHolder(inflater.inflate(R.layout.adapter_role,parent,false))
+  override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)
+          :RoleViewHolder
+          =RoleViewHolder(inflater.inflate(R.layout.adapter_role,parent,false))
 }

@@ -8,9 +8,9 @@ import javax.inject.Singleton
 @Singleton
 class ReviewMapper @Inject constructor():Mapper<Review,ReviewModel>{
 
-    override fun map(fake: ReviewModel)= Review(fake.content,fake.url,fake.author)
+  override fun map(fake: ReviewModel)= Review(fake.content,fake.url,fake.author)
 
-    override fun reverse(real: Review):ReviewModel{
-        return ReviewModel()
-    }
+  override fun reverse(real: Review):ReviewModel{
+    return ReviewModel()
+  }
 }
