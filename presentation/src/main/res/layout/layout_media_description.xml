@@ -10,7 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <ImageView
         android:id="@+id/dummy"
-        android:layout_width="120dp"
+        android:layout_width="@dimen/details_poster_width"
         android:layout_height="100dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"

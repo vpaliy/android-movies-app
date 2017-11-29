@@ -31,7 +31,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
 import com.vpaliy.kotlin_extensions.*
 
 class DetailActivity:BaseActivity(),DetailContract.View{
-
   var presenter:Presenter?=null
     @Inject set(value) {
       field=value
@@ -119,14 +118,12 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     ratings.text=movie.averageVote.toString()
     description.text=movie.description
     chips.setTags(movie.genres)
-    //budget.text=movie.budget
     Glide.with(this)
             .load(movie.poster)
             .asBitmap()
             .priority(Priority.IMMEDIATE)
             .diskCacheStrategy(DiskCacheStrategy.RESULT)
             .placeholder(R.drawable.placeholder)
-            .animate(R.anim.fade_in)
             .into(poster)
     description.afterPost {
       adjustDescription()
@@ -219,10 +216,14 @@ class DetailActivity:BaseActivity(),DetailContract.View{
       getDimension(R.dimen.details_poster_height)
     }
 
-    override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+    private val buttonHeight by lazy(LazyThreadSafetyMode.NONE){
+      getDimension(R.dimen.design_fab_size_normal)
+    }
+
+    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
       super.onScrollStateChanged(recyclerView, newState)
-     // poster.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
-      //backdropPager.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
+      poster.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
+      backdropPager.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
     }
 
     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -231,21 +232,24 @@ class DetailActivity:BaseActivity(),DetailContract.View{
       backdropPager.offset=scrollY
       poster.setOffset(poster.staticOffset + scrollY)
       descriptionRoot.offset=(descriptionRoot.staticOffset + scrollY)
-      shareButton.setOffset(shareButton.staticOffset+scrollY.toFloat())
 
       var min = poster.translationY + poster.height
       var max = descriptionRoot.staticOffset + descriptionRoot.height
       //hide the poster as it goes up
       val alpha = (descriptionRoot.offset + descriptionRoot.height - min) / (max - min)
-      val params=poster.layoutParams
+      var params=poster.layoutParams
       //TODO make the image disappear on scroll
       // params.height=(posterHeight * alpha).toInt()
       poster.layoutParams=params
       poster.alpha=(alpha)
       shareButton.alpha=(1-alpha)
+      params=shareButton.layoutParams
+      params.height=(buttonHeight * (1-alpha)).toInt()
+      shareButton.layoutParams=params
       max = backdropPager.height.toFloat()
       min = pageIndicator.translationY + pageIndicator.height
-      //hide the indicator as well
+      shareButton.setOffset(shareButton.staticOffset+scrollY.toFloat()-shareButton.height/2)
+      // hide the page indicator on scroll
       pageIndicator.alpha=((backdropPager.offset + backdropPager.height - min) / (max - min))
     }
   }

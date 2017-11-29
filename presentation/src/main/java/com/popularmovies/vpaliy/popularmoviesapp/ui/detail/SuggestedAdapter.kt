@@ -20,7 +20,6 @@ class SuggestedAdapter(context:Context):BaseAdapter<MediaModel>(context){
               .priority(Priority.IMMEDIATE)
               .diskCacheStrategy(DiskCacheStrategy.RESULT)
               .placeholder(R.drawable.placeholder)
-              .animate(R.anim.fade_in)
               .into(poster)
       title.text=item.title
     }

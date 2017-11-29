@@ -43,8 +43,6 @@
         android:orientation="vertical"
         android:scrollbars="vertical"
         android:scrollbarStyle="insideOverlay"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:listitem="@layout/blank"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <include
@@ -77,7 +75,6 @@
         android:id="@+id/poster"
         android:visibility="invisible"
         android:transitionName="@string/poster_transition_name"
-        android:stateListAnimator="@animator/app_bar_pin"
         android:scaleType="centerCrop"
         android:layout_width="@dimen/details_poster_width"
         android:layout_height="@dimen/details_poster_height" />

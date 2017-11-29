@@ -54,9 +54,8 @@ class ParallaxRatioViewPager @JvmOverloads constructor(context: Context, attrs: 
 
   var offset: Int
     get() = translationY.toInt()
-    set(offset) {
-      var offset = offset
-      offset = Math.max(minOffset, offset)
+    set(value) {
+      val offset = Math.max(minOffset, value)
       if (offset.toFloat() != translationY) {
         translationY = offset.toFloat()
         imageOffset = (offset * parallaxFactor).toInt()
