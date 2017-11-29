@@ -11,7 +11,6 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import kotlinx.android.synthetic.main.adapter_media_search_item.view.*
 
-
 class MediaAdapter(context: Context): BaseAdapter<MediaModel>(context){
   inner class MediaViewHolder(itemView: View): BaseViewHolder(itemView){
     override fun bind()= with(itemView){

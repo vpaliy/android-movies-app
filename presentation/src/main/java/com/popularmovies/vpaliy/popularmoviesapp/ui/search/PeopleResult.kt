@@ -23,7 +23,7 @@ class PeopleResult:SearchResult<Actor>(){
 
   override fun error() {}
 
-  override fun onCleared() =adapter.clear()
+  override fun inputCleared() =adapter.clear()
 
   override fun showResult(data: List<Actor>) {
     adapter.data=data.toMutableList()

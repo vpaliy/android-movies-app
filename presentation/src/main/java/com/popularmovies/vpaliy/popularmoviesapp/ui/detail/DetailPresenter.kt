@@ -20,7 +20,6 @@ class DetailPresenter(private val facade: MediaFacade<Movie>,
 
   override fun start() {
     facade.getItem(view::showMedia,this::handleError)
-    //  facade.getReviews(view::showReviews,this::handleError)
     facade.getRoles(view::showCast,this::handleError)
     facade.getTrailers(view::showTrailers,this::handleError)
     SimilarityType.values().forEach {

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.popularmovies.vpaliy.data.log
 import com.popularmovies.vpaliy.domain.entity.Trailer
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
@@ -15,6 +16,7 @@ class TrailerAdapter(context: Context):BaseAdapter<Trailer>(context){
   inner class TrailerViewHolder(itemView: View):BaseViewHolder(itemView){
     override fun bind()= with(itemView){
       val item=data[adapterPosition]
+      log(item.video)
       Glide.with(itemView.context)
               .load(item.video)
               .asBitmap()

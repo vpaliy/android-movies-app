@@ -29,7 +29,7 @@ class TVResult:SearchResult<TVShow>(){
 
   override fun error() {}
 
-  override fun onCleared() {}
+  override fun inputCleared() {}
 
   override fun showResult(data: List<TVShow>) {
     result.adapter=adapter

@@ -36,8 +36,8 @@ class SearchAdapter(val context: Context, manager:FragmentManager)
     listeners.forEach { it.queryTyped(query) }
   }
 
-  override fun onCleared() {
-    listeners.forEach{it.onCleared()}
+  override fun inputCleared() {
+    listeners.forEach{it.inputCleared()}
   }
 
   override fun styleFor(position: Int): ChipTab.StyleBuilder {

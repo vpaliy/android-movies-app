@@ -77,7 +77,6 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     poster.isPinned=true
     shareButton.setMinOffset(backdropPager.getMinHeight()-shareButton.height/2f)
     applyPalette(Palette.from(bitmap).generate())
-
     hidden.forEach(View::show)
   }
 
@@ -144,52 +143,27 @@ class DetailActivity:BaseActivity(),DetailContract.View{
     shareButton.setOffset(offset.toFloat())
   }
 
-  //TODO find a generic way to accomplish this
   private fun adjustDescription(){
     if((description.endY() > dummy.endY())){
+      //if the poster is higher than the duration, then shift the release label
       if((dummy.endY() - duration.endY()) < 0){
-        var params=release.layoutParams as ConstraintLayout.LayoutParams
-        params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
-        params.leftToRight=ConstraintLayout.LayoutParams.UNSET
-        params.topToBottom=dummy.id
-        //  params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
-        release.layoutParams=params
-
-        params=duration.layoutParams as ConstraintLayout.LayoutParams
-        params.startToStart=movieTitle.id
-        params.topToBottom=movieTitle.id
-        //  params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
-        duration.layoutParams=params
-
-        params=chips.layoutParams as ConstraintLayout.LayoutParams
-        params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
-        params.leftToRight=ConstraintLayout.LayoutParams.UNSET
-        params.topToBottom=release.id
-        //  params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
-        chips.layoutParams=params
-
-        params=description.layoutParams as ConstraintLayout.LayoutParams
-        params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
-        params.leftToRight=ConstraintLayout.LayoutParams.UNSET
-        params.topToBottom=chips.id
-        params.topMargin=getDimensionPixelOffset(R.dimen.spacing_medium)
-        description.layoutParams=params
-      }else if((dummy.endY()-duration.endY()) <= (2* duration.height)){
-        var params=chips.layoutParams as ConstraintLayout.LayoutParams
-        params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
-        params.leftToRight=ConstraintLayout.LayoutParams.UNSET
-        params.topToBottom=dummy.id
-        //  params.topMargin=getDimen(R.dimen.spacing_medium).toInt()
-        chips.layoutParams=params
-
-        params=description.layoutParams as ConstraintLayout.LayoutParams
-        params.startToStart=ConstraintLayout.LayoutParams.PARENT_ID
-        params.leftToRight=ConstraintLayout.LayoutParams.UNSET
-        params.topToBottom=chips.id
-        params.topMargin=getDimensionPixelOffset(R.dimen.spacing_medium)
-        description.layoutParams=params
+        shiftToStart(release,topToBottom = dummy.id)
+        shiftToStart(duration,startToStart = movieTitle.id, topToBottom = movieTitle.id)
+        shiftToStart(chips, topToBottom = release.id)
+        shiftToStart(description, topToBottom = chips.id)
+      } else if((dummy.endY()-duration.endY()) <= (2* duration.height)){
+        shiftToStart(chips,topToBottom = dummy.id)
+        shiftToStart(description, topToBottom = chips.id)
       }
     }
+  }
+
+  private fun shiftToStart(target:View, topToBottom: Int,startToStart:Int=ConstraintLayout.LayoutParams.PARENT_ID){
+    val params=target.layoutParams as ConstraintLayout.LayoutParams
+    params.startToStart=startToStart
+    params.leftToRight=ConstraintLayout.LayoutParams.UNSET
+    params.topToBottom=topToBottom
+    target.layoutParams=params
   }
 
   override fun showMessage(resource: Int) {
@@ -247,8 +221,8 @@ class DetailActivity:BaseActivity(),DetailContract.View{
 
     override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
       super.onScrollStateChanged(recyclerView, newState)
-      poster.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
-      backdropPager.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
+     // poster.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
+      //backdropPager.isImmediatePin=(newState == RecyclerView.SCROLL_STATE_SETTLING)
     }
 
     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {

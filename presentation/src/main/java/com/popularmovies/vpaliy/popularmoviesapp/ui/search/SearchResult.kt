@@ -11,7 +11,6 @@ import com.vpaliy.kotlin_extensions.turnOff
 import kotlinx.android.synthetic.main.fragment_search.*
 
 abstract class SearchResult<T>:Fragment(),SearchContract.View<T>,QueryListener{
-
   abstract var presenter:SearchContract.Presenter<T>?
 
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

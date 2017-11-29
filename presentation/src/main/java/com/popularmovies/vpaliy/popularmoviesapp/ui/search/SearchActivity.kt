@@ -73,7 +73,7 @@ class SearchActivity:BaseActivity(){
     searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
       override fun onQueryTextChange(query: String?): Boolean {
         if(query.isNullOrEmpty()){
-          adapter.onCleared()
+          adapter.inputCleared()
         }
         return true
       }
