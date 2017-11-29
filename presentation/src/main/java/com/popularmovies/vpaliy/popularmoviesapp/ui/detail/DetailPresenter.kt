@@ -34,16 +34,12 @@ class DetailPresenter(private val facade: MediaFacade<Movie>,
     facade.moreSuggestions(this::appendSuggestion,this::handleError,type)
   }
 
-  private fun appendSuggestion(suggestion:Suggestion?,data:List<Movie>){
-    suggestion?.let {
-      view.appendSuggested(it.type,mapper.map(data))
-    }
+  private fun appendSuggestion(suggestion:Suggestion,data:List<Movie>){
+    view.appendSuggested(suggestion.type,mapper.map(data))
   }
 
-  private fun catchSuggestion(suggestion:Suggestion?,data:List<Movie>){
-    suggestion?.let {
-      view.showSuggested(it.type,mapper.map(data))
-    }
+  private fun catchSuggestion(suggestion:Suggestion, data:List<Movie>){
+    view.showSuggested(suggestion.type,mapper.map(data))
   }
 
   private fun handleError(ex:Throwable){

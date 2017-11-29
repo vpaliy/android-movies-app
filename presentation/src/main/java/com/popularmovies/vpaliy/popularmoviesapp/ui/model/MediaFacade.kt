@@ -8,14 +8,14 @@ import com.popularmovies.vpaliy.domain.interactor.GetDetail
 import com.popularmovies.vpaliy.domain.interactor.GetSuggestion
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
 
-class MediaFacade<T>(private val getItem: GetDetail<T>,
-                     private val getReviews: GetDetail<List<Review>>,
-                     private val getTrailers: GetDetail<List<Trailer>>,
-                     private val getRoles: GetDetail<List<Role>>,
-                     private val getSuggestion: GetSuggestion<T>){
+class MediaFacade<out T>(private val getItem: GetDetail<T>,
+                         private val getReviews: GetDetail<List<Review>>,
+                         private val getTrailers: GetDetail<List<Trailer>>,
+                         private val getRoles: GetDetail<List<Role>>,
+                         private val getSuggestion: GetSuggestion<T>){
 
   lateinit var id:String
-  
+
   private val suggestionMap by lazy (LazyThreadSafetyMode.NONE){
     mutableMapOf<SimilarityType, Suggestion>()
   }
@@ -36,14 +36,14 @@ class MediaFacade<T>(private val getItem: GetDetail<T>,
     getRoles.execute(success,error,id)
   }
 
-  fun getSuggestion(success:(Suggestion?, List<T>)->Unit, error: (Throwable) -> Unit, type:SimilarityType){
+  fun getSuggestion(success:(Suggestion, List<T>)->Unit, error: (Throwable) -> Unit, type:SimilarityType){
     val suggestion = suggestionMap[type]?: Suggestion(id,type)
     suggestion.invalidate()
     suggestionMap.put(type,suggestion)
     getSuggestion.execute(success,error,suggestion)
   }
 
-  fun moreSuggestions(success:(Suggestion?, List<T>)->Unit, error: (Throwable) -> Unit, type:SimilarityType){
+  fun moreSuggestions(success:(Suggestion, List<T>)->Unit, error: (Throwable) -> Unit, type:SimilarityType){
     val suggestion=suggestionMap[type]
     suggestion?.let {
       it.next()

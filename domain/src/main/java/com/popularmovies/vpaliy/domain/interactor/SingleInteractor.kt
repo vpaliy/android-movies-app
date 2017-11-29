@@ -11,8 +11,8 @@ abstract class SingleInteractor<Request,Response> constructor(scheduler: BaseSch
             .subscribe(success, error)
   }
 
-  fun execute(success: (Request?,Response) -> Unit, error: (Throwable) -> Unit, params: Request?=null){
-    execute({response:Response-> success.invoke(params,response) },error,params)
+  fun execute(success: (Request,Response) -> Unit, error: (Throwable) -> Unit, params: Request?=null){
+    execute({response:Response-> success.invoke(params!!,response) },error,params)
   }
 
   protected abstract fun buildSingle(params:Request?=null): Single<Response>

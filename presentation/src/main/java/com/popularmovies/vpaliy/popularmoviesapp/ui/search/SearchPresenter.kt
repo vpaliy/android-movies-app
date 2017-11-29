@@ -25,14 +25,12 @@ class SearchPresenter<T>(val search:SearchInteractor<T>):SearchContract.Presente
 
   override fun stop() {}
 
-  private fun onSuccess(page:SearchPage?,data:List<T>){
+  private fun onSuccess(page:SearchPage,data:List<T>){
     view.hideLoading()
-    page?.let {
-      if(it.isFirst)
-        view.showResult(data)
-      else
-        view.appendResult(data)
-    }
+    if(page.isFirst)
+      view.showResult(data)
+    else
+      view.appendResult(data)
   }
 
   private fun onError(ex:Throwable){

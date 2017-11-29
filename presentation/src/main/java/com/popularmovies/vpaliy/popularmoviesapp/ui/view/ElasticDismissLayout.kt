@@ -7,9 +7,9 @@ import android.graphics.Color
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import com.popularmovies.vpaliy.popularmoviesapp.R
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.PresentationUtils
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.isNavBarOnBottom
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.modifyAlpha
 import java.util.ArrayList
@@ -28,6 +28,11 @@ class ElasticDismissLayout @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   private var totalDrag: Float = 0.toFloat()
   private var draggingDown = false
   private var draggingUp = false
+
+  private val interpolator by lazy{
+     AnimationUtils.loadInterpolator(context,
+            android.R.interpolator.fast_out_slow_in)
+  }
 
   private var callbacks: MutableList<ElasticDragDismissCallback>? = null
 
@@ -104,7 +109,7 @@ class ElasticDismissLayout @TargetApi(Build.VERSION_CODES.LOLLIPOP)
               .scaleX(1f)
               .scaleY(1f)
               .setDuration(200L)
-              .setInterpolator(PresentationUtils.getFastOutSlowInInterpolator(context))
+              .setInterpolator(interpolator)
               .setListener(null)
               .start()
       totalDrag = 0f

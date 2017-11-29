@@ -30,15 +30,13 @@ class HomePresenter<T>(private val interactor: GetPage<T>,
     view.error()
   }
 
-  private fun onSuccess(page: TypePage?, data:List<MediaModel>){
-    page?.let {
-      if(data.isNotEmpty()){
-        if(page.current > 1)
-          view.append(data,page.type)
-        else
-          view.show(data,page.type)
-      }else view.empty()
-    }
+  private fun onSuccess(page: TypePage, data:List<MediaModel>){
+    if(data.isNotEmpty()){
+      if(page.current > 1)
+        view.append(data,page.type)
+      else
+        view.show(data,page.type)
+    }else view.empty()
   }
 
   override fun start(types: Array<MediaType>) {

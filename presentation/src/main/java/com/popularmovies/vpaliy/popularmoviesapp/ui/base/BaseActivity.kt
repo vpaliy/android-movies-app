@@ -6,12 +6,12 @@ import javax.inject.Inject
 
 abstract class BaseActivity:AppCompatActivity(){
 
-    @Inject lateinit var navigator:Navigator
+  @Inject lateinit var navigator:Navigator
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        inject()
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    inject()
+  }
 
-    abstract fun inject()
+  abstract fun inject()
 }
