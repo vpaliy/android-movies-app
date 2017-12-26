@@ -36,7 +36,7 @@ class LiftOff(context: Context, attrs: AttributeSet) : Transition(context, attrs
   override fun createAnimator(sceneRoot: ViewGroup, startValues: TransitionValues,
                               endValues: TransitionValues): Animator {
     return ObjectAnimator.ofFloat(endValues.view, View.TRANSLATION_Z,
-            initialElevation, finalElevation)
+        initialElevation, finalElevation)
   }
 
   companion object {

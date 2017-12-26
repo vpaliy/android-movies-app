@@ -6,8 +6,8 @@ import android.util.AttributeSet
 
 import com.popularmovies.vpaliy.popularmoviesapp.R
 
-class RatioImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0):
-        AppCompatImageView(context, attrs, defStyle) {
+class RatioImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
+    AppCompatImageView(context, attrs, defStyle) {
   //16:9
   private var ratio = .5625f
 

@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Singleton
 class SearchInteractor<T> @Inject constructor(var repository: SearchRepository<T>, scheduler: BaseScheduler)
-  :SingleInteractor<SearchPage,List<T>>(scheduler){
+  : SingleInteractor<SearchPage, List<T>>(scheduler) {
 
   override fun buildSingle(params: SearchPage?)
-          =params then (repository::search)?: wrongArgument()
+      = params then (repository::search) ?: wrongArgument()
 }

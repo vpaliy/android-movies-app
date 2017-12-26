@@ -9,24 +9,24 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.InteractorModule
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.MapperModule
 
 class App : Application() {
-  val component:ApplicationComponent by lazy(LazyThreadSafetyMode.NONE){
+  val component: ApplicationComponent by lazy(LazyThreadSafetyMode.NONE) {
     DaggerApplicationComponent
-            .builder()
-            .applicationModule(ApplicationModule(this))
-            .dataModule(DataModule())
-            .interactorModule(InteractorModule())
-            .mapperModule(MapperModule())
-            .build()
+        .builder()
+        .applicationModule(ApplicationModule(this))
+        .dataModule(DataModule())
+        .interactorModule(InteractorModule())
+        .mapperModule(MapperModule())
+        .build()
   }
 
   override fun onCreate() {
     super.onCreate()
-    instance=this
+    instance = this
   }
 
   companion object {
-    private var instance:App?=null
-    val component by lazy(LazyThreadSafetyMode.NONE){
+    private var instance: App? = null
+    val component by lazy(LazyThreadSafetyMode.NONE) {
       instance?.component
     }
   }

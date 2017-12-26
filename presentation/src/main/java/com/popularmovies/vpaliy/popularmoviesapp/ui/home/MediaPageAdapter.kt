@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.R
 
-class MediaPageAdapter(manager: FragmentManager, val context: Context):FragmentStatePagerAdapter(manager) {
+class MediaPageAdapter(manager: FragmentManager, val context: Context) : FragmentStatePagerAdapter(manager) {
 
   override fun getPageTitle(position: Int): CharSequence {
     when (position) {
@@ -17,7 +17,7 @@ class MediaPageAdapter(manager: FragmentManager, val context: Context):FragmentS
     return super.getPageTitle(position)
   }
 
-  override fun getCount()=3
+  override fun getCount() = 3
 
   override fun getItem(position: Int): Fragment? {
     when (position) {

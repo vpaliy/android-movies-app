@@ -13,14 +13,14 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TVSearchRepository @Inject constructor(val service:SearchService,
+class TVSearchRepository @Inject constructor(val service: SearchService,
                                              val genreKeeper: GenreKeeper,
-                                             val mapper:Mapper<TVShow,TVEntity>):SearchRepository<TVShow>{
-    override fun search(page: SearchPage): Single<List<TVShow>> {
-        return service.searchTV(page.query){
-            query("page",page.current.toString())
-        }.map{it.results.filterOut()}
-                .map{TVEntity.build(it.toTypedArray(),genreKeeper)}
-                .map(mapper::map)
-    }
+                                             val mapper: Mapper<TVShow, TVEntity>) : SearchRepository<TVShow> {
+  override fun search(page: SearchPage): Single<List<TVShow>> {
+    return service.searchTV(page.query) {
+      query("page", page.current.toString())
+    }.map { it.results.filterOut() }
+        .map { TVEntity.build(it.toTypedArray(), genreKeeper) }
+        .map(mapper::map)
+  }
 }

@@ -8,18 +8,19 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.TVModule
 import com.vpaliy.kotlin_extensions.getColor
 import javax.inject.Inject
 
-class TVFragment:HomeFragment(){
-  override var presenter: HomeContract.Presenter?=null
+class TVFragment : HomeFragment() {
+  override var presenter: HomeContract.Presenter? = null
     @Inject set(value) {
-      field=value
+      field = value
       field?.attach(this)
     }
-  override fun types()=arrayOf(MediaType.TOP)
 
-  override fun getColor(type: MediaType)=getColor(R.color.colorTvShows)
+  override fun types() = arrayOf(MediaType.TOP)
+
+  override fun getColor(type: MediaType) = getColor(R.color.colorTvShows)
 
   override fun getTitle(type: MediaType): String {
-    return when(type){
+    return when (type) {
       MediaType.POPULAR -> getString(R.string.popular_media)
       MediaType.NOW_PLAYING -> getString(R.string.now_playing_media)
       MediaType.UPCOMING -> getString(R.string.upcoming_media)
@@ -30,8 +31,8 @@ class TVFragment:HomeFragment(){
 
   override fun inject() {
     DaggerTVComponent.builder()
-            .applicationComponent(App.component)
-            .tVModule(TVModule())
-            .build().inject(this)
+        .applicationComponent(App.component)
+        .tVModule(TVModule())
+        .build().inject(this)
   }
 }

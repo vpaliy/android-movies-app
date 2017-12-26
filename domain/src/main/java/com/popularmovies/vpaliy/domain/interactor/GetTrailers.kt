@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GetTrailers<T> @Inject constructor(val repository: MediaRepository<T>, scheduler: BaseScheduler)
-  :GetDetail<List<Trailer>>(scheduler){
+  : GetDetail<List<Trailer>>(scheduler) {
 
-  override fun buildSingle(params: String?)=
-          params then(repository::fetchTrailers) ?: wrongArgument()
+  override fun buildSingle(params: String?) =
+      params then (repository::fetchTrailers) ?: wrongArgument()
 }

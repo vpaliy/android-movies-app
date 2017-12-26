@@ -20,18 +20,18 @@ class MovieModule {
   @ViewScope
   @Provides
   fun home(interactor: GetPage<Movie>, mapper: Mapper<MediaModel, Movie>)
-          : HomeContract.Presenter
-          = HomePresenter(interactor, mapper)
+      : HomeContract.Presenter
+      = HomePresenter(interactor, mapper)
 
   @ViewScope
   @Provides
   fun more(interactor: GetPage<Movie>, mapper: Mapper<MediaModel, Movie>)
-          : MoreContract.Presenter
-          = MorePresenter(interactor, mapper)
+      : MoreContract.Presenter
+      = MorePresenter(interactor, mapper)
 
   @ViewScope
   @Provides
-  fun details(item: GetItem<Movie>, reviews: GetReviews<Movie>, trailers: GetTrailers<Movie>, roles: GetRoles<Movie>,
+  fun details(item: GetMediaItem<Movie>, reviews: GetReviews<Movie>, trailers: GetTrailers<Movie>, roles: GetRoles<Movie>,
               suggestion: GetSuggestion<Movie>, mapper: Mapper<MediaModel, Movie>): DetailContract.Presenter {
     val facade = MediaFacade(item, reviews, trailers, roles, suggestion)
     return DetailPresenter(facade, mapper)

@@ -12,42 +12,42 @@ class MediaFacade<out T>(private val getItem: GetDetail<T>,
                          private val getReviews: GetDetail<List<Review>>,
                          private val getTrailers: GetDetail<List<Trailer>>,
                          private val getRoles: GetDetail<List<Role>>,
-                         private val getSuggestion: GetSuggestion<T>){
+                         private val getSuggestion: GetSuggestion<T>) {
 
-  lateinit var id:String
+  lateinit var id: String
 
-  private val suggestionMap by lazy (LazyThreadSafetyMode.NONE){
+  private val suggestionMap by lazy(LazyThreadSafetyMode.NONE) {
     mutableMapOf<SimilarityType, Suggestion>()
   }
 
-  fun getItem(success:(T)->Unit, error:(Throwable)->Unit){
-    getItem.execute(success,error,id)
+  fun getItem(success: (T) -> Unit, error: (Throwable) -> Unit) {
+    getItem.execute(success, error, id)
   }
 
-  fun getReviews(success: (List<Review>) -> Unit, error: (Throwable) -> Unit){
-    getReviews.execute(success,error,id)
+  fun getReviews(success: (List<Review>) -> Unit, error: (Throwable) -> Unit) {
+    getReviews.execute(success, error, id)
   }
 
-  fun getTrailers(success: (List<Trailer>) -> Unit, error: (Throwable) -> Unit){
-    getTrailers.execute(success,error,id)
+  fun getTrailers(success: (List<Trailer>) -> Unit, error: (Throwable) -> Unit) {
+    getTrailers.execute(success, error, id)
   }
 
-  fun getRoles(success: (List<Role>) -> Unit, error: (Throwable) -> Unit){
-    getRoles.execute(success,error,id)
+  fun getRoles(success: (List<Role>) -> Unit, error: (Throwable) -> Unit) {
+    getRoles.execute(success, error, id)
   }
 
-  fun getSuggestion(success:(Suggestion, List<T>)->Unit, error: (Throwable) -> Unit, type:SimilarityType){
-    val suggestion = suggestionMap[type]?: Suggestion(id,type)
+  fun getSuggestion(success: (Suggestion, List<T>) -> Unit, error: (Throwable) -> Unit, type: SimilarityType) {
+    val suggestion = suggestionMap[type] ?: Suggestion(id, type)
     suggestion.invalidate()
-    suggestionMap.put(type,suggestion)
-    getSuggestion.execute(success,error,suggestion)
+    suggestionMap.put(type, suggestion)
+    getSuggestion.execute(success, error, suggestion)
   }
 
-  fun moreSuggestions(success:(Suggestion, List<T>)->Unit, error: (Throwable) -> Unit, type:SimilarityType){
-    val suggestion=suggestionMap[type]
+  fun moreSuggestions(success: (Suggestion, List<T>) -> Unit, error: (Throwable) -> Unit, type: SimilarityType) {
+    val suggestion = suggestionMap[type]
     suggestion?.let {
       it.next()
-      getSuggestion.execute(success,error,it)
+      getSuggestion.execute(success, error, it)
     }
   }
 }

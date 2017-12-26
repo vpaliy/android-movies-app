@@ -9,42 +9,42 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.home.HomeContract.View
 import com.popularmovies.vpaliy.popularmoviesapp.ui.reflect
 
 class HomePresenter<T>(private val interactor: GetPage<T>,
-                       private val mapper:Mapper<MediaModel,T>) :HomeContract.Presenter{
+                       private val mapper: Mapper<MediaModel, T>) : HomeContract.Presenter {
 
-  private val map= mutableMapOf<MediaType,TypePage>()
-  private lateinit var view:View
+  private val map = mutableMapOf<MediaType, TypePage>()
+  private lateinit var view: View
 
-  override fun attach(view:View) {
-    this.view=view
+  override fun attach(view: View) {
+    this.view = view
   }
 
   override fun more(type: MediaType) {
     map[type]?.let {
       it.next()
-      interactor.execute(mapper.reflect(this::onSuccess),this::onError,it)
+      interactor.execute(mapper.reflect(this::onSuccess), this::onError, it)
     }
   }
 
-  private fun onError(ex:Throwable){
+  private fun onError(ex: Throwable) {
     ex.printStackTrace()
     view.error()
   }
 
-  private fun onSuccess(page: TypePage, data:List<MediaModel>){
-    if(data.isNotEmpty()){
-      if(page.current > 1)
-        view.append(data,page.type)
+  private fun onSuccess(page: TypePage, data: List<MediaModel>) {
+    if (data.isNotEmpty()) {
+      if (page.current > 1)
+        view.append(data, page.type)
       else
-        view.show(data,page.type)
-    }else view.empty()
+        view.show(data, page.type)
+    } else view.empty()
   }
 
   override fun start(types: Array<MediaType>) {
     types.forEach {
-      map[it]= TypePage(it)
-      interactor.execute(mapper.reflect(this::onSuccess),this::onError,map[it])
+      map[it] = TypePage(it)
+      interactor.execute(mapper.reflect(this::onSuccess), this::onError, map[it])
     }
   }
 
-  override fun stop()=map.clear()
+  override fun stop() = map.clear()
 }

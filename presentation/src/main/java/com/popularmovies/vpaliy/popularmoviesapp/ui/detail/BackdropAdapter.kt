@@ -15,40 +15,40 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.vpaliy.kotlin_extensions.then
 
-class BackdropAdapter(context:Context, val callback:(ImageView,Bitmap)->Unit):PagerAdapter(){
-  private var isLoaded=false
+class BackdropAdapter(context: Context, val callback: (ImageView, Bitmap) -> Unit) : PagerAdapter() {
+  private var isLoaded = false
   private val inflater by lazy {
     LayoutInflater.from(context)
   }
-  var data= mutableListOf<String>()
+  var data = mutableListOf<String>()
     set(value) {
-      field=value
+      field = value
       notifyDataSetChanged()
     }
 
-  override fun isViewFromObject(view: View?, `object`: Any?)=view==`object`
+  override fun isViewFromObject(view: View?, `object`: Any?) = view == `object`
 
-  override fun getCount()=(data.size >= 5) then 5?:data.size
+  override fun getCount() = (data.size >= 5) then 5 ?: data.size
 
   override fun instantiateItem(container: ViewGroup?, position: Int): Any {
-    val view=inflater.inflate(R.layout.adapter_backdrop,container,false)
-    with(view){
-      progressBar.visibility=View.VISIBLE
+    val view = inflater.inflate(R.layout.adapter_backdrop, container, false)
+    with(view) {
+      progressBar.visibility = View.VISIBLE
       Glide.with(inflater.context)
-              .load(data[position])
-              .asBitmap()
-              .priority(Priority.IMMEDIATE)
-              .diskCacheStrategy(DiskCacheStrategy.RESULT)
-              .into(object : ImageViewTarget<Bitmap>(backdropImage) {
-                override fun setResource(resource: Bitmap) {
-                  backdropImage.setImageBitmap(resource)
-                  progressBar.visibility = View.GONE
-                  if (position == 0 && !isLoaded) {
-                    isLoaded = true
-                    callback(backdropImage,resource)
-                  }
-                }
-              })
+          .load(data[position])
+          .asBitmap()
+          .priority(Priority.IMMEDIATE)
+          .diskCacheStrategy(DiskCacheStrategy.RESULT)
+          .into(object : ImageViewTarget<Bitmap>(backdropImage) {
+            override fun setResource(resource: Bitmap) {
+              backdropImage.setImageBitmap(resource)
+              progressBar.visibility = View.GONE
+              if (position == 0 && !isLoaded) {
+                isLoaded = true
+                callback(backdropImage, resource)
+              }
+            }
+          })
       container?.addView(view)
       return view
     }

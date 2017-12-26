@@ -17,19 +17,19 @@ import javax.inject.Singleton
 @Singleton
 class TVRepository @Inject constructor(val mapper: Mapper<TVShow, TVEntity>,
                                        val genreKeeper: GenreKeeper,
-                                       val service:TvShowService):MediaRepository<TVShow>{
+                                       val service: TvShowService) : MediaRepository<TVShow> {
 
   override fun fetchList(request: TypePage): Single<List<TVShow>> {
-    val result=when(request.type){
-      MediaType.POPULAR->service.getPopular(request.buildQuery())
-      MediaType.TOP->service.getTvOnAir(request.buildQuery())
-      MediaType.UPCOMING->service.getAiringToday(request.buildQuery())
-      else->service.getAiringToday(request.buildQuery())
+    val result = when (request.type) {
+      MediaType.POPULAR -> service.getPopular(request.buildQuery())
+      MediaType.TOP -> service.getTvOnAir(request.buildQuery())
+      MediaType.UPCOMING -> service.getAiringToday(request.buildQuery())
+      else -> service.getAiringToday(request.buildQuery())
     }
     return result
-            .map{it.results.filterOut()}
-            .map{TVEntity.build(it.toTypedArray(),genreKeeper)}
-            .map(mapper::map)
+        .map { it.results.filterOut() }
+        .map { TVEntity.build(it.toTypedArray(), genreKeeper) }
+        .map(mapper::map)
   }
 
   override fun fetchReviews(id: String): Single<List<Review>> {

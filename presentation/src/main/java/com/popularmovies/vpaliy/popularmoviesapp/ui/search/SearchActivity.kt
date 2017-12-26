@@ -17,32 +17,32 @@ import com.vpaliy.kotlin_extensions.scale
 import com.vpaliy.kotlin_extensions.then
 import kotlinx.android.synthetic.main.activity_search.*
 
-class SearchActivity:BaseActivity(){
+class SearchActivity : BaseActivity() {
 
-  private val adapter by lazy(LazyThreadSafetyMode.NONE){
-    SearchAdapter(this,supportFragmentManager)
+  private val adapter by lazy(LazyThreadSafetyMode.NONE) {
+    SearchAdapter(this, supportFragmentManager)
   }
 
-  private var checked=false
+  private var checked = false
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_search)
     setupSearch()
     setupTransition()
-    results.adapter=adapter
-    results.offscreenPageLimit=3
-    tabLayout.setup(results,adapter)
+    results.adapter = adapter
+    results.offscreenPageLimit = 3
+    tabLayout.setup(results, adapter)
     tabLayout.tabs.forEach { it.scale(0f) }
   }
 
-  private fun setupTransition(){
-    setEnterSharedElementCallback(object : SharedElementCallback(){
+  private fun setupTransition() {
+    setEnterSharedElementCallback(object : SharedElementCallback() {
       override fun onSharedElementStart(sharedElementNames: MutableList<String>?,
                                         sharedElements: MutableList<View>?,
                                         sharedElementSnapshots: MutableList<View>?) {
-        checked=!checked
-        back.setImageState(intArrayOf(android.R.attr.state_checked * (checked.then(1)?:-1)),true)
+        checked = !checked
+        back.setImageState(intArrayOf(android.R.attr.state_checked * (checked.then(1) ?: -1)), true)
         super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
       }
 
@@ -50,33 +50,34 @@ class SearchActivity:BaseActivity(){
         super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots)
         tabLayout.tabs.forEach {
           it.animate().scale(1f)
-                  .apply {
-                    duration=300
-                    start()
-                  }
+              .apply {
+                duration = 300
+                start()
+              }
         }
         tabLayout.postDelayed({
           tabLayout.select(0)
-        },300)
+        }, 300)
       }
     })
   }
 
-  private fun setupSearch(){
-    val searchManager=getSystemService(Context.SEARCH_SERVICE) as SearchManager
-    back.setOnClickListener{onBackPressed()}
+  private fun setupSearch() {
+    val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+    back.setOnClickListener { onBackPressed() }
     searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-    searchView.queryHint=getString(R.string.search_hint)
-    searchView.inputType= InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+    searchView.queryHint = getString(R.string.search_hint)
+    searchView.inputType = InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
     searchView.imeOptions = searchView.imeOptions or EditorInfo.IME_ACTION_SEARCH or
-            EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
-    searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
+    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
       override fun onQueryTextChange(query: String?): Boolean {
-        if(query.isNullOrEmpty()){
+        if (query.isNullOrEmpty()) {
           adapter.inputCleared()
         }
         return true
       }
+
       override fun onQueryTextSubmit(query: String?): Boolean {
         adapter.queryTyped(query!!)
         searchView.clearFocus()
@@ -99,7 +100,7 @@ class SearchActivity:BaseActivity(){
   }
 
   private fun hideKeyboard() {
-    currentFocus?.let{
+    currentFocus?.let {
       val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
       imm.hideSoftInputFromWindow(it.windowToken, 0)
     }

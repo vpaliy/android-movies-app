@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 
 abstract class OnReachBottomListener
-constructor(private val layoutManager:RecyclerView.LayoutManager,
-            private val dataLoading: SwipeRefreshLayout?=null):RecyclerView.OnScrollListener() {
+constructor(private val layoutManager: RecyclerView.LayoutManager,
+            private val dataLoading: SwipeRefreshLayout? = null) : RecyclerView.OnScrollListener() {
 
   override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
     // bail out if scrolling upward then already loading data
@@ -23,9 +23,9 @@ constructor(private val layoutManager:RecyclerView.LayoutManager,
   }
 
   private fun fetchFirstVisibleItemPosition(): Int {
-    when(layoutManager){
-      is LinearLayoutManager-> return layoutManager.findFirstVisibleItemPosition()
-      is StaggeredGridLayoutManager->{
+    when (layoutManager) {
+      is LinearLayoutManager -> return layoutManager.findFirstVisibleItemPosition()
+      is StaggeredGridLayoutManager -> {
         val result = layoutManager.findFirstVisibleItemPositions(null)
         if (result.isNotEmpty()) {
           return result[0]

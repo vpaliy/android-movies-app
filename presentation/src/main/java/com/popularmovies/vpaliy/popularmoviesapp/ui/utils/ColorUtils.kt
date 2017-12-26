@@ -36,9 +36,9 @@ fun dimColor(color: Int, factor: Float): Int {
   val g = Math.round(Color.green(color) * factor)
   val b = Math.round(Color.blue(color) * factor)
   return Color.argb(a,
-          Math.min(r, 255),
-          Math.min(g, 255),
-          Math.min(b, 255))
+      Math.min(r, 255),
+      Math.min(g, 255),
+      Math.min(b, 255))
 }
 
 fun setDrawableColor(view: ImageView, color: Int) {
@@ -49,7 +49,7 @@ fun setDrawableColor(view: ImageView, color: Int) {
   }
 }
 
-fun setDrawableColor(drawable:Drawable?, color: Int) {
+fun setDrawableColor(drawable: Drawable?, color: Int) {
   if (drawable != null) {
     drawable.mutate()
     DrawableCompat.setTint(drawable, color)
@@ -60,21 +60,21 @@ fun getPaletteColors(palette: Palette): IntArray {
   val colors = IntArray(2)
   colors[1] = -1
   val dominant = palette.dominantSwatch
-  var result= dominant
+  var result = dominant
   if (palette.darkVibrantSwatch != null) {
     result = palette.darkVibrantSwatch
   }
   if (palette.darkMutedSwatch != null) {
     if (result !== dominant) {
-      colors[0] = result?.rgb?:Color.WHITE
-      colors[1] = palette.darkMutedSwatch?.rgb?:Color.WHITE
+      colors[0] = result?.rgb ?: Color.WHITE
+      colors[1] = palette.darkMutedSwatch?.rgb ?: Color.WHITE
       return colors
     }
     result = palette.darkMutedSwatch
   }
-  colors[0] = dominant?.rgb?:Color.WHITE
+  colors[0] = dominant?.rgb ?: Color.WHITE
   //check now
-  colors[1]=if(result!==dominant) result?.rgb?:Color.WHITE
+  colors[1] = if (result !== dominant) result?.rgb ?: Color.WHITE
   else getSecondaryColor(palette)
   return colors
 }
@@ -88,7 +88,7 @@ fun getDominantColor(palette: Palette?): Int {
     } else if (it.darkMutedSwatch != null) {
       result = it.darkMutedSwatch
     }
-    return result?.rgb?:Color.WHITE
+    return result?.rgb ?: Color.WHITE
   }
   return Color.WHITE
 }
@@ -99,7 +99,7 @@ fun getSecondaryColor(palette: Palette?): Int {
     val lightMutedSwatch = palette.lightMutedSwatch
 
     val tabBackground = lightMutedSwatch ?: (lightVibrantSwatch ?: palette.dominantSwatch)
-    return tabBackground?.rgb?:Color.WHITE
+    return tabBackground?.rgb ?: Color.WHITE
   }
   return Color.WHITE
 }
@@ -107,10 +107,10 @@ fun getSecondaryColor(palette: Palette?): Int {
 
 @CheckResult
 @ColorInt
-fun modifyAlpha(@ColorInt color: Int, @IntRange(from = 0, to = 255) alpha: Int)=
-        color and 0x00ffffff or (alpha shl 24)
+fun modifyAlpha(@ColorInt color: Int, @IntRange(from = 0, to = 255) alpha: Int) =
+    color and 0x00ffffff or (alpha shl 24)
 
 @CheckResult
 @ColorInt
-fun modifyAlpha(@ColorInt color: Int, @FloatRange(from = 0.0, to = 1.0) alpha: Float)=
-        modifyAlpha(color, (255f * alpha).toInt())
+fun modifyAlpha(@ColorInt color: Int, @FloatRange(from = 0.0, to = 1.0) alpha: Float) =
+    modifyAlpha(color, (255f * alpha).toInt())

@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GetRoles<T> @Inject constructor(val repository: MediaRepository<T>, scheduler: BaseScheduler)
-  :GetDetail<List<Role>>(scheduler){
+  : GetDetail<List<Role>>(scheduler) {
 
-  override fun buildSingle(params: String?)=
-          params then(repository::fetchRoles)?: wrongArgument()
+  override fun buildSingle(params: String?) =
+      params then (repository::fetchRoles) ?: wrongArgument()
 }

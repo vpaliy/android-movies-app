@@ -20,24 +20,24 @@ import dagger.Component
 
 @Singleton
 @Component(modules = arrayOf(ApplicationModule::class, DataModule::class,
-        MapperModule::class,InteractorModule::class))
+    MapperModule::class, InteractorModule::class))
 interface ApplicationComponent {
-  fun inject(activity:BaseActivity)
+  fun inject(activity: BaseActivity)
   fun context(): Context
-  fun scheduler():BaseScheduler
-  fun navigator():Navigator
-  fun movieRepository():MediaRepository<Movie>
-  fun tvRepository():MediaRepository<TVShow>
-  fun movieSearch():SearchInteractor<Movie>
-  fun tvSearch():SearchInteractor<TVShow>
-  fun peopleSearch():SearchInteractor<Actor>
-  fun moviesInteractor():GetPage<Movie>
-  fun tvInteractor():GetPage<TVShow>
-  fun movieReviews():GetReviews<Movie>
-  fun movieTrailers():GetTrailers<Movie>
-  fun suggestions():GetSuggestion<Movie>
-  fun movieRoles():GetRoles<Movie>
-  fun movieItem():GetItem<Movie>
-  fun mapper():Mapper<MediaModel,Movie>
-  fun tv():Mapper<MediaModel,TVShow>
+  fun scheduler(): BaseScheduler
+  fun navigator(): Navigator
+  fun movieRepository(): MediaRepository<Movie>
+  fun tvRepository(): MediaRepository<TVShow>
+  fun movieSearch(): SearchInteractor<Movie>
+  fun tvSearch(): SearchInteractor<TVShow>
+  fun peopleSearch(): SearchInteractor<Actor>
+  fun moviesInteractor(): GetPage<Movie>
+  fun tvInteractor(): GetPage<TVShow>
+  fun movieReviews(): GetReviews<Movie>
+  fun movieTrailers(): GetTrailers<Movie>
+  fun suggestions(): GetSuggestion<Movie>
+  fun movieRoles(): GetRoles<Movie>
+  fun movieItem(): GetMediaItem<Movie>
+  fun mapper(): Mapper<MediaModel, Movie>
+  fun tv(): Mapper<MediaModel, TVShow>
 }

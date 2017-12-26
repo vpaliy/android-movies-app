@@ -13,16 +13,16 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class TVModule{
+class TVModule {
   @ViewScope
   @Provides
-  fun home(interactor:GetPage<TVShow>,mapper:Mapper<MediaModel,TVShow>)
-          : HomeContract.Presenter
-          = HomePresenter(interactor, mapper)
+  fun home(interactor: GetPage<TVShow>, mapper: Mapper<MediaModel, TVShow>)
+      : HomeContract.Presenter
+      = HomePresenter(interactor, mapper)
 
   @ViewScope
   @Provides
-  fun more(interactor: GetPage<TVShow>, mapper: Mapper<MediaModel,TVShow>)
-          : MoreContract.Presenter
-          = MorePresenter(interactor, mapper)
+  fun more(interactor: GetPage<TVShow>, mapper: Mapper<MediaModel, TVShow>)
+      : MoreContract.Presenter
+      = MorePresenter(interactor, mapper)
 }

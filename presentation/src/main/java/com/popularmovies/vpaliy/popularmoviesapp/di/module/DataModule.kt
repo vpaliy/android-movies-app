@@ -19,27 +19,27 @@ class DataModule {
   @Provides
   @Singleton
   internal fun movieRepository(repository: MovieRepository)
-          :MediaRepository<Movie> = repository
+      : MediaRepository<Movie> = repository
 
   @Provides
   @Singleton
   internal fun tvRepository(repository: TVRepository)
-          :MediaRepository<TVShow> = repository
+      : MediaRepository<TVShow> = repository
 
   @Provides
   @Singleton
   internal fun tvSearch(repository: TVSearchRepository)
-          :SearchRepository<TVShow> = repository
+      : SearchRepository<TVShow> = repository
 
   @Provides
   @Singleton
   internal fun movieSearch(repository: MovieSearchRepository)
-          :SearchRepository<Movie> = repository
+      : SearchRepository<Movie> = repository
 
   @Provides
   @Singleton
   internal fun peopleSearch(repository: PeopleRepository)
-          :SearchRepository<Actor> =repository
+      : SearchRepository<Actor> = repository
 
   @Provides
   @Singleton

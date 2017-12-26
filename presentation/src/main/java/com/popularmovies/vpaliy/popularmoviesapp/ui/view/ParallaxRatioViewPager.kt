@@ -62,7 +62,7 @@ class ParallaxRatioViewPager @JvmOverloads constructor(context: Context, attrs: 
         clipBound.set(0, -offset, width, height)
         clipBounds = clipBound
         setScrimAlpha(Math.min(
-                (-offset).toFloat() / minimumHeight * maxScrimAlpha, maxScrimAlpha))
+            (-offset).toFloat() / minimumHeight * maxScrimAlpha, maxScrimAlpha))
         postInvalidateOnAnimation()
       }
       isPinned = offset == minOffset

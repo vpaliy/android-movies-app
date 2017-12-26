@@ -37,10 +37,10 @@ fun decompress(compressed: ByteArray?): String? {
       val gis = GZIPInputStream(bis)
       val br = BufferedReader(InputStreamReader(gis, "UTF-8"))
       val sb = StringBuilder()
-      var line=br.readLine()
+      var line = br.readLine()
       while (line != null) {
         sb.append(line)
-        line=br.readLine()
+        line = br.readLine()
       }
       br.close()
       gis.close()
@@ -54,23 +54,23 @@ fun decompress(compressed: ByteArray?): String? {
   }
 }
 
-fun <T> convertFromJsonString(jsonString: String?, type: Type)=jsonString?.let {
+fun <T> convertFromJsonString(jsonString: String?, type: Type) = jsonString?.let {
   Gson().fromJson<T>(jsonString, type)
 }
 
-fun convertToJsonString(`object`: Any?, type: Type)= `object`?.let {
-  Gson().toJson(`object`,type)
+fun convertToJsonString(`object`: Any?, type: Type) = `object`?.let {
+  Gson().toJson(`object`, type)
 }
 
-fun <T> Bundle.packHeavyObject(key:String,`object`:T):Bundle{
-  val jsonString= convertToJsonString(`object`,object: TypeToken<T>(){}.type)
-  val compressed= compress(jsonString)
-  putByteArray(key,compressed)
+fun <T> Bundle.packHeavyObject(key: String, `object`: T): Bundle {
+  val jsonString = convertToJsonString(`object`, object : TypeToken<T>() {}.type)
+  val compressed = compress(jsonString)
+  putByteArray(key, compressed)
   return this
 }
 
-fun <T> Bundle?.fetchHeavyObject(key:String,type:Type):T?{
-  if(this==null) return null
-  val jsonString= decompress(getByteArray(key))
-  return convertFromJsonString<T>(jsonString,type)
+fun <T> Bundle?.fetchHeavyObject(key: String, type: Type): T? {
+  if (this == null) return null
+  val jsonString = decompress(getByteArray(key))
+  return convertFromJsonString<T>(jsonString, type)
 }

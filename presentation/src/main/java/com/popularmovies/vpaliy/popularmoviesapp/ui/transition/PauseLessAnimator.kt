@@ -13,7 +13,7 @@ constructor(private val mAnimator: Animator) : Animator() {
 
   override fun addListener(listener: Animator.AnimatorListener) {
     val wrapper = AnimatorListenerWrapper(this,
-            listener)
+        listener)
     if (!mListeners.containsKey(listener)) {
       mListeners.put(listener, wrapper)
       mAnimator.addListener(wrapper)

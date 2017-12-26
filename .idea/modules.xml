@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PopularMovies.iml" filepath="$PROJECT_DIR$/PopularMovies.iml" />
       <module fileurl="file://$PROJECT_DIR$/PopularMoviesApp.iml" filepath="$PROJECT_DIR$/PopularMoviesApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />

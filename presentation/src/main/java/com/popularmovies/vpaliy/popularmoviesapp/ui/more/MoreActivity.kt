@@ -16,15 +16,15 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.*
 import kotlinx.android.synthetic.main.activity_more.*
 import javax.inject.Inject
 
-class MoreActivity :BaseActivity(), MoreContract.View{
+class MoreActivity : BaseActivity(), MoreContract.View {
 
-  internal var presenter:Presenter?=null
+  internal var presenter: Presenter? = null
     @Inject set(value) {
-      field=value
+      field = value
       field?.attachView(this)
     }
 
-  private val adapter:MediaAdapter by lazy { MediaAdapter(this,{}) }
+  private val adapter: MediaAdapter by lazy { MediaAdapter(this, {}) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -33,19 +33,19 @@ class MoreActivity :BaseActivity(), MoreContract.View{
     start()
   }
 
-  private fun start(){
-    val type=intent.extras.fetchHeavyObject<MediaType>(EXTRA_TYPE, object:TypeToken<MediaType>(){}.type)
+  private fun start() {
+    val type = intent.extras.fetchHeavyObject<MediaType>(EXTRA_TYPE, object : TypeToken<MediaType>() {}.type)
     presenter?.let {
       it.attachType(type!!)
       it.start()
       refresher.setOnRefreshListener(it::start)
-      list.addOnScrollListener(object:OnReachBottomListener(list.layoutManager){
-        override fun onLoadMore()=it.more()
+      list.addOnScrollListener(object : OnReachBottomListener(list.layoutManager) {
+        override fun onLoadMore() = it.more()
       })
     }
   }
 
-  override fun append(data: List<MediaModel>)= adapter.append(data)
+  override fun append(data: List<MediaModel>) = adapter.append(data)
 
   override fun empty() {}
 
@@ -54,31 +54,31 @@ class MoreActivity :BaseActivity(), MoreContract.View{
   override fun message(resource: Int) {}
 
   override fun show(data: List<MediaModel>) {
-    if(list.adapter!==adapter) list.adapter=adapter
-    adapter.data=data.toMutableList()
+    if (list.adapter !== adapter) list.adapter = adapter
+    adapter.data = data.toMutableList()
   }
 
   override fun showLoading() {
-    refresher.isRefreshing=true
+    refresher.isRefreshing = true
   }
 
   override fun hideLoading() {
-    refresher.isRefreshing=false
+    refresher.isRefreshing = false
   }
 
   //TODO fix that :(
   override fun inject() {
-    val isMovies=intent.getBooleanExtra(EXTRA_IS_MOVIES,false)
-    if(!isMovies){
+    val isMovies = intent.getBooleanExtra(EXTRA_IS_MOVIES, false)
+    if (!isMovies) {
       DaggerTVComponent.builder()
-              .tVModule(TVModule())
-              .applicationComponent(App.component)
-              .build().inject(this)
-    }else{
+          .tVModule(TVModule())
+          .applicationComponent(App.component)
+          .build().inject(this)
+    } else {
       DaggerMovieComponent.builder()
-              .applicationComponent(App.component)
-              .movieModule(MovieModule())
-              .build().inject(this)
+          .applicationComponent(App.component)
+          .movieModule(MovieModule())
+          .build().inject(this)
     }
   }
 }

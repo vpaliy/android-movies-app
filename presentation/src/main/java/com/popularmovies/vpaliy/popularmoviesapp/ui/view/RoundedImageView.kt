@@ -11,7 +11,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R
 
 open class RoundedImageView @JvmOverloads
 constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-  :AppCompatImageView(context, attrs, defStyle) {
+  : AppCompatImageView(context, attrs, defStyle) {
 
   private var radius = 18.0f
   private var path: Path? = null
@@ -19,7 +19,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
 
   init {
     if (attrs != null) {
-      val array = getContext().obtainStyledAttributes(attrs,R.styleable.RoundedImageView)
+      val array = getContext().obtainStyledAttributes(attrs, R.styleable.RoundedImageView)
       val N = array.indexCount
       for (i in 0..N - 1) {
         val attr = array.getIndex(i)

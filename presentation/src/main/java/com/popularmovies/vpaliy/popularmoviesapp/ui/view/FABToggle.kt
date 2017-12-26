@@ -19,8 +19,8 @@ class FABToggle(context: Context, attrs: AttributeSet) : FloatingActionButton(co
   var staticOffset: Int = 0
 
   fun setOffset(offset: Float) {
-    if (offset!= translationY) {
-      translationY= Math.max(minOffset, offset)
+    if (offset != translationY) {
+      translationY = Math.max(minOffset, offset)
     }
   }
 
@@ -29,7 +29,7 @@ class FABToggle(context: Context, attrs: AttributeSet) : FloatingActionButton(co
   }
 
   fun toggle() {
-    isCheckedBy=!isCheckedBy
+    isCheckedBy = !isCheckedBy
   }
 
   override fun onCreateDrawableState(extraSpace: Int): IntArray {

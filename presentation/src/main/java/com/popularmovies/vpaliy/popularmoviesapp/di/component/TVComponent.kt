@@ -9,6 +9,6 @@ import dagger.Component
 @ViewScope
 @Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(TVModule::class))
 interface TVComponent {
-  fun inject(fragment:TVFragment)
+  fun inject(fragment: TVFragment)
   fun inject(activity: MoreActivity)
 }

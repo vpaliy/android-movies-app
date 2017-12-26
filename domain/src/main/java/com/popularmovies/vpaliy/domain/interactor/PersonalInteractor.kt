@@ -7,4 +7,4 @@ import javax.inject.Singleton
 
 @Singleton
 class PersonalInteractor<T> @Inject constructor(private val repository: PersonalRepository<T>, baseScheduler: BaseScheduler)
-  :Interactor(baseScheduler)
+  : Interactor(baseScheduler)

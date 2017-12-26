@@ -9,24 +9,24 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
-class MovieResult:SearchResult<Movie>(){
+class MovieResult : SearchResult<Movie>() {
 
-  override var presenter: SearchContract.Presenter<Movie>?=null
+  override var presenter: SearchContract.Presenter<Movie>? = null
     @Inject set(value) {
-      field=value
+      field = value
       field?.attachView(this)
     }
 
-  @Inject lateinit var mapper: Mapper<MediaModel,Movie>
+  @Inject lateinit var mapper: Mapper<MediaModel, Movie>
 
   private val adapter by lazy { MediaAdapter(context) }
 
   override fun showResult(data: List<Movie>) {
-    result.adapter=adapter
-    adapter.data=mapper.map(data).toMutableList()
+    result.adapter = adapter
+    adapter.data = mapper.map(data).toMutableList()
   }
 
-  override fun inputCleared() =adapter.clear()
+  override fun inputCleared() = adapter.clear()
 
   override fun appendResult(data: List<Movie>) {
     adapter.append(mapper.map(data))
@@ -38,8 +38,8 @@ class MovieResult:SearchResult<Movie>(){
 
   override fun inject() {
     DaggerSearchComponent.builder()
-            .applicationComponent(App.component)
-            .searchModule(SearchModule())
-            .build().inject(this)
+        .applicationComponent(App.component)
+        .searchModule(SearchModule())
+        .build().inject(this)
   }
 }

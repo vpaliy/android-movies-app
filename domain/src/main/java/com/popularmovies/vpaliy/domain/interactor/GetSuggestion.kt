@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GetSuggestion<T> @Inject constructor(val repository: MediaRepository<T>, scheduler: BaseScheduler)
-  :SingleInteractor<Suggestion,List<T>>(scheduler){
+  : SingleInteractor<Suggestion, List<T>>(scheduler) {
 
   override fun buildSingle(params: Suggestion?)
-          =params then (repository::fetchSuggested)?: wrongArgument()
+      = params then (repository::fetchSuggested) ?: wrongArgument()
 }

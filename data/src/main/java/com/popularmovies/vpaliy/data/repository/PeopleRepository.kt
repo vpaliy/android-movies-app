@@ -14,15 +14,15 @@ import javax.inject.Singleton
 
 @Singleton
 class PeopleRepository @Inject
-constructor(private val service:SearchService, private val mapper: Mapper<Actor, ActorModel>) :Repository,SearchRepository<Actor>{
+constructor(private val service: SearchService, private val mapper: Mapper<Actor, ActorModel>) : Repository, SearchRepository<Actor> {
 
-    override fun search(page: SearchPage):Single<List<Actor>> {
-        return service.searchPeople(page.query){
-                    query("page",page.current.toString())
-                }.map {mapper.map(it.results.filterOut())}
-    }
+  override fun search(page: SearchPage): Single<List<Actor>> {
+    return service.searchPeople(page.query) {
+      query("page", page.current.toString())
+    }.map { mapper.map(it.results.filterOut()) }
+  }
 
-    override fun fetchActor(id: String): Single<Actor> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+  override fun fetchActor(id: String): Single<Actor> {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+  }
 }

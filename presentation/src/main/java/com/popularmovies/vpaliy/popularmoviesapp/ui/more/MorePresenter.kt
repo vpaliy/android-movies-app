@@ -12,47 +12,47 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.reflect
 
 @ViewScope
 class MorePresenter<T>(private val interactor: GetPage<T>,
-                       private val mapper:Mapper<MediaModel,T>) :Presenter{
+                       private val mapper: Mapper<MediaModel, T>) : Presenter {
 
-  private lateinit var type:MediaType
-  private lateinit var view:View
+  private lateinit var type: MediaType
+  private lateinit var view: View
   private val page by lazy { TypePage(type) }
 
-  override fun attachView(view:View) {
-    this.view=view
+  override fun attachView(view: View) {
+    this.view = view
   }
 
-  override fun attachType(type:MediaType) {
-    this.type=type
+  override fun attachType(type: MediaType) {
+    this.type = type
   }
 
   override fun more() {
     view.showLoading()
     page.next()
-    interactor.execute(mapper.reflect(this::onSuccess),this::onError,page)
+    interactor.execute(mapper.reflect(this::onSuccess), this::onError, page)
   }
 
   override fun start() {
-    page.current=1
+    page.current = 1
     view.showLoading()
     interactor.execute(mapper.reflect(this::onSuccess), this::onError, page)
   }
 
-  override fun stop(){}
+  override fun stop() {}
 
-  private fun onSuccess(page:TypePage?,data:List<MediaModel>){
+  private fun onSuccess(page: TypePage?, data: List<MediaModel>) {
     view.hideLoading()
     page?.let {
-      if(data.isNotEmpty()){
-        if(page.current > 1)
+      if (data.isNotEmpty()) {
+        if (page.current > 1)
           view.append(data)
         else
           view.show(data)
-      }else view.empty()
+      } else view.empty()
     }
   }
 
-  private fun onError(ex:Throwable){
+  private fun onError(ex: Throwable) {
     ex.printStackTrace()
     view.hideLoading()
     view.error()

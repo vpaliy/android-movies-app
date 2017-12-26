@@ -7,7 +7,7 @@ import android.view.View
 import com.popularmovies.vpaliy.popularmoviesapp.R
 
 class ParallaxImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-  :RoundedImageView(context, attrs, defStyle) {
+  : RoundedImageView(context, attrs, defStyle) {
   var isChecked = false
     set(isChecked) {
       if (this.isChecked != isChecked) {
@@ -33,7 +33,7 @@ class ParallaxImageView @JvmOverloads constructor(context: Context, attrs: Attri
 
   fun setOffset(offset: Float) {
     if (offset != translationY) {
-      translationY= Math.max(minOffset, offset)
+      translationY = Math.max(minOffset, offset)
     }
   }
 

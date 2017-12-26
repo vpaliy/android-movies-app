@@ -9,8 +9,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GetPage<T>(val repository: MediaRepository<T>, scheduler: BaseScheduler)
-  :SingleInteractor<TypePage,List<T>>(scheduler){
+  : SingleInteractor<TypePage, List<T>>(scheduler) {
 
   override fun buildSingle(params: TypePage?)
-          =params then(repository::fetchList)?: wrongArgument()
+      = params then (repository::fetchList) ?: wrongArgument()
 }

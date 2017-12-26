@@ -14,10 +14,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.getStatusBarHeight
 
-class HomeActivity: BaseActivity(){
+class HomeActivity : BaseActivity() {
 
   private val drawerToggle by lazy {
-    ActionBarDrawerToggle(this, drawerLayout,toolbar, 0, 0)
+    ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0)
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,25 +35,25 @@ class HomeActivity: BaseActivity(){
     App.component?.inject(this)
   }
 
-  private fun setDrawer(){
+  private fun setDrawer() {
     drawerLayout.setDrawerListener(drawerToggle)
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.main,menu)
+    menuInflater.inflate(R.menu.main, menu)
     return true
   }
 
-  override fun onPostCreate(savedInstanceState: Bundle?){
+  override fun onPostCreate(savedInstanceState: Bundle?) {
     super.onPostCreate(savedInstanceState)
     drawerToggle.syncState()
   }
 
   override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-    when(item?.itemId){
-      R.id.search-> {
-        val search =toolbar.findViewById<View>(R.id.search)
-        search.transitionName=getString(R.string.search_trans)
+    when (item?.itemId) {
+      R.id.search -> {
+        val search = toolbar.findViewById<View>(R.id.search)
+        search.transitionName = getString(R.string.search_trans)
         navigator.navigateToSearch(this, Pair(search, getString(R.string.search_trans)))
         return true
       }
@@ -69,7 +69,7 @@ class HomeActivity: BaseActivity(){
     navigation.setCheckedItem(R.id.movies)
   }
 
-  private fun setMediaPager(){
+  private fun setMediaPager() {
     mediaPager.adapter = MediaPageAdapter(supportFragmentManager, this)
     mediaPager.offscreenPageLimit = 3
   }
@@ -78,30 +78,31 @@ class HomeActivity: BaseActivity(){
     val duration = resources.getInteger(R.integer.page_fade_duration).toLong()
     bottomNavigator.setOnTabSelectListener({ tabId ->
       mediaPager.animate()
-              .alpha(0f)
-              .setDuration(duration)
-              .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator) {
-                  super.onAnimationEnd(animation)
-                  when (tabId) {
-                    R.id.movies -> {
-                      toolbar.setTitle(R.string.movies)
-                      mediaPager.setCurrentItem(0, false)
-                    }
-                    R.id.tv_shows -> {
-                      toolbar.setTitle(R.string.tv_shows)
-                      mediaPager.setCurrentItem(1, false)
-                    }
-                    R.id.personal -> {
-                      toolbar.setTitle(R.string.personal)
-                      mediaPager.setCurrentItem(2, false)
-                    }
-                  }
-                  mediaPager.animate()
-                          .alpha(1f)
-                          .setDuration(duration)
-                          .setListener(null).start()
-                }}).start()
+          .alpha(0f)
+          .setDuration(duration)
+          .setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+              super.onAnimationEnd(animation)
+              when (tabId) {
+                R.id.movies -> {
+                  toolbar.setTitle(R.string.movies)
+                  mediaPager.setCurrentItem(0, false)
+                }
+                R.id.tv_shows -> {
+                  toolbar.setTitle(R.string.tv_shows)
+                  mediaPager.setCurrentItem(1, false)
+                }
+                R.id.personal -> {
+                  toolbar.setTitle(R.string.personal)
+                  mediaPager.setCurrentItem(2, false)
+                }
+              }
+              mediaPager.animate()
+                  .alpha(1f)
+                  .setDuration(duration)
+                  .setListener(null).start()
+            }
+          }).start()
     })
   }
 }

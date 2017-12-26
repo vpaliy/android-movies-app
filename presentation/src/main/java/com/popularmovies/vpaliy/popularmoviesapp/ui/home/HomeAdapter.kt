@@ -11,14 +11,14 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
 import com.vpaliy.kotlin_extensions.click
 import kotlinx.android.synthetic.main.adapter_media_type_item.view.*
 
-class HomeAdapter(context:Context, val click:(MediaType)->Unit): BaseAdapter<ViewWrapper>(context){
+class HomeAdapter(context: Context, val click: (MediaType) -> Unit) : BaseAdapter<ViewWrapper>(context) {
 
-  lateinit var request:(MediaType)->Unit
+  lateinit var request: (MediaType) -> Unit
 
-  inner class WrapperViewHolder(root:View):BaseViewHolder(root){
+  inner class WrapperViewHolder(root: View) : BaseViewHolder(root) {
     init {
-      val list=itemView.media
-      itemView.media.isNestedScrollingEnabled=false
+      val list = itemView.media
+      itemView.media.isNestedScrollingEnabled = false
       itemView.more.click {
         click(data[adapterPosition].type)
       }
@@ -28,15 +28,16 @@ class HomeAdapter(context:Context, val click:(MediaType)->Unit): BaseAdapter<Vie
         }
       })
     }
-    override fun bind()= with(itemView){
-      val item=this@HomeAdapter[adapterPosition]
-      title.text=item.title
-      media.adapter=item.adapter
+
+    override fun bind() = with(itemView) {
+      val item = this@HomeAdapter[adapterPosition]
+      title.text = item.title
+      media.adapter = item.adapter
       more.setTextColor(item.color)
     }
   }
 
   override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)
-          :WrapperViewHolder
-          =WrapperViewHolder(inflater.inflate(R.layout.adapter_media_type_item,parent,false))
+      : WrapperViewHolder
+      = WrapperViewHolder(inflater.inflate(R.layout.adapter_media_type_item, parent, false))
 }

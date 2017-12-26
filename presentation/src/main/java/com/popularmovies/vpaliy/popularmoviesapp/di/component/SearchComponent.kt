@@ -9,8 +9,8 @@ import dagger.Component
 
 @ViewScope
 @Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(SearchModule::class))
-interface SearchComponent{
-  fun inject(result:MovieResult)
-  fun inject(result:TVResult)
-  fun inject(result:PeopleResult)
+interface SearchComponent {
+  fun inject(result: MovieResult)
+  fun inject(result: TVResult)
+  fun inject(result: PeopleResult)
 }

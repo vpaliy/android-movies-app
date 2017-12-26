@@ -11,21 +11,21 @@ import com.popularmovies.vpaliy.popularmoviesapp.R
 import java.util.Arrays
 
 class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-  :ViewGroup(context, attrs, defStyle) {
+  : ViewGroup(context, attrs, defStyle) {
 
-  private var chips= mutableListOf<TextView>()
+  private var chips = mutableListOf<TextView>()
   private var lineHeight: Int = 0
   var horizontalSpacing: Int = 0
   var verticalSpacing: Int = 0
   private var textAppearance: Int = 0
-  private var chipBackground:Int=R.drawable.ring
+  private var chipBackground: Int = R.drawable.ring
 
   init {
     attrs?.let {
       val array = context.obtainStyledAttributes(it, R.styleable.Chips)
       horizontalSpacing = array.getDimension(R.styleable.Chips_horizontal_spacing, 1f).toInt()
       verticalSpacing = array.getDimension(R.styleable.Chips_vertical_spacing, 1f).toInt()
-      chipBackground=array.getResourceId(R.styleable.Chips_chip_background,R.drawable.ring)
+      chipBackground = array.getResourceId(R.styleable.Chips_chip_background, R.drawable.ring)
       textAppearance = array.getResourceId(R.styleable.Chips_text_style, -1)
       val arrayRes = array.getResourceId(R.styleable.Chips_array, -1)
       if (arrayRes != -1) {
@@ -38,8 +38,8 @@ class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = n
 
   private class LayoutParams internal constructor(internal val horizontalSpacing: Int,
                                                   internal val verticalSpacing: Int)
-    :ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-          ViewGroup.LayoutParams.WRAP_CONTENT)
+    : ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+      ViewGroup.LayoutParams.WRAP_CONTENT)
 
   override fun generateDefaultLayoutParams(): ViewGroup.LayoutParams {
     return Chips.LayoutParams(horizontalSpacing, verticalSpacing)
@@ -157,10 +157,10 @@ class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = n
   }
 
   fun setChipsColors(textColor: Int, backgroundTextColor: Int) {
-    chips.forEach{
+    chips.forEach {
       it.setTextColor(textColor)
       it.background.setColorFilter(backgroundTextColor,
-              PorterDuff.Mode.MULTIPLY)
+          PorterDuff.Mode.MULTIPLY)
     }
   }
 }

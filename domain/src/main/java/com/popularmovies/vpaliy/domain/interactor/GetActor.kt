@@ -10,8 +10,8 @@ import javax.inject.Singleton
 
 @Singleton
 class GetActor @Inject constructor(var repository: Repository, scheduler: BaseScheduler)
-  :SingleInteractor<String,Actor>(scheduler){
+  : SingleInteractor<String, Actor>(scheduler) {
 
-  override fun buildSingle(params: String?)=
-          params then(repository::fetchActor) ?:wrongArgument()
+  override fun buildSingle(params: String?) =
+      params then (repository::fetchActor) ?: wrongArgument()
 }
