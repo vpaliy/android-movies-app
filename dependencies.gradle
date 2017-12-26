@@ -51,6 +51,7 @@ ext {
     dexmakerVersion = '1.0'
     espressoVersion = '2.0'
     testingSupportLibVersion = '0.1'
+    kotlinMockitoVersion="1.5.0"
 
     /* Other stuff */
     leakCanaryVersion = '1.4'
@@ -88,13 +89,12 @@ ext {
             materialIconLib    : "net.steamcrafted:materialiconlib:${materialIconLibVersion}",
             multiDex           : "com.android.support:multidex:${multiDexVersion}",
             constraintLayout   : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
-            calligraphy         :  "uk.co.chrisjenx:calligraphy:${calligraphyVersion}"
-
-
+            calligraphy        :  "uk.co.chrisjenx:calligraphy:${calligraphyVersion}",
     ]
 
     testDependencies = [
             jUnit :             "junit:junit:${jUnitVersion}",
+            kotlinMockito      : "com.nhaarman:mockito-kotlin:${kotlinMockitoVersion}",
             robolectric:        "org.robolectric:robolectric:${robolectricVersion}",
             mockito:            "org.mockito:mockito-core:${mockitoVersion}",
             espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",

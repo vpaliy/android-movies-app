@@ -44,6 +44,7 @@ dependencies {
     /* Testing Libraries */
     testImplementation testLibs.mockito
     testImplementation testLibs.jUnit
+    testImplementation testLibs.kotlinMockito
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
