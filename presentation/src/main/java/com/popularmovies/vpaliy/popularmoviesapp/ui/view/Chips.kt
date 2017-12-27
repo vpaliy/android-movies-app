@@ -15,8 +15,8 @@ class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = n
 
   private var chips = mutableListOf<TextView>()
   private var lineHeight: Int = 0
-  var horizontalSpacing: Int = 0
-  var verticalSpacing: Int = 0
+  private var horizontalSpacing: Int = 0
+  private var verticalSpacing: Int = 0
   private var textAppearance: Int = 0
   private var chipBackground: Int = R.drawable.ring
 
