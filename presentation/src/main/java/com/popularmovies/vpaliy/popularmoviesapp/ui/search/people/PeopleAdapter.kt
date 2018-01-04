@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.search
+package com.popularmovies.vpaliy.popularmoviesapp.ui.search.people
 
 import android.content.Context
 import android.view.View
@@ -11,7 +11,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 import kotlinx.android.synthetic.main.adapter_search_actor.view.*
 
-class ActorAdapter(context: Context) : BaseAdapter<Actor>(context) {
+class PeopleAdapter(context: Context) : BaseAdapter<Actor>(context) {
   inner class ActorViewHolder(itemView: View) : BaseViewHolder(itemView) {
     override fun bind() = with(itemView) {
       val item = data[adapterPosition]

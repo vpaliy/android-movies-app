@@ -1,8 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import android.os.Bundle
-import android.support.annotation.IntegerRes
-import android.support.annotation.StringRes
 import com.google.gson.reflect.TypeToken
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.App
@@ -18,6 +16,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.showErrorMessage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.showMessage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.*
 import kotlinx.android.synthetic.main.activity_more.*
+import android.support.annotation.StringRes
 import javax.inject.Inject
 
 class MoreActivity : BaseActivity(), MoreContract.View {

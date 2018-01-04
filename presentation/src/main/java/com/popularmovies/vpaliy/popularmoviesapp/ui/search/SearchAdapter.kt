@@ -5,6 +5,9 @@ import android.graphics.Color
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import com.popularmovies.vpaliy.popularmoviesapp.R
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.movies.MovieResult
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.people.PeopleResult
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.shows.TVResult
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipPagerAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipTab
 import com.vpaliy.kotlin_extensions.getCompatColor

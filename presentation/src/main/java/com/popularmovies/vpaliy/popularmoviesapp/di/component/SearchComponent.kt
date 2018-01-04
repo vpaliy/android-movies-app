@@ -1,9 +1,9 @@
 package com.popularmovies.vpaliy.popularmoviesapp.di.component
 
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.SearchModule
-import com.popularmovies.vpaliy.popularmoviesapp.ui.search.MovieResult
-import com.popularmovies.vpaliy.popularmoviesapp.ui.search.PeopleResult
-import com.popularmovies.vpaliy.popularmoviesapp.ui.search.TVResult
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.movies.MovieResult
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.people.PeopleResult
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.shows.TVResult
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 import dagger.Component
 

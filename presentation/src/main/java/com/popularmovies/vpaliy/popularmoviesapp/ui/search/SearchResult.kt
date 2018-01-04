@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.popularmovies.vpaliy.popularmoviesapp.R
+import com.popularmovies.vpaliy.popularmoviesapp.ui.showErrorMessage
+import com.popularmovies.vpaliy.popularmoviesapp.ui.showMessage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.OnReachBottomListener
 import com.vpaliy.kotlin_extensions.turnOff
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -28,6 +30,13 @@ abstract class SearchResult<T> : Fragment(), SearchContract.View<T>, QueryListen
     presenter?.query(query)
   }
 
+  override fun error(resource: Int) {
+    showErrorMessage(resource)
+  }
+
+  override fun message(resource: Int) {
+    showMessage(resource)
+  }
   override fun showLoading() {
     refresher.isRefreshing = false
   }

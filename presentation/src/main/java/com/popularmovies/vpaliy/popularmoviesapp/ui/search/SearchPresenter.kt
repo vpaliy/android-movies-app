@@ -2,9 +2,9 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.search
 
 import com.popularmovies.vpaliy.domain.interactor.SearchInteractor
 import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
+import com.popularmovies.vpaliy.popularmoviesapp.R
 
 class SearchPresenter<T>(val search: SearchInteractor<T>) : SearchContract.Presenter<T> {
-
   private lateinit var page: SearchPage
   private lateinit var view: SearchContract.View<T>
 
@@ -36,6 +36,6 @@ class SearchPresenter<T>(val search: SearchInteractor<T>) : SearchContract.Prese
   private fun onError(ex: Throwable) {
     ex.printStackTrace()
     view.hideLoading()
-    view.error()
+    view.error(R.string.data_error)
   }
 }

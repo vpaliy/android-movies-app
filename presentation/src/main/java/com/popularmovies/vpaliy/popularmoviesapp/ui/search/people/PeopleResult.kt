@@ -1,9 +1,11 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.search
+package com.popularmovies.vpaliy.popularmoviesapp.ui.search.people
 
 import com.popularmovies.vpaliy.domain.entity.Actor
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerSearchComponent
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.SearchModule
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchContract
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchResult
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
@@ -15,13 +17,11 @@ class PeopleResult : SearchResult<Actor>() {
     }
 
 
-  private val adapter by lazy { ActorAdapter(context) }
+  private val adapter by lazy { PeopleAdapter(context) }
 
   override fun appendResult(data: List<Actor>) = adapter.append(data)
 
   override fun empty() {}
-
-  override fun error() {}
 
   override fun inputCleared() = adapter.clear()
 

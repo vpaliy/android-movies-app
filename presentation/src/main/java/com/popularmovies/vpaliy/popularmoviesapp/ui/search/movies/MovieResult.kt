@@ -1,4 +1,4 @@
-package com.popularmovies.vpaliy.popularmoviesapp.ui.search
+package com.popularmovies.vpaliy.popularmoviesapp.ui.search.movies
 
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.Movie
@@ -6,6 +6,9 @@ import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerSearchComponent
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.SearchModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.MediaAdapter
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchContract
+import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchResult
 import kotlinx.android.synthetic.main.fragment_search.*
 import javax.inject.Inject
 
@@ -31,8 +34,6 @@ class MovieResult : SearchResult<Movie>() {
   override fun appendResult(data: List<Movie>) {
     adapter.append(mapper.map(data))
   }
-
-  override fun error() {}
 
   override fun empty() {}
 
