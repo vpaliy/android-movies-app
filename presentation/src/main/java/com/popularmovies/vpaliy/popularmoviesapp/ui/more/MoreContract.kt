@@ -1,5 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
+import android.support.annotation.IntegerRes
 import android.support.annotation.StringRes
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
@@ -16,10 +17,10 @@ object MoreContract {
   interface View {
     fun show(data: List<MediaModel>)
     fun append(data: List<MediaModel>)
-    fun message(@StringRes resource: Int)
     fun showLoading()
     fun hideLoading()
-    fun error()
+    fun error(@StringRes resource: Int)
+    fun message(@StringRes resource: Int)
     fun empty()
   }
 }

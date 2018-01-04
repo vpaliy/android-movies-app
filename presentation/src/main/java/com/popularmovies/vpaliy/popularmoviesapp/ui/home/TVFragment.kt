@@ -15,19 +15,17 @@ class TVFragment : HomeFragment() {
       field?.attach(this)
     }
 
-  override fun types() = arrayOf(MediaType.TOP)
+  private val typeMap by lazy(LazyThreadSafetyMode.NONE) {
+    HashMap<MediaType, String>().apply {
+      put(MediaType.TOP, getString(R.string.top_rated_media))
+    }
+  }
+
+  override fun types() = typeMap.keys.toTypedArray()
 
   override fun getColor(type: MediaType) = getColor(R.color.colorTvShows)
 
-  override fun getTitle(type: MediaType): String {
-    return when (type) {
-      MediaType.POPULAR -> getString(R.string.popular_media)
-      MediaType.NOW_PLAYING -> getString(R.string.now_playing_media)
-      MediaType.UPCOMING -> getString(R.string.upcoming_media)
-      MediaType.TOP -> getString(R.string.top_rated_media)
-      else -> throw IllegalArgumentException()
-    }
-  }
+  override fun getTitle(type: MediaType) = typeMap[type]!!
 
   override fun inject() {
     DaggerTVComponent.builder()

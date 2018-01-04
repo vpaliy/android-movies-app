@@ -10,6 +10,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.Navigator
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ViewWrapper
+import com.popularmovies.vpaliy.popularmoviesapp.ui.showErrorMessage
+import com.popularmovies.vpaliy.popularmoviesapp.ui.showMessage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_IS_MOVIES
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_TYPE
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.packHeavyObject
@@ -21,13 +23,13 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
 
   @Inject lateinit var navigator: Navigator
 
-  private val adapter by lazy {
+  private val adapter by lazy(LazyThreadSafetyMode.NONE) {
     HomeAdapter(context, this::showMore).apply {
       request = { presenter?.more(it) }
     }
   }
 
-  private val adapterMap by lazy { HashMap<MediaType, MediaAdapter>() }
+  private val adapterMap by lazy(LazyThreadSafetyMode.NONE) { HashMap<MediaType, MediaAdapter>() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -59,7 +61,8 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
     adapterMap[type]?.append(data)
   }
 
-  override fun error() {
+  override fun error(resource: Int) {
+    showErrorMessage(resource)
   }
 
   override fun empty() {
@@ -67,7 +70,7 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
   }
 
   override fun message(resource: Int) {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    showMessage(resource)
   }
 
   private fun click(item: MediaModel) {

@@ -4,6 +4,7 @@ import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.domain.interactor.GetPage
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
+import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.home.HomeContract.View
 import com.popularmovies.vpaliy.popularmoviesapp.ui.reflect
@@ -27,7 +28,7 @@ class HomePresenter<T>(private val interactor: GetPage<T>,
 
   private fun onError(ex: Throwable) {
     ex.printStackTrace()
-    view.error()
+    view.error(R.string.data_error)
   }
 
   private fun onSuccess(page: TypePage, data: List<MediaModel>) {

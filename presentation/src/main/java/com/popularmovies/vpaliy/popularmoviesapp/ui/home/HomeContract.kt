@@ -15,8 +15,8 @@ object HomeContract {
   interface View {
     fun show(data: List<MediaModel>, type: MediaType)
     fun append(data: List<MediaModel>, type: MediaType)
-    fun error()
     fun empty()
+    fun error(@StringRes resource: Int)
     fun message(@StringRes resource: Int)
   }
 }

@@ -1,6 +1,8 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import android.os.Bundle
+import android.support.annotation.IntegerRes
+import android.support.annotation.StringRes
 import com.google.gson.reflect.TypeToken
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.App
@@ -12,12 +14,13 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.module.TVModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract.Presenter
+import com.popularmovies.vpaliy.popularmoviesapp.ui.showErrorMessage
+import com.popularmovies.vpaliy.popularmoviesapp.ui.showMessage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.*
 import kotlinx.android.synthetic.main.activity_more.*
 import javax.inject.Inject
 
 class MoreActivity : BaseActivity(), MoreContract.View {
-
   internal var presenter: Presenter? = null
     @Inject set(value) {
       field = value
@@ -47,14 +50,20 @@ class MoreActivity : BaseActivity(), MoreContract.View {
 
   override fun append(data: List<MediaModel>) = adapter.append(data)
 
-  override fun empty() {}
+  override fun empty() {
+    TODO("Show empty icon")
+  }
 
-  override fun error() {}
+  override fun error(@StringRes resource: Int) {
+    rootView.showErrorMessage(resource)
+  }
 
-  override fun message(resource: Int) {}
+  override fun message(resource: Int) {
+    rootView.showMessage(resource)
+  }
 
   override fun show(data: List<MediaModel>) {
-    if (list.adapter !== adapter) list.adapter = adapter
+    if (list.adapter != adapter) list.adapter = adapter
     adapter.data = data.toMutableList()
   }
 
