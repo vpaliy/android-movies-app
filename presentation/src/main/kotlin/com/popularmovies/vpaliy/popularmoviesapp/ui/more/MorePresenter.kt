@@ -39,8 +39,6 @@ class MorePresenter<T>(private val interactor: GetPage<T>,
     interactor.execute(mapper.reflect(this::onSuccess), this::onError, page)
   }
 
-  override fun stop() {}
-
   private fun onSuccess(page: TypePage?, data: List<MediaModel>) {
     view.hideLoading()
     page?.let {
@@ -58,5 +56,4 @@ class MorePresenter<T>(private val interactor: GetPage<T>,
     view.hideLoading()
     view.error(R.string.data_error)
   }
-
 }

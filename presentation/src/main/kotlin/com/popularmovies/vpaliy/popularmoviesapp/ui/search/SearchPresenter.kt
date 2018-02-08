@@ -23,8 +23,6 @@ class SearchPresenter<T>(val search: SearchInteractor<T>) : SearchContract.Prese
     search.execute(this::onSuccess, this::onError, page)
   }
 
-  override fun stop() {}
-
   private fun onSuccess(page: SearchPage, data: List<T>) {
     view.hideLoading()
     if (page.isFirst)

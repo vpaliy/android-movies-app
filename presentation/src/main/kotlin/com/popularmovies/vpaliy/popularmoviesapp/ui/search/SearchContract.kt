@@ -16,7 +16,6 @@ object SearchContract {
   interface Presenter<out T> {
     fun query(query: String)
     fun more()
-    fun stop()
     fun attachView(view: View<T>)
   }
 }

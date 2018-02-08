@@ -1,5 +1,7 @@
 package com.popularmovies.vpaliy.domain.entity
 
-enum class PersonalType {
-  SAVED, WATCHED, LIKED
-}
+sealed class PersonalType
+
+object Saved : PersonalType()
+object Watched : PersonalType()
+object Favorite : PersonalType()

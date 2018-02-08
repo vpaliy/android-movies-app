@@ -35,7 +35,9 @@ class MovieResult : SearchResult<Movie>() {
     adapter.append(mapper.map(data))
   }
 
-  override fun empty() {}
+  override fun empty() {
+    TODO("")
+  }
 
   override fun inject() {
     DaggerSearchComponent.builder()

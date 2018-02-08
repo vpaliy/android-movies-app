@@ -26,7 +26,11 @@ class MoreActivity : BaseActivity(), MoreContract.View {
       field?.attachView(this)
     }
 
-  private val adapter: MediaAdapter by lazy { MediaAdapter(this, {}) }
+  private val adapter: MediaAdapter by lazy {
+    MediaAdapter(this, {
+      navigator.navigateToDetails(this, it)
+    })
+  }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -62,7 +66,9 @@ class MoreActivity : BaseActivity(), MoreContract.View {
   }
 
   override fun show(data: List<MediaModel>) {
-    if (list.adapter != adapter) list.adapter = adapter
+    if (list.adapter != adapter) {
+      list.adapter = adapter
+    }
     adapter.data = data.toMutableList()
   }
 

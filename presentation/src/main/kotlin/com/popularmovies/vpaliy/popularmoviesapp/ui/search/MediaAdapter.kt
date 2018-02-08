@@ -26,6 +26,7 @@ class MediaAdapter(context: Context) : BaseAdapter<MediaModel>(context) {
       title.text = item.title
       date.text = item.release
       ratings.text = item.ratings
+      chips.setTags(item.tags)
     }
   }
 

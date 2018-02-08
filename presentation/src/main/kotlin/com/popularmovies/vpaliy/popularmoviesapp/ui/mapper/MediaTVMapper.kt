@@ -4,6 +4,7 @@ import android.net.Uri
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.TVShow
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.TVModel
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +16,7 @@ class MediaTVMapper @Inject constructor() : Mapper<MediaModel, TVShow> {
     val release = fake.releaseYear ?: ""
     val ratings = fake.averageVote.toString()
     val tags = fake.genres ?: emptyList()
-    return MediaModel(fake.id, poster, fake.title, backdrop, release, ratings, tags)
+    return TVModel(fake.id, poster, fake.title, backdrop, release, ratings, tags)
   }
 
   override fun reverse(real: MediaModel) = TVShow().apply {

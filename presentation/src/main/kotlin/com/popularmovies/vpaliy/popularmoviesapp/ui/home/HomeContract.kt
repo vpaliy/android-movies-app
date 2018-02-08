@@ -16,6 +16,8 @@ object HomeContract {
     fun show(data: List<MediaModel>, type: MediaType)
     fun append(data: List<MediaModel>, type: MediaType)
     fun empty()
+    fun showLoading()
+    fun hideLoading()
     fun error(@StringRes resource: Int)
     fun message(@StringRes resource: Int)
   }

@@ -1,6 +1,5 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
-import android.support.annotation.IntegerRes
 import android.support.annotation.StringRes
 import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
@@ -10,7 +9,6 @@ object MoreContract {
     fun attachView(view: View)
     fun attachType(type: MediaType)
     fun start()
-    fun stop()
     fun more()
   }
 

@@ -7,7 +7,7 @@ import android.view.View
 
 class FABToggle(context: Context, attrs: AttributeSet) : FloatingActionButton(context, attrs) {
 
-  var isCheckedBy = false
+  private var isCheckedBy = false
     set(value) {
       if (field != value) {
         field = value
@@ -26,10 +26,6 @@ class FABToggle(context: Context, attrs: AttributeSet) : FloatingActionButton(co
 
   fun setMinOffset(minOffset: Float) {
     this.minOffset = minOffset
-  }
-
-  fun toggle() {
-    isCheckedBy = !isCheckedBy
   }
 
   override fun onCreateDrawableState(extraSpace: Int): IntArray {

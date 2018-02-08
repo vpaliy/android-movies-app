@@ -1,9 +1,16 @@
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/list"
-    app:layoutManager="@string/media_layout_manager"
-    tools:listitem="@layout/adapter_media_type_item"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresher"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" />
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="@string/media_layout_manager"
+        tools:listitem="@layout/adapter_media_type_item" />
+
+</android.support.v4.widget.SwipeRefreshLayout>

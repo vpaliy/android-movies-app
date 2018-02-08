@@ -1,93 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_margin="8dp"
     android:background="@drawable/search_background"
-    android:elevation="@dimen/z_app_bar">
-
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/z_app_bar"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.RoundedImageView
         android:id="@+id/poster"
-        android:layout_width="120dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
+        android:layout_width="120dp"
+        android:layout_height="150dp" />
     <TextView
         android:id="@+id/title"
         style="@style/Widget.Title"
+        android:textSize="20sp"
+        android:textColor="#000"
+        app:layout_constraintVertical_bias="0.1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/poster"
         app:layout_constraintTop_toTopOf="@+id/poster"
-        app:layout_constraintVertical_bias="0.1"
         tools:text="Kong" />
-
     <TextView
         android:id="@+id/date"
         style="@style/Widget.NumberText"
+        android:textSize="15sp"
+        android:textColor="@color/grey_800"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
         android:gravity="center"
-        android:textColor="@color/grey_800"
-        android:textSize="15sp"
+        tools:text="Sep 5, 1997"
         app:layout_constraintStart_toStartOf="@+id/title"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:text="Sep 5, 1997" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/ratings"
-        style="@style/Widget.NumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/spacing_medium"
-        android:layout_marginRight="@dimen/spacing_medium"
-        android:drawableEnd="@drawable/ic_thumb"
-        android:drawablePadding="@dimen/spacing_small"
-        android:drawableTint="@color/grey_800"
-        android:gravity="center"
-        android:textSize="15sp"
+        style="@style/Widget.NumberText"
         android:visibility="gone"
+        android:gravity="center"
+        android:drawableEnd="@drawable/ic_thumb"
+        android:drawableTint="@color/grey_800"
+        android:textSize="15sp"
+        tools:text="6.7"
+        android:drawablePadding="@dimen/spacing_small"
+        app:layout_constraintTop_toTopOf="@+id/date"
         app:layout_constraintBottom_toBottomOf="@+id/date"
         app:layout_constraintLeft_toRightOf="@+id/date"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/date"
-        tools:ignore="UnusedAttribute"
-        tools:text="6.7" />
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:layout_marginRight="@dimen/spacing_medium"
+        app:layout_constraintRight_toRightOf="parent" />
+
 
     <TextView
         android:id="@+id/tags"
-        android:layout_width="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/date"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_width="wrap_content"
         android:gravity="start"
         android:visibility="gone"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@+id/poster"
-        app:layout_constraintStart_toStartOf="@+id/date"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
+        app:layout_constraintTop_toBottomOf="@+id/date"
+        android:layout_marginTop="@dimen/spacing_large"/>
 
     <com.popularmovies.vpaliy.popularmoviesapp.ui.view.Chips
         android:id="@+id/chips"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_large"
-        app:chip_background="@drawable/search_chip"
         app:horizontal_spacing="@dimen/spacing_small"
+        app:vertical_spacing="@dimen/spacing_small"
+        app:text_style="@style/Widget.SearchChip"
+        android:layout_width="0dp"
+        app:chip_background="@drawable/search_chip"
+        app:layout_constraintStart_toStartOf="@+id/date"
+        app:layout_constraintWidth_default="wrap"
+        android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toEndOf="@+id/poster"
-        app:layout_constraintStart_toStartOf="@+id/date"
         app:layout_constraintTop_toBottomOf="@+id/date"
-        app:layout_constraintWidth_default="wrap"
-        app:text_style="@style/Widget.SearchChip"
-        app:vertical_spacing="@dimen/spacing_small" />
+        android:layout_marginTop="@dimen/spacing_large">
+    </com.popularmovies.vpaliy.popularmoviesapp.ui.view.Chips>
 </android.support.constraint.ConstraintLayout>

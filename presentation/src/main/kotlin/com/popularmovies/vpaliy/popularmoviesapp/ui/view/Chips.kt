@@ -60,7 +60,7 @@ class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = n
     var xPos = paddingLeft
     var yPos = paddingTop
 
-    for (i in 0..count - 1) {
+    for (i in 0 until count) {
       val child = getChildAt(i)
       if (child.visibility != View.GONE) {
         val childWidth = child.measuredWidth
@@ -96,7 +96,7 @@ class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = n
       childHeightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
     }
 
-    for (i in 0..count - 1) {
+    for (i in 0 until count) {
       val child = getChildAt(i)
       if (child.visibility != View.GONE) {
         val lp = child.layoutParams as Chips.LayoutParams
@@ -127,7 +127,7 @@ class Chips @JvmOverloads constructor(context: Context, attrs: AttributeSet? = n
     if (tags == null || tags.isEmpty()) return
     if (tags.size > chips.size) {
       val diff = tags.size - chips.size
-      for (index in 0..diff - 1) {
+      for (index in 0 until diff) {
         val chip = TextView(context)
         chip.background = ContextCompat.getDrawable(context, chipBackground)
         if (textAppearance != -1) {

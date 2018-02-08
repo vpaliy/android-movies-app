@@ -28,10 +28,12 @@ class HomePresenter<T>(private val interactor: GetPage<T>,
 
   private fun onError(ex: Throwable) {
     ex.printStackTrace()
+    view.hideLoading()
     view.error(R.string.data_error)
   }
 
   private fun onSuccess(page: TypePage, data: List<MediaModel>) {
+    view.hideLoading()
     if (data.isNotEmpty()) {
       if (page.current > 1)
         view.append(data, page.type)
@@ -41,6 +43,7 @@ class HomePresenter<T>(private val interactor: GetPage<T>,
   }
 
   override fun start(types: Array<MediaType>) {
+    view.showLoading()
     types.forEach {
       map[it] = TypePage(it)
       interactor.execute(mapper.reflect(this::onSuccess), this::onError, map[it])

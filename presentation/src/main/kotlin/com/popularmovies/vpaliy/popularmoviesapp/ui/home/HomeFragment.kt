@@ -73,6 +73,14 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
     showMessage(resource)
   }
 
+  override fun showLoading() {
+    refresher.isRefreshing = true
+  }
+
+  override fun hideLoading() {
+    refresher.isRefreshing = false
+  }
+
   private fun click(item: MediaModel) {
     navigator.navigateToDetails(activity, item)
   }
