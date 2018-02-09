@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import com.popularmovies.vpaliy.domain.entity.MediaType
+import com.popularmovies.vpaliy.domain.entity.Top
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerTVComponent
@@ -17,7 +18,7 @@ class TVFragment : HomeFragment() {
 
   private val typeMap by lazy(LazyThreadSafetyMode.NONE) {
     HashMap<MediaType, String>().apply {
-      put(MediaType.TOP, getString(R.string.top_rated_media))
+      put(Top, getString(R.string.top_rated_media))
     }
   }
 

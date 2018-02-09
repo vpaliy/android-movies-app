@@ -55,14 +55,12 @@ constructor(val mapper: Mapper<Movie, MovieEntity>,
 
 
   override fun fetchList(request: TypePage): Single<List<Movie>> {
-    val result = when (request.type) {
-      MediaType.POPULAR -> service.getPopular(request.buildQuery())
-      MediaType.TOP -> service.getTopRated(request.buildQuery())
-      MediaType.UPCOMING -> service.getUpcoming(request.buildQuery())
+    return when (request.type) {
+      Popular -> service.getPopular(request.buildQuery())
+      Top -> service.getTopRated(request.buildQuery())
+      Upcoming -> service.getUpcoming(request.buildQuery())
       else -> service.getNowPlaying(request.buildQuery())
-    }
-    return result
-        .map { it.results.filterOut() }
+    }.map { it.results.filterOut() }
         .map { MovieEntity.build(it.toTypedArray(), genreKeeper) }
         .map(mapper::map)
   }
@@ -84,11 +82,12 @@ constructor(val mapper: Mapper<Movie, MovieEntity>,
 
   override fun fetchSuggested(request: Suggestion): Single<List<Movie>> {
     return when (request.type) {
-      SimilarityType.RECOMMENDATION ->
+      Recommendation ->
         service.getRecommendations(request.id, request.buildQuery())
-      else ->
+      Similar ->
         service.getSimilar(request.id, request.buildQuery())
-    }.map { it.results.filterOut() }.map { MovieEntity.build(it.toTypedArray(), genreKeeper) }
+    }.map { it.results.filterOut() }
+        .map { MovieEntity.build(it.toTypedArray(), genreKeeper) }
         .map(mapper::map)
   }
 }

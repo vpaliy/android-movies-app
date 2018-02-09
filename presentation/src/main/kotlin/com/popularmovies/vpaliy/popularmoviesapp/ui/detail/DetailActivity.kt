@@ -182,7 +182,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     val suggestedAdapter = SuggestedAdapter(this)
     suggestedAdapter.data = data.toMutableList()
     suggestionMap.put(type, suggestedAdapter)
-    val title = (type == SimilarityType.SIMILAR) then getString(R.string.media_similar_content)
+    val title = (type == Similar) then getString(R.string.media_similar_content)
         ?: getString(R.string.media_recommendations)
     val wrapper = ListWrapper(suggestedAdapter, title, { presenter?.more(type) })
     adapter.add(wrapper)

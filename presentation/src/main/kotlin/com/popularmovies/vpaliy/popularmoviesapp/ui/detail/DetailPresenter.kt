@@ -10,8 +10,8 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaFacade
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 
 @ViewScope
-class DetailPresenter(private val facade: MediaFacade<Movie>,
-                      private val mapper: Mapper<MediaModel, Movie>) : DetailContract.Presenter {
+class DetailPresenter(private val facade: MediaFacade<Movie>, private val mapper: Mapper<MediaModel, Movie>)
+    : DetailContract.Presenter {
   lateinit var view: View
 
   override fun attachView(view: View) {
@@ -22,7 +22,7 @@ class DetailPresenter(private val facade: MediaFacade<Movie>,
     facade.getItem(view::showMedia, this::handleError)
     facade.getRoles(view::showCast, this::handleError)
     facade.getTrailers(view::showTrailers, this::handleError)
-    SimilarityType.values().forEach {
+    SimilarityType.all().forEach {
       facade.getSuggestion(this::catchSuggestion, this::handleError, it)
     }
   }

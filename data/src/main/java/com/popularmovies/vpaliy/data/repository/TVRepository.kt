@@ -21,9 +21,9 @@ class TVRepository @Inject constructor(val mapper: Mapper<TVShow, TVEntity>,
 
   override fun fetchList(request: TypePage): Single<List<TVShow>> {
     val result = when (request.type) {
-      MediaType.POPULAR -> service.getPopular(request.buildQuery())
-      MediaType.TOP -> service.getTvOnAir(request.buildQuery())
-      MediaType.UPCOMING -> service.getAiringToday(request.buildQuery())
+      Popular -> service.getPopular(request.buildQuery())
+      Top -> service.getTvOnAir(request.buildQuery())
+      Upcoming -> service.getAiringToday(request.buildQuery())
       else -> service.getAiringToday(request.buildQuery())
     }
     return result

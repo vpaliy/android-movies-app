@@ -1,7 +1,10 @@
 package com.popularmovies.vpaliy.domain.entity
 
-
-enum class SimilarityType {
-  SIMILAR, RECOMMENDATION
+sealed class SimilarityType {
+  companion object {
+    fun all()= listOf(Similar, Recommendation)
+  }
 }
 
+object Similar : SimilarityType()
+object Recommendation : SimilarityType()

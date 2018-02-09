@@ -7,7 +7,7 @@ def testLibs=rootProject.ext.testDependencies
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion config.minSdkVersion
