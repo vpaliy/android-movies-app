@@ -13,8 +13,10 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_ID
 
 class Navigator {
+
   fun navigateToMore(activity: Activity, bundle: Bundle) {
-    val intent = Intent(activity, MoreActivity::class.java).putExtras(bundle)
+    val intent = Intent(activity, MoreActivity::class.java)
+        .putExtras(bundle)
     activity.startActivity(intent)
   }
 

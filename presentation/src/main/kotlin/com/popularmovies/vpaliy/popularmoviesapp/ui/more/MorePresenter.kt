@@ -2,6 +2,7 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.MediaType
+import com.popularmovies.vpaliy.domain.entity.Popular
 import com.popularmovies.vpaliy.domain.interactor.GetPage
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
 import com.popularmovies.vpaliy.popularmoviesapp.R
@@ -13,9 +14,9 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.reflect
 
 @ViewScope
 class MorePresenter<T>(private val interactor: GetPage<T>,
-                       private val mapper: Mapper<MediaModel, T>) : Presenter {
+                       private val mapper: Mapper<MediaModel, T>,
+                       private val type: MediaType= Popular) : Presenter {
 
-  private lateinit var type: MediaType
   private lateinit var view: View
   private val page by lazy { TypePage(type) }
 
@@ -24,7 +25,6 @@ class MorePresenter<T>(private val interactor: GetPage<T>,
   }
 
   override fun attachType(type: MediaType) {
-    this.type = type
   }
 
   override fun more() {

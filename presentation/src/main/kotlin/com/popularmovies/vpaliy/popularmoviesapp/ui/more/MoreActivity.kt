@@ -82,6 +82,9 @@ class MoreActivity : BaseActivity(), MoreContract.View {
 
   //TODO fix that :(
   override fun inject() {
+    App.inject(this)
+
+
     val isMovies = intent.getBooleanExtra(EXTRA_IS_MOVIES, false)
     if (!isMovies) {
       DaggerTVComponent.builder()
