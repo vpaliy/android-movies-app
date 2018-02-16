@@ -15,6 +15,7 @@ object HomeContract {
   interface View {
     fun show(data: List<MediaModel>, type: MediaType)
     fun append(data: List<MediaModel>, type: MediaType)
+    fun clear()
     fun empty()
     fun showLoading()
     fun hideLoading()

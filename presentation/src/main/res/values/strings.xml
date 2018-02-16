@@ -13,8 +13,8 @@
     <string name="latest_media">Latest</string>
     <string name="upcoming_media">Upcoming</string>
     <string name="now_playing_media">Now Playing</string>
-    <string name="today_airing_tv">TV Airing Today</string>
-    <string name="on_the_air_tv">TV On The Air</string>
+    <string name="today_airing_tv">Airing Today</string>
+    <string name="on_the_air_tv">On The Air</string>
 
     <string name="dummy_text" translatable="false">Before she was Wonder Woman, she was Diana, princess of the Amazons, trained warrior.
         When a pilot crashes and tells of conflict in the outside world, she leaves home to fight a war, discovering her full powers and true destiny.

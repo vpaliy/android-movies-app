@@ -1,7 +1,9 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DefaultItemAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +14,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ViewWrapper
 import com.popularmovies.vpaliy.popularmoviesapp.ui.showErrorMessage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.showMessage
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_IS_MOVIES
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_TYPE
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.packHeavyObject
+import com.vpaliy.kotlin_extensions.then
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -29,6 +29,8 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
     }
   }
 
+  private val dataHandler by lazy { Handler() }
+
   private val adapterMap by lazy(LazyThreadSafetyMode.NONE) { HashMap<MediaType, MediaAdapter>() }
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,10 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     list.adapter = adapter
+    list.itemAnimator = DefaultItemAnimator()
+    refresher.setOnRefreshListener {
+      presenter?.start(types())
+    }
   }
 
   override fun onStart() {
@@ -51,6 +57,7 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
       = inflater.inflate(R.layout.fragment_home, container, false)
 
   override fun show(data: List<MediaModel>, type: MediaType) {
+    //TODO animate it
     val mediaAdapter = MediaAdapter(context, this::click)
     mediaAdapter.data = data.toMutableList()
     adapterMap[type] = mediaAdapter
@@ -86,9 +93,11 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
   }
 
   private fun showMore(type: MediaType) {
-    val extras = Bundle().packHeavyObject(EXTRA_TYPE, type)
-    extras.putBoolean(EXTRA_IS_MOVIES, this is MoviesFragment)
-    navigator.navigateToMore(activity, extras)
+    navigator.navigateToMore(activity, type)
+  }
+
+  override fun clear() {
+    adapter.clear()
   }
 
   abstract fun getTitle(type: MediaType): String

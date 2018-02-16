@@ -2,22 +2,21 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.base
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.view.View
+import com.popularmovies.vpaliy.domain.entity.MediaType
+import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.ui.detail.DetailActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchActivity
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_ID
 
 class Navigator {
 
-  fun navigateToMore(activity: Activity, bundle: Bundle) {
-    val intent = Intent(activity, MoreActivity::class.java)
-        .putExtras(bundle)
-    activity.startActivity(intent)
+  fun navigateToMore(activity: Activity, type: MediaType) {
+    App.pushInjector(MoreActivity.buildInjector(type))
+    activity.startActivity(Intent(activity, MoreActivity::class.java))
   }
 
   fun navigateToSearch(activity: Activity, pair: Pair<View, String>) {
@@ -27,8 +26,7 @@ class Navigator {
   }
 
   fun navigateToDetails(activity: Activity, model: MediaModel) {
-    val intent = Intent(activity, DetailActivity::class.java)
-    intent.putExtra(EXTRA_ID, model.id)
-    activity.startActivity(intent)
+    App.pushInjector(DetailActivity.buildInjector(model))
+    activity.startActivity(Intent(activity, DetailActivity::class.java))
   }
 }

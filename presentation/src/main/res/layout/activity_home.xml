@@ -1,53 +1,57 @@
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                app:titleTextAppearance="@style/Widget.ToolbarText"
-                app:layout_scrollFlags="scroll|enterAlways"
                 android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:layout_height="?attr/actionBarSize"/>
+                app:titleTextAppearance="@style/Widget.ToolbarText" />
         </android.support.design.widget.AppBarLayout>
+
         <com.popularmovies.vpaliy.popularmoviesapp.ui.view.MediaPager
             android:id="@+id/mediaPager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_marginBottom="@dimen/spacing_big"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/spacing_big"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
         <com.roughike.bottombar.BottomBar
             android:id="@+id/bottomNavigator"
-            app:bb_activeTabColor="@color/colorWhite"
-            app:bb_titleTextAppearance="@style/Widget.Label"
-            app:bb_showShadow="true"
-            app:bb_inActiveTabColor="@color/colorWhite"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:fitsSystemWindows="false"
-            app:bb_behavior="shy|underNavbar"
             android:layout_gravity="bottom"
-            app:bb_tabXmlResource="@xml/media_bottom_navigation"/>
+            android:fitsSystemWindows="false"
+            app:bb_activeTabColor="@color/colorWhite"
+            app:bb_behavior="shy|underNavbar"
+            app:bb_inActiveTabColor="@color/colorWhite"
+            app:bb_showShadow="true"
+            app:bb_tabXmlResource="@xml/media_bottom_navigation"
+            app:bb_titleTextAppearance="@style/Widget.Label" />
     </android.support.design.widget.CoordinatorLayout>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"
-        app:headerLayout="@layout/header"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@android:color/white"
+        app:headerLayout="@layout/header"
         app:itemIconTint="@drawable/drawer_icon_tint"
         app:itemTextColor="@drawable/drawer_item"
-        app:menu="@menu/drawer_list"
-        android:background="@android:color/white" />
+        app:menu="@menu/drawer_list" />
 </android.support.v4.widget.DrawerLayout>

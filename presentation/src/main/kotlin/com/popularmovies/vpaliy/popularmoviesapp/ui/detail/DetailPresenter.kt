@@ -8,10 +8,11 @@ import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
 import com.popularmovies.vpaliy.popularmoviesapp.ui.detail.DetailContract.View
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaFacade
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
+import com.vpaliy.kotlin_extensions.info
 
 @ViewScope
 class DetailPresenter(private val facade: MediaFacade<Movie>, private val mapper: Mapper<MediaModel, Movie>)
-    : DetailContract.Presenter {
+  : DetailContract.Presenter {
   lateinit var view: View
 
   override fun attachView(view: View) {
@@ -19,6 +20,7 @@ class DetailPresenter(private val facade: MediaFacade<Movie>, private val mapper
   }
 
   override fun start() {
+    info("in start method")
     facade.getItem(view::showMedia, this::handleError)
     facade.getRoles(view::showCast, this::handleError)
     facade.getTrailers(view::showTrailers, this::handleError)
@@ -26,8 +28,6 @@ class DetailPresenter(private val facade: MediaFacade<Movie>, private val mapper
       facade.getSuggestion(this::catchSuggestion, this::handleError, it)
     }
   }
-
-  override fun stop() {}
 
   override fun more(type: SimilarityType) {
     facade.moreSuggestions(this::appendSuggestion, this::handleError, type)
@@ -43,9 +43,5 @@ class DetailPresenter(private val facade: MediaFacade<Movie>, private val mapper
 
   private fun handleError(ex: Throwable) {
     ex.printStackTrace()
-  }
-
-  override fun attachId(id: String) {
-    facade.id = id
   }
 }

@@ -34,15 +34,18 @@ class HomePresenter<T>(private val interactor: GetPage<T>,
 
   private fun onSuccess(page: TypePage, data: List<MediaModel>) {
     view.hideLoading()
-    if (data.isNotEmpty()) {
-      if (page.current > 1)
-        view.append(data, page.type)
-      else
+    if (page.isFirst) {
+      if (data.isNotEmpty())
         view.show(data, page.type)
-    } else view.empty()
+      else
+        view.empty()
+    } else if (data.isNotEmpty()) {
+      view.append(data, page.type)
+    }
   }
 
   override fun start(types: Array<MediaType>) {
+    view.clear()
     view.showLoading()
     types.forEach {
       map[it] = TypePage(it)

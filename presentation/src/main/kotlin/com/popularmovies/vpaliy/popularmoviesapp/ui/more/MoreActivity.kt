@@ -1,22 +1,22 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import android.os.Bundle
-import com.google.gson.reflect.TypeToken
-import com.popularmovies.vpaliy.domain.entity.MediaType
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerMovieComponent
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerTVComponent
-import com.popularmovies.vpaliy.popularmoviesapp.di.module.MovieModule
-import com.popularmovies.vpaliy.popularmoviesapp.di.module.TVModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract.Presenter
-import com.popularmovies.vpaliy.popularmoviesapp.ui.showErrorMessage
-import com.popularmovies.vpaliy.popularmoviesapp.ui.showMessage
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.*
 import kotlinx.android.synthetic.main.activity_more.*
 import android.support.annotation.StringRes
+import android.view.View
+import com.popularmovies.vpaliy.domain.entity.MediaType
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.BaseComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerMoreMoviesComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.MovieMoreModule
+import com.popularmovies.vpaliy.popularmoviesapp.di.injector.Injector
+import com.popularmovies.vpaliy.popularmoviesapp.ui.showErrorMessage
+import com.popularmovies.vpaliy.popularmoviesapp.ui.showMessage
+import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.getStatusBarHeight
 import javax.inject.Inject
 
 class MoreActivity : BaseActivity(), MoreContract.View {
@@ -35,19 +35,11 @@ class MoreActivity : BaseActivity(), MoreContract.View {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_more)
-    setSupportActionBar(toolbar)
-    start()
-  }
-
-  private fun start() {
-    val type = intent.extras.fetchHeavyObject<MediaType>(EXTRA_TYPE, object : TypeToken<MediaType>() {}.type)
-    presenter?.let {
-      it.attachType(type!!)
-      it.start()
-      refresher.setOnRefreshListener(it::start)
-      list.addOnScrollListener(object : OnReachBottomListener(list.layoutManager) {
-        override fun onLoadMore() = it.more()
-      })
+    window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+    setupActionBar()
+    presenter?.start()
+    refresher.setOnRefreshListener {
+      presenter?.start()
     }
   }
 
@@ -66,9 +58,8 @@ class MoreActivity : BaseActivity(), MoreContract.View {
   }
 
   override fun show(data: List<MediaModel>) {
-    if (list.adapter != adapter) {
+    if (list.adapter != adapter)
       list.adapter = adapter
-    }
     adapter.data = data.toMutableList()
   }
 
@@ -80,22 +71,38 @@ class MoreActivity : BaseActivity(), MoreContract.View {
     refresher.isRefreshing = false
   }
 
-  //TODO fix that :(
   override fun inject() {
     App.inject(this)
+  }
 
+  override fun showTitle(resource: Int) {
+    setTitle(resource)
+  }
 
-    val isMovies = intent.getBooleanExtra(EXTRA_IS_MOVIES, false)
-    if (!isMovies) {
-      DaggerTVComponent.builder()
-          .tVModule(TVModule())
-          .applicationComponent(App.component)
-          .build().inject(this)
-    } else {
-      DaggerMovieComponent.builder()
-          .applicationComponent(App.component)
-          .movieModule(MovieModule())
-          .build().inject(this)
+  private fun setupActionBar() {
+    val statusBarHeight = getStatusBarHeight(resources)
+    toolbar.layoutParams.height += statusBarHeight
+    toolbar.setPadding(0, statusBarHeight, 0, 0)
+    setSupportActionBar(toolbar)
+    supportActionBar?.let {
+      it.setHomeButtonEnabled(true)
+      it.setDisplayHomeAsUpEnabled(true)
+    }
+  }
+
+  companion object {
+    fun buildInjector(type: MediaType) = object : Injector<MoreActivity> {
+      override val component: BaseComponent<MoreActivity> by lazy {
+        DaggerMoreMoviesComponent.builder()
+            .applicationComponent(App.component)
+            .movieMoreModule(MovieMoreModule(type))
+            .build()
+      }
+
+      override fun inject(target: Any) {
+        if (target is MoreActivity)
+          component.inject(target)
+      }
     }
   }
 }

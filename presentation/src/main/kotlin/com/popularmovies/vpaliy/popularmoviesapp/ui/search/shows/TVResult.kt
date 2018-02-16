@@ -19,7 +19,6 @@ class TVResult : SearchResult<TVShow>() {
       field?.attachView(this)
     }
 
-
   @Inject lateinit var mapper: Mapper<MediaModel, TVShow>
 
   private val adapter by lazy { MediaAdapter(context) }

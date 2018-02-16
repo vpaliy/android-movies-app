@@ -22,10 +22,10 @@ import javax.inject.Singleton
 @Singleton
 class MovieRepository @Inject
 constructor(val mapper: Mapper<Movie, MovieEntity>,
-            val reviewMapper: Mapper<Review, ReviewModel>,
-            val trailerMapper: Mapper<Trailer, VideoModel>,
-            val roleMapper: Mapper<Role, CastModel>,
-            val genreKeeper: GenreKeeper,
+            private val reviewMapper: Mapper<Review, ReviewModel>,
+            private val trailerMapper: Mapper<Trailer, VideoModel>,
+            private val roleMapper: Mapper<Role, CastModel>,
+            private val genreKeeper: GenreKeeper,
             val service: MovieService) : MediaRepository<Movie> {
 
 

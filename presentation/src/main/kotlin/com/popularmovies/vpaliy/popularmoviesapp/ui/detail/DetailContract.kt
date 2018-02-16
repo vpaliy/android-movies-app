@@ -3,10 +3,11 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.detail
 import android.support.annotation.StringRes
 import com.popularmovies.vpaliy.domain.entity.*
 import com.popularmovies.vpaliy.domain.interactor.params.Suggestion
+import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseView
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 
 object DetailContract {
-  interface View {
+  interface View : BaseView {
     fun showReviews(data: List<Review>)
     fun showTrailers(data: List<Trailer>)
     fun showBackdrops(data: List<String>)
@@ -19,9 +20,7 @@ object DetailContract {
 
   interface Presenter {
     fun attachView(view: View)
-    fun attachId(id: String)
     fun more(type: SimilarityType)
     fun start()
-    fun stop()
   }
 }

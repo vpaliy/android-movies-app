@@ -2,7 +2,6 @@ package com.popularmovies.vpaliy.popularmoviesapp.ui.more
 
 import com.popularmovies.vpaliy.data.mapper.Mapper
 import com.popularmovies.vpaliy.domain.entity.MediaType
-import com.popularmovies.vpaliy.domain.entity.Popular
 import com.popularmovies.vpaliy.domain.interactor.GetPage
 import com.popularmovies.vpaliy.domain.interactor.params.TypePage
 import com.popularmovies.vpaliy.popularmoviesapp.R
@@ -10,21 +9,22 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract.View
 import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreContract.Presenter
 import com.popularmovies.vpaliy.popularmoviesapp.di.scope.ViewScope
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.TYPES
 import com.popularmovies.vpaliy.popularmoviesapp.ui.reflect
 
 @ViewScope
 class MorePresenter<T>(private val interactor: GetPage<T>,
                        private val mapper: Mapper<MediaModel, T>,
-                       private val type: MediaType= Popular) : Presenter {
+                       private val type: MediaType) : Presenter {
 
   private lateinit var view: View
-  private val page by lazy { TypePage(type) }
+  private val page by lazy {
+    TypePage(type)
+  }
 
   override fun attachView(view: View) {
     this.view = view
-  }
-
-  override fun attachType(type: MediaType) {
+    view.showTitle(TYPES[type]!!)
   }
 
   override fun more() {
@@ -34,7 +34,7 @@ class MorePresenter<T>(private val interactor: GetPage<T>,
   }
 
   override fun start() {
-    page.current = 1
+    page.invalidate()
     view.showLoading()
     interactor.execute(mapper.reflect(this::onSuccess), this::onError, page)
   }
@@ -42,12 +42,13 @@ class MorePresenter<T>(private val interactor: GetPage<T>,
   private fun onSuccess(page: TypePage?, data: List<MediaModel>) {
     view.hideLoading()
     page?.let {
-      if (data.isNotEmpty()) {
-        if (page.current > 1)
+      if (!page.isFirst) {
+        if (data.isNotEmpty())
           view.append(data)
         else
-          view.show(data)
-      } else view.empty()
+          view.empty()
+      } else if (data.isNotEmpty())
+        view.show(data)
     }
   }
 

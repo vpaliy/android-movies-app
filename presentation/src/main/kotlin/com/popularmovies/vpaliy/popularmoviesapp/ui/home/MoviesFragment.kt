@@ -5,6 +5,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerMovieComponent
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.MovieModule
+import com.popularmovies.vpaliy.popularmoviesapp.ui.model.TYPES
 import com.vpaliy.kotlin_extensions.getColor
 import javax.inject.Inject
 
@@ -15,20 +16,11 @@ class MoviesFragment : HomeFragment() {
       field?.attach(this)
     }
 
-  private val typeMap by lazy(LazyThreadSafetyMode.NONE) {
-    HashMap<MediaType, String>().apply {
-      put(Popular, getString(R.string.popular_media))
-      put(Top, getString(R.string.top_rated_media))
-      put(Upcoming, getString(R.string.upcoming_media))
-      put(NowPlaying, getString(R.string.now_playing_media))
-    }
-  }
-
-  override fun types() = typeMap.keys.toTypedArray()
+  override fun types() = arrayOf(Popular, Top, Upcoming, NowPlaying)
 
   override fun getColor(type: MediaType) = getColor(R.color.colorMovies)
 
-  override fun getTitle(type: MediaType) = typeMap[type]!!
+  override fun getTitle(type: MediaType): String = getString(TYPES[type]!!)
 
   override fun inject() {
     DaggerMovieComponent.builder()

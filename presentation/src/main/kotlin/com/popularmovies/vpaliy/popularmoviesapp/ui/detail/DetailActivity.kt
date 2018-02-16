@@ -15,16 +15,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.popularmovies.vpaliy.popularmoviesapp.App
-import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerMovieComponent
-import com.popularmovies.vpaliy.popularmoviesapp.di.module.MovieModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.detail.DetailContract.Presenter
-import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.EXTRA_ID
 import javax.inject.Inject
 import android.content.res.ColorStateList
 import android.support.constraint.ConstraintLayout
 import android.support.v7.graphics.Palette
 import android.view.View
 import com.popularmovies.vpaliy.domain.entity.*
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.BaseComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerDetailsComponent
+import com.popularmovies.vpaliy.popularmoviesapp.di.injector.Injector
+import com.popularmovies.vpaliy.popularmoviesapp.di.module.DetailsModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.*
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.utils.setDrawableColor
@@ -34,10 +35,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
   var presenter: Presenter? = null
     @Inject set(value) {
       field = value
-      field?.let {
-        it.attachView(this)
-        it.attachId(intent.getStringExtra(EXTRA_ID))
-      }
+      field?.attachView(this)
     }
 
   private val hidden by lazy(LazyThreadSafetyMode.NONE) {
@@ -61,6 +59,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
     backdropPager.adapter = backdropAdapter
     details.onFlingListener = flingListener
     details.addOnScrollListener(listener)
+    info("Calling presenter")
     presenter?.start()
   }
 
@@ -196,10 +195,7 @@ class DetailActivity : BaseActivity(), DetailContract.View {
   }
 
   override fun inject() {
-    DaggerMovieComponent.builder()
-        .applicationComponent(App.component)
-        .movieModule(MovieModule())
-        .build().inject(this)
+    App.inject(this)
   }
 
   private val flingListener = object : RecyclerView.OnFlingListener() {
@@ -251,6 +247,23 @@ class DetailActivity : BaseActivity(), DetailContract.View {
       shareButton.setOffset(shareButton.staticOffset + scrollY.toFloat() - shareButton.height / 2)
       // hide the page indicator on scroll
       pageIndicator.alpha = ((backdropPager.offset + backdropPager.height - min) / (max - min))
+    }
+  }
+
+
+  companion object {
+    fun buildInjector(model: MediaModel) = object : Injector<DetailActivity> {
+      override val component: BaseComponent<DetailActivity> by lazy {
+        DaggerDetailsComponent.builder()
+            .applicationComponent(App.component)
+            .detailsModule(DetailsModule(model))
+            .build()
+      }
+
+      override fun inject(target: Any) {
+        if (target is DetailActivity)
+          component.inject(target)
+      }
     }
   }
 }

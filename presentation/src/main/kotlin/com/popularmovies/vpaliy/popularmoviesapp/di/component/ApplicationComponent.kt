@@ -21,8 +21,7 @@ import dagger.Component
 @Singleton
 @Component(modules = arrayOf(ApplicationModule::class, DataModule::class,
     MapperModule::class, InteractorModule::class))
-interface ApplicationComponent {
-  fun inject(activity: BaseActivity)
+interface ApplicationComponent : BaseComponent<BaseActivity>{
   fun context(): Context
   fun scheduler(): BaseScheduler
   fun navigator(): Navigator

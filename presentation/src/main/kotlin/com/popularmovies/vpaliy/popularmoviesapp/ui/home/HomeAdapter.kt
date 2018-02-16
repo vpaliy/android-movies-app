@@ -1,6 +1,7 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import android.content.Context
+import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import com.popularmovies.vpaliy.domain.entity.MediaType
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.adapter_media_type_item.view.*
 class HomeAdapter(context: Context, val click: (MediaType) -> Unit) : BaseAdapter<ViewWrapper>(context) {
 
   lateinit var request: (MediaType) -> Unit
+
 
   inner class WrapperViewHolder(root: View) : BaseViewHolder(root) {
     init {
@@ -35,6 +37,12 @@ class HomeAdapter(context: Context, val click: (MediaType) -> Unit) : BaseAdapte
       media.adapter = item.adapter
       more.setTextColor(item.color)
     }
+  }
+
+  override fun add(item: ViewWrapper) = apply {
+    data.add(item)
+    data.sortBy { it.title }
+    notifyDataSetChanged()
   }
 
   override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int)

@@ -16,6 +16,9 @@ abstract class BaseAdapter<T>(context: Context)
       notifyDataSetChanged()
     }
 
+  val isEmpty
+    get() = data.isEmpty()
+
   protected val inflater: LayoutInflater = context.inflater()
 
   abstract inner class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -25,14 +28,13 @@ abstract class BaseAdapter<T>(context: Context)
   override fun getItemCount() = data.size
 
   override fun onBindViewHolder(holder: BaseViewHolder, position: Int)
-      : Unit
       = holder.bind()
 
-  fun add(item: T) = apply { addItem(item) }
+  open fun add(item: T) = apply { addItem(item) }
 
   private fun addItem(item: T) {
     data.add(item)
-    notifyDataSetChanged()   //TODO fix that
+    notifyDataSetChanged()
   }
 
   fun clear() {
@@ -40,17 +42,17 @@ abstract class BaseAdapter<T>(context: Context)
     notifyDataSetChanged()
   }
 
-  fun append(appended: List<T>) {
+  open fun append(appended: List<T>) {
     data.addAll(appended)
     notifyDataSetChanged()
   }
 
-  fun addFirst(item: T) {
+  open fun addFirst(item: T) {
     data.add(0, item)
     notifyItemInserted(0)
   }
 
-  fun addLast(item: T) {
+  open fun addLast(item: T) {
     data.add(data.isNotEmpty() then (data.size - 1) ?: 0, item)
     notifyItemInserted(data.size - 1)
   }

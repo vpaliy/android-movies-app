@@ -11,6 +11,4 @@ import dagger.Component
 @Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(MovieModule::class))
 interface MovieComponent {
   fun inject(fragment: MoviesFragment)
-  fun inject(activity: MoreActivity)
-  fun inject(activity: DetailActivity)
 }

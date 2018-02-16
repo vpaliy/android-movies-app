@@ -75,11 +75,10 @@
         <item name="android:windowReturnTransition">@transition/search_return</item>
     </style>
 
-    <style name="PopMovies.MoreMedia" parent="PopMovies">
+    <style name="MoreMedia" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">#bdbdbd</item>
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
 
