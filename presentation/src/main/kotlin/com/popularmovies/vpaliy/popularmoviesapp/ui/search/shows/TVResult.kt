@@ -31,11 +31,10 @@ class TVResult : SearchResult<TVShow>() {
     TODO("Show empty screen for this")
   }
 
-  override fun inputCleared() = adapter.clear()
-
   override fun showResult(data: List<TVShow>) {
     result.adapter = adapter
     adapter.data = mapper.map(data).toMutableList()
+    onResult()
   }
 
   override fun inject() {

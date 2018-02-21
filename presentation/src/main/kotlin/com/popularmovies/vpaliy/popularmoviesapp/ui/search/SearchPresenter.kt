@@ -20,6 +20,7 @@ class SearchPresenter<T>(val search: SearchInteractor<T>) : SearchContract.Prese
 
   override fun query(query: String) {
     page = SearchPage(query)
+    view.showLoading()
     search.execute(this::onSuccess, this::onError, page)
   }
 

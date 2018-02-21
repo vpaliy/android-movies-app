@@ -1,15 +1,30 @@
-<android.support.v4.widget.SwipeRefreshLayout
-    android:id="@+id/refresher"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/result"
-        app:layoutManager="LinearLayoutManager"
-        android:orientation="vertical"
-        android:background="@color/white_50"
-        android:layout_height="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/refresher"
         android:layout_width="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" />
-</android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white_50"
+            android:orientation="vertical"
+            app:layoutManager="LinearLayoutManager" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</FrameLayout>

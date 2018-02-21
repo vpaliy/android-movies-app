@@ -5,7 +5,11 @@ import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.TransitionRes
 import android.text.InputType
+import android.transition.Transition
+import android.transition.TransitionInflater
+import android.transition.TransitionManager
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -13,6 +17,7 @@ import android.widget.SearchView
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
+import com.vpaliy.kotlin_extensions.hide
 import com.vpaliy.kotlin_extensions.scale
 import com.vpaliy.kotlin_extensions.then
 import kotlinx.android.synthetic.main.activity_search.*
@@ -38,9 +43,7 @@ class SearchActivity : BaseActivity() {
 
   private fun setupTransition() {
     setEnterSharedElementCallback(object : SharedElementCallback() {
-      override fun onSharedElementStart(sharedElementNames: MutableList<String>?,
-                                        sharedElements: MutableList<View>?,
-                                        sharedElementSnapshots: MutableList<View>?) {
+      override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
         checked = !checked
         back.setImageState(intArrayOf(android.R.attr.state_checked * (checked.then(1) ?: -1)), true)
         super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)

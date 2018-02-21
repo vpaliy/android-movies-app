@@ -22,21 +22,20 @@ class MovieResult : SearchResult<Movie>() {
 
   @Inject lateinit var mapper: Mapper<MediaModel, Movie>
 
-  private val adapter by lazy { MediaAdapter(context) }
+  private val adapter by lazy {  MediaAdapter(context) }
 
   override fun showResult(data: List<Movie>) {
     result.adapter = adapter
     adapter.data = mapper.map(data).toMutableList()
+    onResult()
   }
-
-  override fun inputCleared() = adapter.clear()
 
   override fun appendResult(data: List<Movie>) {
     adapter.append(mapper.map(data))
   }
 
   override fun empty() {
-    TODO("")
+    TODO("Add an picture for it")
   }
 
   override fun inject() {

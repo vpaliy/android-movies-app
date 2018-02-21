@@ -16,18 +16,16 @@ class PeopleResult : SearchResult<Actor>() {
       field?.attachView(this)
     }
 
-
   private val adapter by lazy { PeopleAdapter(context) }
 
   override fun appendResult(data: List<Actor>) = adapter.append(data)
 
   override fun empty() {}
 
-  override fun inputCleared() = adapter.clear()
-
   override fun showResult(data: List<Actor>) {
     adapter.data = data.toMutableList()
     result.adapter = adapter
+    onResult()
   }
 
   override fun inject() {
