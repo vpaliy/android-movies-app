@@ -1,11 +1,11 @@
 
 [![Build Status](https://travis-ci.org/vpaliyX/PopularMovies.svg?branch=master)](https://travis-ci.org/vpaliyX/PopularMovies)
 
-Converting to Kotlin..
 
 # Demo #
 
-![](https://github.com/vpaliyX/PopularMovies/blob/master/art/ezgif-2-48f8bfad51.gif)
+![](https://github.com/vpaliyX/PopularMovies/blob/master/art/main_resized.png)
+![](https://github.com/vpaliyX/PopularMovies/blob/master/art/search_resized.png)
 
 ## License ##
 
