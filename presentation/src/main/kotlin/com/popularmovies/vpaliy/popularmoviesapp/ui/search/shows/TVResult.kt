@@ -6,7 +6,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.di.component.DaggerSearchComponent
 import com.popularmovies.vpaliy.popularmoviesapp.di.module.SearchModule
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
-import com.popularmovies.vpaliy.popularmoviesapp.ui.search.MediaAdapter
+import com.popularmovies.vpaliy.popularmoviesapp.ui.more.MoreMediaAdapter
 import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchContract
 import com.popularmovies.vpaliy.popularmoviesapp.ui.search.SearchResult
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -21,7 +21,7 @@ class TVResult : SearchResult<TVShow>() {
 
   @Inject lateinit var mapper: Mapper<MediaModel, TVShow>
 
-  private val adapter by lazy { MediaAdapter(context) }
+  private val adapter by lazy { MoreMediaAdapter(context, {}) }
 
   override fun appendResult(data: List<TVShow>) {
     adapter.append(mapper.map(data).toMutableList())

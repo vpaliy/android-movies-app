@@ -26,8 +26,8 @@ class MoreActivity : BaseActivity(), MoreContract.View {
       field?.attachView(this)
     }
 
-  private val adapter: MediaAdapter by lazy {
-    MediaAdapter(this, {
+  private val adapter: MoreMediaAdapter by lazy {
+    MoreMediaAdapter(this, {
       navigator.navigateToDetails(this, it)
     })
   }

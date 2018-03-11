@@ -13,8 +13,11 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.view.ChipTab
 import com.vpaliy.kotlin_extensions.getCompatColor
 import com.vpaliy.kotlin_extensions.getDimension
 
-class SearchAdapter(val context: Context, manager: FragmentManager)
-  : ChipPagerAdapter(manager), QueryListener {
+class SearchAdapter(
+    val context: Context,
+    manager: FragmentManager
+) : ChipPagerAdapter(manager), QueryListener {
+
   private val listeners = mutableListOf<QueryListener>()
 
   override fun getItem(position: Int): Fragment {
@@ -23,6 +26,7 @@ class SearchAdapter(val context: Context, manager: FragmentManager)
       1 -> TVResult()
       else -> PeopleResult()
     }
+    fragment.callback = context as SearchResult.Callback
     listeners.add(fragment)
     return fragment
   }
@@ -32,7 +36,7 @@ class SearchAdapter(val context: Context, manager: FragmentManager)
   override fun getPageTitle(position: Int): String = when (position) {
     0 -> context.getString(R.string.movies)
     1 -> context.getString(R.string.tv_shows)
-    else -> context.getString(R.string.personal)
+    else -> context.getString(R.string.people_title)
   }
 
   override fun queryTyped(query: String) {

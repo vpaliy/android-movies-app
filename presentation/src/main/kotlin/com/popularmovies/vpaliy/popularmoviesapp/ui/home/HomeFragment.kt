@@ -1,7 +1,6 @@
 package com.popularmovies.vpaliy.popularmoviesapp.ui.home
 
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.view.LayoutInflater
@@ -14,7 +13,7 @@ import com.popularmovies.vpaliy.popularmoviesapp.ui.model.MediaModel
 import com.popularmovies.vpaliy.popularmoviesapp.ui.model.ViewWrapper
 import com.popularmovies.vpaliy.popularmoviesapp.ui.showErrorMessage
 import com.popularmovies.vpaliy.popularmoviesapp.ui.showMessage
-import com.vpaliy.kotlin_extensions.then
+import com.vpaliy.kotlin_extensions.info
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
 
@@ -28,8 +27,6 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
       request = { presenter?.more(it) }
     }
   }
-
-  private val dataHandler by lazy { Handler() }
 
   private val adapterMap by lazy(LazyThreadSafetyMode.NONE) { HashMap<MediaType, MediaAdapter>() }
 
@@ -98,6 +95,14 @@ abstract class HomeFragment : Fragment(), HomeContract.View {
 
   override fun clear() {
     adapter.clear()
+  }
+
+  override fun showLoading(type: MediaType) {
+    adapter.changeLoadingAt(type, true)
+  }
+
+  override fun hideLoading(type: MediaType) {
+    adapter.changeLoadingAt(type, false)
   }
 
   abstract fun getTitle(type: MediaType): String

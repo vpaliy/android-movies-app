@@ -22,15 +22,18 @@ import com.vpaliy.kotlin_extensions.getDrawable
 import com.vpaliy.kotlin_extensions.scale
 import com.vpaliy.kotlin_extensions.then
 
-class ChipTabLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
-  : HorizontalScrollView(context, attrs, defStyle) {
+class ChipTabLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : HorizontalScrollView(context, attrs, defStyle) {
 
-  var selected = 0
-  var horizontalSpacing = 0
-  var verticalSpacing = 0
-  var scaleFactor = 1.1f
-  var scaleDuration = 200L
-  var scaleDelay = 0L
+  private var selected = 0
+  private var horizontalSpacing = 0
+  private var verticalSpacing = 0
+  private var scaleFactor = 1.1f
+  private var scaleDuration = 200L
+  private var scaleDelay = 0L
 
   private val layout = ConstraintLayout(context, attrs)
 

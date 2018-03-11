@@ -11,11 +11,13 @@ object SearchContract {
     fun empty()
     fun error(@StringRes resource: Int)
     fun message(@StringRes resource: Int)
+    fun updateQuery(query: String)
   }
 
   interface Presenter<out T> {
     fun query(query: String)
     fun more()
     fun attachView(view: View<T>)
+    fun onStart()
   }
 }

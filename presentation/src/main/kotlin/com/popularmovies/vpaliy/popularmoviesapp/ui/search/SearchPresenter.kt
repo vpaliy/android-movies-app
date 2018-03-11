@@ -4,8 +4,9 @@ import com.popularmovies.vpaliy.domain.interactor.SearchInteractor
 import com.popularmovies.vpaliy.domain.interactor.params.SearchPage
 import com.popularmovies.vpaliy.popularmoviesapp.R
 
-class SearchPresenter<T>(val search: SearchInteractor<T>) : SearchContract.Presenter<T> {
-  private lateinit var page: SearchPage
+class SearchPresenter<T>(val search: SearchInteractor<T>)
+  : SearchContract.Presenter<T> {
+  private var page: SearchPage? = null
   private lateinit var view: SearchContract.View<T>
 
   override fun attachView(view: SearchContract.View<T>) {
@@ -13,15 +14,27 @@ class SearchPresenter<T>(val search: SearchInteractor<T>) : SearchContract.Prese
   }
 
   override fun more() {
-    page.next()
+    page?.next()
     view.showLoading()
     search.execute(this::onSuccess, this::onError, page)
   }
 
   override fun query(query: String) {
+    page?.let {
+      if(it.query == query)
+        return
+    }
     page = SearchPage(query)
     view.showLoading()
     search.execute(this::onSuccess, this::onError, page)
+  }
+
+  override fun onStart() {
+    page?.let {
+      if (it.query.isNotEmpty()) {
+        view.updateQuery(it.query)
+      }
+    }
   }
 
   private fun onSuccess(page: SearchPage, data: List<T>) {

@@ -19,6 +19,8 @@ object HomeContract {
     fun empty()
     fun showLoading()
     fun hideLoading()
+    fun showLoading(type: MediaType)
+    fun hideLoading(type: MediaType)
     fun error(@StringRes resource: Int)
     fun message(@StringRes resource: Int)
   }

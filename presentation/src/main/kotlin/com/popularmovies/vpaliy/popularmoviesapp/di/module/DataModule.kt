@@ -10,11 +10,20 @@ import com.popularmovies.vpaliy.domain.repository.SearchRepository
 import com.vpaliy.tmdb.TMDB
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 class DataModule {
-  private val client = TMDB(Config.API_KEY)
+  private val client = TMDB.create(Config.API_KEY, {
+    val okHttp = OkHttpClient.Builder()
+        .readTimeout(1, TimeUnit.MINUTES)
+        .writeTimeout(1, TimeUnit.MINUTES)
+        .connectTimeout(1, TimeUnit.MINUTES)
+        .build()
+    setOkHttpClient(okHttp)
+  })
 
   @Provides
   @Singleton

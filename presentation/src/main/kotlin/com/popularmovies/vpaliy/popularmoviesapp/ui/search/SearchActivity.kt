@@ -5,11 +5,7 @@ import android.app.SharedElementCallback
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.TransitionRes
 import android.text.InputType
-import android.transition.Transition
-import android.transition.TransitionInflater
-import android.transition.TransitionManager
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -17,12 +13,13 @@ import android.widget.SearchView
 import com.popularmovies.vpaliy.popularmoviesapp.App
 import com.popularmovies.vpaliy.popularmoviesapp.R
 import com.popularmovies.vpaliy.popularmoviesapp.ui.base.BaseActivity
-import com.vpaliy.kotlin_extensions.hide
+import com.popularmovies.vpaliy.popularmoviesapp.ui.setOnPageChangeListener
+import com.vpaliy.kotlin_extensions.info
 import com.vpaliy.kotlin_extensions.scale
 import com.vpaliy.kotlin_extensions.then
 import kotlinx.android.synthetic.main.activity_search.*
 
-class SearchActivity : BaseActivity() {
+class SearchActivity : BaseActivity(), SearchResult.Callback {
 
   private val adapter by lazy(LazyThreadSafetyMode.NONE) {
     SearchAdapter(this, supportFragmentManager)
@@ -39,6 +36,9 @@ class SearchActivity : BaseActivity() {
     results.offscreenPageLimit = 3
     tabLayout.setup(results, adapter)
     tabLayout.tabs.forEach { it.scale(0f) }
+    results.setOnPageChangeListener {
+    //  searchView.setQuery(null, false)
+    }
   }
 
   private fun setupTransition() {
@@ -76,7 +76,7 @@ class SearchActivity : BaseActivity() {
     searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
       override fun onQueryTextChange(query: String?): Boolean {
         if (query.isNullOrEmpty()) {
-          adapter.inputCleared()
+         // adapter.inputCleared()
         }
         return true
       }
@@ -90,11 +90,15 @@ class SearchActivity : BaseActivity() {
     })
   }
 
+  override fun updateQuery(query: String) {
+    searchView.setQuery(query, true)
+  }
+
   override fun onNewIntent(intent: Intent) {
     if (intent.hasExtra(SearchManager.QUERY)) {
       val query = intent.getStringExtra(SearchManager.QUERY)
       if (!query.isNullOrEmpty()) {
-        searchView.setQuery(query, false)
+        searchView.setQuery(query, true)
         searchView.clearFocus()
         hideKeyboard()
         adapter.queryTyped(query)

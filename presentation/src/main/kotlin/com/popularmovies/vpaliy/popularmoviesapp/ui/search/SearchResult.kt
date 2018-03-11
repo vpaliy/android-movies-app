@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 
 abstract class SearchResult<T> : Fragment(), SearchContract.View<T>, QueryListener {
   abstract var presenter: SearchContract.Presenter<T>?
+  var callback: Callback? = null
 
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -34,7 +35,11 @@ abstract class SearchResult<T> : Fragment(), SearchContract.View<T>, QueryListen
   }
 
   override fun queryTyped(query: String) {
-    presenter?.query(query)
+    if(userVisibleHint) {
+      if (query.isNotEmpty()) {
+        presenter?.query(query)
+      }
+    }
   }
 
   override fun error(resource: Int) {
@@ -65,6 +70,13 @@ abstract class SearchResult<T> : Fragment(), SearchContract.View<T>, QueryListen
     refresher.show()
   }
 
+  override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+    super.setUserVisibleHint(isVisibleToUser)
+    if (isVisibleToUser) {
+      presenter?.onStart()
+    }
+  }
+
   override fun message(resource: Int) {
     showMessage(resource)
   }
@@ -77,9 +89,18 @@ abstract class SearchResult<T> : Fragment(), SearchContract.View<T>, QueryListen
     progressBar.hide(isGone = true)
   }
 
+  override fun updateQuery(query: String) {
+    callback?.updateQuery(query)
+  }
+
   override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
       : View?
       = inflater?.inflate(R.layout.fragment_search, container, false)
 
   abstract fun inject()
+
+
+  interface Callback {
+    fun updateQuery(query: String)
+  }
 }

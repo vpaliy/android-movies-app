@@ -20,9 +20,14 @@ class HomePresenter<T>(private val interactor: GetPage<T>,
   }
 
   override fun more(type: MediaType) {
-    map[type]?.let {
+     map[type]?.let {
       it.next()
-      interactor.execute(mapper.reflect(this::onSuccess), this::onError, it)
+      view.showLoading(type)
+      interactor.execute(mapper.reflect({ data ->
+        view.hideLoading(type)
+        if (data.isNotEmpty())
+          view.append(data, type)
+      }), this::onError, it)
     }
   }
 
@@ -39,8 +44,6 @@ class HomePresenter<T>(private val interactor: GetPage<T>,
         view.show(data, page.type)
       else
         view.empty()
-    } else if (data.isNotEmpty()) {
-      view.append(data, page.type)
     }
   }
 
