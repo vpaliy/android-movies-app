@@ -5,7 +5,9 @@
 # Demo #
 
 ![](https://github.com/vpaliyX/PopularMovies/blob/master/art/main_resized.png)
+![](https://github.com/vpaliyX/PopularMovies/blob/master/art/main_2_resized.png)
 ![](https://github.com/vpaliyX/PopularMovies/blob/master/art/search_resized.png)
+![](https://github.com/vpaliyX/PopularMovies/blob/master/art/more_resized.png)
 
 ## License ##
 
